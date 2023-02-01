@@ -1,2 +1,5 @@
-%h1 Admin::Users#index
-%p Find me in app/views/admin/account/index.html.haml
+<%= render 'title', title: 'Users' %>
+<%= render 'table' do %>
+  <%= render 'table_header', headers: ['ID', 'Name', 'Email', 'Projects', 'Volunteer', 'Manager', 'Admin'] %>
+  <%= render @users %>
+<% end %>

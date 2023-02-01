@@ -1,2 +1,7 @@
-%h1 Admin::Users#show
-%p Find me in app/views/admin/account/show.html.erb
+<%= render 'title', title: @user.name %>
+<p>
+Manager: <%= @user.manager? %>
+</p>
+<p>
+Admin: <%= @user.admin? %>
+</p>

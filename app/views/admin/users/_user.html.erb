@@ -1,0 +1,23 @@
+<%= render 'table_row' do %>
+  <%= render 'table_cell' do %>
+    <%= user.id %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= user.email %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= link_to user.name, [:admin, user] %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= user.projects.count %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= user.volunteer? %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= user.manager? %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= user.admin? %>
+  <% end %>
+<% end %>

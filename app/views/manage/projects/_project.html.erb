@@ -1,0 +1,20 @@
+<%= render 'table_row' do %>
+  <%= render 'table_cell' do %>
+    <%= project.id %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= link_to(project.name, [:manage, project]) %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= project.description %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <% if project.assignments.active.any? %>
+      <% project.assignments.active.each do |assignment| %>
+        <%= assignment.user.name %>
+      <% end %>
+    <% else %>
+      Unassigned
+    <% end %>
+  <% end %>
+<% end %>

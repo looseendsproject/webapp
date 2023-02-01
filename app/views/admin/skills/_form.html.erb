@@ -1,0 +1,14 @@
+<%= form_with model: @skill, url: admin_skills_path(@skill) do |form| %>
+  <%= render "error_messages", resource: @skill %>
+
+  <div class="form-group">
+    <%= form.label 'Name' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label 'Description' %>
+    <%= form.text_area :description, size: "60x10", class: 'form-control' %>
+  </div>
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>

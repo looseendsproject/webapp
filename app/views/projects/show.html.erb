@@ -1,2 +1,6 @@
-%h1= @project.name
-%p= @project.description
+<%= render 'title', title: @project.name %>
+<%= link_to 'Edit', [:edit, @project] %>
+<p><%= @project.description %></p>
+<% @project.images.each do |image| %>
+  <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+<% end %>

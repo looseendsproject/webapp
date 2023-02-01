@@ -1,15 +1,17 @@
 class ProjectsController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
+    @projects = current_user.projects
   end
 
   def show
-    @project = Project.find(params[:id])
+    @project = current_user.projects.find(params[:id])
   end
 
   def edit
+    @project = current_user.projects.find(params[:id])
   end
 
   def new
@@ -26,10 +28,16 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def update
+    project = current_user.projects.find(params[:id])
+    project.update!(project_params)
+    redirect_to project
+  end
+
   private
 
   def project_params
-    params.require(:project).permit(:name, :description)
+    params.require(:project).permit(:name, :description, project_images: [], pattern_images: [], material_images: [])
   end
 
 

@@ -1,0 +1,4 @@
+<%= render 'table_row' do %>
+  <%= render 'table_cell', content: page.id %>
+  <%= render 'table_cell', content: link_to(page.name, page) %>
+<% end %>

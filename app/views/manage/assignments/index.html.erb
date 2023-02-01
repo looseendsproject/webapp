@@ -1,2 +1,2 @@
-%h1 Manage::Assignments#index
-%p Find me in app/views/manage/assignments/index.html.haml
+<%= render 'title', title: "#{@project.name}", subtitle: 'Assignments' %>
+<%= render @project.assignments %>

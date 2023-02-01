@@ -1,2 +1,11 @@
-%h1 Manage::Projects#show
-%p Find me in app/views/manage/projects/show.html.erb
+<%= render 'title', title: 'Project' %>
+
+<%= link_to 'Assignments', [:manage, @project, :assignments] %>
+
+<%= render 'section', title: 'Description' do %>
+  <%= @project.description %>
+<% end %>
+
+<% @project.images.each do |image| %>
+  <%= link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg)) %>
+<% end %>

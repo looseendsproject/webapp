@@ -1,0 +1,11 @@
+<%= render 'table_row' do %>
+  <%= render 'table_cell' do %>
+    <%= project.id %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= link_to(project.name, project) %>
+  <% end %>
+  <%= render 'table_cell' do %>
+    <%= project.description %>
+  <% end %>
+<% end %>

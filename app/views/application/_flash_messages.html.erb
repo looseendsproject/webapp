@@ -1,0 +1,9 @@
+<% if flash[:error] %>
+  <%= render 'error', message: flash[:error] %>
+<% end %>
+<% if flash[:notice] %>
+  <%= render 'notice', message: flash[:notice] %>
+<% end %>
+<% if flash[:alert] %>
+  <%= render 'alert', message: flash[:alert] %>
+<% end %>

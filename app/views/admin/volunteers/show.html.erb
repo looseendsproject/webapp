@@ -1,2 +1,25 @@
-%h1 Admin::Volunteers#show
-%p Find me in app/views/admin/volunteers/show.html.erb
+<%= render 'title', subtitle: "Volunteer", title: @volunteer.name %>
+
+<% if @volunteer.approved %>
+  <p>Approved!!!!</p>
+<% end %>
+
+<%= link_to 'Edit', [:edit, :admin, @volunteer ] %>
+
+<%= render 'section', title: 'Contact Info' do %>
+  <%= @volunteer.contact_info %>
+<% end %>
+
+<%= render 'section', title: 'Availability' do %>
+  <%= @volunteer.availability %>
+<% end %>
+
+<%= render 'section', title: 'Skills' do %>
+  <ul>
+    <% @volunteer.assessments.each do |assessment| %>
+      <li><%= assessment.skill.name %>: <%= assessment.rating %> (<%= assessment.description %>)</li>
+    <% end %>
+  </ul>
+<% end %>
+
+

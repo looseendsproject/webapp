@@ -1,2 +1,6 @@
-%h1 Admin::Volunteers#index
-%p Find me in app/views/admin/volunteers/index.html.haml
+<%= render 'title', title: 'Volunteers' %>
+<%= render 'table' do %>
+
+  <%= render 'table_header', headers: ['Name', 'Description', 'Approved'] %>
+  <%= render @volunteers %>
+<% end %>

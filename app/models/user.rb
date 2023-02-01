@@ -1,18 +1,40 @@
 class User < ApplicationRecord
-  enum role: %i[user manager admin]
+  ROLES = ['user', 'manager', 'admin']
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :trackable
 
-  validates :role, inclusion: { in: roles.keys }
+  validates :role, inclusion: { in: ROLES }
   before_validation :set_default_role
 
   has_many :projects
+  has_one :volunteer
+
+  validates :name, presence: true
 
   def set_default_role
-    self.role = 'user'
+    if (User.count == 0)
+      self.role = 'admin'
+    end
+    self.role ||= 'user'
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  def manager?
+    role == 'manager'
+  end
+
+  def can_manage?
+    admin? || manager?
+  end
+
+  def volunteer?
+    !!volunteer
   end
 
 end

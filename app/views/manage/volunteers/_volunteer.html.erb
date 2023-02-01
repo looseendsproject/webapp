@@ -1,0 +1,4 @@
+<%= render 'table_row' do %>
+  <%= render 'table_cell', content: volunteer.id %>
+  <%= render 'table_cell', content: link_to(volunteer.user.name, [:manage, volunteer]) %>
+<% end %>

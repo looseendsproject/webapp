@@ -1,0 +1,60 @@
+<%= form_with model: @volunteer, url: volunteer_path, class: 'my-16', data: { turbo: false } do |form| %>
+  <%= render "error_messages", resource: @volunteer %>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+    <%= form.label 'Picture', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+    <%= form.file_field :picture, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    <% if @volunteer.picture.representable? %>
+      <%= image_tag @volunteer.picture.representation( resize_to_limit: [200, 200]) %>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+    <%= form.label 'Description', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+    <%= form.text_area :description, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+    <%= form.label 'Contact Info', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+    <%= form.text_area :contact_info, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+    <%= form.label 'Availability', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+    <%= form.text_area :availability, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+    </div>
+  </div>
+
+
+  <% if Skill.any? %>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-1/2 px-3">
+      <%= form.label 'Skill Assessment', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <ul>
+        <%= form.fields_for :assessments do |assessment_form| %>
+          <li class="my-2">
+            <%= assessment_form.label assessment_form.object.skill.name, class: 'block text-gray-700 text-sm font-bold mb-2' %>
+            <div class=" flex">
+            <%= assessment_form.hidden_field :skill_id, value: assessment_form.object.skill_id %>
+            <%= assessment_form.number_field :rating, in: 1..10, class: ' mr-2 appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+            <%= assessment_form.text_field :description, class: ' mr-2 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+    </div>
+    </div>
+  <% end %>
+
+
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>

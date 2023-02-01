@@ -1,0 +1,29 @@
+<%= render 'title', title: 'Volunteer' %>
+<% if @volunteer %>
+
+  <%= link_to 'Edit', [:edit, :volunteer] %>
+
+  <%= image_tag @volunteer.picture.representation( resize_to_limit: [200, 200]) %>
+<h3>About me</h3>
+
+<p><%= @volunteer.description %></p>
+
+<h3>Contact Info</h3>
+<p><%= @volunteer.contact_info %></p>
+
+<h3>Availability</h3>
+<p><%= @volunteer.availability %></p>
+
+<h3>Skills</h3>
+<ul>
+  <% @volunteer.assessments.each do |assessment| %>
+    <li><%= assessment.skill.name %>: <%= assessment.rating %> (<%= assessment.description %>)</li>
+  <% end %>
+</ul>
+
+<% else %>
+  <h3>Would you like to volunteer?</h3>
+<p>
+  We would love you to join!  Please confirm by filling out the <%= link_to 'Volunteer Questionnaire', [:new, :volunteer] %>.
+</p>
+<% end %>

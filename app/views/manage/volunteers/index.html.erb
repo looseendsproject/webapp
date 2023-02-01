@@ -1,2 +1,7 @@
-%h1 Manage::Volunteers#index
-%p Find me in app/views/manage/volunteers/index.html.haml
+<%= render 'title', title: 'Manage Volunteers' %>
+<%= render 'table' do %>
+
+  <%= render 'table_header', headers: ['Name', 'Description', 'Approved'] %>
+  <%= render @volunteers %>
+<% end %>
+<%= will_paginate @volunteers %>

@@ -1,0 +1,6 @@
+
+<%= render 'title', title: 'Projects' %>
+<%= render 'button_create', label: 'Create Project', path: new_project_path %>
+<%= render 'table' do %>
+  <%= render @projects %>
+<% end %>
