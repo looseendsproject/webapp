@@ -6,7 +6,7 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       t.text :description
       t.string :status, null: false, default: 'new'
       t.string :street
-      t.string :line_2
+      t.string :street_2
       t.string :city
       t.string :state
       t.string :country

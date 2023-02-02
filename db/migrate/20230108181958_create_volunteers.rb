@@ -5,7 +5,7 @@ class CreateVolunteers < ActiveRecord::Migration[7.0]
       t.text :description, null: false
       t.text :admin_notes
       t.string :street
-      t.string :line_2
+      t.string :street_2
       t.string :city
       t.string :state
       t.string :country
@@ -15,6 +15,7 @@ class CreateVolunteers < ActiveRecord::Migration[7.0]
       t.text :dislikes
       t.text :social_media
       t.boolean :can_handle_smoke
+      t.boolean :can_handle_pets
       t.datetime :approved_at
       t.timestamps
     end

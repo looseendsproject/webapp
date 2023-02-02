@@ -91,6 +91,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
     t.string "name", null: false
     t.text "description"
     t.string "status", default: "new", null: false
+    t.string "street"
+    t.string "line_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "postal_code"
+    t.string "crafter_name"
+    t.string "recipient_name"
+    t.text "more_about_material"
+    t.text "more_about_project"
+    t.text "more_about_crafter"
+    t.boolean "can_share_project_info"
+    t.boolean "can_share_crafter_info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
@@ -104,7 +117,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name", default: "", null: false
+    t.string "first_name", default: "", null: false
+    t.string "last_name", default: "", null: false
+    t.string "phone", default: "", null: false
     t.string "role", default: "user", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -126,8 +141,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
     t.bigint "user_id", null: false
     t.text "description", null: false
     t.text "admin_notes"
-    t.text "contact_info", null: false
+    t.string "street"
+    t.string "line_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "postal_code"
     t.text "availability"
+    t.text "likes"
+    t.text "dislikes"
+    t.text "social_media"
+    t.boolean "can_handle_smoke"
     t.datetime "approved_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

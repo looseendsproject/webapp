@@ -13,22 +13,67 @@
 
   <div class="flex flex-wrap -mx-3 mb-6">
     <div class="w-full md:w-1/2 px-3">
-    <%= form.label 'Description', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+    <%= form.label 'Tell us about yourself.', class: 'block text-gray-700 text-sm font-bold mb-2' %>
     <%= form.text_area :description, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
     </div>
   </div>
 
   <div class="flex flex-wrap -mx-3 mb-6">
     <div class="w-full md:w-1/2 px-3">
-    <%= form.label 'Contact Info', class: 'block text-gray-700 text-sm font-bold mb-2' %>
-    <%= form.text_area :contact_info, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+      <%= form.label 'Street.', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_field :street, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
     </div>
   </div>
 
   <div class="flex flex-wrap -mx-3 mb-6">
     <div class="w-full md:w-1/2 px-3">
-    <%= form.label 'Availability', class: 'block text-gray-700 text-sm font-bold mb-2' %>
-    <%= form.text_area :availability, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+      <%= form.label 'Line 2', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_field :street_2, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6 md:w-1/2">
+    <div class="w-full4 md:w-1/3 px-3">
+      <%= form.label 'City', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_field :city, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+    <div class="w-full md:w-1/3 px-3">
+      <%= form.label 'State', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_field :state, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+    <div class="w-full md:w-1/3 px-3">
+      <%= form.label 'postal_code', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_field :postal_code, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -ml-3 mb-6 md:w-1/2">
+    <div class="w-full px-3">
+      <%= form.label 'country', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_field :country, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+      <%= form.label 'Availability', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <%= form.text_area :availability, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+      <%= form.label 'Preferences', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <p>What kind of projects would you like to finish?</p>
+      <%= form.text_area :availability, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+      <%= form.label 'Dislikes', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <p>Are there techniques or projects you do not wish to do ever again?</p>
+      <%= form.text_area :availability, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
     </div>
   </div>
 
@@ -53,6 +98,15 @@
     </div>
     </div>
   <% end %>
+
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3">
+      <%= form.label 'Smoker OK?', class: 'block text-gray-700 text-sm font-bold mb-2' %>
+      <p>Are you willing to receive an unfinished project from a deceased crafter who was a smoker? </p>
+      <%= form.checkbox :can_handle_smoke, size: "60x2", class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' %>
+    </div>
+  </div>
 
 
 
