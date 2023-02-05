@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,24 +86,43 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
     t.index ["volunteer_id"], name: "index_assignments_on_volunteer_id"
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "volunteer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_favorites_on_product_id"
+    t.index ["volunteer_id"], name: "index_favorites_on_volunteer_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name", null: false
     t.text "description"
+    t.text "more_details"
     t.string "status", default: "new", null: false
     t.string "street"
-    t.string "line_2"
+    t.string "street_2"
     t.string "city"
     t.string "state"
     t.string "country"
     t.string "postal_code"
+    t.string "craft_type"
+    t.text "product_description"
+    t.string "has_pattern"
+    t.string "material_type"
+    t.text "material_description"
     t.string "crafter_name"
+    t.text "crafter_description"
     t.string "recipient_name"
-    t.text "more_about_material"
-    t.text "more_about_project"
-    t.text "more_about_crafter"
-    t.boolean "can_share_project_info"
-    t.boolean "can_share_crafter_info"
+    t.boolean "can_publicize"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
@@ -121,6 +140,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
     t.string "last_name", default: "", null: false
     t.string "phone", default: "", null: false
     t.string "role", default: "user", null: false
+    t.text "heard_about_us"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -141,18 +161,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_153659) do
     t.bigint "user_id", null: false
     t.text "description", null: false
     t.text "admin_notes"
+    t.datetime "approved_at"
     t.string "street"
-    t.string "line_2"
+    t.string "street_2"
     t.string "city"
     t.string "state"
     t.string "country"
     t.string "postal_code"
-    t.text "availability"
-    t.text "likes"
+    t.text "other_skills"
+    t.text "other_favorites"
     t.text "dislikes"
     t.text "social_media"
-    t.boolean "can_handle_smoke"
-    t.datetime "approved_at"
+    t.boolean "can_publicize"
+    t.boolean "no_smoke"
+    t.boolean "no_pets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_volunteers_on_user_id"

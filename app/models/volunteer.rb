@@ -9,6 +9,9 @@ class Volunteer < ApplicationRecord
   has_many :assessments
   has_many :skills, through: :assessments
 
+  has_many :favorites
+  has_many :products, through: :favorites
+
   accepts_nested_attributes_for :assessments
 
   def approved?

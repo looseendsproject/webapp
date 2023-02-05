@@ -29,9 +29,9 @@ Rails.application.routes.draw do
   namespace :admin do
     root :to => "dashboards#show"
     resource :dashboard
-    resources :pages
     resources :projects
     resources :skills
+    resources :products
     resources :users
     resources :volunteers
   end

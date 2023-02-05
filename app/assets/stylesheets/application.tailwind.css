@@ -2,23 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer components {
-    a {
-        @apply underline text-blue-500 hover:text-blue-800 visited:text-purple-600
-    }
+  a {
+    @apply underline text-blue-500 hover:text-blue-800 visited:text-purple-600
+  }
 
-    button a {
-        @apply no-underline text-white visited:text-white
-    }
+  button a {
+    @apply no-underline text-white visited:text-white
+  }
 
-    .btn-primary {
-        @apply bg-blue-500 py-2 px-4 rounded
-    }
+  .btn-submit {
+    @apply bg-blue-500 py-2 px-4 rounded text-white
+  }
+
+  .form-section {
+    @apply text-gray-600 text-xl my-1 font-bold
+  }
+  .form-group {
+    @apply flex flex-wrap -mx-3 mb-6
+  }
+  .form-cell {
+    @apply w-full md:w-1/2 px-3
+  }
+
+  .form-label {
+    @apply block text-gray-700 text-sm font-bold mb-1
+  }
+
+  .form-info {
+    @apply text-gray-600 text-xs my-1
+  }
+
+  .form-input {
+    @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500
+  }
 }
-
-
-
 
 @import 'actiontext.css';

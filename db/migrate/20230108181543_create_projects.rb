@@ -2,22 +2,43 @@ class CreateProjects < ActiveRecord::Migration[7.0]
   def change
     create_table :projects do |t|
       t.references :user, null: false
+
+      # Project Info
       t.string :name, null: false
       t.text :description
+      t.text :more_details
+
+      # Admin will determine status - starts at "new"
       t.string :status, null: false, default: 'new'
+
+      # mailing address
       t.string :street
       t.string :street_2
       t.string :city
       t.string :state
       t.string :country
       t.string :postal_code
+
+      # Craft/Product (w photos)
+      t.string :craft_type
+      t.text :product_description
+
+      # pattern (w photos)
+      t.string :has_pattern
+
+      # material (w photos)
+      t.string :material_type
+      t.text :material_description
+
+      # crafter (w photos)
       t.string :crafter_name
+      t.text :crafter_description
+
       t.string :recipient_name
-      t.text :more_about_material
-      t.text :more_about_project
-      t.text :more_about_crafter
-      t.boolean :can_share_project_info
-      t.boolean :can_share_crafter_info
+
+      # Share
+      t.boolean :can_publicize
+
       t.timestamps
     end
   end
