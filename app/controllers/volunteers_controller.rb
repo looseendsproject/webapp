@@ -4,7 +4,10 @@ class VolunteersController < ApplicationController
   end
 
   def new
-    @volunteer = current_user.build_volunteer
+    if current_user.volunteer
+      redirect_to edit_volunteer_path
+    end
+    @volunteer = Volunteer.new
     @volunteer.assessments = Skill.all.map { |skill| Assessment.new(skill_id: skill.id, rating: 0)}
   end
 

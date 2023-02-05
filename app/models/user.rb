@@ -12,7 +12,8 @@ class User < ApplicationRecord
   has_many :projects
   has_one :volunteer
 
-  validates :name, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def set_default_role
     if (User.count == 0)

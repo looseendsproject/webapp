@@ -11,18 +11,58 @@
     @apply no-underline text-white visited:text-white
   }
 
+  .page-title {
+    @apply block text-4xl my-6 font-semibold flex flex-col md:flex-row
+  }
+
+  .page-subtitle {
+    @apply block text-xl font-semibold
+  }
+
+  .page-section {
+    @apply my-8
+  }
+
+  .page-section > h4 {
+    @apply block text-gray-600 text-lg font-semibold
+  }
+
+  .layout {
+    @apply md:flex  md:flex-row
+  }
+
+  .layout-aside {
+    @apply sm:w-full sm:pr-0 md:w-80 md:pr-16
+  }
+
+  .layout-details {
+    @apply w-full
+  }
+
   .btn-submit {
     @apply bg-blue-500 py-2 px-4 rounded text-white
+  }
+
+  .form {
+    @apply md:w-4/5 lg:w-2/3 my-8
   }
 
   .form-section {
     @apply text-gray-600 text-xl my-1 font-bold
   }
   .form-group {
-    @apply flex flex-wrap -mx-3 mb-6
+    @apply flex flex-col mb-6
   }
+  .form-row {
+    @apply flex flex-row mb-6
+  }
+
+  .form-image {
+    @apply pr-3
+  }
+
   .form-cell {
-    @apply w-full md:w-1/2 px-3
+    @apply w-full pr-3
   }
 
   .form-label {
@@ -34,8 +74,29 @@
   }
 
   .form-input {
-    @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500
+    @apply appearance-none block w-full bg-gray-200 text-gray-700 font-normal border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500
   }
+
+  a.action {
+    @apply md:bg-gray-200 md:text-gray-700 font-normal md:border md:border-gray-200 rounded md:py-3 md:px-4 leading-tight md:ml-auto no-underline text-lg
+  }
+
+}
+
+div.field_with_errors {
+  @apply inline
+}
+
+.form-group em {
+  @apply not-italic font-normal text-sm text-red-500
+}
+
+div.field_with_errors > label {
+  @apply text-red-900;
+}
+
+div.field_with_errors > :is(input, textarea, select) {
+  @apply border-red-300 text-red-900 placeholder-red-300;
 }
 
 @import 'actiontext.css';

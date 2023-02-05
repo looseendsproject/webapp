@@ -1,4 +1,4 @@
-<%= form_with model: @volunteer, url: volunteer_path, class: 'my-16', data: { turbo: false } do |form| %>
+<%= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form| %>
   <%= render "error_messages", resource: @volunteer %>
 
 
@@ -9,13 +9,15 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-row">
+    <% if @volunteer.picture.representable? %>
+      <div class="form-image">
+        <%= image_tag @volunteer.picture.representation( resize_to_limit: [200, 200]) %>
+      </div>
+    <% end %>
     <div class="form-cell">
       <%= form.label 'Picture', class: 'form-label' %>
       <%= form.file_field :picture, class: 'form-input' %>
-      <% if @volunteer.picture.representable? %>
-        <%= image_tag @volunteer.picture.representation( resize_to_limit: [200, 200]) %>
-      <% end %>
     </div>
   </div>
 
@@ -35,16 +37,16 @@
     </div>
   </div>
 
-  <div class="form-group md:w-1/2">
-    <div class="w-full4 md:w-1/3 px-3">
+  <div class="form-row lg:w-2/3">
+    <div class="form-cell">
       <%= form.label 'City', class: 'form-label' %>
       <%= form.text_field :city, class: 'form-input' %>
     </div>
-    <div class="w-full md:w-1/3 px-3">
+    <div class="form-cell">
       <%= form.label 'State', class: 'form-label' %>
       <%= form.text_field :state, class: 'form-input' %>
     </div>
-    <div class="w-full md:w-1/3 pl-3">
+    <div class="form-cell">
       <%= form.label 'postal_code', class: 'form-label' %>
       <%= form.text_field :postal_code, class: 'form-input' %>
     </div>
@@ -139,10 +141,10 @@
     <div class="form-cell">
 
       <p class='form-info'>We may have the opportunity to talk about you or a project you're working on on social media.  Would that be OK?</p>
-      <%= form.label 'can-publicize', class: 'form-label' do %>
-        <%= form.check_box :can_publicize, id: 'can-publicize' %>
+      <%= form.label 'can_publicize', class: 'form-label' do %>
+        <%= form.check_box :can_publicize %>
         It's OK to post about me on Social Media!
-    <% end %>
+      <% end %>
     </div>
   </div>
 

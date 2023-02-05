@@ -5,6 +5,7 @@ class Admin::VolunteersController < Admin::AdminController
 
   def show
     @volunteer = Volunteer.find(params[:id])
+    render 'volunteers/show'
   end
 
   def edit
