@@ -3,13 +3,11 @@ class CreateProjects < ActiveRecord::Migration[7.0]
     create_table :projects do |t|
       t.references :user, null: false
 
+      # Admin will determine status - starts at "new"
+      t.string :status, null: false, default: 'proposed'
+
       # Project Info
       t.string :name, null: false
-      t.text :description
-      t.text :more_details
-
-      # Admin will determine status - starts at "new"
-      t.string :status, null: false, default: 'new'
 
       # mailing address
       t.string :street
@@ -35,6 +33,9 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       t.text :crafter_description
 
       t.string :recipient_name
+
+
+      t.text :more_details
 
       # Share
       t.boolean :can_publicize

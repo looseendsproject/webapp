@@ -1,8 +1,0 @@
-
-<%= render 'title', title: 'Projects' %>
-<% if current_user %>
-  <%= render 'button_create', label: 'Create Project', path: new_project_path %>
-<% end %>
-<%= render 'table' do %>
-  <%= render @projects %>
-<% end %>

@@ -2,13 +2,13 @@
 <div class="layout">
   <div class="layout-aside">
     <h3 class="page-section">Lists</h3>
-    <p><%= link_to 'Products', admin_products_path %></p>
-    <p><%= link_to 'Skills', admin_skills_path %></p>
+    <p><%= link_to 'Products', admin_products_path %> (<%= Product.count %>) </p>
+    <p><%= link_to 'Skills', admin_skills_path %> (<%= Skill.count %>)</p>
   </div>
   <div class="layout-details">
     <h3 class="page-section">Queues</h3>
-    <p><%= link_to 'Volunteers', admin_volunteers_path %></p>
-    <p><%= link_to 'Projects', admin_products_path %></p>
-    <p><%= link_to 'Users', admin_users_path %></p>
+    <p><%= link_to 'Volunteers', admin_volunteers_path %> (<%= Volunteer.approved.count %>/<%= Volunteer.count %>) </p>
+    <p><%= link_to 'Projects', admin_projects_path %> (<%= Project.proposed.count %>, <%= Project.approved.count %>, <%= Project.in_progress.count %>, <%= Project.finished.count %>) </p>
+    <p><%= link_to 'Users', admin_users_path %> (<%= User.count %>) </p>
   </div>
 </div>

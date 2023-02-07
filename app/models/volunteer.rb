@@ -15,6 +15,12 @@ class Volunteer < ApplicationRecord
 
   accepts_nested_attributes_for :assessments
 
+  after_save :trim_assessments
+
+  def trim_assessments
+    assessments.where(rating: 0).destroy_all
+  end
+
   def approved?
     self.approved_at != nil
   end
@@ -29,6 +35,10 @@ class Volunteer < ApplicationRecord
     else
       self.approved_at = nil
     end
+  end
+
+  def self.approved
+    where.not({ approved_at: nil })
   end
 
   def name

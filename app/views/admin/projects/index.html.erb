@@ -1,2 +1,5 @@
-%h1 Admin::Projects#index
-%p Find me in app/views/admin/projects/index.html.haml
+
+<%= render 'title', title: 'Projects' %>
+<%= render 'table' do %>
+  <%= render @projects %>
+<% end %>

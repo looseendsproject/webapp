@@ -29,15 +29,43 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    project = current_user.projects.find(params[:id])
-    project.update!(project_params)
-    redirect_to project
+    @project = current_user.projects.find(params[:id])
+    if @project.update(project_params)
+      redirect_to @project
+    else
+      render 'edit'
+    end
   end
 
   private
 
   def project_params
-    params.require(:project).permit(:name, :description, project_images: [], pattern_images: [], material_images: [])
+    params.require(:project).permit(
+      :name,
+      :description,
+      :more_details,
+      :status,
+      :street,
+      :street_2,
+      :city,
+      :state,
+      :country,
+      :postal_code,
+      :craft_type,
+      :product_description,
+      :has_pattern,
+      :material_type,
+      :material_description,
+      :crafter_name,
+      :crafter_description,
+      :recipient_name,
+      :can_publicize,
+      :terms_of_use,
+      crafter_images: [],
+      project_images: [],
+      pattern_images: [],
+      material_images: []
+    )
   end
 
 

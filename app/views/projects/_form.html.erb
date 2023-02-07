@@ -1,4 +1,4 @@
-<%= form_with model: @project, class: 'my-16', data: { turbo: false } do |form| %>
+<%= form_with model: @project, html: { class: 'form' } do |form| %>
   <%= render "error_messages", resource: @project %>
 
   <div class="form-group">
@@ -8,16 +8,7 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="form-cell">
-      <%= form.label 'Project description', class: 'form-label' %>
-      <p class="form-info">Tell us all about it!</p>
-      <%= form.text_area :description, size: "60x5", class: 'form-input' %>
-    </div>
-  </div>
-
-
-  <div class='form-section'>Mailing Address</div>
+  <div class='form-section'>Your Mailing Address</div>
   <p class="form-info">After it's finished, we'll send it back here</p>
 
   <div class="form-group">
@@ -34,16 +25,16 @@
     </div>
   </div>
 
-  <div class="form-row md:w-1/2">
-    <div class="w-full4 md:w-1/3 px-3">
+  <div class="form-row lg:w-2/3">
+    <div class="form-cell">
       <%= form.label 'City', class: 'form-label' %>
       <%= form.text_field :city, class: 'form-input' %>
     </div>
-    <div class="w-full md:w-1/3 px-3">
+    <div class="form-cell">
       <%= form.label 'State', class: 'form-label' %>
       <%= form.text_field :state, class: 'form-input' %>
     </div>
-    <div class="w-full md:w-1/3 px-3">
+    <div class="form-cell">
       <%= form.label 'postal_code', class: 'form-label' %>
       <%= form.text_field :postal_code, class: 'form-input' %>
     </div>
@@ -57,20 +48,14 @@
   </div>
 
   <div class='form-section'>The Project</div>
-  <div class="form-group">
-    <div class="form-cell">
-      <%= form.label 'What Craft?', class: 'form-label' %>
-      <%= form.text_field :name, class: 'form-input' %>
-    </div>
-  </div>
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Project Details', class: 'form-label' %>
-      <%= form.text_area :project_description, size: "60x4", class: 'form-input' %>
+      <%= form.label 'What was being made?', class: 'form-label' %>
+      <p class="form-info">(for instance, sweater, socks, blanket, hat...)</p>
+      <%= form.text_area :description, size: "60x5", class: 'form-input' %>
     </div>
   </div>
-
 
   <div class="form-group">
     <div class="form-cell">
@@ -86,8 +71,17 @@
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Craft Type', class: 'form-label' %>
-      <%= form.text_field :craft_type, class: 'form-input' %>
+      <%= form.label 'What type of craft project are you submitting?', class: 'form-label' %>
+      <p class="form-info">Knit, Crochet, Quilt. Do you know what it is?</p>
+      <%= form.text_field :craft_type, class: 'form-input w-1/3' %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'Is there a pattern', class: 'form-label' %>
+      <%= form.select :has_pattern, ['Yes', 'No', "I don't know"], { has_blank: true }, { class: 'form-input w-1/3' } %>
     </div>
   </div>
 
@@ -97,14 +91,23 @@
       <p class="form-info">Please upload photos of the pattern, if you have them.  </p>
       <%= form.file_field :pattern_images, class: 'form-input', :multiple => true %>
       <% form.object.pattern_images.each do |image| %>
-        <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+        <%= image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail' %>
       <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'What kind of yarn / material is used?', class: 'form-label' %>
+      <p class="form-info">Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). Do you know?</p>
+      <%= form.text_field :material_type, class: 'form-input' %>
     </div>
   </div>
   <div class="form-group">
     <div class="form-cell">
       <%= form.label 'Material Images', class: 'form-label' %>
-      <p class="form-info">Please upload photos of the materials, if you have them.</p>
+      <p class="form-info">Please upload a photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.</p>
       <%= form.file_field :material_images, class: 'form-input', :multiple => true %>
       <% form.object.material_images.each do |image| %>
         <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
@@ -112,9 +115,43 @@
     </div>
   </div>
 
+
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Is there anything else youd like to tell us about this project?', class: 'form-label' %>
+      <%= form.label 'Name of deceased or compromised crafter', class: 'form-label' %>
+      <%= form.text_field :crafter_name, class: 'form-input' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'Please share a little bit about about the crafter who started this project, and your relationship with the person and the things they made.', class: 'form-label' %>
+      <%= form.text_area :crafter_description, size: "60x5", class: 'form-input' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'Would you like to share a photo of the original crafter?', class: 'form-label' %>
+      <p class="form-info">Please upload photos of the crafter, if you have them.</p>
+      <%= form.file_field :crafter_images, class: 'form-input', :multiple => true %>
+      <% form.object.crafter_images.each do |image| %>
+        <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'recipient_name', class: 'form-label' %>
+      <p class="form-info">Who was this project for?</p>
+      <%= form.text_field :recipient_name, class: 'form-input' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'Are there any other details you can offer, or anything else we should know about this project?', class: 'form-label' %>
       <%= form.text_area :more_details, size: "60x5", class: 'form-input' %>
     </div>
   </div>
@@ -122,14 +159,25 @@
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Can we post about this project on Social Media? ', class: 'form-label' %>
-      <%= form.check_box :can_publicize %>
+      <%= form.label 'can_publicize', class: 'form-label' do %>
+        <%= form.check_box :can_publicize %> It is OK to post about this project on Social Media.
+      <% end %>
     </div>
   </div>
 
+  <div class="form-group">
+    <div class="form-cell">
+      <b class="page-section">We will be careful with your project.</b>
+      <p class="form-info">
+        But, accidents happen. By clicking below, you recognize that Loose Ends is not responsible for lost or damaged projects or materials.
+      </p>
+      <%= form.label 'terms_of_use', class: 'form-label' do %>
+        <%= form.check_box :terms_of_use %> I won't hold you liable for any lost or damaged projects or materials.
+      <% end %>
+    </div>
+  </div>
 
-  <p class="form-info">
-    By clicking below, you recognize that Loose Ends is not responsible for lost or damaged projects or materials.
-  </p>
-  <%= form.submit 'Submit Project', class: "btn-submit" %>
+  <div class="actions">
+    <%= form.submit 'Submit Project', class: "btn-submit" %>
+  </div>
 <% end %>

@@ -107,7 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
     t.string "name", null: false
     t.text "description"
     t.text "more_details"
-    t.string "status", default: "new", null: false
+    t.string "status", default: "proposed", null: false
     t.string "street"
     t.string "street_2"
     t.string "city"

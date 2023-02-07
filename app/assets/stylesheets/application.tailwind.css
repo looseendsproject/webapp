@@ -81,6 +81,10 @@
     @apply md:bg-gray-200 md:text-gray-700 font-normal md:border md:border-gray-200 rounded md:py-3 md:px-4 leading-tight md:ml-auto no-underline text-lg
   }
 
+  .thumbnail {
+    @apply inline m-1
+  }
+
 }
 
 div.field_with_errors {

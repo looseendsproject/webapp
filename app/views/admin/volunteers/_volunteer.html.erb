@@ -6,6 +6,6 @@
     <%= volunteer.description %>
   <% end %>
   <%= render 'table_cell' do %>
-    <%= volunteer.approved? %>
+    <%= link_to volunteer.approved?.to_s, [:edit, :admin, volunteer ] %>
   <% end %>
 <% end %>

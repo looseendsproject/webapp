@@ -1,5 +1,10 @@
 <h1 class="page-title">
   <%= @volunteer.name %>
+  <% if current_user.admin? %>
+    <% if @volunteer.approved %>
+      (Approved)
+    <% end %>
+  <% end %>
 
   <% if current_user == @volunteer.user %>
     <%= link_to 'Edit Volunteer Profile', [:edit, :volunteer], class: 'action' %>
@@ -34,7 +39,7 @@
         <h4>Skills</h4>
         <ul>
           <% @volunteer.assessments.each do |assessment| %>
-            <li><%= assessment.skill.name %>: <%= assessment.rating %> (<%= assessment.description %>)</li>
+            <li><%= assessment.skill.name %>: <%= Skill[assessment.rating].to_s.humanize %></li>
           <% end %>
         </ul>
       </div>

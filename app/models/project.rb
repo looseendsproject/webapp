@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
 
-  STATUSES = ['new', 'approved', 'progressing', 'finished']
+  STATUSES = ['proposed', 'approved', 'in progress', 'finished']
   validates :name, presence: true
 
   belongs_to :user
@@ -16,8 +16,26 @@ class Project < ApplicationRecord
 
   validates :status, inclusion: { in: STATUSES }
 
+  validates :terms_of_use, :acceptance => true
+
   def set_default_status
-    self.status ||= 'new'
+    self.status ||= 'proposed'
+  end
+
+  def self.proposed
+    where({ status: 'proposed' })
+  end
+
+  def self.approved
+    where({ status: 'approved' })
+  end
+
+  def self.in_progress
+    where({ status: 'in progress' })
+  end
+
+  def self.finished
+    where({ status: 'finished' })
   end
 
 end

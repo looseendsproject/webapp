@@ -3,7 +3,7 @@
     <%= project.id %>
   <% end %>
   <%= render 'table_cell' do %>
-    <%= link_to(project.name, project) %>
+    <%= link_to(project.name, [:admin, project]) %>
   <% end %>
   <%= render 'table_cell' do %>
     <%= project.description %>
