@@ -1,16 +1,18 @@
 <%= render 'title', title: 'Loose Ends Projects' %>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-<% if current_user %>
+<h3>Why it’s important to finish a handmade project:</h3>
+<p>“You look like somebody loves you.”</p>
+<p>
+Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
+</p>
+<p>
+  Or, it can be finished as intended and given back to be cherished.
+</p>
+<div class="page-section">
+  <h4>Submit a Project</h4>
   <p>
     <%= link_to "Create Project", new_project_path, class: 'button-primary' %>
   </p>
   <p>
-    <% if current_user.volunteer? %>
-      <%= link_to 'Become a Volunteer', edit_volunteer_path, class: 'button-primary' %>
-    <% else %>
-      <%= link_to 'Become a Volunteer', new_volunteer_path, class: 'button-primary' %>
-    <% end %>
+    <%= link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary' %>
   </p>
-<% end %>
+</div>
