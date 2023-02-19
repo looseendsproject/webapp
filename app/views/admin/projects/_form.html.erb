@@ -1,18 +1,10 @@
-<%= form_with model: @project, html: { class: 'form' } do |form| %>
+<%= form_with model: @project, url: admin_project_path(@project), html: { class: 'form' } do |form| %>
   <%= render "error_messages", resource: @project %>
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Name this Project', class: 'form-label' %>
-      <%= form.text_field :name, class: 'form-input' %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="form-cell">
-      <%= form.label 'Project description', class: 'form-label' %>
-      <p class="form-info">Tell us all about it!</p>
-      <%= form.text_area :description, size: "60x5", class: 'form-input' %>
+      <%= form.label :status, class: 'form-label' %>
+      <%= form.select :status, Project::STATUSES.map{ |status| [status.humanize, status ]}, class: 'form-input' %>
     </div>
   </div>
 

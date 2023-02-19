@@ -24,7 +24,7 @@
   }
 
   .page-section > h4 {
-    @apply block text-gray-600 text-lg font-semibold
+    @apply block text-blue-600 text-lg font-semibold
   }
 
   .layout {
@@ -66,7 +66,11 @@
   }
 
   .form-label {
-    @apply block text-gray-700 text-sm font-bold mb-1
+    @apply block text-gray-700 text-sm font-bold mb-1 flex items-center
+  }
+
+  .form-label input {
+    @apply mr-1
   }
 
   .form-info {

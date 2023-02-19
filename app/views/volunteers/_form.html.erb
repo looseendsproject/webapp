@@ -65,7 +65,7 @@
         <%= form.label 'Skill Assessment', class: 'form-label' %>
         <p class="form-info">Rate yourself and add any other information you like!</p>
         <ul>
-          <%= form.fields_for :assessments do |assessment_form| %>
+          <%= form.fields_for :assessments, @assessments do |assessment_form| %>
             <li class="my-2">
               <%= assessment_form.label assessment_form.object.skill.name, class: 'form-label' %>
               <% if assessment_form.object.skill.description.present? %>

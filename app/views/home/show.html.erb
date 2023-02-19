@@ -7,10 +7,17 @@ Handmade items are gestures of love. The time, expense, and skill that go into m
 <p>
   Or, it can be finished as intended and given back to be cherished.
 </p>
+<div>
+  <% if current_user %>
+    <% current_user.projects.each do |project| %>
+      <%= link_to project.name, project  %>
+    <% end  %>
+  <% end %>
+</div>
 <div class="page-section">
-  <h4>Submit a Project</h4>
+  <h4>Join in!</h4>
   <p>
-    <%= link_to "Create Project", new_project_path, class: 'button-primary' %>
+    <%= link_to "Submit a Project", new_project_path, class: 'button-primary' %>
   </p>
   <p>
     <%= link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary' %>

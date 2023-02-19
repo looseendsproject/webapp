@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
 
+  before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -37,6 +38,33 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def destroy
+    @project = Project.find(params[:id])
+    if (params[:project_image_id])
+      project_image = @project.project_images.find(params[:project_image_id])
+      project_image.purge
+      redirect_to @project
+    end
+
+    if (params[:material_image_id])
+      material_image = @project.material_images.find(params[:material_image_id])
+      material_image.purge
+      redirect_to @project
+    end
+
+    if (params[:crafter_image_id])
+      crafter_image = @project.crafter_images.find(params[:crafter_image_id])
+      crafter_image.purge
+      redirect_to @project
+    end
+
+    if (params[:pattern_image_id])
+      pattern_image = @project.pattern_images.find(params[:pattern_image_id])
+      pattern_image.purge
+      redirect_to @project
+    end
+  end
+
   private
 
   def project_params
@@ -52,19 +80,17 @@ class ProjectsController < ApplicationController
       :country,
       :postal_code,
       :craft_type,
-      :product_description,
       :has_pattern,
       :material_type,
-      :material_description,
       :crafter_name,
       :crafter_description,
       :recipient_name,
       :can_publicize,
       :terms_of_use,
-      crafter_images: [],
-      project_images: [],
-      pattern_images: [],
-      material_images: []
+      append_crafter_images: [],
+      append_project_images: [],
+      append_pattern_images: [],
+      append_material_images: []
     )
   end
 

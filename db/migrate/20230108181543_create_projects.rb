@@ -8,6 +8,7 @@ class CreateProjects < ActiveRecord::Migration[7.0]
 
       # Project Info
       t.string :name, null: false
+      t.text :description
 
       # mailing address
       t.string :street
@@ -19,14 +20,12 @@ class CreateProjects < ActiveRecord::Migration[7.0]
 
       # Craft/Product (w photos)
       t.string :craft_type
-      t.text :product_description
 
       # pattern (w photos)
       t.string :has_pattern
 
       # material (w photos)
       t.string :material_type
-      t.text :material_description
 
       # crafter (w photos)
       t.string :crafter_name

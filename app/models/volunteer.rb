@@ -15,6 +15,16 @@ class Volunteer < ApplicationRecord
 
   accepts_nested_attributes_for :assessments
 
+  validates :name, presence: true
+  validates :description, presence: true
+  validates :street, presence: true
+  validates :city, presence: true
+  validates :country, presence: true
+  validates :postal_code, presence: true
+  validates :other_skills, presence: true
+  validates :other_favorites, presence: true
+  validates :assessments, presence: true
+
   after_save :trim_assessments
 
   def trim_assessments
@@ -30,7 +40,7 @@ class Volunteer < ApplicationRecord
   end
 
   def approved=(val)
-    if (val == '1')
+    if val == '1'
       self.approved_at = DateTime.now
     else
       self.approved_at = nil
@@ -38,11 +48,22 @@ class Volunteer < ApplicationRecord
   end
 
   def self.approved
-    where.not({ approved_at: nil })
+    self.where.not({ approved_at: nil })
   end
 
   def name
     user.name
+  end
+
+
+  def all_assessments
+    all_assessments = self.assessments
+    Skill.all.each do |skill|
+      if all_assessments.where(skill_id: skill.id).none?
+        all_assessments << Assessment.new( {skill_id: skill.id, rating: 0} )
+      end
+    end
+    all_assessments
   end
 
 end

@@ -104,10 +104,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
 
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.string "status", default: "proposed", null: false
     t.string "name", null: false
     t.text "description"
-    t.text "more_details"
-    t.string "status", default: "proposed", null: false
     t.string "street"
     t.string "street_2"
     t.string "city"
@@ -115,13 +114,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
     t.string "country"
     t.string "postal_code"
     t.string "craft_type"
-    t.text "product_description"
     t.string "has_pattern"
     t.string "material_type"
-    t.text "material_description"
     t.string "crafter_name"
     t.text "crafter_description"
     t.string "recipient_name"
+    t.text "more_details"
     t.boolean "can_publicize"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

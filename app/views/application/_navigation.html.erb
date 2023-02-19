@@ -5,18 +5,6 @@
       <li class="mr-6">
         <%= link_to 'Loose Ends Projects', root_path, class: "text-blue-500 hover:text-blue-800" %>
       </li>
-      <% if current_user %>
-        <% if current_user.projects.any? %>
-          <li class="mr-6">
-            <%= link_to 'My Projects', projects_path, class: "text-blue-500 hover:text-blue-800" %>
-          </li>
-        <% end %>
-        <% if current_user.volunteer? %>
-          <li class="mr-6">
-            <%= link_to 'Volunteer', volunteer_path, class: "text-blue-500 hover:text-blue-800" %>
-          </li>
-        <% end %>
-      <% end %>
       <% if current_user&.admin? %>
         <li class="mr-6">
           <%= link_to 'Admin', admin_dashboard_path, class: "text-blue-500 hover:text-blue-800" %>

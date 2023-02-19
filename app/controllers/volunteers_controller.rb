@@ -1,5 +1,6 @@
 class VolunteersController < ApplicationController
 
+  before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!, except: [:index, :show]
 
   def show
@@ -16,12 +17,7 @@ class VolunteersController < ApplicationController
 
   def edit
     @volunteer = current_user.volunteer
-    @unassessed_skills = Skill.where.not(id: @volunteer.skills.pluck(:id) )
-    if (@unassessed_skills.any?)
-      @unassessed_skills.each do |skill|
-        @volunteer.assessments.build( {skill_id: skill.id, rating: 0})
-      end
-    end
+    @assessments = @volunteer.all_assessments
   end
 
   def create
@@ -30,6 +26,7 @@ class VolunteersController < ApplicationController
     if @volunteer.save
       redirect_to volunteer_path
     else
+      @assessments = @volunteer.all_assessments
       render :new, status: :unprocessable_entity
     end
   end
@@ -39,6 +36,7 @@ class VolunteersController < ApplicationController
     if @volunteer.update(volunteer_params)
       redirect_to volunteer_path
     else
+      @assessments = @volunteer.all_assessments
       render :edit, status: :unprocessable_entity
     end
   end

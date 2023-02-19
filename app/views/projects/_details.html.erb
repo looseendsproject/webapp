@@ -1,0 +1,51 @@
+
+<div class="layout">
+  <div class="layout-aside">
+
+  </div>
+  <div class="layout-details">
+    <p><%= @project.description %></p>
+
+    <% @project.project_images.each do |image| %>
+      <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+      <%= button_to "Remove", project_path(@project, { project_image_id: image.id }), method: :delete %>
+    <% end %>
+
+    <p><%= @project.more_details %></p>
+
+    <hr>
+    <h3 class="page_section">Material Details</h3>
+    <%= @project.material_type %>
+
+    <% @project.material_images.each do |image| %>
+      <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+      <%= button_to "Remove", project_path(@project, { material_image_id: image.id }), method: :delete %>
+    <% end %>
+    <hr>
+    <h3 class="page_section">Crafter Details</h3>
+    <%= @project.crafter_name %>
+
+    <%= @project.crafter_description %>
+
+    <% @project.crafter_images.each do |image| %>
+      <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+      <%= button_to "Remove", project_path(@project, { crafter_image_id: image.id }), method: :delete %>
+    <% end %>
+
+
+    <%= @project.recipient_name %>
+
+    <hr>
+    <h3 class="page_section">Pattern Details</h3>
+    <%= @project.has_pattern %>
+
+    <% @project.pattern_images.each do |image| %>
+      <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
+      <%= button_to "Remove", project_path(@project, { pattern_image_id: image.id }), method: :delete %>
+    <% end %>
+
+    <hr>
+    <%= @project.can_publicize %>
+
+  </div>
+</div>
