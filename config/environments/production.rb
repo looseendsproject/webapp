@@ -50,7 +50,7 @@ Rails.application.configure do
   #
   #
   # Image Processing on Heroku
-  config.active_storage.variant_processor = :vips
+  config.active_storage.variant_processor = :mini_magick
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).

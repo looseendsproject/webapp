@@ -61,6 +61,9 @@ Rails.application.configure do
 
   config.assets.debug = true
 
+  # Image Processing
+  config.active_storage.variant_processor = :mini_magick
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
