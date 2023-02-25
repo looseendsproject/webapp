@@ -31,10 +31,14 @@ class Project < ApplicationRecord
 
   validates :project_images, presence: true
 
-  validates :terms_of_use, acceptance: true, on: 'create'
+  validates :terms_of_use, acceptance: true
 
   def set_default_status
     self.status ||= 'proposed'
+  end
+
+  def volunteer
+    volunteers.first
   end
 
   def self.proposed

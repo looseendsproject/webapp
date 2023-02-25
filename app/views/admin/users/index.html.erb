@@ -1,5 +1,12 @@
 <%= render 'title', title: 'Users' %>
-<%= render 'table' do %>
-  <%= render 'table_header', headers: ['ID', 'Name', 'Email', 'Projects', 'Volunteer', 'Manager', 'Admin'] %>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Projects</th>
+    <th>Volunteer</th>
+    <th>Admin</th>
+  </tr>
   <%= render @users %>
-<% end %>
+</table>

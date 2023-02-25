@@ -2,7 +2,12 @@ class Admin::ProjectsController < Admin::AdminController
 
 
   def index
-    @projects = Project.paginate(page: params[:page])
+
+    @projects = Project.all
+    if (params[:status])
+      @projects = @projects.where({ status: params[:status]})
+    end
+    @projects.paginate(page: params[:page])
   end
 
   def show

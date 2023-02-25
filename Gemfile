@@ -38,6 +38,9 @@ gem 'devise'
 # Pagination
 gem 'will_paginate', '~> 3.3'
 
+# fonts
+gem 'font-awesome-rails'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 

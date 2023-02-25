@@ -1,23 +1,20 @@
-<%= render 'table_row' do %>
-  <%= render 'table_cell' do %>
+<tr>
+  <td>
     <%= user.id %>
-  <% end %>
-  <%= render 'table_cell' do %>
-    <%= user.email %>
-  <% end %>
-  <%= render 'table_cell' do %>
+  </td>
+  <td>
     <%= link_to user.name, [:admin, user] %>
-  <% end %>
-  <%= render 'table_cell' do %>
+  </td>
+  <td>
+    <%= user.email %>
+  </td>
+  <td>
     <%= user.projects.count %>
-  <% end %>
-  <%= render 'table_cell' do %>
-    <%= user.volunteer? %>
-  <% end %>
-  <%= render 'table_cell' do %>
-    <%= user.manager? %>
-  <% end %>
-  <%= render 'table_cell' do %>
-    <%= user.admin? %>
-  <% end %>
-<% end %>
+  </td>
+  <td>
+    <% if user.volunteer? %><%= fa_icon('user', class: 'volunteer') %><% end %>
+  </td>
+  <td>
+    <% if user.admin? %><%= fa_icon('user-secret', class: 'admin') %><% end %>
+  </td>
+</tr>

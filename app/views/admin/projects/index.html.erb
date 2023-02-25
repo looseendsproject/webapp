@@ -1,5 +1,16 @@
 
 <%= render 'title', title: 'Projects' %>
-<%= render 'table' do %>
+<div>
+Status: <%= link_to_unless params[:status].nil?, 'All', url_for({ status: nil }) %> | <%= link_to_unless params[:status] == 'active', 'Active', url_for({ status: 'active' }) %>
+</div>
+<table class="table">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Description</th>
+    <th>Volunteer</th>
+    <th>Location</th>
+  </tr>
   <%= render @projects %>
-<% end %>
+</table>

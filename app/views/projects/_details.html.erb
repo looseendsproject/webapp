@@ -1,19 +1,21 @@
 
 <div class="layout">
   <div class="layout-aside">
-
-  </div>
-  <div class="layout-details">
     <p><%= @project.description %></p>
 
     <% @project.project_images.each do |image| %>
-      <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
-      <%= button_to "Remove", project_path(@project, { project_image_id: image.id }), method: :delete %>
+      <div class="removeable_image">
+        <%= link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg)) %>
+        <%= button_to fa_icon("trash"), project_path(@project, { project_image_id: image.id }), method: :delete, class: 'icon' %>
+      </div>
     <% end %>
 
-    <p><%= @project.more_details %></p>
-
     <hr>
+    <p><%= @project.more_details %></p>
+  </div>
+  <div class="layout-details">
+
+
     <h3 class="page_section">Material Details</h3>
     <%= @project.material_type %>
 

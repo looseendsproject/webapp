@@ -1,25 +1,41 @@
 <%= render 'title', title: 'Loose Ends Projects' %>
-<h3>Why it’s important to finish a handmade project:</h3>
-<p>“You look like somebody loves you.”</p>
-<p>
-Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
-</p>
-<p>
-  Or, it can be finished as intended and given back to be cherished.
-</p>
-<div>
+<h3 class="page-subtitle">Why it’s important to finish a handmade project</h3>
+
+<div class="layout">
+  <div class="layout-details">
+    <div class="page-section">
+      <p>“You look like somebody loves you.”</p>
+      <p>
+        Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
+      </p>
+      <p>
+        Or, it can be finished as intended and given back to be cherished.
+      </p>
+    </div>
+    <div class="page-section">
+      <h4>Join in!</h4>
+      <ul>
+      <li>
+        <%= link_to "Submit a Project", new_project_path, class: 'button-primary' %>
+      </li>
+      <li>
+        <%= link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary' %>
+      </li>
+      </ul>
+    </div>
+  </div>
   <% if current_user %>
-    <% current_user.projects.each do |project| %>
-      <%= link_to project.name, project  %>
-    <% end  %>
+    <div class="layout-aside ml-6">
+      <div class="page-section">
+        <h4>Your Projects!</h4>
+        <% if current_user.projects.any? %>
+          <ul>
+          <% current_user.projects.each do |project| %>
+            <li><%= link_to project.name, project  %></li>
+          <% end  %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
   <% end %>
-</div>
-<div class="page-section">
-  <h4>Join in!</h4>
-  <p>
-    <%= link_to "Submit a Project", new_project_path, class: 'button-primary' %>
-  </p>
-  <p>
-    <%= link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary' %>
-  </p>
 </div>

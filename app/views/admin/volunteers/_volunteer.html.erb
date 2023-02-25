@@ -1,11 +1,11 @@
-<%= render 'table_row' do %>
-  <%= render 'table_cell' do %>
+<tr>
+  <td>
     <%= link_to volunteer.user.name, [:admin, volunteer] %>
-  <% end %>
-  <%= render 'table_cell' do %>
+  </td>
+  <td>
     <%= volunteer.description %>
-  <% end %>
-  <%= render 'table_cell' do %>
+  </td>
+  <td>
     <%= link_to volunteer.approved?.to_s, [:edit, :admin, volunteer ] %>
-  <% end %>
-<% end %>
+  </td>
+</tr>

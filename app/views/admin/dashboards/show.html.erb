@@ -7,8 +7,25 @@
   </div>
   <div class="layout-details">
     <h3 class="page-section">Queues</h3>
-    <p><%= link_to 'Volunteers', admin_volunteers_path %> (<%= Volunteer.approved.count %>/<%= Volunteer.count %>) </p>
-    <p><%= link_to 'Projects', admin_projects_path %> (<%= Project.proposed.count %>, <%= Project.approved.count %>, <%= Project.in_progress.count %>, <%= Project.finished.count %>) </p>
-    <p><%= link_to 'Users', admin_users_path %> (<%= User.count %>) </p>
+    <div class="page-section"><%= link_to 'Volunteers', admin_volunteers_path %>
+      <div>
+        Count: <%= Volunteer.count %>
+      </div>
+      <div>
+        Approved: <%= Volunteer.approved.count %>
+      </div>
+    </div>
+    <div class="page-section"><%= link_to 'Projects', admin_projects_path %>
+      <div>
+        Proposed: <%= Project.proposed.count %>
+      </div><div>
+        Approved: <%= Project.approved.count %>
+      </div><div>
+          In Progress: <%= Project.in_progress.count %>
+      </div><div>
+          Finished: <%= Project.finished.count %>
+      </div>
+    </div>
+    <div class="page-section"><%= link_to 'Users', admin_users_path %> (<%= User.count %>) </div>
   </div>
 </div>

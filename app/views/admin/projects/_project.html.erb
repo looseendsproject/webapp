@@ -1,11 +1,21 @@
-<%= render 'table_row' do %>
-  <%= render 'table_cell' do %>
+<tr class="table-row">
+  <td class="table-cell">
     <%= project.id %>
-  <% end %>
-  <%= render 'table_cell' do %>
+  </td>
+  <td class="table-cell">
     <%= link_to(project.name, [:admin, project]) %>
-  <% end %>
-  <%= render 'table_cell' do %>
+  </td>
+  <td>
+    <%= project.status %>
+  </td>
+  <td class="table-cell">
     <%= project.description %>
-  <% end %>
-<% end %>
+  </td>
+  <td class="table-cell">
+    <%= project.volunteer&.name %>
+  </td>
+  <td class="table-cell">
+    <%= project.city %>,
+    <%= project.state %>
+  </td>
+</tr>

@@ -180,20 +180,24 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="form-cell">
 
-      <div class="page-section">
-        <h4>We will be very careful!</h4>
-        <p class="form-info">
-          But, accidents happen. By clicking below, you recognize that Loose Ends is not responsible for lost or damaged projects or materials.
-        </p>
+  <% if !@project.persisted? %>
+    <div class="form-group">
+      <div class="form-cell">
+
+        <div class="page-section">
+          <h4>We will be very careful!</h4>
+          <p class="form-info">
+            But, accidents happen. By clicking below, you recognize that Loose Ends is not responsible for lost or damaged projects or materials.
+          </p>
+        </div>
+        <%= form.label 'terms_of_use', class: 'form-label' do %>
+          <%= form.check_box :terms_of_use %> I won't hold you liable for any lost or damaged projects or materials.
+        <% end %>
       </div>
-      <%= form.label 'terms_of_use', class: 'form-label' do %>
-        <%= form.check_box :terms_of_use %> I won't hold you liable for any lost or damaged projects or materials.
-      <% end %>
     </div>
-  </div>
+  <% end %>
+
 
   <div class="actions">
     <%= form.submit 'Submit Project', class: "btn-submit" %>

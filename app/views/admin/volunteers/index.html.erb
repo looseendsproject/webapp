@@ -1,6 +1,9 @@
 <%= render 'title', title: 'Volunteers' %>
-<%= render 'table' do %>
-
-  <%= render 'table_header', headers: ['Name', 'Description', 'Approved'] %>
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Approved</th>
+  </tr>
   <%= render @volunteers %>
-<% end %>
+</table>
