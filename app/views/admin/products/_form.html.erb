@@ -1,4 +1,4 @@
-<%= form_with model: @product, url: admin_products_path(@product) do |form| %>
+<%= form_with model: @product, url: admin_product_path(@product) do |form| %>
   <%= render "error_messages", resource: @product %>
 
   <div class="form-group">
@@ -10,5 +10,5 @@
     <%= form.text_area :description, size: "60x10", class: 'form-control' %>
   </div>
 
-  <%= form.submit class: "btn btn-primary" %>
+  <%= form.submit class: "btn-submit" %>
 <% end %>

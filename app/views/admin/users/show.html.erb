@@ -1,4 +1,7 @@
-<%= render 'title', title: @user.name %>
+<h1 class="page-title">
+  <%= @user.name %>
+  <%= link_to 'Edit User', [:edit, :admin, @user], class: 'action' %>
+</h1>
 <p>
 Admin: <%= @user.admin? %>
 </p>

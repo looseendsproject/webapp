@@ -21,7 +21,7 @@
   </div>
 
   <div class='form-section'>Mailing Address</div>
-  <h3 class='form-info'>Where will you recieve an unfinished project?</h3>
+  <h3 class='form-info'>Where will you receive an unfinished project?</h3>
   <div class="form-group">
     <div class="form-cell">
       <%= form.label 'Street.', class: 'form-label' %>
@@ -111,9 +111,20 @@
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Other Favorites?', class: 'form-label' %>
-      <p class='form-info'>What else do you love to make?</p>
+      <%= form.label 'Tell us your favorite thing to make', class: 'form-label' %>
+      <p class='form-info'>No parent has a favorite child, or do they?</p>
       <%= form.text_area :other_favorites, size: "60x2", class: 'form-input' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="form-cell">
+      <%= form.label 'Finished Projects', class: 'form-label' %>
+      <p class="form-info">Please upload photos of projects you've done that you like.  </p>
+      <%= form.file_field :append_finished_projects, class: 'form-input', :multiple => true %>
+      <% form.object.finished_projects.each do |image| %>
+        <%= image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail' %>
+      <% end %>
     </div>
   </div>
 

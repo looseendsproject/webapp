@@ -4,6 +4,8 @@ class Volunteer < ApplicationRecord
 
   has_one_attached :picture
 
+  has_many_attached :finished_projects
+
   has_many :assignments
   has_many :projects, through: :assignments
 
@@ -21,8 +23,6 @@ class Volunteer < ApplicationRecord
   validates :city, presence: true
   validates :country, presence: true
   validates :postal_code, presence: true
-  validates :other_skills, presence: true
-  validates :other_favorites, presence: true
   validates :assessments, presence: true
 
   after_save :trim_assessments
@@ -55,6 +55,9 @@ class Volunteer < ApplicationRecord
     user.name
   end
 
+  def append_finished_images=(attachables)
+    finished_images.attach(attachables)
+  end
 
   def all_assessments
     all_assessments = self.assessments
