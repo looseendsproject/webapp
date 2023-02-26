@@ -146,7 +146,7 @@
   }
 
   img.logo {
-    @apply h-40;
+    @apply h-12;
   }
 }
 
