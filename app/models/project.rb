@@ -8,7 +8,7 @@ class Project < ApplicationRecord
 
   has_many_attached :crafter_images
   has_many_attached :project_images
-  has_many_attached :pattern_images
+  has_many_attached :pattern_files
   has_many_attached :material_images
 
   before_validation :set_default_status
@@ -29,9 +29,12 @@ class Project < ApplicationRecord
   validates :crafter_name, presence: true
   validates :crafter_description, presence: true
 
-  validates :project_images, presence: true
 
   validates :terms_of_use, acceptance: true
+
+  validates :project_images, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  validates :crafter_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  validates :material_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 
   def set_default_status
     self.status ||= 'proposed'
@@ -65,8 +68,8 @@ class Project < ApplicationRecord
     project_images.attach(attachables)
   end
 
-  def append_pattern_images=(attachables)
-    pattern_images.attach(attachables)
+  def append_pattern_files=(attachables)
+    pattern_files.attach(attachables)
   end
 
   def append_material_images=(attachables)

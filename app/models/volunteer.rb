@@ -29,6 +29,9 @@ class Volunteer < ApplicationRecord
   validates :terms_of_use, acceptance: true
 
 
+  validates :finished_projects, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+
+
   def has_a_skill
     if assessments.all? { |a| a[:rating] == 0 }
       errors.add(:assessments, "are required")

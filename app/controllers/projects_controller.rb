@@ -58,9 +58,9 @@ class ProjectsController < ApplicationController
       redirect_to @project
     end
 
-    if (params[:pattern_image_id])
-      pattern_image = @project.pattern_images.find(params[:pattern_image_id])
-      pattern_image.purge
+    if (params[:pattern_file_id])
+      pattern_file = @project.pattern_files.find(params[:pattern_file_id])
+      pattern_file.purge
       redirect_to @project
     end
   end
@@ -89,7 +89,7 @@ class ProjectsController < ApplicationController
       :terms_of_use,
       append_crafter_images: [],
       append_project_images: [],
-      append_pattern_images: [],
+      append_pattern_files: [],
       append_material_images: []
     )
   end

@@ -44,10 +44,40 @@ class VolunteersController < ApplicationController
   end
 
 
+  def destroy
+    @volunteer = current_user.volunteer
+    if (params[:finished_project_id])
+      finished_project_image = @volunteer.finished_projects.find(params[:finished_project_id])
+      finished_project_image.purge
+      redirect_to @volunteer
+    end
+  end
+
+
   private
 
   def volunteer_params
-    params.require(:volunteer).permit(:description, :street, :street_2, :city, :state, :country, :postal_code, :picture, :other_skills, :other_favorites, :dislikes, :social_media, :can_publicize, :dominant_hand, :no_smoke, :no_pets, :terms_of_use, product_ids: [], assessments_attributes: [:id, :skill_id, :rating, :description, :user_id])
+    params.require(:volunteer).permit(
+      :description,
+      :street,
+      :street_2,
+      :city,
+      :state,
+      :country,
+      :postal_code,
+      :picture,
+      :other_skills,
+      :other_favorites,
+      :dislikes,
+      :social_media,
+      :can_publicize,
+      :dominant_hand,
+      :no_smoke,
+      :no_pets,
+      :terms_of_use,
+      append_finished_projects: [],
+      product_ids: [],
+      assessments_attributes: [:id, :skill_id, :rating, :description, :user_id])
   end
 
 end

@@ -79,6 +79,14 @@
         <h4>Other Favorites</h4>
         <p><%= @volunteer.other_favorites %></p>
       </div>
+
+      <% @volunteer.finished_projects.each do |image| %>
+        <div class="removeable_image">
+          <%= link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg)) %>
+          <%= button_to fa_icon("trash"), volunteer_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon' %>
+        </div>
+      <% end %>
+
       <hr>
 
       <div class="page-section">

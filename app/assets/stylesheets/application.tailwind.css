@@ -117,6 +117,14 @@
     @apply absolute bottom-0 right-0
   }
 
+  .removeable_file {
+    @apply inline-block relative
+  }
+
+  .removeable_file form {
+    @apply text-xs inline-block
+  }
+
   .table {
     @apply table-auto my-2
   }
