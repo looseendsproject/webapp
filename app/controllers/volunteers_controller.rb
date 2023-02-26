@@ -47,7 +47,7 @@ class VolunteersController < ApplicationController
   private
 
   def volunteer_params
-    params.require(:volunteer).permit(:description, :street, :street_2, :city, :state, :country, :postal_code, :picture, :other_skills, :other_favorites, :dislikes, :social_media, :can_publicize, :no_smoke, :no_pets, product_ids: [], assessments_attributes: [:id, :skill_id, :rating, :description, :user_id])
+    params.require(:volunteer).permit(:description, :street, :street_2, :city, :state, :country, :postal_code, :picture, :other_skills, :other_favorites, :dislikes, :social_media, :can_publicize, :no_smoke, :no_pets, :terms_of_use, product_ids: [], assessments_attributes: [:id, :skill_id, :rating, :description, :user_id])
   end
 
 end
