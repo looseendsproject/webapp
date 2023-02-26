@@ -6,7 +6,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
+    <%= favicon_link_tag asset_path('favicon.png') %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -15,7 +15,7 @@
 
     <%= render 'navigation' %>
 
-    <main class="container mx-auto mt-28 px-5">
+    <main class="container mx-auto mt-12 px-5">
       <%= render 'flash_messages' %>
       <%= yield %>
     </main>

@@ -17,7 +17,11 @@ class VolunteersController < ApplicationController
 
   def edit
     @volunteer = current_user.volunteer
-    @assessments = @volunteer.all_assessments
+    Skill.all.each do |skill|
+      if (!@volunteer.assessments.where(skill_id: skill.id).any?)
+        @volunteer.assessments << Assessment.new(skill_id: skill.id, rating: 0)
+      end
+    end
   end
 
   def create
@@ -26,7 +30,6 @@ class VolunteersController < ApplicationController
     if @volunteer.save
       redirect_to volunteer_path
     else
-      @assessments = @volunteer.all_assessments
       render :new, status: :unprocessable_entity
     end
   end
@@ -36,7 +39,6 @@ class VolunteersController < ApplicationController
     if @volunteer.update(volunteer_params)
       redirect_to volunteer_path
     else
-      @assessments = @volunteer.all_assessments
       render :edit, status: :unprocessable_entity
     end
   end

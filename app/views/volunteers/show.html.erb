@@ -13,7 +13,7 @@
 
 <div class="layout">
   <% if @volunteer %>
-    <div class="layout-aside">
+    <div class="layout-aside mr-6">
       <% if @volunteer.picture.representable? %>
         <%= image_tag @volunteer.picture.representation( resize_to_limit: [300, 300]) %>
       <% end %>
@@ -38,8 +38,8 @@
       <div class="page-section">
         <h4>Skills</h4>
         <ul>
-          <% @volunteer.assessments.each do |assessment| %>
-            <li><%= assessment.skill.name %>: <%= Skill[assessment.rating].to_s.humanize %></li>
+          <% @volunteer.assessments.where(rating: 1..).each do |assessment| %>
+            <li><%= assessment.skill.name %>: <%= Skill[assessment.rating].to_s.humanize %>. <%= assessment.description %> </li>
           <% end %>
         </ul>
       </div>

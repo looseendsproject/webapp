@@ -39,6 +39,9 @@ class CreateProjects < ActiveRecord::Migration[7.0]
       # Share
       t.boolean :can_publicize
 
+      # Terms
+      t.boolean :terms_of_use
+
       t.timestamps
     end
   end

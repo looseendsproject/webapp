@@ -23,12 +23,15 @@ class Volunteer < ApplicationRecord
   validates :city, presence: true
   validates :country, presence: true
   validates :postal_code, presence: true
-  validates :assessments, presence: true
+  validate :has_a_skill
 
-  after_save :trim_assessments
+  validates :terms_of_use, acceptance: true
 
-  def trim_assessments
-    assessments.where(rating: 0).destroy_all
+
+  def has_a_skill
+    if assessments.all? { |a| a[:rating] == 0 }
+      errors.add(:assessments, "are required")
+    end
   end
 
   def approved?
@@ -57,16 +60,6 @@ class Volunteer < ApplicationRecord
 
   def append_finished_images=(attachables)
     finished_images.attach(attachables)
-  end
-
-  def all_assessments
-    all_assessments = self.assessments
-    Skill.all.each do |skill|
-      if all_assessments.where(skill_id: skill.id).none?
-        all_assessments << Assessment.new( {skill_id: skill.id, rating: 0} )
-      end
-    end
-    all_assessments
   end
 
 end

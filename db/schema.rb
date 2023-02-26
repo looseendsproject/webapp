@@ -121,6 +121,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
     t.string "recipient_name"
     t.text "more_details"
     t.boolean "can_publicize"
+    t.boolean "terms_of_use"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
@@ -173,6 +174,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
     t.boolean "can_publicize"
     t.boolean "no_smoke"
     t.boolean "no_pets"
+    t.boolean "terms_of_use"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_volunteers_on_user_id"
