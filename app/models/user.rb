@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :last_name, presence: true
 
   def set_default_role
-    if (User.count == 0)
+    if (User.count < 3)
       self.role = 'admin'
     end
     self.role ||= 'user'

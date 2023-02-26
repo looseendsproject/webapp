@@ -70,7 +70,7 @@
         <%= form.label 'Project Images', class: 'form-label' %>
         <p class="form-info">Please upload photos of the unfinished project.</p>
 
-        <%= form.file_field :append_project_images, class: 'form-input', :multiple => true %>
+        <%= form.file_field :append_project_images, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true %>
         <% form.object.project_images.each do |image| %>
           <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
         <% end %>
@@ -92,7 +92,7 @@
       <div class="form-cell">
         <%= form.label 'Pattern Images', class: 'form-label' %>
         <p class="form-info">Please upload photos of the pattern, if you have them.  </p>
-        <%= form.file_field :append_pattern_images, class: 'form-input', :multiple => true %>
+        <%= form.file_field :append_pattern_images, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true %>
         <% form.object.pattern_images.each do |image| %>
           <%= image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail' %>
         <% end %>
@@ -114,7 +114,7 @@
       <div class="form-cell">
         <%= form.label 'Material Images', class: 'form-label' %>
         <p class="form-info">Please upload a photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.</p>
-        <%= form.file_field :append_material_images, class: 'form-input', :multiple => true %>
+        <%= form.file_field :append_material_images, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true %>
         <% form.object.material_images.each do |image| %>
           <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
         <% end %>
@@ -142,7 +142,7 @@
       <div class="form-cell">
         <%= form.label 'Would you like to share a photo of the original crafter?', class: 'form-label' %>
         <p class="form-info">Please upload photos of the crafter, if you have them.</p>
-        <%= form.file_field :append_crafter_images, class: 'form-input', :multiple => true %>
+        <%= form.file_field :append_crafter_images, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true %>
         <% form.object.crafter_images.each do |image| %>
           <%= image_tag image.representation( resize_to_limit: [100, 100]) %>
         <% end %>

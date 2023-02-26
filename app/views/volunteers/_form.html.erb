@@ -16,7 +16,7 @@
     <% end %>
     <div class="form-cell">
       <%= form.label 'Picture', class: 'form-label' %>
-      <%= form.file_field :picture, class: 'form-input' %>
+      <%= form.file_field :picture, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp" %>
     </div>
   </div>
 
@@ -121,7 +121,7 @@
     <div class="form-cell">
       <%= form.label 'Finished Projects', class: 'form-label' %>
       <p class="form-info">Please upload photos of projects you've done that you like.  </p>
-      <%= form.file_field :append_finished_projects, class: 'form-input', :multiple => true %>
+      <%= form.file_field :append_finished_projects, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp",  :multiple => true %>
       <% form.object.finished_projects.each do |image| %>
         <%= image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail' %>
       <% end %>
