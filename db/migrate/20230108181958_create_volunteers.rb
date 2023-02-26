@@ -21,6 +21,7 @@ class CreateVolunteers < ActiveRecord::Migration[7.0]
       # Skills
       # Skill - talent level 1, 2, 3
       t.text :other_skills
+      t.string :dominant_hand # left or right
 
       # Products
       # Favorite things to make

@@ -24,6 +24,7 @@ class Volunteer < ApplicationRecord
   validates :country, presence: true
   validates :postal_code, presence: true
   validate :has_a_skill
+  validates :dominant_hand, presence: true
 
   validates :terms_of_use, acceptance: true
 
@@ -58,8 +59,8 @@ class Volunteer < ApplicationRecord
     user.name
   end
 
-  def append_finished_images=(attachables)
-    finished_images.attach(attachables)
+  def append_finished_projects=(attachables)
+    finished_projects.attach(attachables)
   end
 
 end

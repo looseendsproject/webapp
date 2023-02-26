@@ -168,6 +168,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
     t.string "country"
     t.string "postal_code"
     t.text "other_skills"
+    t.string "dominant_hand"
     t.text "other_favorites"
     t.text "dislikes"
     t.text "social_media"
