@@ -21,6 +21,7 @@ class Volunteer < ApplicationRecord
   validates :description, presence: true
   validates :street, presence: true
   validates :city, presence: true
+  validates :state, presence: true
   validates :country, presence: true
   validates :postal_code, presence: true
   validate :has_a_skill
@@ -29,7 +30,7 @@ class Volunteer < ApplicationRecord
   validates :terms_of_use, acceptance: true
 
 
-  validates :finished_projects, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 
 
   def has_a_skill

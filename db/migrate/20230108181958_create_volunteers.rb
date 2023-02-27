@@ -36,7 +36,8 @@ class CreateVolunteers < ActiveRecord::Migration[7.0]
 
       # sensitivities
       t.boolean :no_smoke
-      t.boolean :no_pets
+      t.boolean :no_cats
+      t.boolean :no_dogs
 
       # Terms
       t.boolean :terms_of_use

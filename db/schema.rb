@@ -174,7 +174,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
     t.text "social_media"
     t.boolean "can_publicize"
     t.boolean "no_smoke"
-    t.boolean "no_pets"
+    t.boolean "no_cats"
+    t.boolean "no_dogs"
     t.boolean "terms_of_use"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

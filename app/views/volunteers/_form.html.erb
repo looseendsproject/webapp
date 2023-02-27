@@ -3,7 +3,7 @@
 
   <div class="form-group">
     <div class="form-cell">
-    <%= form.label 'Tell us about yourself.', class: 'form-label' %>
+    <%= form.label 'Tell us about yourself.', class: 'form-label required' %>
     <%= form.text_area :description, size: "60x4", class: 'form-input' %>
     </div>
   </div>
@@ -74,7 +74,7 @@
               <div class=" flex">
               <%= assessment_form.hidden_field :skill_id, value: assessment_form.object.skill_id %>
               <%= assessment_form.select :rating, [['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], {}, { class: 'form-input w-1/3' } %>
-              <%= assessment_form.text_field :description, class: 'ml-2 form-input', placeholder: "Tell us more about your #{assessment_form.object.skill.name}" %>
+              <%= assessment_form.text_field :description, class: 'ml-2 form-input', placeholder: "Tell us more..." %>
               </div>
             </li>
           <% end %>
@@ -152,14 +152,15 @@
       <%= form.label 'Sensitivities', class: 'form-label' %>
       <p class='form-info'>If we find out an unfinished project was in a house with a smoker or pets, do you want to avoid this project?</p>
       <label class="form-label"><%= form.check_box :no_smoke %> No smoke, please.</label>
-      <label class='form-label'><%= form.check_box :no_pets %> No pets, please.</label>
+      <label class='form-label'><%= form.check_box :no_cats %> No cats, please.</label>
+      <label class='form-label'><%= form.check_box :no_dogs %> No dogs, please.</label>
     </div>
   </div>
 
   <div class="form-group">
     <div class="form-cell">
       <%= form.label 'Social Media', class: 'form-label' %>
-      <p class='form-info'>Let us know where you are on Social Media if you like!</p>
+      <p class='form-info'>Use this space to share your Ravelry, Instagram or Facebook account (optional).</p>
       <%= form.text_area :social_media, size: "60x2", class: 'form-input' %>
     </div>
   </div>
@@ -168,10 +169,11 @@
   <div class="form-group">
     <div class="form-cell">
 
-      <p class='form-info'>We may have the opportunity to talk about you or a project you're working on on social media.  Would that be OK?</p>
+      <p class='form-info'>Can we post a welcome post about you on our social media? We will use the picture from above.
+        There's no obligation to do this but we'd love to show you off.</p>
       <%= form.label 'can_publicize', class: 'form-label' do %>
         <%= form.check_box :can_publicize %>
-        It's OK to post about me on Social Media!
+        It's OK to post about me on social media!
       <% end %>
     </div>
   </div>

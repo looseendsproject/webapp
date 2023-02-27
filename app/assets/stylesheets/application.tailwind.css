@@ -160,6 +160,10 @@
   footer {
     @apply text-center p-10 mt-10 border-t border-slate-200
   }
+
+  .required:after {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f005";
+  }
 }
 
 div.error_message {
