@@ -17,14 +17,14 @@ class Volunteer < ApplicationRecord
 
   accepts_nested_attributes_for :assessments
 
-  validates :name, presence: true
   validates :description, presence: true
+  validates :picture, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
   validates :street, presence: true
   validates :city, presence: true
   validates :state, presence: true
   validates :country, presence: true
   validates :postal_code, presence: true
-  validate :has_a_skill
+  validate :has_assessed_themselves
   validates :dominant_hand, presence: true
 
   validates :terms_of_use, acceptance: true
@@ -33,7 +33,7 @@ class Volunteer < ApplicationRecord
   validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 
 
-  def has_a_skill
+  def has_assessed_themselves
     if assessments.all? { |a| a[:rating] == 0 }
       errors.add(:assessments, "are required")
     end

@@ -3,7 +3,7 @@
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Give this project a name', class: 'form-label' %>
+      <%= form.label 'Give this project a name', class: 'form-label required' %>
       <%= form.text_field :name, class: 'form-input' %>
     </div>
   </div>
@@ -13,7 +13,7 @@
 
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Street.', class: 'form-label' %>
+        <%= form.label 'Street.', class: 'form-label required' %>
         <%= form.text_field :street, size: "60x2", class: 'form-input' %>
       </div>
     </div>
@@ -25,24 +25,21 @@
       </div>
     </div>
 
-    <div class="form-row lg:w-2/3">
+    <div class="form-row">
       <div class="form-cell">
-        <%= form.label 'City', class: 'form-label' %>
+        <%= form.label 'City', class: 'form-label required' %>
         <%= form.text_field :city, class: 'form-input' %>
       </div>
       <div class="form-cell">
-        <%= form.label 'State', class: 'form-label' %>
+        <%= form.label 'State', class: 'form-label required' %>
         <%= form.text_field :state, class: 'form-input' %>
       </div>
       <div class="form-cell">
-        <%= form.label 'postal_code', class: 'form-label' %>
+        <%= form.label 'postal_code', class: 'form-label required' %>
         <%= form.text_field :postal_code, class: 'form-input' %>
       </div>
-    </div>
-
-    <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'country', class: 'form-label' %>
+        <%= form.label 'country', class: 'form-label required' %>
         <%= form.text_field :country, class: 'form-input' %>
       </div>
     </div>
@@ -52,14 +49,14 @@
 
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'What type of craft project are you submitting?', class: 'form-label' %>
+        <%= form.label 'What type of craft project are you submitting?', class: 'form-label required' %>
         <p class="form-info">Knit, Crochet, Quilt. Do you know what it is?</p>
         <%= form.text_field :craft_type, class: 'form-input w-1/3' %>
       </div>
     </div>
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'What was being made?', class: 'form-label' %>
+        <%= form.label 'What was being made?', class: 'form-label required' %>
         <p class="form-info">(for instance, sweater, socks, blanket, hat...)</p>
         <%= form.text_area :description, size: "60x5", class: 'form-input' %>
       </div>
@@ -83,7 +80,7 @@
     <h4>Pattern</h4>
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Is there a pattern', class: 'form-label' %>
+        <%= form.label 'Is there a pattern', class: 'form-label required' %>
         <%= form.select :has_pattern, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-input w-1/3' } %>
       </div>
     </div>
@@ -107,7 +104,7 @@
     <h4>Material</h4>
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'What kind of yarn / material is used?', class: 'form-label' %>
+        <%= form.label 'What kind of yarn / material is used?', class: 'form-label required' %>
         <p class="form-info">Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). Do you know?</p>
         <%= form.text_field :material_type, class: 'form-input' %>
       </div>
@@ -128,14 +125,14 @@
     <h4>The Crafter</h4>
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Name of deceased or compromised crafter', class: 'form-label' %>
+        <%= form.label 'Name of deceased or compromised crafter', class: 'form-label required' %>
         <%= form.text_field :crafter_name, class: 'form-input' %>
       </div>
     </div>
 
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Please share a little bit about about the crafter who started this project, and your relationship with the person and the things they made.', class: 'form-label' %>
+        <%= form.label 'Please share a little bit about about the crafter who started this project, and your relationship with the person and the things they made.', class: 'form-label required' %>
         <%= form.text_area :crafter_description, size: "60x5", class: 'form-input' %>
       </div>
     </div>
@@ -188,16 +185,10 @@
   <% if !@project.persisted? %>
     <div class="form-group">
       <div class="form-cell">
-
-        <div class="page-section">
-          <h4>We will be very careful!</h4>
-          <p class="form-info">
-            But, accidents happen. By clicking below, you recognize that Loose Ends is not responsible for lost or damaged projects or materials.
-          </p>
-        </div>
-        <%= form.label 'terms_of_use', class: 'form-label' do %>
-          <%= form.check_box :terms_of_use %> I won't hold you liable for any lost or damaged projects or materials.
-        <% end %>
+        <%= form.label 'terms_of_use', class: 'form-label required' %>
+        <label>
+          <%= form.check_box :terms_of_use %> By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
+        </label>
       </div>
     </div>
   <% end %>

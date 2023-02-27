@@ -86,7 +86,7 @@
   }
 
   .form-label {
-    @apply block text-gray-700 text-sm font-bold mb-1 flex items-center
+    @apply block text-gray-700 text-sm font-bold mb-1 items-center
   }
 
   .form-label input {
@@ -162,7 +162,7 @@
   }
 
   .required:after {
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f005";
+    font-family: FontAwesome; font-size: .6rem; content: "\f005"; color: orangered; position: relative; bottom: 4px; left: 2px;
   }
 }
 

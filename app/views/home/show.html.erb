@@ -27,7 +27,7 @@
   <% if current_user %>
     <div class="layout-aside ml-6">
       <div class="page-section">
-        <% if current_user.projects.any? || current_user.volunteer&.projects.any? %>
+        <% if current_user.projects.any? || current_user.volunteer&.projects&.any? %>
           <h4>Your Projects!</h4>
           <% if current_user.projects.any? %>
             <ul>

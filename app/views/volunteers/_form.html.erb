@@ -15,7 +15,7 @@
       </div>
     <% end %>
     <div class="form-cell">
-      <%= form.label 'Picture', class: 'form-label' %>
+      <%= form.label 'Picture', class: 'form-label required' %>
       <%= form.file_field :picture, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp" %>
     </div>
   </div>
@@ -24,7 +24,7 @@
   <h3 class='form-info'>Where will you receive an unfinished project?</h3>
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'Street.', class: 'form-label' %>
+      <%= form.label 'Street', class: 'form-label required' %>
       <%= form.text_field :street, class: 'form-input' %>
     </div>
   </div>
@@ -36,24 +36,21 @@
     </div>
   </div>
 
-  <div class="form-row lg:w-2/3">
+  <div class="form-row">
     <div class="form-cell">
-      <%= form.label 'City', class: 'form-label' %>
+      <%= form.label 'City', class: 'form-label required' %>
       <%= form.text_field :city, class: 'form-input' %>
     </div>
     <div class="form-cell">
-      <%= form.label 'State', class: 'form-label' %>
+      <%= form.label 'State/Province', class: 'form-label required' %>
       <%= form.text_field :state, class: 'form-input' %>
     </div>
     <div class="form-cell">
-      <%= form.label 'postal_code', class: 'form-label' %>
+      <%= form.label 'Postal code', class: 'form-label required' %>
       <%= form.text_field :postal_code, class: 'form-input' %>
     </div>
-  </div>
-
-  <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'country', class: 'form-label' %>
+      <%= form.label 'Country', class: 'form-label required' %>
       <%= form.text_field :country, class: 'form-input' %>
     </div>
   </div>
@@ -62,7 +59,7 @@
   <% if Skill.any? %>
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Skill Assessment', class: 'form-label' %>
+        <%= form.label 'Skill Assessment required', class: 'form-label' %>
         <p class="form-info">Rate yourself and add any other information you like!</p>
         <ul>
           <%= form.fields_for :assessments, @assessments do |assessment_form| %>
@@ -97,7 +94,7 @@
 
   <div class="form-group">
     <div class="form-cell">
-      <%= form.label 'What is your dominant hand?', class: 'form-label' %>
+      <%= form.label 'What is your dominant hand?', class: 'form-label required' %>
       <p class='form-info'>Lefty or Righty?</p>
       <%= form.select :dominant_hand, ['Lefty', 'Righty'], { include_blank: true}, { class: 'form-input w-1/3' } %>
     </div>
@@ -181,16 +178,10 @@
   <% if !@volunteer.persisted? %>
     <div class="form-group">
       <div class="form-cell">
-
-        <div class="page-section">
-          <h4>We will do our best!</h4>
-          <p class="form-info">
-            But, accidents happen.
-          </p>
-        </div>
-        <%= form.label 'terms_of_use', class: 'form-label' do %>
-          <%= form.check_box :terms_of_use %> I won't hold Loose Ends liable for any issues that come up.
-        <% end %>
+        <%= form.label 'terms_of_use', class: 'form-label required' %>
+        <label>
+          <%= form.check_box :terms_of_use %> By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
+        </label>
       </div>
     </div>
   <% end %>
