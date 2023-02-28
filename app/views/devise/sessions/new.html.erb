@@ -10,6 +10,8 @@
   <div class="form-group">
     <%= f.label :password, class: 'form-label' %>
     <%= f.password_field :password, autocomplete: "current-password", class: 'form-input w-2/3 md:w-1/2' %>
+
+    <%= link_to "Lost Password", new_password_path(resource_name) %>
   </div>
 
   <% if devise_mapping.rememberable? %>
@@ -19,6 +21,7 @@
       <% end %>
     </div>
   <% end %>
+
 
   <div class="actions">
     <%= f.submit "Log in", class: "btn-submit" %>
