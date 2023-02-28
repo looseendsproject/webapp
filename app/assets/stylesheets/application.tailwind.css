@@ -66,6 +66,7 @@
   .form-section {
     @apply text-gray-600 text-xl my-1 font-bold
   }
+
   .form-group {
     @apply flex flex-col mb-6
   }
@@ -159,6 +160,22 @@
 
   footer {
     @apply text-center p-10 mt-10 border-t border-slate-200
+  }
+
+  .toggle {
+    @apply bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 border-l border-white
+  }
+
+  .toggle.selected {
+    @apply text-white bg-black
+  }
+
+  .toggle:first-child {
+    @apply border-l-0
+  }
+
+  div.hidden {
+    display: none;
   }
 
   .required:after {

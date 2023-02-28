@@ -12,9 +12,24 @@
     <p class="form-info">After it's finished, we'll send it back here</p>
 
     <div class="form-group">
+      <div class="flex">
+        <button onclick='setCountry("us")' type="button" class="toggle rounded-l <%= 'selected' if form.object.country == 'US' || form.object.country.blank? %>" id='usButton'>US</button>
+        <button onclick='setCountry("ca")' type="button" class="toggle <%= 'selected' if form.object.country == 'CA' %>" id='caButton'>Canada</button>
+        <button onclick='setCountry("ot")' type="button" class="toggle rounded-r <%= 'selected' if form.object.country.present? && form.object.country != 'US' && form.object.country != 'CA' %>" id='otButton'>Not US or Canada</button>
+      </div>
+    </div>
+
+    <div class="form-group hidden" id='country_ui'>
       <div class="form-cell">
-        <%= form.label 'Street.', class: 'form-label required' %>
-        <%= form.text_field :street, size: "60x2", class: 'form-input' %>
+        <%= form.label 'Country', class: 'form-label required' %>
+        <%= form.text_field :country, class: 'form-input' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-cell">
+        <%= form.label 'Street', class: 'form-label required' %>
+        <%= form.text_field :street, class: 'form-input' %>
       </div>
     </div>
 
@@ -30,19 +45,25 @@
         <%= form.label 'City', class: 'form-label required' %>
         <%= form.text_field :city, class: 'form-input' %>
       </div>
-      <div class="form-cell">
+      <div class="form-cell" id='usState'>
         <%= form.label 'State', class: 'form-label required' %>
-        <%= form.text_field :state, class: 'form-input' %>
+        <%= form.select :state, STATES,
+                        { include_blank: true }, { class: 'form-input' } %>
+      </div>
+      <div class="form-cell hidden" id='caState'>
+        <%= form.label 'Province', class: 'form-label required' %>
+        <%= form.select :state, PROVINCES, { include_blank: true }, { class: 'form-input' } %>
+      </div>
+      <div class="form-cell hidden" id='otState'>
+        <%= form.label 'State/Province', class: 'form-label required' %>
+        <%= form.text_field :state, class: 'form-input', id: 'state_ot' %>
       </div>
       <div class="form-cell">
-        <%= form.label 'postal_code', class: 'form-label required' %>
+        <%= form.label 'Postal code', class: 'form-label required' %>
         <%= form.text_field :postal_code, class: 'form-input' %>
       </div>
-      <div class="form-cell">
-        <%= form.label 'country', class: 'form-label required' %>
-        <%= form.text_field :country, class: 'form-input' %>
-      </div>
     </div>
+
   </div>
 
   <div class='page-section'><h4>The Project</h4>
@@ -64,7 +85,7 @@
 
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Project Images', class: 'form-label' %>
+        <%= form.label 'Project Images', class: 'form-label required' %>
         <p class="form-info">Please upload photos of the unfinished project.</p>
 
         <%= form.file_field :append_project_images, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true %>
@@ -198,3 +219,67 @@
     <%= form.submit 'Submit Project', class: "btn-submit" %>
   </div>
 <% end %>
+
+
+<script>
+
+    const prefixes = ['us', 'ca', 'ot']
+
+    const selectButton = (selected) => {
+        prefixes.forEach(p => {
+            const button = document.querySelector(`#${p}Button`)
+            if (selected === p) {
+                button.classList.add('selected')
+            } else {
+                button.classList.remove('selected')
+            }
+        })
+    };
+
+    const showState = (selected) => {
+        prefixes.forEach(p => {
+            const state = document.querySelector(`#${p}State`)
+            if (selected === p) {
+                state.style.display = "block"
+                state.querySelector('select, input').disabled = false;
+            } else {
+                state.style.display = "none"
+                state.querySelector('select, input').disabled = true;
+                state.querySelector('select, input').value = '';
+            }
+        })
+    };
+
+    const showCountry = (selected) => {
+        const countryinput = document.querySelector('#project_country');
+        const countryField = document.querySelector('#country_ui');
+        if (selected === 'us') {
+            countryinput.value = 'US';
+            countryField.style.display = "none"
+        } else if (selected === 'ca') {
+            countryinput.value = 'CA';
+            countryField.style.display = "none"
+        } else {
+            countryinput.value = '';
+            countryField.style.display = "block"
+        }
+    }
+
+    const setCountry = (val) => {
+        console.log('set country')
+        if (prefixes.includes(val)) {
+            selectButton(val);
+            showState(val);
+            showCountry(val);
+        } else if (val) {
+            setCountry('ot')
+        } else {
+            setCountry('us')
+        }
+
+    }
+    document.onload = (() => {
+        setCountry('<%= @project.country.present? ? @project.country&.downcase : '' %>')
+    })()
+
+</script>

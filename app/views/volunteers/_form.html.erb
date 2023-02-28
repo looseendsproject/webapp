@@ -22,6 +22,22 @@
 
   <div class='form-section'>Mailing Address</div>
   <h3 class='form-info'>Where will you receive an unfinished project?</h3>
+
+  <div class="form-group">
+    <div class="flex">
+      <button onclick='setCountry("us")' type="button" class="toggle rounded-l <%= 'selected' if @volunteer.country == 'US' || @volunteer.country.blank? %>" id='usButton'>US</button>
+      <button onclick='setCountry("ca")' type="button" class="toggle <%= 'selected' if @volunteer.country == 'CA' %>" id='caButton'>Canada</button>
+      <button onclick='setCountry("ot")' type="button" class="toggle rounded-r <%= 'selected' if @volunteer.country.present? && @volunteer.country != 'US' && @volunteer.country != 'CA' %>" id='otButton'>Not US or Canada</button>
+    </div>
+  </div>
+
+  <div class="form-group hidden" id='country_ui'>
+    <div class="form-cell">
+      <%= form.label 'Country', class: 'form-label required' %>
+      <%= form.text_field :country, class: 'form-input' %>
+    </div>
+  </div>
+
   <div class="form-group">
     <div class="form-cell">
       <%= form.label 'Street', class: 'form-label required' %>
@@ -41,17 +57,22 @@
       <%= form.label 'City', class: 'form-label required' %>
       <%= form.text_field :city, class: 'form-input' %>
     </div>
-    <div class="form-cell">
+    <div class="form-cell" id='usState'>
+      <%= form.label 'State', class: 'form-label required' %>
+      <%= form.select :state, STATES,
+      { include_blank: true }, { class: 'form-input' } %>
+    </div>
+    <div class="form-cell hidden" id='caState'>
+      <%= form.label 'Province', class: 'form-label required' %>
+      <%= form.select :state, PROVINCES, { include_blank: true }, { class: 'form-input' } %>
+    </div>
+    <div class="form-cell hidden" id='otState'>
       <%= form.label 'State/Province', class: 'form-label required' %>
-      <%= form.text_field :state, class: 'form-input' %>
+      <%= form.text_field :state, class: 'form-input', id: 'state_ot' %>
     </div>
     <div class="form-cell">
       <%= form.label 'Postal code', class: 'form-label required' %>
       <%= form.text_field :postal_code, class: 'form-input' %>
-    </div>
-    <div class="form-cell">
-      <%= form.label 'Country', class: 'form-label required' %>
-      <%= form.text_field :country, class: 'form-input' %>
     </div>
   </div>
 
@@ -59,7 +80,7 @@
   <% if Skill.any? %>
     <div class="form-group">
       <div class="form-cell">
-        <%= form.label 'Skill Assessment required', class: 'form-label' %>
+        <%= form.label 'Skill Assessment', class: 'form-label required' %>
         <p class="form-info">Rate yourself and add any other information you like!</p>
         <ul>
           <%= form.fields_for :assessments, @assessments do |assessment_form| %>
@@ -186,6 +207,68 @@
     </div>
   <% end %>
 
-
   <%= form.submit 'Submit', class: "btn-submit" %>
 <% end %>
+
+<script>
+
+    const prefixes = ['us', 'ca', 'ot']
+
+    const selectButton = (selected) => {
+        prefixes.forEach(p => {
+            const button = document.querySelector(`#${p}Button`)
+            if (selected === p) {
+                button.classList.add('selected')
+            } else {
+                button.classList.remove('selected')
+            }
+        })
+    };
+
+    const showState = (selected) => {
+        prefixes.forEach(p => {
+            const state = document.querySelector(`#${p}State`)
+            if (selected === p) {
+                state.style.display = "block"
+                state.querySelector('select, input').disabled = false;
+            } else {
+                state.style.display = "none"
+                state.querySelector('select, input').disabled = true;
+                state.querySelector('select, input').value = '';
+            }
+        })
+    };
+
+    const showCountry = (selected) => {
+        const countryinput = document.querySelector('#volunteer_country');
+        const countryField = document.querySelector('#country_ui');
+        if (selected === 'us') {
+            countryinput.value = 'US';
+            countryField.style.display = "none"
+        } else if (selected === 'ca') {
+            countryinput.value = 'CA';
+            countryField.style.display = "none"
+        } else {
+            countryinput.value = '';
+            countryField.style.display = "block"
+        }
+    }
+
+    const setCountry = (val) => {
+        console.log('set country')
+        if (prefixes.includes(val)) {
+            selectButton(val);
+            showState(val);
+            showCountry(val);
+        } else if (val) {
+            setCountry('ot')
+        } else {
+            setCountry('us')
+        }
+
+    }
+    document.onload = (() => {
+        setCountry('<%= @volunteer.country.present? ? @volunteer.country&.downcase : '' %>')
+    })()
+
+</script>
