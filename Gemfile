@@ -58,6 +58,8 @@ gem "bootsnap", require: false
 
 # Use Sass to process CSS
 # gem "sassc-rails"
+#
+gem "aws-sdk-s3"
 
 # Validations for uploads
 gem 'active_storage_validations'
