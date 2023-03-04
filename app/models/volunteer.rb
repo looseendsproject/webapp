@@ -17,6 +17,7 @@ class Volunteer < ApplicationRecord
 
   accepts_nested_attributes_for :assessments
 
+  validates :chosen_name, presence: true
   validates :description, presence: true
   validates :picture, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
   validates :street, presence: true

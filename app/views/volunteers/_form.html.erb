@@ -1,6 +1,20 @@
 <%= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form| %>
   <%= render "error_messages", resource: @volunteer %>
 
+
+  <div class="form-row">
+    <div class="form-cell">
+      <%= form.label 'Chosen or Preferred Name', class: 'form-label required' %>
+      <p class="form-info">How would you like to be addressed and introduced?</p>
+      <%= form.text_field :chosen_name, class: 'form-input' %>
+    </div>
+
+    <div class="form-cell">
+      <%= form.label 'Pronouns', class: 'form-label' %>
+      <%= form.text_field :pronouns, class: 'form-input' %>
+    </div>
+  </div>
+
   <div class="form-group">
     <div class="form-cell">
     <%= form.label 'Tell us about yourself.', class: 'form-label required' %>

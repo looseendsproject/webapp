@@ -8,10 +8,11 @@ Skill.create!(
 Product.create!(
   [
     { name: 'Sweaters' },
-    { name: 'Garments' },
+    { name: 'Other Garments' },
     { name: 'Accessories', description: 'e.g. socks, mittens, gloves, scarves' },
     { name: 'Quilts' },
-    { name: 'Blankets', description: 'Knit or crochet' },
+    { name: 'Blankets', description: 'knit or crochet' },
     { name: 'Rugs' },
+    { name: 'Lace' },
   ]
 )

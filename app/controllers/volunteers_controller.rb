@@ -11,7 +11,7 @@ class VolunteersController < ApplicationController
     if current_user.volunteer
       redirect_to edit_volunteer_path
     end
-    @volunteer = Volunteer.new
+    @volunteer = Volunteer.new(chosen_name: current_user.first_name)
     @volunteer.assessments = Skill.all.map { |skill| Assessment.new(skill_id: skill.id, rating: 0)}
   end
 
@@ -58,6 +58,7 @@ class VolunteersController < ApplicationController
 
   def volunteer_params
     params.require(:volunteer).permit(
+      :chosen_name,
       :description,
       :street,
       :street_2,

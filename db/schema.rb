@@ -157,6 +157,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_000000) do
   end
 
   create_table "volunteers", force: :cascade do |t|
+    t.string "chosen_name"
+    t.string "pronouns"
     t.bigint "user_id", null: false
     t.text "description", null: false
     t.text "admin_notes"

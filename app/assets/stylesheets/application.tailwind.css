@@ -71,7 +71,7 @@
     @apply flex flex-col mb-6
   }
   .form-row {
-    @apply flex flex-row mb-6
+    @apply flex flex-row mb-6 items-end
   }
 
   .form-image {

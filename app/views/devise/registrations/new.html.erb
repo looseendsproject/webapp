@@ -5,17 +5,17 @@
 
   <div class="form-row">
     <div class="form-cell">
-      <%= f.label :first_name, class: 'form-label' %>
+      <%= f.label :first_name, class: 'form-label required' %>
       <%= f.text_field :first_name, autofocus: true, autocomplete: "given-name", class: 'form-input' %>
     </div>
     <div class="form-cell">
-      <%= f.label :last_name, class: 'form-label' %>
+      <%= f.label :last_name, class: 'form-label required' %>
       <%= f.text_field :last_name, autocomplete: "family-name", class: 'form-input' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :email, class: 'form-label' %>
+    <%= f.label :email, class: 'form-label required' %>
     <%= f.email_field :email, autocomplete: "email", class: 'form-input' %>
   </div>
 
@@ -27,7 +27,7 @@
 
 
   <div class="form-group">
-    <%= f.label :password, class: 'form-label' %>
+    <%= f.label :password, class: 'form-label required' %>
     <%= f.password_field :password, autocomplete: "new-password", class: 'form-input w-2/3 md:w-1/2' %>
     <% if @minimum_password_length %>
       <div class="form-info">(<%= @minimum_password_length %> characters minimum)</div>
@@ -35,7 +35,7 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :password_confirmation, class: 'form-label' %>
+    <%= f.label :password_confirmation, class: 'form-label required' %>
     <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-input w-2/3 md:w-1/2' %>
   </div>
 
