@@ -1,0 +1,9 @@
+= form_with model: @product, url: admin_product_path(@product) do |form|
+  = render "error_messages", resource: @product
+  .form-group
+    = form.label 'Name'
+    = form.text_field :name, class: 'form-control'
+  .form-group
+    = form.label 'Description'
+    = form.text_area :description, size: "60x10", class: 'form-control'
+  = form.submit class: "btn-submit"

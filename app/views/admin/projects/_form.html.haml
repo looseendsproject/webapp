@@ -1,0 +1,9 @@
+= form_with model: @project, url: admin_project_path(@project), html: { class: 'form' } do |form|
+  = render "error_messages", resource: @project
+  .form-group
+    .form-cell
+      = form.label :status, class: 'form-label'
+      = form.select :status, Project::STATUSES.map{ |status| [status.humanize, status ]}, class: 'form-input'
+  %p.form-info
+    By clicking below, you recognize that Loose Ends is not responsible for lost or damaged projects or materials.
+  = form.submit 'Submit Project', class: "btn-submit"

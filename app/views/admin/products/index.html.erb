@@ -1,7 +1,0 @@
-<%= render 'title', title: 'Products' %>
-<% if current_user %>
-  <%= render 'button_create', label: 'Create Product', path: new_admin_product_path %>
-<% end %>
-<%= render 'table' do %>
-  <%= render @products %>
-<% end %>

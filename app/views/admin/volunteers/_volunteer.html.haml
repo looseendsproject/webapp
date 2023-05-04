@@ -1,0 +1,9 @@
+%tr
+  %td
+    = link_to volunteer.user.name, [:admin, volunteer]
+  %td
+    = link_to volunteer.chosen_name, [:admin, volunteer]
+  %td
+    = volunteer.description
+  %td
+    = link_to volunteer.approved?.to_s, [:edit, :admin, volunteer ]

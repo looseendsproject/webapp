@@ -38,7 +38,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :amazon
+  config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -47,10 +47,6 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
-  #
-  #
-  # Image Processing on Heroku
-  config.active_storage.variant_processor = :mini_magick
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
@@ -67,20 +63,6 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "looseends_production"
 
   config.action_mailer.perform_caching = false
-
-  config.action_mailer.default_url_options = { :host => "www.looseendsproject.net", protocol: 'https'  }
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'looseendsproject.org',
-    user_name:            Rails.application.credentials.dig(:email, :user),
-    password:             Rails.application.credentials.dig(:email, :password),
-    authentication:       'plain',
-    enable_starttls_auto: true,
-    open_timeout:         5,
-    read_timeout:         5 }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

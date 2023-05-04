@@ -1,0 +1,5 @@
+= render 'title', title: 'Manage Volunteers'
+= render 'table' do
+  = render 'table_header', headers: ['Name', 'Description', 'Approved']
+  = render @volunteers
+= will_paginate @volunteers

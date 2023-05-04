@@ -1,0 +1,7 @@
+%h1.page-title
+  = @project.name
+  - if current_user.admin?
+    (#{@project.status.humanize})
+  - if current_user == @project.user
+    = link_to 'Edit Project', [:edit, @project], class: 'action'
+= render 'projects/details'

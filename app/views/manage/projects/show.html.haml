@@ -1,0 +1,6 @@
+= render 'title', title: 'Project'
+= link_to 'Assignments', [:manage, @project, :assignments]
+= render 'section', title: 'Description' do
+  = @project.description
+- @project.images.each do |image|
+  = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))

@@ -1,7 +1,0 @@
-<%= render 'title', title: 'Manage Projects' %>
-<%= render 'table' do %>
-
-  <%= render 'table_header', headers: ['ID', 'Name', 'Description', 'Assigned'] %>
-  <%= render @projects %>
-<% end %>
-<%= will_paginate @projects %>

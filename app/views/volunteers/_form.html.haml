@@ -1,0 +1,204 @@
+= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @volunteer
+  .form-row
+    .form-cell
+      = form.label 'Chosen or Preferred Name', class: 'form-label required'
+      %p.form-info How would you like to be addressed and introduced?
+      = form.text_field :chosen_name, class: 'form-input'
+    .form-cell
+      = form.label 'Pronouns', class: 'form-label'
+      = form.text_field :pronouns, class: 'form-input'
+  .form-group
+    .form-cell
+      = form.label 'Tell us about yourself.', class: 'form-label required'
+      = form.text_area :description, size: "60x4", class: 'form-input'
+  .form-row
+    - if @volunteer.picture.representable?
+      .form-image
+        = image_tag @volunteer.picture.representation( resize_to_limit: [200, 200])
+    .form-cell
+      = form.label 'Picture', class: 'form-label required'
+      = form.file_field :picture, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp"
+  .form-section Mailing Address
+  %h3.form-info Where will you receive an unfinished project?
+  .form-group
+    .flex
+      %button#usButton{:class => "toggle rounded-l #{'selected' if @volunteer.country == 'US' || @volunteer.country.blank?}", :onclick => "setCountry(\"us\")", :type => "button"} US
+      %button#caButton{:class => "toggle #{'selected' if @volunteer.country == 'CA'}", :onclick => "setCountry(\"ca\")", :type => "button"} Canada
+      %button#otButton{:class => "toggle rounded-r #{'selected' if @volunteer.country.present?  @volunteer.country != 'US'  @volunteer.country != 'CA'}", :onclick => "setCountry(\"ot\")", :type => "button"} Not US or Canada
+  #country_ui.form-group.hidden
+    .form-cell
+      = form.label 'Country', class: 'form-label required'
+      = form.text_field :country, class: 'form-input'
+  .form-group
+    .form-cell
+      = form.label 'Street', class: 'form-label required'
+      = form.text_field :street, class: 'form-input'
+  .form-group
+    .form-cell
+      = form.label 'Line 2', class: 'form-label'
+      = form.text_field :street_2, class: 'form-input'
+  .form-row
+    .form-cell
+      = form.label 'City', class: 'form-label required'
+      = form.text_field :city, class: 'form-input'
+    #usState.form-cell
+      = form.label 'State', class: 'form-label required'
+      = form.select :state, STATES,                      |
+        { include_blank: true }, { class: 'form-input' } |
+    #caState.form-cell.hidden
+      = form.label 'Province', class: 'form-label required'
+      = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-input' }
+    #otState.form-cell.hidden
+      = form.label 'State/Province', class: 'form-label required'
+      = form.text_field :state, class: 'form-input', id: 'state_ot'
+    .form-cell
+      = form.label 'Postal code', class: 'form-label required'
+      = form.text_field :postal_code, class: 'form-input'
+  - if Skill.any?
+    .form-group
+      .form-cell
+        = form.label 'Skill Assessment', class: 'form-label required'
+        %p.form-info Rate yourself and add any other information you like!
+        %ul
+          = form.fields_for :assessments, @assessments do |assessment_form|
+            %li.my-2
+              = assessment_form.label assessment_form.object.skill.name, class: 'form-label'
+              - if assessment_form.object.skill.description.present?
+                (
+                - assessment_form.object.skill.description
+                )
+              .flex
+                = assessment_form.hidden_field :skill_id, value: assessment_form.object.skill_id
+                = assessment_form.select :rating, [['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], {}, { class: 'form-input w-1/3' }
+                = assessment_form.text_field :description, class: 'ml-2 form-input', placeholder: "Tell us more..."
+  .form-group
+    .form-cell
+      = form.label 'Other Skills?', class: 'form-label'
+      %p.form-info Are there other crafts you love to do that we should know about?
+      = form.text_area :other_skills, size: "60x2", class: 'form-input'
+  .form-group
+    .form-cell
+      = form.label 'What is your dominant hand?', class: 'form-label required'
+      %p.form-info Lefty or Righty?
+      = form.select :dominant_hand, ['Lefty', 'Righty'], { include_blank: true}, { class: 'form-input w-1/3' }
+  - if Product.any?
+    .form-group
+      .form-cell
+        = form.label 'What do you like to make?', class: 'form-label'
+        = form.collection_check_boxes :product_ids, Product.all, :id, :name do |b|
+          = b.label(class: 'form-label') do
+            = b.check_box
+            = b.object.name
+            - if b.object.description.present?
+              (#{b.object.description})
+  .form-group
+    .form-cell
+      = form.label 'Tell us your favorite thing to make', class: 'form-label'
+      %p.form-info No parent has a favorite child, or do they?
+      = form.text_area :other_favorites, size: "60x2", class: 'form-input'
+  .form-group
+    .form-cell
+      = form.label 'Finished Projects', class: 'form-label'
+      %p.form-info Please upload photos of projects you've done that you like.
+      = form.file_field :append_finished_projects, class: 'form-input', accept: "image/png,image/gif,image/jpeg,image/webp",  :multiple => true
+      - form.object.finished_projects.each do |image|
+        = image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'
+  .form-group
+    .form-cell
+      = form.label 'Never Again!', class: 'form-label'
+      %p.form-info Are there techniques or projects you do not wish to do ever again?
+      = form.text_area :dislikes, size: "60x2", class: 'form-input'
+  .form-group
+    .form-cell
+      = form.label 'Sensitivities', class: 'form-label'
+      %p.form-info If we find out an unfinished project was in a house with a smoker or pets, do you want to avoid this project?
+      %label.form-label
+        = form.check_box :no_smoke
+        No smoke, please.
+      %label.form-label
+        = form.check_box :no_cats
+        No cats, please.
+      %label.form-label
+        = form.check_box :no_dogs
+        No dogs, please.
+  .form-group
+    .form-cell
+      = form.label 'Social Media', class: 'form-label'
+      %p.form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
+      = form.text_area :social_media, size: "60x2", class: 'form-input'
+  .form-group
+    .form-cell
+      %p.form-info
+        Can we post a welcome post about you on our social media? We will use the picture from above.
+        There's no obligation to do this but we'd love to show you off.
+      = form.label 'can_publicize', class: 'form-label' do
+        = form.check_box :can_publicize
+        It's OK to post about me on social media!
+  - if !@volunteer.persisted?
+    .form-group
+      .form-cell
+        = form.label 'terms_of_use', class: 'form-label required'
+        %label
+          = form.check_box :terms_of_use
+          By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
+  = form.submit 'Submit', class: "btn-submit"
+:javascript
+  const prefixes = ['us', 'ca', 'ot']
+
+  const selectButton = (selected) => {
+      prefixes.forEach(p => {
+          const button = document.querySelector(`#${p}Button`)
+          if (selected === p) {
+              button.classList.add('selected')
+          } else {
+              button.classList.remove('selected')
+          }
+      })
+  };
+
+  const showState = (selected) => {
+      prefixes.forEach(p => {
+          const state = document.querySelector(`#${p}State`)
+          if (selected === p) {
+              state.style.display = "block"
+              state.querySelector('select, input').disabled = false;
+          } else {
+              state.style.display = "none"
+              state.querySelector('select, input').disabled = true;
+              state.querySelector('select, input').value = '';
+          }
+      })
+  };
+
+  const showCountry = (selected) => {
+      const countryinput = document.querySelector('#volunteer_country');
+      const countryField = document.querySelector('#country_ui');
+      if (selected === 'us') {
+          countryinput.value = 'US';
+          countryField.style.display = "none"
+      } else if (selected === 'ca') {
+          countryinput.value = 'CA';
+          countryField.style.display = "none"
+      } else {
+          countryinput.value = '';
+          countryField.style.display = "block"
+      }
+  }
+
+  const setCountry = (val) => {
+      console.log('set country')
+      if (prefixes.includes(val)) {
+          selectButton(val);
+          showState(val);
+          showCountry(val);
+      } else if (val) {
+          setCountry('ot')
+      } else {
+          setCountry('us')
+      }
+
+  }
+  document.onload = (() => {
+      setCountry('#{@volunteer.country.present? ? @volunteer.country&.downcase : ''}')
+  })()

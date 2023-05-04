@@ -1,0 +1,36 @@
+.layout
+  .layout-aside.mr-6
+    %p= @project.description
+    - @project.project_images.each do |image|
+      .removeable_image
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        = button_to fa_icon("trash"), project_path(@project, { project_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    %hr/
+    %p= @project.more_details
+  .layout-details
+    %h3.page_section Material Details
+    = @project.material_type
+    - @project.material_images.each do |image|
+      .removeable_image
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    %hr/
+    %h3.page_section Crafter Details
+    = @project.crafter_name
+    = @project.crafter_description
+    - @project.crafter_images.each do |image|
+      .removeable_image
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        = button_to fa_icon("trash"), project_path(@project, { crafter_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    = @project.recipient_name
+    %hr/
+    %h3.page_section Pattern Details
+    %p
+      Is there a pattern? #{@project.has_pattern}
+    - @project.pattern_files.each do |file|
+      .removeable_file
+        = link_to file.blob.filename, url_for(file), { download: true }
+        = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    %hr/
+    %h3.page_section More
+    OK To publicize? #{@project.can_publicize ? 'Yes' : 'No'}

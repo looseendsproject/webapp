@@ -1,0 +1,13 @@
+= render 'table_row' do
+  = render 'table_cell' do
+    = project.id
+  = render 'table_cell' do
+    = link_to(project.name, [:manage, project])
+  = render 'table_cell' do
+    = project.description
+  = render 'table_cell' do
+    - if project.assignments.active.any?
+      - project.assignments.active.each do |assignment|
+        = assignment.user.name
+    - else
+      Unassigned

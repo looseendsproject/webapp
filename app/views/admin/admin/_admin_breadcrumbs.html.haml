@@ -1,0 +1,20 @@
+.breadcrumbs
+  = link_to "Admin", admin_dashboard_path
+  - if controller_name == 'projects'
+    = fa_icon("chevron-right")
+    = link_to_unless_current 'Projects', admin_projects_path
+    - if @project
+      = fa_icon("chevron-right")
+      = link_to_unless_current @project.name, admin_project_path(@project)
+  - if controller_name == 'volunteers'
+    = fa_icon("chevron-right")
+    = link_to_unless_current 'Volunteers', admin_volunteers_path
+    - if @volunteer
+      = fa_icon("chevron-right")
+      = link_to_unless_current @volunteer.name, admin_volunteer_path(@volunteer)
+  - if controller_name == 'users'
+    = fa_icon("chevron-right")
+    = link_to_unless_current 'Users', admin_users_path
+    - if @user
+      = fa_icon("chevron-right")
+      = link_to_unless_current @user.name, admin_user_path(@user)

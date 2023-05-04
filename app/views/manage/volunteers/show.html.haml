@@ -1,0 +1,12 @@
+= render 'title', title: @volunteer.user.name
+- if @volunteer.picture.representable?
+  = image_tag @volunteer.picture.representation( resize_to_limit: [200, 200])
+%p
+  = @volunteer.assignments.count
+  Assignments
+= render 'section', title: 'Description' do
+  = @volunteer.description
+= render 'section', title: 'Contact Info' do
+  = @volunteer.contact_info
+= render 'section', title: 'Availability' do
+  = @volunteer.availability

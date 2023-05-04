@@ -1,0 +1,15 @@
+%tr.table-row
+  %td.table-cell
+    = project.id
+  %td.table-cell
+    = link_to(project.name, [:admin, project])
+  %td
+    = project.status
+  %td.table-cell
+    = project.description
+  %td.table-cell
+    = project.volunteer&.name
+  %td.table-cell
+    = project.city
+    ,
+    \#{project.state}

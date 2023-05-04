@@ -1,7 +1,0 @@
-<%= render 'title', title: 'Skills' %>
-<% if current_user %>
-  <%= render 'button_create', label: 'Create Skill', path: new_admin_skill_path %>
-<% end %>
-<%= render 'table' do %>
-  <%= render @skills %>
-<% end %>

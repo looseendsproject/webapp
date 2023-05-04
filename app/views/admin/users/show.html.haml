@@ -1,0 +1,5 @@
+%h1.page-title
+  = @user.name
+  = link_to 'Edit User', [:edit, :admin, @user], class: 'action'
+%p
+  Admin: #{@user.admin?}
