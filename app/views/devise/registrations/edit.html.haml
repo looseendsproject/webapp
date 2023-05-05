@@ -1,29 +1,33 @@
 = render 'title', title: 'Edit Settings'
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form md:w-2/3 lg:w-1/2 xl:w-1/3' }) do |f|
   = render "devise/shared/error_messages", resource: resource
-  .form-row
-    .form-cell
+  .row
+    .col-2
       = f.label :first_name, class: 'form-label'
-      = f.text_field :first_name, class: 'form-input'
-    .form-cell
+      = f.text_field :first_name, class: 'form-control'
+    .col-2
       = f.label :last_name, class: 'form-label'
-      = f.text_field :last_name, class: 'form-input'
-  .form-group
-    = f.label :email, class: 'form-label'
-    = f.email_field :email, class: 'form-input'
+      = f.text_field :last_name, class: 'form-control'
+  .row.my-3
+    .col-4
+      = f.label :email, class: 'form-label'
+      = f.email_field :email, class: 'form-control'
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     %div
       Currently waiting confirmation for: #{resource.unconfirmed_email}
-  .form-group
-    = f.label :password, class: 'form-label'
-    %p.form-info (leave blank if you don't want to change it)
-    = f.password_field :password, autocomplete: "new-password", class: 'form-input w-2/3 md:w-1/2'
-  .form-group
-    = f.label :password_confirmation, class: 'form-label'
-    = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-input w-2/3 md:w-1/2'
-  .form-group
-    = f.label :current_password, class: 'form-label'
-    %p.form-info (we need your current password to confirm your changes)
-    = f.password_field :current_password, autocomplete: "current-password", class: 'form-input w-2/3 md:w-1/2'
-  .actions
-    = f.submit "Update", class: 'btn-submit'
+  .row.my-3
+    .col-4
+      = f.label :password, class: 'form-label'
+      .form-info (leave blank if you don't want to change it)
+      = f.password_field :password, autocomplete: "new-password", class: 'form-control'
+  .row.my-3
+    .col-4
+      = f.label :password_confirmation, class: 'form-label'
+      = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+  .row.my-3
+    .col-4
+      = f.label :current_password, class: 'form-label'
+      .form-info (we need your current password to confirm your changes)
+      = f.password_field :current_password, autocomplete: "current-password", class: 'form-control'
+  .form-actions
+    = f.submit "Update", class: 'btn btn-primary'

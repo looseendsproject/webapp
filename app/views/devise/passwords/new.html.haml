@@ -1,8 +1,10 @@
 %h1.page-title Forgot your password?
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   = render "error_messages", resource: resource
-  .form-group
-    = f.label :email, class: 'form-label'
-    = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-input w-2/3 md:w-1/2'
-  .actions
-    = f.submit "Send reset password instructions", class: "btn-submit"
+  .row.my-3
+    = f.label :email, class: 'col-form-label col-sm-2'
+    .col-sm-4
+      = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+  .row.form-actions
+    .col.offset-2
+      = f.submit "Send reset password instructions", class: "btn btn-primary"
