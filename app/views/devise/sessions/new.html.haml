@@ -1,5 +1,5 @@
 %h1.page-title Sign in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+= form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false } }) do |f|
   .row.my-3
     = f.label :email, class: 'col-form-label col-sm-2'
     .col-sm-4
