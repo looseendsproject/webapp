@@ -16,7 +16,7 @@
             %button#caButton{:class => "nav-link #{'active' if form.object.country == 'CA'}", :onclick => "setCountry('ca')", :type => "button"} Canada
           %li.nav-item
             %button#otButton{:class => "nav-link #{'active' if form.object.country.present? && form.object.country != 'US' && form.object.country != 'CA'}", :onclick => "setCountry('ot')", :type => "button"} Not US or Canada
-    #country_ui.row
+    #country_ui.row{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CA') }
       .col-4
         = form.label 'Country', class: 'form-label required'
         = form.text_field :country, class: 'form-control'
@@ -32,14 +32,14 @@
       .col-3
         = form.label 'City', class: 'form-label col-2 required'
         = form.text_field :city, class: 'form-control'
-      #usState.col-3
+      #usState.col-3{ class: ("hidden" unless form.object.country == 'US') }
         = form.label 'State', class: 'form-label required'
         = form.select :state, STATES,                      |
           { include_blank: true }, { class: 'form-select' } |
-      #caState.col-3
+      #caState.col-3{ class: ("hidden" unless form.object.country == 'CA') }
         = form.label 'Province', class: 'form-label required'
         = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-select' }
-      #otState.col-3
+      #otState.col-3{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CA') }
         = form.label 'State/Province', class: 'form-label required'
         = form.text_field :state, class: 'form-control', id: 'state_ot'
       .col-2
