@@ -3,5 +3,5 @@
   - if current_user.admin?
     (#{@project.status.humanize})
   - if current_user == @project.user
-    = link_to 'Edit Project', [:edit, @project], class: 'action'
+    = link_to 'Edit Project', [:edit, @project], class: 'btn btn-outline-secondary float-end'
 = render 'projects/details'

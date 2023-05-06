@@ -1,6 +1,10 @@
 = form_with model: @volunteer, url: [:admin, @volunteer] do |form|
   = render "error_messages", resource: @volunteer
-  .form-group
-    = form.label 'Approved'
-    = form.check_box :approved, class: 'form-control'
-  = form.submit class: "btn btn-primary"
+  .row
+    .col
+      = form.label :approved do
+        = form.check_box :approved
+        Approved
+
+  .form-actions
+    = form.submit class: "btn btn-primary"

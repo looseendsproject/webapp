@@ -1,20 +1,32 @@
-.breadcrumbs
-  = link_to "Admin", admin_dashboard_path
+.nav.breadcrumb.my-5
+  = link_to "Admin", admin_dashboard_path, class: 'nav-item'
   - if controller_name == 'projects'
     = fa_icon("chevron-right")
-    = link_to_unless_current 'Projects', admin_projects_path
+    = link_to_unless_current 'Projects', admin_projects_path, class: 'nav-item'
     - if @project
       = fa_icon("chevron-right")
-      = link_to_unless_current @project.name, admin_project_path(@project)
+      = link_to_unless_current @project.name, admin_project_path(@project), class: 'nav-item'
+  - if controller_name == 'products'
+    = fa_icon("chevron-right")
+    = link_to_unless_current 'Products', admin_products_path, class: 'nav-item'
+    - if @project
+      = fa_icon("chevron-right")
+      = link_to_unless_current @product.name, admin_project_path(@product), class: 'nav-item'
+  - if controller_name == 'skills'
+    = fa_icon("chevron-right")
+    = link_to_unless_current 'Skills', admin_projects_path, class: 'nav-item'
+    - if @skill
+      = fa_icon("chevron-right")
+      = link_to_unless_current @skill.name, admin_skills_path(@skill), class: 'nav-item'
   - if controller_name == 'volunteers'
     = fa_icon("chevron-right")
-    = link_to_unless_current 'Volunteers', admin_volunteers_path
+    = link_to_unless_current 'Volunteers', admin_volunteers_path, class: 'nav-item'
     - if @volunteer
       = fa_icon("chevron-right")
-      = link_to_unless_current @volunteer.name, admin_volunteer_path(@volunteer)
+      = link_to_unless_current @volunteer.name, admin_volunteer_path(@volunteer), class: 'nav-item'
   - if controller_name == 'users'
     = fa_icon("chevron-right")
-    = link_to_unless_current 'Users', admin_users_path
+    = link_to_unless_current 'Users', admin_users_path, class: 'nav-item'
     - if @user
       = fa_icon("chevron-right")
-      = link_to_unless_current @user.name, admin_user_path(@user)
+      = link_to_unless_current @user.name, admin_user_path(@user), class: 'nav-item'

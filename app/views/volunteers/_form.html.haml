@@ -211,6 +211,6 @@
       }
 
   }
-  document.onload = (() => {
+  document.addEventListener("turbo:load", () => {
       setCountry('#{@volunteer.country.present? ? @volunteer.country&.downcase : ''}')
-  })()
+  })

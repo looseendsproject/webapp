@@ -2,13 +2,16 @@
   %nav.navbar.navbar-expand-xl
     .container-fluid
       .navbar-header
-        = link_to image_tag('looseendslogo.png', class: 'logo', :height => '48'), root_path
+        = link_to image_tag('looseendslogo.png', class: 'logo mx-3 my-1', :height => '48'), root_path
       %button.navbar-toggler{:type => "button", :data => { :"bs-toggle" => 'collapse', :"bs-target" => '#navbarSupportedContent'}, aria: { controls: 'navbarSupportedContent', expanded: 'false', label: 'Toggle Navigation'}}
         %span.sr-only Toggle navigation
         = fa_icon('bars')
       #navbarSupportedContent.collapse.navbar-collapse
         %ul.nav.navbar-nav.ms-auto.mb-2.mb-lg-0
 
+          - if current_user&.can_manage?
+            %li.nav-item
+              = link_to 'Manage', manage_dashboard_path, class: 'nav-link'
           - if current_user&.admin?
             %li.nav-item
               = link_to 'Admin', admin_dashboard_path, class: 'nav-link'

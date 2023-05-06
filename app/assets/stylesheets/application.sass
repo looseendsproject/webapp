@@ -10,6 +10,26 @@
 .form-info
   font-size: 11px
 
+
+.required:after
+  font-size: 1.2rem
+  content: "*"
+  color: orangered
+  position: relative
+  bottom: 0
+  left: 2px
+  line-height: 1.2
+
+// Breadcrumbs
+
+div.breadcrumb
+  display: flex
+  align-items: center
+  svg
+    height: .7rem
+    margin-left: .5rem
+    margin-right: .5rem
+
 h1
   margin-bottom: 3rem
 
@@ -22,13 +42,3 @@ footer
   border-top: solid 1px #DDD
   padding-top: 2rem
   text-align: center
-
-
-.required:after
-  font-size: 1.2rem
-  content: "*"
-  color: orangered
-  position: relative
-  bottom: 0
-  left: 2px
-  line-height: 1.2

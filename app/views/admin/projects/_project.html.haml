@@ -1,15 +1,20 @@
-%tr.table-row
-  %td.table-cell
-    = project.id
-  %td.table-cell
-    = link_to(project.name, [:admin, project])
-  %td
-    = project.status
-  %td.table-cell
-    = project.description
-  %td.table-cell
-    = project.volunteer&.name
-  %td.table-cell
-    = project.city
-    ,
-    \#{project.state}
+.col-3.my-2.mx-1
+  .card
+
+    - if project.project_images.first&.representable?
+      = image_tag(project.project_images.first.representation( resize_to_limit: [140, 140]), class: 'card-img-top')
+
+    .card-body
+
+      %h6.card-title
+        = project.name
+      .card-text
+        = project.status
+
+        = project.description
+
+        = project.volunteer&.name
+
+    .card-footer
+      #{project.city}, #{project.state}
+

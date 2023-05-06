@@ -194,6 +194,6 @@
       }
 
   }
-  document.onload = (() => {
+  document.addEventListener("turbo:load", () => {
       setCountry('#{@project.country.present? ? @project.country&.downcase : ''}')
-  })()
+  })

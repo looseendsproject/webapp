@@ -1,13 +1,20 @@
-= render 'table_row' do
-  = render 'table_cell' do
-    = project.id
-  = render 'table_cell' do
-    = link_to(project.name, [:manage, project])
-  = render 'table_cell' do
-    = project.description
-  = render 'table_cell' do
-    - if project.assignments.active.any?
-      - project.assignments.active.each do |assignment|
-        = assignment.user.name
-    - else
-      Unassigned
+.col-3.my-2.mx-1
+  .card
+
+    - if project.project_images.first&.representable?
+      = image_tag(project.project_images.first.representation( resize_to_limit: [140, 140]), class: 'card-img-top')
+
+    .card-body
+
+      %h6.card-title
+        = project.name
+      .card-text
+        = project.status
+
+        = project.description
+
+        = project.volunteer&.name
+
+    .card-footer
+      #{project.city}, #{project.state}
+

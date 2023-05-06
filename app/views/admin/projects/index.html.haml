@@ -1,12 +1,6 @@
 = render 'title', title: 'Projects'
 %div
   Status: #{link_to_unless params[:status].nil?, 'All', url_for({ status: nil })} | #{link_to_unless params[:status] == 'active', 'Active', url_for({ status: 'active' })}
-%table.table
-  %tr
-    %th Id
-    %th Name
-    %th Status
-    %th Description
-    %th Volunteer
-    %th Location
+
+.row
   = render @projects

@@ -1,3 +1,10 @@
-= render 'table_row' do
-  = render 'table_cell', content: volunteer.id
-  = render 'table_cell', content: link_to(volunteer.user.name, [:manage, volunteer])
+.col-2
+  .card
+    - if volunteer.picture.representable?
+      = image_tag volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top'
+    .card-body
+      %h6.card-title
+        = link_to volunteer.chosen_name, [:admin, volunteer]
+      = volunteer.description
+    .card-footer
+      #{volunteer.city}, #{volunteer.state}

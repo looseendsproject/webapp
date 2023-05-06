@@ -1,5 +1,6 @@
-= render 'title', title: 'Manage Projects'
-= render 'table' do
-  = render 'table_header', headers: ['ID', 'Name', 'Description', 'Assigned']
+= render 'title', title: 'Projects'
+%div
+  Status: #{link_to_unless params[:status].nil?, 'All', url_for({ status: nil })} | #{link_to_unless params[:status] == 'active', 'Active', url_for({ status: 'active' })}
+
+.row
   = render @projects
-= will_paginate @projects
