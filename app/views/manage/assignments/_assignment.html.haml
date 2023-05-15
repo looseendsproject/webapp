@@ -1,1 +1,8 @@
-= assignment.volunteer.user.name
+.col
+  - if !@project
+    = link_to assignment.project.name, [ :manage, assignment.project ]
+  = link_to 'assigned', [ :manage, assignment ]
+  - if !@volunteer
+    to
+    = link_to assignment.volunteer.user.name, [ :manage, assignment.volunteer ]
+  = l assignment.created_at, format: :short

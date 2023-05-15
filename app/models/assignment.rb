@@ -3,7 +3,7 @@ class Assignment < ApplicationRecord
   belongs_to :volunteer
   belongs_to :user
 
-  has_many :assignment_updates
+  has_many :assignment_updates, dependent: :destroy
 
   def self.active
     self.where(ended_at: nil)

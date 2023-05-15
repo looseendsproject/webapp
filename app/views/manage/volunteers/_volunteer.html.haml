@@ -4,7 +4,7 @@
       = image_tag volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top'
     .card-body
       %h6.card-title
-        = link_to volunteer.chosen_name, [:admin, volunteer]
+        = link_to volunteer.chosen_name, [:manage, volunteer]
       = volunteer.description
     .card-footer
       #{volunteer.city}, #{volunteer.state}

@@ -5,11 +5,14 @@
     = link_to user.name, [:admin, user]
   %td
     = user.email
-  %td
+  %td.text-center
     = user.projects.count
-  %td
+  %td.text-center
     - if user.volunteer?
       = fa_icon('user', class: 'volunteer')
-  %td
+  %td.text-center
+    - if true
+      = fa_icon('gear', class: 'manager')
+  %td.text-center
     - if user.admin?
       = fa_icon('user-secret', class: 'admin')

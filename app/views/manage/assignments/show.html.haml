@@ -1,2 +1,25 @@
-\%h1 Manage::Assignments#show
-\%p Find me in app/views/manage/assignments/show.html.erb
+%h1 Assignment
+%p
+  = link_to @assignment.project.name, [:manage, @assignment.project]
+  assigned to
+  = link_to @assignment.volunteer.name, [:manage, @assignment.volunteer]
+
+.row
+  .col
+    Started:
+    = l(@assignment.started_at, format: :long)
+- if @assignment.ended_at
+  .row
+    .col
+      Ended:
+      = l @assignment.ended_at, format: :long
+
+%h5 Notes
+= form_for [:manage, @assignment, AssignmentUpdate.new], html: { class: 'form', data: { turbo_method: :post, turbo_frame: '_top' } } do |form|
+  = form.text_area :description, :class => "form-control"
+  .form-actions
+    = form.submit "Add Note", :class => "btn btn-primary"
+
+.my-3
+  = render @assignment.assignment_updates.reverse
+

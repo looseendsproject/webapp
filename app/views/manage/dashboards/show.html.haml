@@ -9,6 +9,13 @@
       Approved: #{Volunteer.approved.count}
   .row
     .col-2
+      = link_to 'Assignments', manage_assignments_path
+    .col-2
+      Count: #{Assignment.count}
+    .col-2
+      Active: #{Assignment.active.count}
+  .row
+    .col-2
       = link_to 'Projects', manage_projects_path
     .col-2
       Proposed: #{Project.proposed.count}

@@ -60,6 +60,19 @@ class Project < ApplicationRecord
     where({ status: 'finished' })
   end
 
+  def self.has_status (status_state)
+    where({ status: status_state })
+  end
+
+  def self.has_assigned (assigned_state)
+    if (assigned_state === 'true')
+      joins(:assignments).where({ assignments: { ended_at: nil } })
+    elsif (assigned_state === 'false')
+      joins(:assignments).where.not({ assignments: { ended_at: nil } })
+    end
+  end
+
+
   def append_crafter_images=(attachables)
     crafter_images.attach(attachables)
   end

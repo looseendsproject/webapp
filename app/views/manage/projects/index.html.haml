@@ -1,6 +1,10 @@
 = render 'title', title: 'Projects'
-%div
-  Status: #{link_to_unless params[:status].nil?, 'All', url_for({ status: nil })} | #{link_to_unless params[:status] == 'active', 'Active', url_for({ status: 'active' })}
+.row
+  .col
+    Status: #{link_to_unless params[:status].nil?, 'All', url_for({ status: nil })} | #{link_to_unless params[:status] == 'active', 'Active', url_for({ status: 'active' })}
+.row
+  .col
+    Assigned: #{link_to_unless params[:assigned].nil?, 'All', url_for({ assigned: nil })} | #{link_to_unless params[:assigned] == 'true', 'Assigned', url_for({ assigned: 'true' })} | #{link_to_unless params[:assigned] == 'false', 'Unassigned', url_for({ assigned: 'false' })}
 
 .row
   = render @projects

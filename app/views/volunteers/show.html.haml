@@ -1,8 +1,5 @@
 %h1.page-title
   = @volunteer.name
-  - if current_user.admin?
-    - if @volunteer.approved
-      (Approved)
   - if current_user == @volunteer.user
     = link_to 'Edit Volunteer Profile', [:edit, :volunteer], class: 'btn btn-outline-secondary float-end'
 .layout

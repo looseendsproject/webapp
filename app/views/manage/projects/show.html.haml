@@ -1,6 +1,13 @@
 = render 'title', title: 'Project'
-= link_to 'Assignments', [:manage, @project, :assignments]
-= render 'section', title: 'Description' do
-  = @project.description
-- @project.images.each do |image|
-  = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
+.row
+  .col-3
+    %h3 Description
+    = @project.description
+    %hr
+    - @project.project_images.each do |image|
+      = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
+  .col-9
+    %h3
+      Assignments
+      = link_to 'New Assignment', [:new, :manage, @project, :assignment], class: 'btn btn-outline-secondary float-end'
+    = render @project.assignments

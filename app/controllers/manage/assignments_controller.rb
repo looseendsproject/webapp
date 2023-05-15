@@ -1,18 +1,19 @@
 class Manage::AssignmentsController < Manage::ManageController
 
-  before_action :get_project
+  before_action :get_project, :only => [:new, :create]
 
   def index
-
+    @assignments = Assignment.all
   end
 
   def show
-
+    @assignment = Assignment.find(params[:id])
   end
 
   def create
     @assignment = @project.assignments.new(create_assignment_params)
     @assignment.started_at = DateTime.now
+    @assignment.user = current_user
     if @assignment.save
       redirect_to manage_projects_path(@project)
     else
@@ -22,6 +23,10 @@ class Manage::AssignmentsController < Manage::ManageController
 
   def update
 
+  end
+
+  def new
+    @assignment = @project.assignments.new
   end
 
   protected

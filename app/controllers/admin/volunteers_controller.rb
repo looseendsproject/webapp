@@ -3,11 +3,6 @@ class Admin::VolunteersController < Admin::AdminController
     @volunteers = Volunteer.paginate(page: params[:page])
   end
 
-  def show
-    @volunteer = Volunteer.find(params[:id])
-    render 'volunteers/show'
-  end
-
   def edit
     @volunteer = Volunteer.find(params[:id])
   end

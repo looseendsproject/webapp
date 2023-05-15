@@ -17,11 +17,11 @@ Rails.application.routes.draw do
   namespace :manage do
     root :to => "dashboards#show"
     resource :dashboard
-    resources :assignments do
-      resources :assignment_updates
+    resources :assignments, :only => [:index, :edit, :update, :show, :destroy] do
+      resources :assignment_updates, :only => [:create, :destroy]
     end
     resources :projects do
-      resources :assignments
+      resources :assignments, :only => [:new, :create]
     end
     resources :volunteers
   end

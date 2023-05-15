@@ -13,5 +13,6 @@
   .col-9
     %h3 Queues
     .row
-      = link_to 'Users', admin_users_path
-      (#{User.count})
+      .col
+        = link_to 'Users', admin_users_path
+        (#{User.count})

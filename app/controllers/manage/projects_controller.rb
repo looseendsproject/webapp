@@ -1,6 +1,13 @@
 class Manage::ProjectsController < Manage::ManageController
   def index
-    @projects = Project.paginate(page: params[:page])
+    @projects = Project.all
+    if (params[:status])
+      @projects = @projects.has_status(params[:status])
+    end
+    if (params[:assigned])
+      @projects = @projects.has_assigned(params[:assigned])
+    end
+    @projects = @projects.paginate(page: params[:page])
   end
 
   def show

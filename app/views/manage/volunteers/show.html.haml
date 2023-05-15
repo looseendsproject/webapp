@@ -1,12 +1,70 @@
-= render 'title', title: @volunteer.user.name
-- if @volunteer.picture.representable?
-  = image_tag @volunteer.picture.representation( resize_to_limit: [200, 200])
-%p
-  = @volunteer.assignments.count
-  Assignments
-= render 'section', title: 'Description' do
-  = @volunteer.description
-= render 'section', title: 'Contact Info' do
-  = @volunteer.contact_info
-= render 'section', title: 'Availability' do
-  = @volunteer.availability
+%h1.page-title
+  = @volunteer.name
+  - if @volunteer.approved
+    (Approved)
+.row
+  .col-3
+    - if @volunteer.picture.representable?
+      = image_tag @volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
+    .page-section
+      %h4 Mailing Address
+      %p= @volunteer.street
+      %p= @volunteer.street_2
+      %p
+        = @volunteer.city
+        , #{@volunteer.state} #{@volunteer.postal_code}
+      %p= @volunteer.country
+
+
+  .col-6
+    .page-section
+      %h4 Favorites
+      %ul
+        - @volunteer.favorites.each do |favorite|
+          %li= favorite.product.name
+    %hr/
+    .page-section
+      %h4 Skills
+      %ul
+        - @volunteer.assessments.where(rating: 1..).each do |assessment|
+          %li
+            = assessment.skill.name
+            \: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}
+    %hr/
+    - if @volunteer.no_smoke || @volunteer.no_cats || @volunteer.no_dogs
+      .page-section
+        %h4 Sensitivities
+        %ul
+          - if @volunteer.no_smoke
+            %li No Smoke Please
+          - if @volunteer.no_cats
+            %li No Cats Please
+          - if @volunteer.no_dogs
+            %li No Dogs Please
+      %hr/
+    .page-section
+      %h4 About Me
+      %p= @volunteer.description
+    %hr/
+    .page-section
+      %h4 Other Skills
+      %p= @volunteer.other_skills
+    %hr/
+    .page-section
+      %h4 Other Favorites
+      %p= @volunteer.other_favorites
+    - @volunteer.finished_projects.each do |image|
+      .removeable_image
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        = button_to fa_icon("trash"), volunteer_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    %hr/
+    .page-section
+      %h4 Never Again!
+      %p= @volunteer.dislikes
+    %hr/
+    .page-section
+      %h4 Social Media!
+      %p= @volunteer.social_media
+    %hr/
+  .col-3
+    = render @volunteer.assignments
