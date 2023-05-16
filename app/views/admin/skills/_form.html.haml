@@ -1,9 +1,12 @@
 = form_with model: @skill, url: admin_skills_path(@skill) do |form|
   = render "error_messages", resource: @skill
-  .form-group
-    = form.label 'Name'
-    = form.text_field :name, class: 'form-control'
-  .form-group
-    = form.label 'Description'
-    = form.text_area :description, size: "60x10", class: 'form-control'
-  = form.submit class: "btn btn-primary"
+  .row
+    .col-3
+      = form.label 'Name'
+      = form.text_field :name, class: 'form-control'
+  .row
+    .col-6
+      = form.label 'Description'
+      = form.text_area :description, size: "60x3", class: 'form-control'
+  .form-actions
+    = form.submit class: "btn btn-primary"

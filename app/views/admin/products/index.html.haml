@@ -1,5 +1,5 @@
-= render 'title', title: 'Products'
-- if current_user
-  = render 'button_create', label: 'Create Product', path: new_admin_product_path
-= render 'table' do
+%h1
+  Products
+  = link_to 'New Product', [:new, :admin, :product], class: 'btn btn-outline-secondary float-end'
+%table.table
   = render @products

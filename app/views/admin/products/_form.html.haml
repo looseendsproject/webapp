@@ -1,12 +1,12 @@
 = form_with model: @product, url: [:admin, @product] do |form|
   = render "error_messages", resource: @product
   .row
-    = form.label 'Name'
-    .col-6
+    .col-4
+      = form.label 'Name', :class => 'form-label'
       = form.text_field :name, class: 'form-control'
   .row
-    = form.label 'Description'
     .col-6
+      = form.label 'Description', :class => 'form-label'
       = form.text_area :description, size: "60x3", class: 'form-control'
   .form-actions
     = form.submit class: "btn btn-primary"
