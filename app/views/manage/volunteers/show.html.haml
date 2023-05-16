@@ -2,6 +2,10 @@
   = @volunteer.name
   - if @volunteer.approved
     (Approved)
+
+  = link_to 'Edit Volunteer', [:edit, :manage, @volunteer], class: 'btn btn-outline-secondary float-end'
+
+
 .row
   .col-3
     - if @volunteer.picture.representable?

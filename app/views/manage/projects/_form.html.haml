@@ -1,0 +1,9 @@
+= form_with model: @project, url: manage_project_path(@project), html: { class: 'form' } do |form|
+  = render "error_messages", resource: @project
+  .row
+    .col-4
+      = form.label :status, class: 'form-label'
+      = form.select :status, Project::STATUSES.map{ |status| [status.humanize, status ]}, { }, { class: 'form-select' }
+
+  .form-actions
+    = form.submit 'Submit Project', class: "btn btn-primary"

@@ -7,7 +7,7 @@
     .card-body
 
       %h6.card-title
-        = project.name
+        = link_to project.name, [:manage, project]
       .card-text
         = project.status
 
@@ -15,7 +15,7 @@
 
         = project.volunteer&.name
 
-        = link_to "Manage", [:manage, project]
+
 
     .card-footer
       #{project.city}, #{project.state}

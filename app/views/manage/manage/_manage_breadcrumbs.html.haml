@@ -11,7 +11,10 @@
     = link_to_unless_current 'Assignments', manage_assignments_path, class: 'nav-item'
     - if @assignment
       = fa_icon("chevron-right")
-      = link_to_unless_current "#{@assignment.project.name} to #{@assignment.volunteer.name}", manage_assignment_path(@assignment), class: 'nav-item'
+      - if @assignment.new_record?
+        New Assignment
+      - else
+        = link_to_unless_current "#{@assignment.project.name} to #{@assignment.volunteer.name}", manage_assignment_path(@assignment), class: 'nav-item'
   - if controller_name == 'volunteers'
     = fa_icon("chevron-right")
     = link_to_unless_current 'Volunteers', manage_volunteers_path, class: 'nav-item'

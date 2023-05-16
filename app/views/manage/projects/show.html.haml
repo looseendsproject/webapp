@@ -1,4 +1,10 @@
-= render 'title', title: 'Project'
+%h1
+  = @project.name
+  - if current_user.admin?
+    (#{@project.status.humanize})
+  - if current_user == @project.user
+    = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
+
 .row
   .col-3
     %h3 Description
