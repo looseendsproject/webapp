@@ -15,13 +15,23 @@ class VolunteersController < ApplicationController
     @volunteer.assessments = Skill.all.map { |skill| Assessment.new(skill_id: skill.id, rating: 0)}
   end
 
-  def edit
+  def edit_skills
     @volunteer = current_user.volunteer
     Skill.all.each do |skill|
       if (!@volunteer.assessments.where(skill_id: skill.id).any?)
         @volunteer.assessments << Assessment.new(skill_id: skill.id, rating: 0)
       end
     end
+  end
+
+  def edit_profile
+    @volunteer = current_user.volunteer
+  end
+  def edit_projects
+    @volunteer = current_user.volunteer
+  end
+  def edit_address
+    @volunteer = current_user.volunteer
   end
 
   def create

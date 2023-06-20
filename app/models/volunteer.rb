@@ -18,20 +18,18 @@ class Volunteer < ApplicationRecord
   accepts_nested_attributes_for :assessments
 
   validates :chosen_name, presence: true
-  validates :description, presence: true
-  validates :picture, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
-  validates :street, presence: true
-  validates :city, presence: true
-  validates :state, presence: true
-  validates :country, presence: true
-  validates :postal_code, presence: true
-  validate :has_assessed_themselves
-  validates :dominant_hand, presence: true
-
   validates :terms_of_use, acceptance: true
 
-
-  validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  # validates :description, presence: true
+  # validates :picture, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  # validates :street, presence: true
+  # validates :city, presence: true
+  # validates :state, presence: true
+  # validates :country, presence: true
+  # validates :postal_code, presence: true
+  # validate :has_assessed_themselves
+  # validates :dominant_hand, presence: true
+  # validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 
 
   def has_assessed_themselves
@@ -46,6 +44,20 @@ class Volunteer < ApplicationRecord
 
   def approved
     approved?
+  end
+
+  def missing_information?
+    description.blank? ||
+    street.blank? ||
+    city.blank? ||
+    state.blank? ||
+    country.blank? ||
+    dominant_hand.blank? ||
+    missing_assessments?
+  end
+
+  def missing_assessments?
+    assessments.all? { |a| a[:rating] == 0 }
   end
 
   def approved=(val)

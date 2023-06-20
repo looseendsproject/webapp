@@ -68,7 +68,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { :host => "www.looseendsproject.net", protocol: 'https'  }
+  config.action_mailer.default_url_options = { :host => "app.looseendsproject.org", protocol: 'https'  }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

@@ -9,17 +9,23 @@
       %p
         Or, it can be finished as intended and given back to be cherished.
     .page-section
-      %h4 Join in!
+      %h4 Get Involved!
       %ul.list-unstyled
         %li
           = link_to "Submit a Project", new_project_path, class: 'button-primary'
-        %li
-          = link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary'
+        - if !current_user.volunteer?
+          %li
+            = link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary'
   - if current_user
     .col-3
-      .page-section
-        - if current_user.projects.any? || current_user.volunteer&.projects&.any?
-          %b Your Projects!
+      - if current_user.volunteer?
+        .page-section
+          %b Volunteer
+          %ul.list-unstyled
+            %li= link_to 'View your Profile', :volunteer
+      - if current_user.projects.any? || current_user.volunteer&.projects&.any?
+        .page-section
+          %b Projects
           - if current_user.projects.any?
             %ul.list-unstyled
               - current_user.projects.each do |project|

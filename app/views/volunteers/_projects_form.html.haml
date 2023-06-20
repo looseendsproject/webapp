@@ -1,0 +1,33 @@
+= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @volunteer
+
+  - if Product.any?
+    .row.mb-3
+      .col-12.col-md-9
+        = form.label 'What do you like to make?', class: 'form-label'
+        = form.collection_check_boxes :product_ids, Product.all, :id, :name do |b|
+          .row
+            = b.label(class: 'form-label') do
+              = b.check_box
+              = b.object.name
+              - if b.object.description.present?
+                (#{b.object.description})
+  .row.my-3
+    .col-12.col-md-9
+      = form.label 'Tell us your favorite thing to make', class: 'form-label'
+      .form-info No parent has a favorite child, or do they?
+      = form.text_area :other_favorites, size: "60x3", class: 'form-control'
+  .row.my-3
+    .col-12.col-md-9
+      = form.label 'Finished Projects', class: 'form-label'
+      .form-info Please upload photos of projects you've done that you like.
+      = form.file_field :append_finished_projects, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp",  :multiple => true
+      - form.object.finished_projects.each do |image|
+        = image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'
+  .row.my-3
+    .col-12.col-md-9
+      = form.label 'Never Again!', class: 'form-label'
+      .form-info Are there techniques or projects you do not wish to do ever again?
+      = form.text_area :dislikes, size: "60x3", class: 'form-control'
+  = form.submit 'Submit', class: "btn btn-primary"
+  = link_to "Cancel", :volunteer, class: "btn btn-link"

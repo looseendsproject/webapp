@@ -1,0 +1,47 @@
+= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @volunteer
+  .row.my-3
+    .col-12.col-xl-4.col-lg-5.col-md-6
+      = form.label 'Chosen or preferred Name', class: 'form-label required'
+      = form.text_field :chosen_name, class: 'form-control'
+    .col-12.col-xl-2.col-lg-3.col-md-4
+      = form.label 'Pronouns', class: 'form-label'
+      = form.text_field :pronouns, class: 'form-control'
+  .row.my-3
+    .col-xl-6.col-lg-8.col-md-10
+      = form.label 'Tell us about yourself (required)', class: 'form-label'
+      = form.text_area :description, size: "60x4", class: 'form-control'
+
+  - if @volunteer.picture.representable?
+    .row.my-3
+      .col-xl-6.col-lg-8.col-md-10
+        .form-image
+          = image_tag @volunteer.picture.representation( resize_to_limit: [200, 200])
+  .row.my-3
+    .col-xl-6.col-lg-8.col-md-10
+      = form.label 'Picture (required)', class: 'form-label'
+      = form.file_field :picture, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp"
+  .row.my-3
+    .col-xl-6.col-lg-8.col-md-10
+      = form.label 'Social Media', class: 'form-label'
+      .form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
+      = form.text_area :social_media, size: "60x3", class: 'form-control'
+  .row.my-3
+    .col-xl-6.col-lg-8.col-md-10
+      .form-info
+        Can we post a welcome post about you on our social media? We will use the picture from above.
+        There's no obligation to do this but we'd love to show you off.
+  .row.my-3
+    .col-xl-6.col-lg-8.col-md-10
+      = form.label 'can_publicize', class: 'form-label' do
+        = form.check_box :can_publicize
+        It's OK to post about me on social media!
+  - if !@volunteer.persisted?
+    .row.my-3
+      .col-xl-8.col-md-10
+        = form.label 'terms_of_use', class: 'form-label required'
+        %label
+          = form.check_box :terms_of_use
+          By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
+  = form.submit 'Submit', class: "btn btn-primary"
+  = link_to "Cancel", :volunteer, class: "btn btn-link"

@@ -12,7 +12,14 @@ Rails.application.routes.draw do
   get 'about-us', to: 'home#about-us'
 
   resources :projects
-  resource :volunteer
+  resource :volunteer do
+    member do
+      get 'edit_projects'
+      get 'edit_address'
+      get 'edit_skills'
+      get 'edit_profile'
+    end
+  end
 
   namespace :manage do
     root :to => "dashboards#show"
