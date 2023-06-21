@@ -59,7 +59,7 @@ class VolunteersController < ApplicationController
     if (params[:finished_project_id])
       finished_project_image = @volunteer.finished_projects.find(params[:finished_project_id])
       finished_project_image.purge
-      redirect_to @volunteer
+      redirect_to volunteer_path
     end
   end
 
