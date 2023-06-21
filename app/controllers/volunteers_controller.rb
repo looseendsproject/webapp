@@ -9,7 +9,7 @@ class VolunteersController < ApplicationController
 
   def new
     if current_user.volunteer
-      redirect_to edit_volunteer_path
+      redirect_to edit_profile_volunteer_path
     end
     @volunteer = Volunteer.new(chosen_name: current_user.first_name)
     @volunteer.assessments = Skill.all.map { |skill| Assessment.new(skill_id: skill.id, rating: 0)}

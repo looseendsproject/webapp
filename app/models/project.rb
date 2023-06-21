@@ -14,22 +14,12 @@ class Project < ApplicationRecord
   before_validation :set_default_status
 
 
-  validates :name, presence: true
   validates :status, inclusion: { in: STATUSES }
-
-  validates :description, presence: true
   validates :status, presence: true
-  validates :street, presence: true
-  validates :city, presence: true
-  validates :country, presence: true
-  validates :postal_code, presence: true
+
+  validates :name, presence: true
+  validates :description, presence: true
   validates :craft_type, presence: true
-  validates :has_pattern, presence: true
-  validates :material_type, presence: true
-  validates :crafter_name, presence: true
-  validates :crafter_description, presence: true
-
-
   validates :terms_of_use, acceptance: true
 
   validates :project_images, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]

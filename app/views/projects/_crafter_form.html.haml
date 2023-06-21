@@ -1,0 +1,26 @@
+= form_with model: @project, html: { class: 'form', data: { turbo: false } } do |form|
+  = render "error_messages", resource: @project
+  .page-section
+    %h4 The Crafter
+    .row.mb-2
+      .col-4
+        = form.label 'Name of deceased or compromised crafter', class: 'form-label required'
+        = form.text_field :crafter_name, class: 'form-control'
+    .row.mb-2
+      .col-6
+        = form.label 'Please share a little bit about about the crafter who started this project, and your relationship with the person and the things they made.', class: 'form-label required'
+        = form.text_area :crafter_description, size: "60x5", class: 'form-control'
+    .row.mb-2
+      .col-4
+        = form.label 'Would you like to share a photo of the original crafter?', class: 'form-label'
+        .form-info Please upload photos of the crafter, if you have them.
+        = form.file_field :append_crafter_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
+        - form.object.crafter_images.each do |image|
+          = image_tag image.representation( resize_to_limit: [100, 100])
+    .row.mb-2
+      .col-4
+        = form.label 'recipient_name', class: 'form-label'
+        .form-info Who was this project being made for?
+        = form.text_field :recipient_name, class: 'form-control'
+  .form-actions
+    = form.submit 'Submit Project', class: "btn btn-primary"
