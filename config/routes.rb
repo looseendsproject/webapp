@@ -11,13 +11,20 @@ Rails.application.routes.draw do
 
   get 'about-us', to: 'home#about-us'
 
-  resources :projects
-  resource :volunteer do
+  resources :projects, :except => :edit do
     member do
-      get 'edit_projects'
       get 'edit_address'
-      get 'edit_skills'
+      get 'edit_crafter'
+      get 'edit_details'
+      get 'edit_project'
+    end
+  end
+  resource :volunteer, :except => :edit do
+    member do
+      get 'edit_address'
       get 'edit_profile'
+      get 'edit_projects'
+      get 'edit_skills'
     end
   end
 

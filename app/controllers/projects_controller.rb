@@ -11,7 +11,16 @@ class ProjectsController < ApplicationController
     @project = current_user.projects.find(params[:id])
   end
 
-  def edit
+  def edit_address
+    @project = current_user.projects.find(params[:id])
+  end
+  def edit_details
+    @project = current_user.projects.find(params[:id])
+  end
+  def edit_crafter
+    @project = current_user.projects.find(params[:id])
+  end
+  def edit_project
     @project = current_user.projects.find(params[:id])
   end
 

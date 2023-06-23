@@ -43,3 +43,5 @@
           By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
   .form-actions
     = form.submit 'Submit Project', class: "btn btn-primary"
+    - if @project.persisted?
+      = link_to "Cancel", @project, class: "btn btn-link"

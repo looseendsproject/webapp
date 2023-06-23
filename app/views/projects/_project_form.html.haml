@@ -2,6 +2,20 @@
   = render "error_messages", resource: @project
 
   .page-section
+    %h5 Material
+    .row.mb-2
+      .col-6
+        = form.label 'What kind of yarn / material is used?', class: 'form-label required'
+        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). Do you know?
+        = form.text_field :material_type, class: 'form-control'
+    .row.mb-2
+      .col-4
+        = form.label 'Material Images', class: 'form-label'
+        .form-info Please upload a photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
+        = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
+        - form.object.material_images.each do |image|
+          = image_tag image.representation( resize_to_limit: [100, 100])
+  .page-section
     %h5 Pattern
     .row.mb-2
       .col-2
@@ -16,22 +30,11 @@
           - if file.representable?
             = link_to file.blob.filename, url_for(file)
   .page-section
-    %h5 Material
+    %h5 Other Details
     .row.mb-2
       .col-6
-        = form.label 'What kind of yarn / material is used?', class: 'form-label required'
-        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). Do you know?
-        = form.text_field :material_type, class: 'form-control'
-    .row.mb-2
-      .col-4
-        = form.label 'Material Images', class: 'form-label'
-        .form-info Please upload a photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
-        = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
-        - form.object.material_images.each do |image|
-          = image_tag image.representation( resize_to_limit: [100, 100])
-  .row.mb-2
-    .col-6
-      = form.label 'Are there any other details you can offer, or anything else we should know about this project?', class: 'form-label'
-      = form.text_area :more_details, size: "60x5", class: 'form-control'
+        = form.label 'Are there any other details you can offer, or anything else we should know about finishing this project?', class: 'form-label'
+        = form.text_area :more_details, size: "60x5", class: 'form-control'
   .form-actions
     = form.submit 'Submit Project Details', class: "btn btn-primary"
+    = link_to "Cancel", @project, class: "btn btn-link"

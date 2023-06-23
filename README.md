@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Contributing
+Volunteers are welcome. 
 
-Things you may want to cover:
+## System
+Ruby on Rails 7 running with Postgres DB
 
-* Ruby version
+## Downloading and Installing
+Clone repo from git and start the Rails app as usual: `bin/dev`
 
-* System dependencies
+## Getting development Data
+Data can be pulled from Heroku
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Tests
+Coming soon

@@ -14,8 +14,7 @@
                 (#{b.object.description})
   .row.my-3
     .col-12.col-md-9
-      = form.label 'Tell us your favorite thing to make', class: 'form-label'
-      .form-info No parent has a favorite child, or do they?
+      = form.label 'Do you have favorites?', class: 'form-label'
       = form.text_area :other_favorites, size: "60x3", class: 'form-control'
   .row.my-3
     .col-12.col-md-9
@@ -26,8 +25,8 @@
         = image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'
   .row.my-3
     .col-12.col-md-9
-      = form.label 'Never Again!', class: 'form-label'
-      .form-info Are there techniques or projects you do not wish to do ever again?
+      = form.label 'Please, Never Again!', class: 'form-label'
+      .form-info Are there techniques or projects you would rather avoid?
       = form.text_area :dislikes, size: "60x3", class: 'form-control'
   = form.submit 'Submit', class: "btn btn-primary"
   = link_to "Cancel", :volunteer, class: "btn btn-link"

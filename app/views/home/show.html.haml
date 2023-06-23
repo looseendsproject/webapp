@@ -8,14 +8,15 @@
         Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
       %p
         Or, it can be finished as intended and given back to be cherished.
-    .page-section
-      %h4 Get Involved!
-      %ul.list-unstyled
-        %li
-          = link_to "Submit a Project", new_project_path, class: 'button-primary'
-        - if !current_user.volunteer?
+    - if current_user
+      .page-section
+        %h4 Get Involved!
+        %ul.list-unstyled
           %li
-            = link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary'
+            = link_to "Submit a Project", new_project_path, class: 'button-primary'
+          - if !current_user.volunteer?
+            %li
+              = link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary'
   - if current_user
     .col-3
       - if current_user.volunteer?
