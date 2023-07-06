@@ -1,7 +1,7 @@
-class VolunteersController < ApplicationController
+class VolunteersController < AuthenticatedController
 
   before_action :store_user_location!, if: :storable_location?
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:show]
 
   def show
     @volunteer = current_user.volunteer
