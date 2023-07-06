@@ -42,7 +42,8 @@
         = form.label 'Postal code', class: 'form-label required'
         = form.text_field :postal_code, class: 'form-control'
   .form-actions
-    = form.submit 'Submit Project', class: "btn btn-primary"
+    = form.submit 'Submit Address', class: "btn btn-primary"
+    = link_to "Cancel", @project, class: "btn btn-link"
 
 :javascript
   const prefixes = ['us', 'ca', 'ot']

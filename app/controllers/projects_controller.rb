@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
   def edit_address
     @project = current_user.projects.find(params[:id])
   end
-  def edit_details
+  def edit_basics
     @project = current_user.projects.find(params[:id])
   end
   def edit_crafter

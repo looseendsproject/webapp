@@ -12,16 +12,45 @@
     %h4
       .row
         .col-9
+          Mailing Address
+        .col-3
+          = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
+    - if @project.missing_address_information?
+      %p.text-primary You must enter a complete mailing address to receive projects.
+    - if @project.street.present?
+      .row
+        .col-12= @project.street
+    - if @project.street_2.present?
+      .row
+        .col= @project.street_2
+
+    - if @project.city.present?
+      .row
+        .col
+          #{@project.city}, #{@project.state} #{@project.postal_code}
+    - if @project.state.present? && @project.country.present?
+      .row
+        .col= @project.country
+    %hr/
+
+    %h4
+      .row
+        .col-9
           Material Details
         .col-3
-          = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
+          = link_to 'Edit', [:edit_basics, @project], class: 'btn btn-link float-end btn-sm'
     = @project.material_type
     - @project.material_images.each do |image|
       .removeable_image
         = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
         = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %hr/
-    %h3.page_section Pattern Details
+    %h4
+      .row
+        .col-9
+          Pattern Details
+        .col-3
+          = link_to 'Edit', [:edit_basics, @project], class: 'btn btn-link float-end btn-sm'
     %p
       Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
@@ -29,8 +58,13 @@
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %hr/
-    %h3.page_section
-      Crafter Details
+    %h4
+      .row
+        .col-9
+          Crafter Details
+        .col-3
+          = link_to 'Edit', [:edit_crafter, @project], class: 'btn btn-link float-end btn-sm'
+
     = @project.crafter_name
     = @project.crafter_description
     - @project.crafter_images.each do |image|

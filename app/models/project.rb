@@ -63,6 +63,18 @@ class Project < ApplicationRecord
   end
 
 
+  def missing_information?
+    description.blank? || missing_address_information?
+  end
+
+  def missing_address_information?
+    street.blank? ||
+    city.blank? ||
+    state.blank? ||
+    country.blank? ||
+    postal_code.blank?
+  end
+
   def append_crafter_images=(attachables)
     crafter_images.attach(attachables)
   end

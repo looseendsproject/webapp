@@ -23,4 +23,5 @@
         .form-info Who was this project being made for?
         = form.text_field :recipient_name, class: 'form-control'
   .form-actions
-    = form.submit 'Submit Project', class: "btn btn-primary"
+    = form.submit 'Submit Crafter Details', class: "btn btn-primary"
+    = link_to "Cancel", @project, class: "btn btn-link"

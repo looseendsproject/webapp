@@ -13,16 +13,16 @@ Rails.application.routes.draw do
 
   resources :projects, :except => :edit do
     member do
+      get 'edit_basics'
+      get 'edit_project'
       get 'edit_address'
       get 'edit_crafter'
-      get 'edit_details'
-      get 'edit_project'
     end
   end
   resource :volunteer, :except => :edit do
     member do
-      get 'edit_address'
       get 'edit_profile'
+      get 'edit_address'
       get 'edit_projects'
       get 'edit_skills'
     end
