@@ -31,7 +31,7 @@
         .col-3
           = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
     - if @project.missing_address_information?
-      %p.text-primary You must enter a complete mailing address to receive projects.
+      %p.text-primary Please enter your mailing address.
     - if @project.street.present?
       .row
         .col-12= @project.street
@@ -54,6 +54,10 @@
           Material Details
         .col-3
           = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
+    - if !@project.material_type.present? || @project.material_images.present?
+      %p
+        Tell us about the material
+
     = @project.material_type
     - @project.material_images.each do |image|
       .removeable_image
@@ -76,7 +80,9 @@
           Crafter Details
         .col-3
           = link_to 'Edit', [:edit_crafter, @project], class: 'btn btn-link float-end btn-sm'
-
+    - if !@project.crafter_name.present? && (!@project.crafter_description.present? || !@project.crafter_images.present?)
+      %p
+        We'd love to know more about the crafter
     = @project.crafter_name
     = @project.crafter_description
     - @project.crafter_images.each do |image|
@@ -86,5 +92,5 @@
     = @project.recipient_name
     %hr/
     %h3.page_section More
-    OK To talk about this publicly? #{@project.can_publicize ? 'Yes' : 'No'}
+    OK To talk about this publicly? #{@project.can_publicize ? fa_icon(:check) : 'No'}
 
