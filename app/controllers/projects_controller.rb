@@ -1,27 +1,27 @@
 class ProjectsController < AuthenticatedController
 
   before_action :store_user_location!, if: :storable_location?
-  before_action :authenticate_user!, except: [:index, :show]
 
-  def index
-    @projects = current_user.projects
-  end
+  before_action :get_project, :only => [
+    :show,
+    :edit_address,
+    :edit_basics,
+    :edit_crafter,
+    :edit_project,
+    :update,
+    :destroy
+  ]
 
   def show
-    @project = current_user.projects.find(params[:id])
   end
 
   def edit_address
-    @project = current_user.projects.find(params[:id])
   end
   def edit_basics
-    @project = current_user.projects.find(params[:id])
   end
   def edit_crafter
-    @project = current_user.projects.find(params[:id])
   end
   def edit_project
-    @project = current_user.projects.find(params[:id])
   end
 
   def new
@@ -39,7 +39,6 @@ class ProjectsController < AuthenticatedController
   end
 
   def update
-    @project = current_user.projects.find(params[:id])
     if @project.update(project_params)
       redirect_to @project
     else
@@ -48,7 +47,6 @@ class ProjectsController < AuthenticatedController
   end
 
   def destroy
-    @project = Project.find(params[:id])
     if (params[:project_image_id])
       project_image = @project.project_images.find(params[:project_image_id])
       project_image.purge
@@ -101,6 +99,11 @@ class ProjectsController < AuthenticatedController
       append_pattern_files: [],
       append_material_images: []
     )
+  end
+
+  def get_project
+    @project = current_user.projects.find_by_id(params[:id])
+    redirect_to :root if !@project
   end
 
 
