@@ -1,58 +1,13 @@
-# .github/workflows/.tests.yml
-name: CI
-on: [pull_request]
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push]
 jobs:
-  install-cache:
+  check-bats-version:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v3
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          bundler-cache: true
-  tests:
-    runs-on: ubuntu-latest
-    needs: install-cache
-    timeout-minutes: 10
-    services:
-      postgres:
-        image: postgres
-        ports: ["5432:5432"]
-        env:
-          POSTGRES_USER: looseends
-          POSTGRES_DB: looseends_test
-          POSTGRES_PASSWORD: ""
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-#      redis:
-#        image: redis
-#        ports:
-#          - "6379:6379"
-    steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v3
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-          cache: yarn
-      - name: Install packages
-        run: |
-          yarn install --pure-lockfile
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: looseends
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: |
-          bin/rails db:setup
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
