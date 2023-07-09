@@ -23,7 +23,7 @@ jobs:
         env:
           POSTGRES_USER: looseends
           POSTGRES_DB: looseends_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: "password"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
