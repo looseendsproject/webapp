@@ -29,10 +29,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-#      redis:
-#        image: redis
-#        ports:
-#          - "6379:6379"
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v3
@@ -57,3 +53,4 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bin/rails db:setup
+          bin/rails test
