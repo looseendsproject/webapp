@@ -41,6 +41,9 @@ jobs:
         with:
           node-version: 18
           cache: yarn
+      - name: Bundle install
+        run: |
+          bundle install
       - name: Install packages
         run: |
           yarn install --pure-lockfile
