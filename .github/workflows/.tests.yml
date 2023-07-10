@@ -45,7 +45,7 @@ jobs:
         run: |
           bundle install
       - name: Install packages
-        run: yarn install --check-files
+        run: yarn install --force
       - name: Run tests
         env:
           RAILS_ENV: test
