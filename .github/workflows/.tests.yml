@@ -21,8 +21,8 @@ jobs:
         image: postgres
         ports: ["5432:5432"]
         env:
-          POSTGRES_USER: looseends
-          POSTGRES_DB: looseends_test
+          POSTGRES_USER: myapp
+          POSTGRES_DB: myapp_test
           POSTGRES_PASSWORD: password
         options: >-
           --health-cmd pg_isready
@@ -46,11 +46,15 @@ jobs:
           bundle install
       - name: Install packages
         run: yarn install --force
+      - name: Yarn Build Javascript
+        run: yarn build
+      - name: Yarn Build CSS
+        run: yarn build:css
       - name: Run tests
         env:
           RAILS_ENV: test
           PGHOST: localhost
-          PGUSER: looseends
+          PGUSER: myapp
           PGPASSWORD: password
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
