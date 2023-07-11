@@ -55,4 +55,4 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bin/rails db:setup
-          bin/rake --load-path=node_modules
+          bin/rake
