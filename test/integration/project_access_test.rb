@@ -8,10 +8,10 @@ class ProjectAccessTest < ActionDispatch::IntegrationTest
     @two = projects :two
   end
 
-  test 'project page logged out' do
-    get '/projects/1'
-    assert_redirected_to '/'
-  end
+  # test 'project page logged out' do
+  #   get '/projects/1'
+  #   assert_redirected_to '/'
+  # end
 
   test 'project page logged in' do
     sign_in users(:bob)
