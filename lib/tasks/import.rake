@@ -60,7 +60,7 @@ namespace :import do
 
     worksheet_header, *worksheet_body = worksheet.rows
 
-    worksheet_body.first(30).each do |row|
+    worksheet_body.each do |row|
       id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone, active, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
       if (id.length > 0)
         User.where(email: email.downcase).destroy_all
