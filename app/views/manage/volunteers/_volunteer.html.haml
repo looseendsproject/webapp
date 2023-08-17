@@ -5,6 +5,7 @@
     .card-body
       %h6.card-title
         = link_to volunteer.chosen_name, [:manage, volunteer]
+      = l(volunteer.joined_on) if volunteer.joined_on
       = volunteer.description
     .card-footer
       #{volunteer.city}, #{volunteer.state}
