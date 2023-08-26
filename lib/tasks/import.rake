@@ -11,10 +11,17 @@ namespace :import do
     spinning = Skill.find_or_create_by(name: 'Spinning')
     rug_hooking = Skill.find_or_create_by(name: 'Rug Hooking')
     punch_needle = Skill.find_or_create_by(name: 'Punch Needle')
-    tunisian_crochet = Skill.find_or_create_by(name: 'Tunisian crochet')
+    tunisian_crochet = Skill.find_or_create_by(name: 'Tunisian Crochet')
     latch_hook = Skill.find_or_create_by(name: 'Latch Hook')
     embroidery = Skill.find_or_create_by(name: 'Embroidery')
     weaving = Skill.find_or_create_by(name: 'Weaving')
+    tatting = Skill.find_or_create_by(name: 'Tatting')
+    mending = Skill.find_or_create_by(name: 'Mending')
+    crewel = Skill.find_or_create_by(name: 'Crewel')
+    knit_mending = Skill.find_or_create_by(name: 'Knit Mending')
+    crochet_mending = Skill.find_or_create_by(name: 'Crochet Mending')
+    sewing_mending = Skill.find_or_create_by(name: 'Sewing Mending')
+
 
     db_skills = {
       knit: knitting,
@@ -29,7 +36,13 @@ namespace :import do
       tunisian: tunisian_crochet,
       latch: latch_hook,
       embroidery: embroidery,
-      weav: weaving
+      weav: weaving,
+      tatting: tatting,
+      mending: mending,
+      crewel: crewel,
+      'knit mending': knit_mending,
+      'crochet mending': crochet_mending,
+      'sewing mending': sewing_mending
     }
 
     sweaters = Product.find_or_create_by(name: "Sweaters")
@@ -40,12 +53,12 @@ namespace :import do
     rugs = Product.find_or_create_by(name: "Rugs")
 
     db_products = {
-      sweaters: sweaters,
-      garments: garments,
-      accessories: accessories,
-      quilts: quilts,
-      blankets: blankets,
-      rugs: rugs
+      sweater: sweaters,
+      garment: garments,
+      accessor: accessories,
+      quilt: quilts,
+      blanket: blankets,
+      rug: rugs
     }
 
 
@@ -53,8 +66,8 @@ namespace :import do
     session = GoogleDrive::Session.from_service_account_key(StringIO.new(
       JSON.generate(account_key)
     ))
-    spreadsheet = session.spreadsheet_by_title("MEGA Finisher SPREADSHEET")
-    worksheet = spreadsheet.worksheets.fourth
+    spreadsheet = session.spreadsheet_by_title("MegaSheet for Shobana Only")
+    worksheet = spreadsheet.worksheets.first
 
     puts worksheet.title
 

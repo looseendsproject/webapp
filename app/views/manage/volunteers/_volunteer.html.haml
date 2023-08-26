@@ -1,11 +1,20 @@
 .col-2
-  .card
+  .card.mb-4
     - if volunteer.picture.representable?
-      = image_tag volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top'
+      = image_tag volunteer.picture.representation( resize_to_limit: [200, 200]), class: 'card-img-top'
+    - else
+      = image_tag 'volunteer.png', class: 'card-img-top'
     .card-body
       %h6.card-title
         = link_to volunteer.chosen_name, [:manage, volunteer]
-      = l(volunteer.joined_on) if volunteer.joined_on
-      = volunteer.description
+      .since
+        %b Since:
+        = l(volunteer.joined_on) if volunteer.joined_on
+      .skills
+        %b Skills:
+        = volunteer.skills.map{|skill| skill.name}.join(', ')
+      .products
+        %b Products:
+        = volunteer.products.map{|fav| fav.name}.join(', ')
     .card-footer
       #{volunteer.city}, #{volunteer.state}

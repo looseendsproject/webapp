@@ -1,6 +1,6 @@
 class Manage::VolunteersController < Manage::ManageController
   def index
-    @volunteers = Volunteer.paginate(page: params[:page])
+    @volunteers = Volunteer.search(params).paginate(page: params[:page])
   end
 
   def show

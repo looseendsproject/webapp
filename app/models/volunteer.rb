@@ -37,6 +37,20 @@ class Volunteer < ApplicationRecord
     description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments?
   end
 
+  def self.search(params)
+    @results = self.all
+    if params[:search].present?
+      @results = @results.where("volunteers.chosen_name iLIKE :name OR volunteers.description ~* :desc", { name: "#{params[:search]}%", desc: "\\y#{params[:search]}\\y" })
+    end
+    if params[:product_id].present?
+      @results = @results.joins(:favorites).where(:favorites => { product_id: params[:product_id]})
+    end
+    if params[:skill_id].present?
+      @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id]})
+    end
+    return @results
+  end
+
   def missing_address_information?
     street.blank? ||
     city.blank? ||
