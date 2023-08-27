@@ -11,7 +11,7 @@
     - if user.volunteer?
       = fa_icon('user', class: 'volunteer')
   %td.text-center
-    - if true
+    - if user.manager?
       = fa_icon('gear', class: 'manager')
   %td.text-center
     - if user.admin?

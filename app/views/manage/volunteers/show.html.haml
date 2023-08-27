@@ -1,5 +1,6 @@
 %h1.page-title
   = @volunteer.name
+
   - if @volunteer.approved
     (Approved)
 
@@ -8,6 +9,13 @@
 
 .row
   .col-3
+    %div
+      Dominant Hand:
+      = @volunteer.dominant_hand
+    %div
+      Since:
+      = @volunteer.joined_on
+
     - if @volunteer.picture.representable?
       = image_tag @volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
     .page-section

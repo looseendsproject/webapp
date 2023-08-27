@@ -9,8 +9,8 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: ROLES }
   before_validation :set_default_role
 
-  has_many :projects
-  has_one :volunteer
+  has_many :projects, dependent: :destroy
+  has_one :volunteer, dependent: :destroy
 
   validates :first_name, presence: true
   validates :last_name, presence: true
