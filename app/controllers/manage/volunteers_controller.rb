@@ -14,7 +14,7 @@ class Manage::VolunteersController < Manage::ManageController
   def update
     @volunteer = Volunteer.find(params[:id])
     if @volunteer.update(volunteer_params)
-      redirect_to volunteer_path
+      redirect_to [:manage, @volunteer]
     else
       render :edit, status: :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class Manage::VolunteersController < Manage::ManageController
 
 
   def volunteer_params
-    params.require(:volunteer).permit(:admin_notes)
+    params.require(:volunteer).permit(:admin_notes, :approved)
   end
 
 end
