@@ -1,15 +1,6 @@
 = render 'title', title: 'Volunteers'
 
-= form_tag manage_volunteers_path, :method => :get, class: 'row mb-4' do
-  = label_tag :search, "Search", class: 'label'
-  .col
-    = text_field_tag :search, params[:search], class: 'form-control'
-  .col
-    = select_tag :skill_id, options_from_collection_for_select(Skill.all, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
-  .col
-    = select_tag :product_id, options_from_collection_for_select(Product.all, "id", "name", params[:product_id]), include_blank: true, class: 'form-select'
-  .col
-    = submit_tag "Search", name: nil, class: 'btn btn-primary'
+= render 'search'
 
 .row
   .col= pluralize @volunteers.total_entries, 'volunteer'

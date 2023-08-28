@@ -92,7 +92,7 @@ namespace :import do
         volunteer = Volunteer.create({
                   joined_on: joined_on,
                   user_id: user.id,
-                  chosen_name: first_name,
+                  chosen_name: first_name + ' ' + last_name,
                   pronouns: pronouns,
                   description: description + "\n\n" + skills + "\n\n" + skill_level + "\n\n" + products,
                   street: street,
