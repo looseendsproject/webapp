@@ -6,10 +6,7 @@
       = image_tag 'volunteer.png', class: 'card-img-top'
     .card-body
       %h6.card-title.row.align-items-center
-        .col-6= link_to volunteer.chosen_name, [:manage, volunteer]
-        .col-6.text-end
-          %button.btn.btn-link.p-0{"data-bs-target" => "##{dom_id(volunteer)}", "data-bs-toggle" => "modal", type: "button"}
-            = fa_icon('comment')
+        = link_to volunteer.chosen_name, [:manage, volunteer]
       .since
         %b Since:
         = l(volunteer.joined_on) if volunteer.joined_on
@@ -17,7 +14,11 @@
         %b Skills:
         = volunteer.skills.map{|skill| skill.name}.join(', ')
       .favorites
-        %b Favorites:
+        .row
+          %b.col-10 Favorites:
+          .col-2
+            %button.btn.btn-link.p-0{"data-bs-target" => "##{dom_id(volunteer)}", "data-bs-toggle" => "modal", type: "button"}
+              = fa_icon('comment')
         = volunteer.products.map{|fav| fav.name}.join(', ')
 
     .card-footer
@@ -27,10 +28,13 @@
     .modal-dialog
       .modal-content
         .modal-header
-          %h5#exampleModalLabel.modal-title
-            =volunteer.chosen_name
+          .row
+            .col-12
+              %b
+                = volunteer.chosen_name
+
+              #{volunteer.city}, #{volunteer.state}
+
           %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
         .modal-body
           = volunteer.description
-        .modal-footer
-          %button.btn.btn-secondary{"data-bs-dismiss" => "modal", type: "button"} Close
