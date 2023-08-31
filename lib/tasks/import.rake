@@ -97,7 +97,7 @@ namespace :import do
                   description: description + "\n\n" + skills + "\n\n" + skill_level + "\n\n" + products,
                   street: street,
                   city: city ? city.strip : '',
-                  state: state ? (state.length == 2) ? state.upcase : state.strip : '',
+                  state: state ? (state.strip.length == 2) ? state.strip.upcase : state.strip : '',
                   country: country ? country.strip : '',
                   postal_code: postal_code ? postal_code.strip : '',
                   dominant_hand: dominant_hand,
