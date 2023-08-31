@@ -1,6 +1,17 @@
 class Manage::VolunteersController < Manage::ManageController
   def index
     @volunteers = Volunteer.search(params).paginate(page: params[:page])
+    @stateQuery = Volunteer.where.not(state: "").order(:state)
+    if params[:country].present?
+      @stateQuery = @stateQuery.where(country: params[:country])
+    end
+    @countryQuery = Volunteer.where.not(country: "").order(:country)
+    if params[:state].present?
+      @countryQuery = @countryQuery.where(state: params[:state])
+    end
+    @states = @stateQuery.pluck(:state).uniq
+    @countries = @countryQuery.pluck(:country).uniq
+
   end
 
   def show

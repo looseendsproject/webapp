@@ -51,6 +51,9 @@ class Volunteer < ApplicationRecord
     if params[:state].present?
       @results = @results.where(:state => params[:state])
     end
+    if params[:country].present?
+      @results = @results.where(:country => params[:country])
+    end
     return @results
   end
 
