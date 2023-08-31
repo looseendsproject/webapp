@@ -7,4 +7,6 @@
   .col
     = select_tag :product_id, options_from_collection_for_select(Product.all, "id", "name", params[:product_id]), include_blank: true, class: 'form-select'
   .col
+    = select_tag :state, options_for_select(Volunteer.where.not(state: "").order(:state).pluck(:state).uniq, params[:state]), include_blank: true, class: 'form-select'
+  .col
     = submit_tag "Search", name: nil, class: 'btn btn-primary'
