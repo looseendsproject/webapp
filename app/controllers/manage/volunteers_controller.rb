@@ -1,11 +1,11 @@
 class Manage::VolunteersController < Manage::ManageController
   def index
     @volunteers = Volunteer.search(params).paginate(page: params[:page])
-    @stateQuery = Volunteer.where.not(state: "").order(:state)
+    @stateQuery = Volunteer.where.not(state: "").order(:state).load_async
     if params[:country].present?
       @stateQuery = @stateQuery.where(country: params[:country])
     end
-    @countryQuery = Volunteer.where.not(country: "").order(:country)
+    @countryQuery = Volunteer.where.not(country: "").order(:country).load_async
     if params[:state].present?
       @countryQuery = @countryQuery.where(state: params[:state])
     end
