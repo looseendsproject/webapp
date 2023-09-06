@@ -87,7 +87,7 @@ namespace :import do
                            })
 
         m, d, y = ts.split(' ')[0].split('/')
-        joined_on = Date.new((y.to_i + 2000), m.to_i, d.to_i)
+        joined_on = Date.new(y.to_i, m.to_i, d.to_i)
 
         volunteer = Volunteer.create({
                   joined_on: joined_on,
