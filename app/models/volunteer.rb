@@ -38,13 +38,13 @@ class Volunteer < ApplicationRecord
   end
 
   def self.search(params)
-    @results = self.all.includes(:products, :skills).with_attached_picture
+    @results = self.all.includes(:products, :skills).with_attached_picture.joins(:user)
     if params[:search].present?
 
       if params[:search].match(/\d+/)
         @results = @results.where("volunteers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
       else
-        @results = @results.where("volunteers.chosen_name iLIKE :name OR volunteers.description ~* :desc", { name: "#{params[:search]}%", desc: "\\y#{params[:search]}\\y" })
+        @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name OR volunteers.chosen_name iLIKE :name OR volunteers.description ~* :desc", { name: "#{params[:search]}%", desc: "\\y#{params[:search]}\\y" })
       end
     end
     if params[:product_id].present?

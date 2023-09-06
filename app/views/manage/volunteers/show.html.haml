@@ -19,7 +19,13 @@
     - if @volunteer.picture.representable?
       = image_tag @volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
     .page-section
-      %h4 Mailing Address
+      %b Email
+      = @volunteer.user.email
+    .page-section
+      %b Phone
+      = @volunteer.user.phone
+    .page-section
+      %b Mailing Address
       %p= @volunteer.street
       %p= @volunteer.street_2
       %p
