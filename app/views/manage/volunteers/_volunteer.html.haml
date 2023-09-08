@@ -40,4 +40,8 @@
 
           %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
         .modal-body
+          %h5 About Me
           = volunteer.description
+          - if volunteer.admin_notes.present?
+            %h5 Admin Notes
+            = volunteer.admin_notes

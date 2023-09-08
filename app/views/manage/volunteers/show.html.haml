@@ -25,7 +25,7 @@
       %b Phone
       = @volunteer.user.phone
     .page-section
-      %b Pronounts
+      %b Pronouns
       = @volunteer.pronouns
     .page-section
       %b Mailing Address
@@ -88,4 +88,9 @@
       %p= @volunteer.social_media
     %hr/
   .col-3
+
     = render @volunteer.assignments
+
+    .page-section
+      %h4 Notes
+    = @volunteer.admin_notes
