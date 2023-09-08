@@ -29,12 +29,13 @@
       = @volunteer.pronouns
     .page-section
       %b Mailing Address
-      %p= @volunteer.street
-      %p= @volunteer.street_2
-      %p
+      .street= @volunteer.street
+      - if @volunteer.street_2.present?
+        .street2= @volunteer.street_2
+      .city-state-zip
         = @volunteer.city
         , #{@volunteer.state} #{@volunteer.postal_code}
-      %p= @volunteer.country
+      .country= @volunteer.country
 
 
   .col-6

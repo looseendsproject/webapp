@@ -89,6 +89,8 @@ namespace :import do
         m, d, y = ts.split(' ')[0].split('/')
         joined_on = Date.new(y.to_i, m.to_i, d.to_i)
 
+        processed_country = country ? (country.strip.downcase == 'usa' || country.strip.downcase == 'us' || country.strip == 'united states') ? 'US' : country.strip.upcase : ''
+
         volunteer = Volunteer.create({
                   joined_on: joined_on,
                   user_id: user.id,
@@ -98,7 +100,7 @@ namespace :import do
                   street: street,
                   city: city ? city.strip : '',
                   state: state ? (state.strip.length == 2) ? state.strip.upcase : state.strip : '',
-                  country: country ? country.strip : '',
+                  country: processed_country,
                   postal_code: postal_code ? postal_code.strip : '',
                   dominant_hand: dominant_hand,
                   dislikes: dislikes,
