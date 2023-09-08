@@ -1,0 +1,111 @@
+.my-4
+  %h5 Mailing Address
+  .row.mb-3
+    .form-info
+      = volunteer.street
+      = volunteer.street_2
+      = volunteer.city
+      = volunteer.state
+      = volunteer.postal_code
+      = volunteer.country
+  .row.mb-3
+    .col-12.col-md-10.col-lg-8
+      %ul.nav.nav-tabs
+        %li.nav-item
+          %button#usButton{:class => "nav-link #{'active' if form.object.country == 'US' || form.object.country.blank?}", :onclick => "setCountry('us')", :type => "button"} US
+        %li.nav-item
+          %button#caButton{:class => "nav-link #{'active' if form.object.country == 'CA'}", :onclick => "setCountry('ca')", :type => "button"} Canada
+        %li.nav-item
+          %button#otButton{:class => "nav-link #{'active' if form.object.country.present? && form.object.country != 'US' && form.object.country != 'CA'}", :onclick => "setCountry('ot')", :type => "button"} Not US or Canada
+
+  #country_ui.row{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CA') }
+    .col-4
+      = form.label 'Country (required)', class: 'form-label'
+      = form.text_field :country, class: 'form-control'
+  .row.my-2
+    .col-12.col-md-10.col-lg-8
+      = form.label 'Street (required)', class: 'form-label'
+      = form.text_field :street, class: 'form-control'
+  .row.my-2
+    .col-12.col-md-10.col-lg-8
+      = form.label 'Line 2', class: 'form-label'
+      = form.text_field :street_2, class: 'form-control'
+  .row.my-2
+    .col-4.col-lg-3
+      = form.label 'City (required)', class: 'form-label'
+      = form.text_field :city, class: 'form-control'
+    #usState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'US') }
+      = form.label 'State (required)', class: 'form-label'
+      = form.select :state, STATES,                      |
+        { include_blank: true }, { class: 'form-select' } |
+    #caState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'CA') }
+      = form.label 'Province (required)', class: 'form-label'
+      = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-select' }
+    #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA']) ) }
+      = form.label 'State/Province (required)', class: 'form-label'
+      = form.text_field :state, class: 'form-control', id: 'state_ot'
+    .col-4.col-sm-4.col-md-3.col-lg-2
+      = form.label "Postal code (required)", class: 'form-label'
+      = form.text_field :postal_code, class: 'form-control'
+
+
+:javascript
+  const prefixes = ['us', 'ca', 'ot']
+
+  const selectButton = (selected) => {
+      prefixes.forEach(p => {
+          const button = document.querySelector('#' + p + 'Button')
+          if (selected === p) {
+              button.classList.add('active')
+          } else {
+              button.classList.remove('active')
+          }
+      })
+  };
+
+  const showState = (selected) => {
+      prefixes.forEach(p => {
+          const state = document.querySelector('#' + p + 'State')
+          if (selected === p) {
+              state.style.display = "block"
+              state.querySelector('select, input').disabled = false;
+          } else {
+              state.style.display = "none"
+              state.querySelector('select, input').disabled = true;
+              state.querySelector('select, input').value = '';
+          }
+      })
+  };
+
+  const showCountry = (selected) => {
+      const countryinput = document.querySelector('#volunteer_country');
+      const countryField = document.querySelector('#country_ui');
+      if (selected === 'us') {
+          countryinput.value = 'US';
+          countryField.style.display = "none"
+      } else if (selected === 'ca') {
+          countryinput.value = 'CA';
+          countryField.style.display = "none"
+      } else {
+          countryinput.value = '';
+          countryField.style.display = "block"
+      }
+  }
+
+  const setCountry = (val) => {
+      if (prefixes.includes(val)) {
+          selectButton(val);
+          showState(val);
+          showCountry(val);
+      } else if (val) {
+          setCountry('ot')
+      } else {
+          setCountry('us')
+      }
+
+  }
+  const initializeAddress = () => {
+      setCountry('#{@volunteer.country.present? ? @volunteer.country&.downcase : ''}')
+  }
+
+  document.addEventListener("turbo:load", initializeAddress)

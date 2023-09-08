@@ -30,7 +30,7 @@ class Manage::VolunteersController < Manage::ManageController
 
 
   def volunteer_params
-    params.require(:volunteer).permit(:admin_notes, :approved)
+    params.require(:volunteer).permit(:admin_notes, :approved, :street, :street_2, :city, :state, :country, :postal_code)
   end
 
 end

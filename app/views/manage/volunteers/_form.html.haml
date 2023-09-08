@@ -6,6 +6,8 @@
         = form.check_box :approved
         Approved
 
+  = render partial: 'address_form', :locals => { form: form, volunteer: @volunteer }
+
   .row
     .col-4
       = form.label :notes
