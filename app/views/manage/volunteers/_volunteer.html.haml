@@ -1,5 +1,8 @@
 .col-6.col-sm-6.col-md-4.col-lg-3.col-xl-3.col-xxl-2
   .card.mb-4
+
+    .dominant-hand{ class: volunteer.dominant_hand[0] }
+      = volunteer.dominant_hand[0]
     - if volunteer.picture.representable?
       = link_to image_tag(volunteer.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top'), [:manage, volunteer]
     - else
@@ -12,7 +15,7 @@
         = l(volunteer.joined_on) if volunteer.joined_on
       .skills
         %b Skills:
-        = volunteer.skills.map{|skill| skill.name}.join(', ')
+        = volunteer.assessments.map{|assessment| "#{assessment.skill.name} (#{assessment.rating})"}.join(', ')
       .favorites
         .row
           %b.col-10 Favorites:

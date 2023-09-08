@@ -1,19 +1,25 @@
 = form_tag manage_volunteers_path, :method => :get do
   .row.mb-0
-    .col
+    .col-9
       = label_tag :search, "Search", class: 'label'
+    .col-2
+      = label_tag :search, "Sort", class: 'label'
+  .row.mb-4
+    .col-9
+      = text_field_tag :search, params[:search], class: 'form-control'
+    .col-2
+      = select_tag :sort, options_for_select(['date'], params[:sort]), include_blank: true, class: 'form-select'
+  .row.mb-0
     .col
       = label_tag :search, "Skill", class: 'label'
     .col
-      = label_tag :search, "Product", class: 'label'
+      = label_tag :search, "Favorite", class: 'label'
     .col
       = label_tag :search, "Country", class: 'label'
     .col
       = label_tag :search, "State", class: 'label'
     .col
   .row.mb-4
-    .col
-      = text_field_tag :search, params[:search], class: 'form-control'
     .col
       = select_tag :skill_id, options_from_collection_for_select(Skill.all, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col

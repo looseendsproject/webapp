@@ -5,13 +5,8 @@ class Manage::VolunteersController < Manage::ManageController
     if params[:country].present?
       @stateQuery = @stateQuery.where(country: params[:country])
     end
-    @countryQuery = Volunteer.where.not(country: "").order(:country).load_async
-    if params[:state].present?
-      @countryQuery = @countryQuery.where(state: params[:state])
-    end
     @states = @stateQuery.pluck(:state).uniq
-    @countries = @countryQuery.pluck(:country).uniq
-
+    @countries = Volunteer.where.not(country: "").order(:country).load_async.pluck(:country).uniq
   end
 
   def show
