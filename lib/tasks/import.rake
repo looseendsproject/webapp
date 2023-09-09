@@ -74,7 +74,7 @@ namespace :import do
     worksheet_header, *worksheet_body = worksheet.rows
 
     worksheet_body.each do |row|
-      id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone, active, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
+      id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone, active, unavailable, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
       if (id.length > 0)
         User.where(email: email.downcase).destroy_all
         user = User.create({
@@ -107,7 +107,8 @@ namespace :import do
                   no_smoke: smoker == 'No',
                   can_publicize: post_ok.length > 0,
                   social_media: social_media,
-                  terms_of_use: true
+                  terms_of_use: true,
+                  unavailable: unavailable.strip.length > 0
                          })
 
         if products.length > 0
