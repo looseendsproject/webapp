@@ -5,7 +5,10 @@
     = link_to_unless_current 'Projects', manage_projects_path, class: 'nav-item'
     - if @project
       = fa_icon("chevron-right")
-      = link_to_unless_current @project.name, manage_project_path(@project), class: 'nav-item'
+      - if @project.new_record?
+        New Project
+      - else
+        = link_to_unless_current @project.name, manage_project_path(@project), class: 'nav-item'
   - if controller_name == 'assignments'
     = fa_icon("chevron-right")
     = link_to_unless_current 'Assignments', manage_assignments_path, class: 'nav-item'

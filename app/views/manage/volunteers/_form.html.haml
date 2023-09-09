@@ -2,19 +2,25 @@
   = render "error_messages", resource: @volunteer
   .row.mb-2
     .col-2
-    .col-4
-      = form.label :approved do
-        = form.check_box :approved
-        Approved
+
+
   .row.mb-2
     = form.label :dominant_hand, class: 'col-2 col-form-label'
     .col-2
       = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
+    .col-2
+    .col-3
+      = form.label :approved do
+        = form.check_box :approved
+        Approved
   .row
     = form.label :chosen_name, class: 'col-2 col-form-label'
     .col-4
       = form.text_field :chosen_name, class: 'form-control'
-
+    .col-lg-3
+      = form.label :unavailable do
+        = form.check_box :unavailable
+        Unavailable
   = render partial: 'address_form', :locals => { form: form, volunteer: @volunteer }
 
   .row

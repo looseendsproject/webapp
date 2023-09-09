@@ -37,7 +37,9 @@ Rails.application.routes.draw do
     resources :projects do
       resources :assignments, :only => [:new, :create]
     end
-    resources :volunteers
+    resources :volunteers do
+      resources :assignments, :only => [:new, :create]
+    end
   end
 
   namespace :admin do

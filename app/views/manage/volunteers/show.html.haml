@@ -3,6 +3,8 @@
 
   - if @volunteer.approved
     (Approved)
+  - if @volunteer.unavailable
+    (Unavailable)
 
   = link_to 'Edit Volunteer', [:edit, :manage, @volunteer], class: 'btn btn-outline-secondary float-end'
 

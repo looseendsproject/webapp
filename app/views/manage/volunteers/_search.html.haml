@@ -8,7 +8,7 @@
     .col-9
       = text_field_tag :search, params[:search], class: 'form-control'
     .col-2
-      = select_tag :sort, options_for_select(['date'], params[:sort]), include_blank: true, class: 'form-select'
+      = select_tag :sort, options_for_select(['date', 'name'], params[:sort]), include_blank: true, class: 'form-select'
   .row.mb-0
     .col
       = label_tag :search, "Skill", class: 'label'

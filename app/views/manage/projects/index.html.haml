@@ -1,4 +1,7 @@
-= render 'title', title: 'Projects'
+%h1
+  Projects
+  = link_to 'New Project', [:new, :manage, :project], class: 'btn btn-outline-secondary float-end'
+
 .row
   .col
     Status: #{link_to_unless params[:status].nil?, 'All', url_for({ status: nil })} | #{link_to_unless params[:status] == 'active', 'Active', url_for({ status: 'active' })}

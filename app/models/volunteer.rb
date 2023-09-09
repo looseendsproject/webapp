@@ -57,11 +57,13 @@ class Volunteer < ApplicationRecord
       @results = @results.where(:state => params[:state])
     end
     if params[:sort].present?
-      if params[:sort] == 'date'
-        @results = @results.order(:joined_on)
-      else
+      if params[:sort] == 'name'
         @results = @results.order(:chosen_name)
+      else
+        @results = @results.order(:joined_on)
       end
+    else
+      @results = @results.order(:joined_on)
     end
     if params[:country].present?
       @results = @results.where(:country => params[:country])
