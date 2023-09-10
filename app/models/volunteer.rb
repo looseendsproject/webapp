@@ -25,6 +25,8 @@ class Volunteer < ApplicationRecord
     self.joined_on = Date.today if self.joined_on.blank?
   end
 
+  after_create :send_welcome_message
+
   def approved?
     self.approved_at != nil
   end
@@ -101,6 +103,10 @@ class Volunteer < ApplicationRecord
 
   def append_finished_projects=(attachables)
     finished_projects.attach(attachables)
+  end
+
+  def send_welcome_message
+    VolunteerMailer.welcome(self).deliver_now
   end
 
 end
