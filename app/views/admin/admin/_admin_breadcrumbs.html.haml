@@ -14,7 +14,7 @@
       - if @skill.new_record?
         New Skill
       - else
-        = link_to_unless_current @skill.name, admin_skills_path(@skill), class: 'nav-item'
+        = link_to_unless_current @skill.name, [:admin, @skill], class: 'nav-item'
   - if controller_name == 'users'
     = fa_icon("chevron-right")
     = link_to_unless_current 'Users', admin_users_path, class: 'nav-item'

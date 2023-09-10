@@ -25,9 +25,9 @@ class Admin::SkillsController < Admin::AdminController
   end
 
   def update
-    skill = Skill.find(params[:id])
-    skill.update!(skill_params)
-    redirect_to skill
+    @skill = Skill.find(params[:id])
+    @skill.update!(skill_params)
+    redirect_to [:admin, @skill]
   end
 
   private

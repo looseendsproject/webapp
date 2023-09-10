@@ -1,4 +1,4 @@
-= form_with model: @skill, url: admin_skills_path(@skill) do |form|
+= form_for [:admin, @skill] do |form|
   = render "error_messages", resource: @skill
   .row
     .col-3
