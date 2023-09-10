@@ -9,7 +9,7 @@
       = form.text_field :pronouns, class: 'form-control'
   .row.my-3
     .col-xl-6.col-lg-8.col-md-10
-      = form.label 'Tell us about yourself (required)', class: 'form-label'
+      = form.label 'Tell us about yourself', class: 'form-label required'
       = form.text_area :description, size: "60x4", class: 'form-control'
 
   - if @volunteer.picture.representable?
@@ -19,7 +19,7 @@
           = image_tag @volunteer.picture.representation( resize_to_limit: [200, 200])
   .row.my-3
     .col-xl-6.col-lg-8.col-md-10
-      = form.label 'Picture (required)', class: 'form-label'
+      = form.label 'Picture', class: 'form-label required'
       = form.file_field :picture, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp"
   .row.my-3
     .col-xl-6.col-lg-8.col-md-10

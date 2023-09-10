@@ -20,11 +20,11 @@
 
   #country_ui.row{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CA') }
     .col-4
-      = form.label 'Country (required)', class: 'form-label'
+      = form.label 'Country', class: 'form-label required'
       = form.text_field :country, class: 'form-control'
   .row.my-2
     .col-12.col-md-10.col-lg-8
-      = form.label 'Street (required)', class: 'form-label'
+      = form.label 'Street', class: 'form-label required'
       = form.text_field :street, class: 'form-control'
   .row.my-2
     .col-12.col-md-10.col-lg-8
@@ -32,20 +32,20 @@
       = form.text_field :street_2, class: 'form-control'
   .row.my-2
     .col-4.col-lg-3
-      = form.label 'City (required)', class: 'form-label'
+      = form.label 'City', class: 'form-label required'
       = form.text_field :city, class: 'form-control'
     #usState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'US') }
-      = form.label 'State (required)', class: 'form-label'
+      = form.label 'State', class: 'form-label'
       = form.select :state, STATES,                      |
         { include_blank: true }, { class: 'form-select' } |
     #caState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'CA') }
-      = form.label 'Province (required)', class: 'form-label'
+      = form.label 'Province', class: 'form-label required'
       = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-select' }
     #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA']) ) }
-      = form.label 'State/Province (required)', class: 'form-label'
+      = form.label 'State/Province', class: 'form-label required'
       = form.text_field :state, class: 'form-control', id: 'state_ot'
     .col-4.col-sm-4.col-md-3.col-lg-2
-      = form.label "Postal code (required)", class: 'form-label'
+      = form.label "Postal code", class: 'form-label required'
       = form.text_field :postal_code, class: 'form-control'
 
 
