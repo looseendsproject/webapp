@@ -1,5 +1,7 @@
-= render 'table_row' do
-  = render 'table_cell' do
-    = product.name
-  = render 'table_cell' do
+%tr
+  %td
+    = link_to product.name, [:admin, product]
+  %td
+    = product.volunteers.count
+  %td
     = product.description

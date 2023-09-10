@@ -1,5 +1,7 @@
-= render 'table_row' do
-  = render 'table_cell' do
+%tr
+  %td
     = link_to skill.name, [:admin, skill]
-  = render 'table_cell' do
+  %td
+    = skill.volunteers.count
+  %td
     = skill.description

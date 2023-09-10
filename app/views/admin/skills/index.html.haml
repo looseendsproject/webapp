@@ -2,4 +2,11 @@
   Skills
   = link_to 'New Skill', [:new, :admin, :skill], class: 'btn btn-outline-secondary float-end'
 %table.table
+  %thead
+    %th
+      Name
+    %th
+      Volunteers
+    %th
+      Description
   = render @skills

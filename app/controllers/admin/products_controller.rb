@@ -1,6 +1,6 @@
 class Admin::ProductsController < Admin::AdminController
   def index
-    @products = Product.all
+    @products = Product.all.order(:name)
   end
 
   def show
@@ -25,9 +25,9 @@ class Admin::ProductsController < Admin::AdminController
   end
 
   def update
-    product = Product.find(params[:id])
-    product.update!(product_params)
-    redirect_to product
+    @product = Product.find(params[:id])
+    @product.update!(product_params)
+    redirect_to [:admin, @product]
   end
 
   private

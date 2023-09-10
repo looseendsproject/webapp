@@ -1,6 +1,6 @@
 class Admin::SkillsController < Admin::AdminController
   def index
-    @skills = Skill.all
+    @skills = Skill.all.order(:name)
   end
 
   def show
