@@ -1,4 +1,4 @@
-class Volunteer < ApplicationRecord
+class Finisher < ApplicationRecord
   belongs_to :user
   validates :user, uniqueness: true
 
@@ -44,9 +44,9 @@ class Volunteer < ApplicationRecord
     if params[:search].present?
 
       if params[:search].match(/^[0-9]+$/)
-        @results = @results.where("volunteers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
+        @results = @results.where("finishers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
       else
-        @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name OR volunteers.chosen_name iLIKE :name OR volunteers.description ~* :desc", { name: "#{params[:search]}%", desc: "\\y#{params[:search]}\\y" })
+        @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name OR finishers.chosen_name iLIKE :name OR finishers.description ~* :desc", { name: "#{params[:search]}%", desc: "\\y#{params[:search]}\\y" })
       end
     end
     if params[:product_id].present?
@@ -106,7 +106,7 @@ class Volunteer < ApplicationRecord
   end
 
   def send_welcome_message
-    VolunteerMailer.welcome(self).deliver_now
+    FinisherMailer.welcome(self).deliver_now
   end
 
 end

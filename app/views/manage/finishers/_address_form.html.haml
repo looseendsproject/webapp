@@ -2,12 +2,12 @@
   %h5 Mailing Address
   .row.mb-3
     .form-info
-      = volunteer.street
-      = volunteer.street_2
-      = volunteer.city
-      = volunteer.state
-      = volunteer.postal_code
-      = volunteer.country
+      = finisher.street
+      = finisher.street_2
+      = finisher.city
+      = finisher.state
+      = finisher.postal_code
+      = finisher.country
   .row.mb-3
     .col-12.col-md-10.col-lg-8
       %ul.nav.nav-tabs
@@ -78,7 +78,7 @@
   };
 
   const showCountry = (selected) => {
-      const countryinput = document.querySelector('#volunteer_country');
+      const countryinput = document.querySelector('#finisher_country');
       const countryField = document.querySelector('#country_ui');
       if (selected === 'us') {
           countryinput.value = 'US';
@@ -105,7 +105,7 @@
 
   }
   const initializeAddress = () => {
-      setCountry('#{@volunteer.country.present? ? @volunteer.country&.downcase : ''}')
+      setCountry('#{@finisher.country.present? ? @finisher.country&.downcase : ''}')
   }
 
   document.addEventListener("turbo:load", initializeAddress)

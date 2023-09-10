@@ -14,17 +14,17 @@
         %ul.list-unstyled
           %li
             = link_to "Submit a Project", new_project_path, class: 'button-primary'
-          - if !current_user.volunteer?
+          - if !current_user.finisher?
             %li
-              = link_to 'Become a Volunteer', current_user&.volunteer? ? edit_volunteer_path : new_volunteer_path, class: 'button-primary'
+              = link_to 'Become a Finisher', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'button-primary'
   - if current_user
     .col-3
-      - if current_user.volunteer?
+      - if current_user.finisher?
         .page-section
-          %b Volunteer
+          %b Finisher
           %ul.list-unstyled
-            %li= link_to 'View your Profile', :volunteer
-      - if current_user.projects.any? || current_user.volunteer&.projects&.any?
+            %li= link_to 'View your Profile', :finisher
+      - if current_user.projects.any? || current_user.finisher&.projects&.any?
         .page-section
           %b Projects
           - if current_user.projects.any?

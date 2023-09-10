@@ -1,7 +1,7 @@
 namespace :import do
 
-  desc "Import Volunteers"
-  task :volunteers => [:environment] do |t|
+  desc "Import Finishers"
+  task :finishers => [:environment] do |t|
     knitting = Skill.find_or_create_by(name: 'Knitting')
     quilting = Skill.find_or_create_by(name: 'Quilting')
     crocheting = Skill.find_or_create_by(name: 'Crocheting')
@@ -91,7 +91,7 @@ namespace :import do
 
         processed_country = country ? (country.strip.downcase == 'usa' || country.strip.downcase == 'us' || country.strip == 'united states') ? 'US' : country.strip.upcase : ''
 
-        volunteer = Volunteer.create({
+        finisher = Finisher.create({
                   joined_on: joined_on,
                   user_id: user.id,
                   chosen_name: first_name + ' ' + last_name,
@@ -114,7 +114,7 @@ namespace :import do
         if products.length > 0
           db_products.each do |product_symbol, db_product |
             if products.downcase.include?(product_symbol.to_s)
-              volunteer.products << db_product
+              finisher.products << db_product
             end
           end
         end
@@ -125,7 +125,7 @@ namespace :import do
 
           db_skills.each do |skill_symbol, db_skill |
             if skills.downcase.include?(skill_symbol.to_s)
-              volunteer.assessments << Assessment.new( skill_id: db_skill.id, rating: rating)
+              finisher.assessments << Assessment.new( skill_id: db_skill.id, rating: rating)
             end
           end
         end

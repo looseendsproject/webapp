@@ -1,12 +1,12 @@
-class VolunteerMailer < ActionMailer::Base
+class FinisherMailer < ActionMailer::Base
 
   layout 'mailer'
 
-  def welcome (volunteer)
-    @volunteer = volunteer
+  def welcome (finisher)
+    @finisher = finisher
     mail(
       :from => "info@looseendsproject.org",
-      :to => volunteer.user.email,
+      :to => finisher.user.email,
       :subject => "Welcome to Loose Ends"
     )
   end

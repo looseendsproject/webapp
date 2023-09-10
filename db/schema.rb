@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_09_174053) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_220917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,13 +54,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_174053) do
 
   create_table "assessments", force: :cascade do |t|
     t.bigint "skill_id"
-    t.bigint "volunteer_id"
+    t.bigint "finisher_id"
     t.integer "rating", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["finisher_id"], name: "index_assessments_on_finisher_id"
     t.index ["skill_id"], name: "index_assessments_on_skill_id"
-    t.index ["volunteer_id"], name: "index_assessments_on_volunteer_id"
   end
 
   create_table "assignment_updates", force: :cascade do |t|
@@ -75,24 +75,55 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_174053) do
 
   create_table "assignments", force: :cascade do |t|
     t.bigint "project_id"
-    t.bigint "volunteer_id"
+    t.bigint "finisher_id"
     t.bigint "user_id"
     t.datetime "ended_at"
     t.datetime "started_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["finisher_id"], name: "index_assignments_on_finisher_id"
     t.index ["project_id"], name: "index_assignments_on_project_id"
     t.index ["user_id"], name: "index_assignments_on_user_id"
-    t.index ["volunteer_id"], name: "index_assignments_on_volunteer_id"
   end
 
   create_table "favorites", force: :cascade do |t|
     t.bigint "product_id"
-    t.bigint "volunteer_id"
+    t.bigint "finisher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["finisher_id"], name: "index_favorites_on_finisher_id"
     t.index ["product_id"], name: "index_favorites_on_product_id"
-    t.index ["volunteer_id"], name: "index_favorites_on_volunteer_id"
+  end
+
+  create_table "finishers", force: :cascade do |t|
+    t.string "chosen_name"
+    t.string "pronouns"
+    t.bigint "user_id", null: false
+    t.text "description", null: false
+    t.text "admin_notes"
+    t.datetime "approved_at"
+    t.string "street"
+    t.string "street_2"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "postal_code"
+    t.text "other_skills"
+    t.string "dominant_hand"
+    t.text "other_favorites"
+    t.text "dislikes"
+    t.text "social_media"
+    t.boolean "can_publicize"
+    t.boolean "no_smoke"
+    t.boolean "no_cats"
+    t.boolean "no_dogs"
+    t.boolean "terms_of_use"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "joined_on"
+    t.boolean "unavailable", default: false
+    t.index ["joined_on"], name: "index_finishers_on_joined_on"
+    t.index ["user_id"], name: "index_finishers_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -154,37 +185,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_174053) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "volunteers", force: :cascade do |t|
-    t.string "chosen_name"
-    t.string "pronouns"
-    t.bigint "user_id", null: false
-    t.text "description", null: false
-    t.text "admin_notes"
-    t.datetime "approved_at"
-    t.string "street"
-    t.string "street_2"
-    t.string "city"
-    t.string "state"
-    t.string "country"
-    t.string "postal_code"
-    t.text "other_skills"
-    t.string "dominant_hand"
-    t.text "other_favorites"
-    t.text "dislikes"
-    t.text "social_media"
-    t.boolean "can_publicize"
-    t.boolean "no_smoke"
-    t.boolean "no_cats"
-    t.boolean "no_dogs"
-    t.boolean "terms_of_use"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date "joined_on"
-    t.boolean "unavailable", default: false
-    t.index ["joined_on"], name: "index_volunteers_on_joined_on"
-    t.index ["user_id"], name: "index_volunteers_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

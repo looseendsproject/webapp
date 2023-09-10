@@ -1,5 +1,5 @@
-= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
-  = render "error_messages", resource: @volunteer
+= form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @finisher
 
   - if Product.any?
     .row.mb-3
@@ -29,4 +29,4 @@
       .form-info Are there techniques or projects you would rather avoid?
       = form.text_area :dislikes, size: "60x3", class: 'form-control'
   = form.submit 'Submit', class: "btn btn-primary"
-  = link_to "Cancel", :volunteer, class: "btn btn-link"
+  = link_to "Cancel", :finisher, class: "btn btn-link"

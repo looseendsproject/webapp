@@ -1,5 +1,5 @@
-= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
-  = render "error_messages", resource: @volunteer
+= form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @finisher
   .my-4
     %h5 Your Mailing Address
     .row.mb-3
@@ -45,7 +45,7 @@
         = form.text_field :postal_code, class: 'form-control'
 
   = form.submit 'Submit', class: "btn btn-primary"
-  = link_to "Cancel", :volunteer, class: "btn btn-link"
+  = link_to "Cancel", :finisher, class: "btn btn-link"
 
 :javascript
   const prefixes = ['us', 'ca', 'ot']
@@ -76,7 +76,7 @@
   };
 
   const showCountry = (selected) => {
-      const countryinput = document.querySelector('#volunteer_country');
+      const countryinput = document.querySelector('#finisher_country');
       const countryField = document.querySelector('#country_ui');
       if (selected === 'us') {
           countryinput.value = 'US';
@@ -103,7 +103,7 @@
 
   }
   const initializeAddress = () => {
-      setCountry('#{@volunteer.country.present? ? @volunteer.country&.downcase : ''}')
+      setCountry('#{@finisher.country.present? ? @finisher.country&.downcase : ''}')
   }
 
   document.addEventListener("turbo:load", initializeAddress)

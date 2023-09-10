@@ -2,7 +2,7 @@
   = render "error_messages", resource: @assignment
   .row
     .col-4
-      = form.label 'Pick a Volunteer', class: 'form-label required'
-      = form.select :volunteer_id, Volunteer.approved.collect {|v| [ v.name, v.id ] }, { include_blank: true }, { class: 'form-select' }
+      = form.label 'Pick a Finisher', class: 'form-label required'
+      = form.select :finisher_id, Finisher.approved.collect {|v| [ v.name, v.id ] }, { include_blank: true }, { class: 'form-select' }
   .form-actions
     = form.submit 'Assign Project', class: "btn btn-primary"

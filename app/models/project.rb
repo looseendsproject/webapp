@@ -4,7 +4,7 @@ class Project < ApplicationRecord
 
   belongs_to :user
   has_many :assignments
-  has_many :volunteers, through: :assignments
+  has_many :finishers, through: :assignments
 
   has_many_attached :crafter_images
   has_many_attached :project_images
@@ -30,8 +30,8 @@ class Project < ApplicationRecord
     self.status ||= 'proposed'
   end
 
-  def volunteer
-    volunteers.first
+  def finisher
+    finishers.first
   end
 
   def self.proposed

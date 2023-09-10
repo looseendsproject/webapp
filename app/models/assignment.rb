@@ -1,6 +1,6 @@
 class Assignment < ApplicationRecord
   belongs_to :project
-  belongs_to :volunteer
+  belongs_to :finisher
   belongs_to :user
 
   has_many :assignment_updates, dependent: :destroy

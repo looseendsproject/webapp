@@ -10,7 +10,7 @@ class User < ApplicationRecord
   before_validation :set_default_role
 
   has_many :projects, dependent: :destroy
-  has_one :volunteer, dependent: :destroy
+  has_one :finisher, dependent: :destroy
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -38,8 +38,8 @@ class User < ApplicationRecord
     admin? || manager?
   end
 
-  def volunteer?
-    !!volunteer
+  def finisher?
+    !!finisher
   end
 
 end

@@ -1,4 +1,4 @@
 %h1
   = @skill.name
   = link_to 'Edit', [:edit, :admin, @skill], class: 'btn btn-outline-secondary float-end'
-= link_to pluralize( @skill.volunteers.count, 'volunteer'), [:manage, :volunteers, { :skill_id => @skill.id }]
+= link_to pluralize( @skill.finishers.count, 'finisher'), [:manage, :finishers, { :skill_id => @skill.id }]

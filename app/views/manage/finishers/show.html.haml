@@ -1,0 +1,99 @@
+%h1.page-title
+  = @finisher.name
+
+  - if @finisher.approved
+    (Approved)
+  - if @finisher.unavailable
+    (Unavailable)
+
+  = link_to 'Edit Finisher', [:edit, :manage, @finisher], class: 'btn btn-outline-secondary float-end'
+
+
+.row
+  .col-3
+    %div
+      Dominant Hand:
+      = @finisher.dominant_hand
+    %div
+      Since:
+      = @finisher.joined_on
+
+    - if @finisher.picture.representable?
+      = image_tag @finisher.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
+    .page-section
+      %b Email
+      = @finisher.user.email
+    .page-section
+      %b Phone
+      = @finisher.user.phone
+    .page-section
+      %b Pronouns
+      = @finisher.pronouns
+    .page-section
+      %b Mailing Address
+      .street= @finisher.street
+      - if @finisher.street_2.present?
+        .street2= @finisher.street_2
+      .city-state-zip
+        = @finisher.city
+        , #{@finisher.state} #{@finisher.postal_code}
+      .country= @finisher.country
+
+
+  .col-6
+    .page-section
+      %h4 Favorites
+      %ul
+        - @finisher.favorites.each do |favorite|
+          %li= favorite.product.name
+    %hr/
+    .page-section
+      %h4 Skills
+      %ul
+        - @finisher.assessments.where(rating: 1..).each do |assessment|
+          %li
+            = assessment.skill.name
+            \: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}
+    %hr/
+    - if @finisher.no_smoke || @finisher.no_cats || @finisher.no_dogs
+      .page-section
+        %h4 Sensitivities
+        %ul
+          - if @finisher.no_smoke
+            %li No Smoke Please
+          - if @finisher.no_cats
+            %li No Cats Please
+          - if @finisher.no_dogs
+            %li No Dogs Please
+      %hr/
+    .page-section
+      %h4 About Me
+      %p= @finisher.description
+    %hr/
+    .page-section
+      %h4 Other Skills
+      %p= @finisher.other_skills
+    %hr/
+    .page-section
+      %h4 Other Favorites
+      %p= @finisher.other_favorites
+    - @finisher.finished_projects.each do |image|
+      .removeable_image
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    %hr/
+    .page-section
+      %h4 Never Again!
+      %p= @finisher.dislikes
+    %hr/
+    .page-section
+      %h4 Social Media!
+      %p= @finisher.social_media
+    %hr/
+  .col-3
+
+    = render @finisher.assignments
+
+    .page-section
+      %h4 Notes
+    = @finisher.admin_notes

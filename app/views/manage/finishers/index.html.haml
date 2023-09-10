@@ -1,0 +1,11 @@
+= render 'title', title: 'Finishers'
+
+
+= render 'search'
+
+.row
+  .col= pluralize @finishers.total_entries, 'finisher'
+
+.row
+  = render @finishers
+  = will_paginate @finishers

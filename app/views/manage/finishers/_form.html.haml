@@ -1,5 +1,5 @@
-= form_with model: @volunteer, url: [:manage, @volunteer] do |form|
-  = render "error_messages", resource: @volunteer
+= form_with model: @finisher, url: [:manage, @finisher] do |form|
+  = render "error_messages", resource: @finisher
   .row.mb-2
     .col-2
   .row.mb-2
@@ -25,7 +25,7 @@
       = form.date_field :joined_on, class: 'form-control'
 
 
-  = render partial: 'address_form', :locals => { form: form, volunteer: @volunteer }
+  = render partial: 'address_form', :locals => { form: form, finisher: @finisher }
 
   .row
     .col-4

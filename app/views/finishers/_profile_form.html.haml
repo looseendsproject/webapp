@@ -1,5 +1,5 @@
-= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
-  = render "error_messages", resource: @volunteer
+= form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @finisher
   .row.my-3
     .col-12.col-xl-4.col-lg-5.col-md-6
       = form.label 'Chosen or preferred Name', class: 'form-label required'
@@ -12,11 +12,11 @@
       = form.label 'Tell us about yourself', class: 'form-label required'
       = form.text_area :description, size: "60x4", class: 'form-control'
 
-  - if @volunteer.picture.representable?
+  - if @finisher.picture.representable?
     .row.my-3
       .col-xl-6.col-lg-8.col-md-10
         .form-image
-          = image_tag @volunteer.picture.representation( resize_to_limit: [200, 200])
+          = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
   .row.my-3
     .col-xl-6.col-lg-8.col-md-10
       = form.label 'Picture', class: 'form-label required'
@@ -36,7 +36,7 @@
       = form.label 'can_publicize', class: 'form-label' do
         = form.check_box :can_publicize
         It's OK to post about me on social media!
-  - if !@volunteer.persisted?
+  - if !@finisher.persisted?
     .row.my-3
       .col-xl-8.col-md-10
         = form.label 'terms_of_use', class: 'form-label required'
@@ -44,4 +44,4 @@
           = form.check_box :terms_of_use
           By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
   = form.submit 'Submit', class: "btn btn-primary"
-  = link_to "Cancel", :volunteer, class: "btn btn-link"
+  = link_to "Cancel", :finisher, class: "btn btn-link"

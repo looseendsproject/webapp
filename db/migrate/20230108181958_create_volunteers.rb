@@ -1,6 +1,6 @@
-class CreateVolunteers < ActiveRecord::Migration[7.0]
+class CreateFinishers < ActiveRecord::Migration[7.0]
   def change
-    create_table :volunteers do |t|
+    create_table :finishers do |t|
 
       t.string :chosen_name
       t.string :pronouns

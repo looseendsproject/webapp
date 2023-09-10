@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       get 'edit_crafter'
     end
   end
-  resource :volunteer, :except => :edit do
+  resource :finisher, :except => :edit do
     member do
       get 'edit_profile'
       get 'edit_address'
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     resources :projects do
       resources :assignments, :only => [:new, :create]
     end
-    resources :volunteers do
+    resources :finishers do
       resources :assignments, :only => [:new, :create]
     end
   end

@@ -1,6 +1,6 @@
 class Favorite < ApplicationRecord
   belongs_to :product
-  belongs_to :volunteer
+  belongs_to :finisher
 
-  validates :product, uniqueness: { scope: :volunteer }
+  validates :product, uniqueness: { scope: :finisher }
 end

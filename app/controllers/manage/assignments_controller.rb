@@ -36,7 +36,7 @@ class Manage::AssignmentsController < Manage::ManageController
   end
 
   def create_assignment_params
-    params.require(:assignment).permit([:volunteer_id])
+    params.require(:assignment).permit([:finisher_id])
   end
 
   def update_assignment_params

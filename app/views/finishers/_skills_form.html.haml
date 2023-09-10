@@ -1,5 +1,5 @@
-= form_with model: @volunteer, url: volunteer_path, html: { class: 'form' } do |form|
-  = render "error_messages", resource: @volunteer
+= form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
+  = render "error_messages", resource: @finisher
   - if Skill.any?
     .row.my-3
       .col
@@ -47,4 +47,4 @@
           = form.check_box :no_dogs
           No dogs, please.
   = form.submit 'Submit', class: "btn btn-primary"
-  = link_to "Cancel", :volunteer, class: "btn btn-link"
+  = link_to "Cancel", :finisher, class: "btn btn-link"

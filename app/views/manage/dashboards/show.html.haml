@@ -2,11 +2,11 @@
 .container
   .row
     .col-2
-      = link_to 'Volunteers', manage_volunteers_path
+      = link_to 'Finishers', manage_finishers_path
     .col-2
-      Count: #{Volunteer.count}
+      Count: #{Finisher.count}
     .col-2
-      Approved: #{Volunteer.approved.count}
+      Approved: #{Finisher.approved.count}
   .row
     .col-2
       = link_to 'Assignments', manage_assignments_path

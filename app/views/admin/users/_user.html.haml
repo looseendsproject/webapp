@@ -8,8 +8,8 @@
   %td.text-center
     = user.projects.count
   %td.text-center
-    - if user.volunteer?
-      = fa_icon('user', class: 'volunteer')
+    - if user.finisher?
+      = fa_icon('user', class: 'finisher')
   %td.text-center
     - if user.manager?
       = fa_icon('gear', class: 'manager')

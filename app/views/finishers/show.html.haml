@@ -1,0 +1,108 @@
+%h1.page-title
+  = @finisher.name
+
+- if @finisher.missing_information?
+  .alert.alert-primary
+    Before we can connect you with projects, we need a little more information
+
+.row
+  .col-12.col-md-5.col-lg-4.mr-6
+    - if @finisher.picture.representable?
+      = image_tag @finisher.picture.representation( resize_to_limit: [450, 400]), class: 'img-fluid'
+
+    .page-section
+
+      %h4
+        .row
+          .col-9
+            About Me
+          .col-3
+            = link_to 'Edit', [:edit_profile, :finisher], class: 'btn btn-link float-end btn-sm'
+      - if @finisher.description.blank?
+        %p.text-primary Please give more information about yourself
+      %p= @finisher.description
+
+    .page-section
+      %p= @finisher.social_media
+
+
+    .d-md-none
+      %hr/
+  .col-12.col-md-7.col-lg-8
+    .page-section
+      %h4
+        .row
+          .col-9
+            Mailing Address
+          .col-3
+            = link_to 'Edit', [:edit_address, :finisher], class: 'btn btn-link float-end btn-sm'
+      - if @finisher.missing_address_information?
+        %p.text-primary You must enter a complete mailing address to receive projects.
+      - if @finisher.street.present?
+        .row
+          .col-12= @finisher.street
+      - if @finisher.street_2.present?
+        .row
+          .col= @finisher.street_2
+
+      - if @finisher.city.present?
+        .row
+          .col
+            #{@finisher.city}, #{@finisher.state} #{@finisher.postal_code}
+      - if @finisher.state.present? && @finisher.country.present?
+        .row
+          .col= @finisher.country
+    %hr/
+
+
+    .page-section
+      %h4
+        Skills
+        = link_to 'Edit', [:edit_skills, :finisher], class: 'btn btn-link float-end btn-sm'
+
+      - if @finisher.dominant_hand.blank?
+        %p.text-primary Please enter dominant hand
+      - else
+        %p= @finisher.dominant_hand
+
+      - if @finisher.missing_assessments?
+        %p.text-primary Please enter assessments
+      - else
+        %ul
+          - @finisher.assessments.where(rating: 1..).each do |assessment|
+            %li
+              #{assessment.skill.name}: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}
+
+      %p= @finisher.other_skills
+
+      - if @finisher.no_smoke || @finisher.no_cats || @finisher.no_dogs
+        .page-section
+          %b Sensitivities
+          %ul
+            - if @finisher.no_smoke
+              %li No Smoke Please
+            - if @finisher.no_cats
+              %li No Cats Please
+            - if @finisher.no_dogs
+              %li No Dogs Please
+    %hr/
+    .page-section
+      %h4
+        Projects
+        = link_to 'Edit', [:edit_projects, :finisher], class: 'btn btn-link float-end btn-sm'
+      %ul
+        - @finisher.favorites.each do |favorite|
+          %li= favorite.product.name
+      .page-section
+        %p= @finisher.other_favorites
+
+      - if @finisher.finished_projects.any?
+        %b Completed Projects
+        - @finisher.finished_projects.each do |image|
+          .removeable_image
+            = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+            = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+        - if @finisher.dislikes.present?
+          .page-section
+            %h4 Never Again!
+            %p= @finisher.dislikes
