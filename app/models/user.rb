@@ -22,6 +22,28 @@ class User < ApplicationRecord
     self.role ||= 'user'
   end
 
+
+  def self.search(params)
+    @results = self.all.includes(:projects)
+    if params[:search].present?
+      @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" })
+    end
+    if params[:role].present?
+      @results = @results.where("users.role = :role", { role: params[:role] })
+    end
+    if params[:sort].present?
+      if params[:sort] == 'name'
+        @results = @results.order(:last_name)
+      else
+        @results = @results.order(:created_at)
+      end
+    else
+      @results = @results.order(:last_name)
+    end
+    return @results
+  end
+
+
   def name
     "#{first_name} #{last_name}"
   end

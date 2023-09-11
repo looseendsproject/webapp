@@ -1,6 +1,6 @@
 class Admin::UsersController < Admin::AdminController
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.search(params).paginate(page: params[:page])
   end
 
   def show
