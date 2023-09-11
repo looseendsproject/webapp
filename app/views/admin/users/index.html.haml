@@ -5,16 +5,16 @@
     .col-4
       = label_tag :search, "Name/Email", class: 'label'
     .col-2
-      = label_tag :search, "Sort", class: 'label'
-    .col-2
       = label_tag :search, "Role", class: 'label'
+    .col-2
+      = label_tag :search, "Sort", class: 'label'
   .row.mb-4
     .col-4
       = text_field_tag :search, params[:search], class: 'form-control'
     .col-2
-      = select_tag :sort, options_for_select([['Date', 'date'], ['Name', 'name']], params[:sort]), include_blank: true, class: 'form-select'
-    .col-2
       = select_tag :role, options_for_select([['User', 'user'], ['Manager', 'manager'], ['Admin', 'admin']], params[:role]), include_blank: true, class: 'form-select'
+    .col-2
+      = select_tag :sort, options_for_select([['Date', 'date'], ['Name', 'name']], params[:sort]), include_blank: true, class: 'form-select'
     .col
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
