@@ -9,32 +9,34 @@
   = render "error_messages", resource: resource
 
   .row
-    = f.label 'Name (first/last)', class: 'col-form-label col-3 required'
-    .col-2
+    .col-6.col-sm-5.col-md-4
+      = f.label 'First Name', class: 'col-form-label required'
       = f.text_field :first_name, autofocus: true, autocomplete: "given-name", class: 'form-control'
-    .col-2
+    .col-6.col-sm-5.col-md-4
+      = f.label 'Last name', class: 'col-form-label required'
       = f.text_field :last_name, autocomplete: "family-name", class: 'form-control'
   .row.my-3
-    = f.label :email, class: 'col-form-label col-3 required'
-    .col-4
+    .col-12.col-sm-10.col-md-8
+      = f.label :email, class: 'col-form-label required'
       = f.email_field :email, autocomplete: "email", class: 'form-control'
   .row.my-3
-    = f.label 'Where did you hear about us?', class: 'col-form-label col-3'
-    .col-4
+    .col-12.col-sm-10.col-md-8
+      = f.label 'Where did you hear about us?', class: 'col-form-label'
       = f.text_area :heard_about_us, size: "60x4", class: 'form-control'
   .row.my-3
-    = f.label :password, class: 'col-form-label col-3 required'
-    .col-4
+    .col-12.col-sm-10.col-md-8
+      = f.label :password, class: 'col-form-label required'
       = f.password_field :password, autocomplete: "new-password", class: 'form-control w-2/3 md:w-1/2'
       - if @minimum_password_length
         .form-hint
           (#{@minimum_password_length} characters minimum)
   .row.my-3
-    = f.label :password_confirmation, class: 'col-form-label col-3 required'
-    .col-4
+
+    .col-12.col-sm-10.col-md-8
+      = f.label :password_confirmation, class: 'col-form-label required'
       = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control w-2/3 md:w-1/2'
   .row.form-actions
-    .col-2.offset-3
-      = f.submit "Sign up", class: "btn btn-primary"
-    .col-2.my-auto
+    .col-6.col-sm-5.col-md-4
       = link_to "Sign in", new_user_session_path
+    .col-6.col-sm-5.col-md-4.text-end
+      = f.submit "Sign up", class: "btn btn-primary"

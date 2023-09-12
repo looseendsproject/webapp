@@ -1,7 +1,7 @@
 = render 'title', title: 'Loose Ends Projects'
 %h3.page-subtitle Why it’s important to finish a handmade project
 .row
-  .col-9
+  .col-12.col-md-9
     .page-section
       %p “You look like somebody loves you.”
       %p
@@ -18,7 +18,7 @@
             %li
               = link_to 'Become a Finisher', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'button-primary'
   - if current_user
-    .col-3
+    .col-12.col-md-3
       - if current_user.finisher?
         .page-section
           %b Finisher
