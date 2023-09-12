@@ -8,7 +8,6 @@
         = fa_icon('bars')
       #navbarSupportedContent.collapse.navbar-collapse
         %ul.nav.navbar-nav.ms-auto.mb-2.mb-lg-0
-
           - if current_user&.finisher?
             %li.nav-item
               = link_to 'Finisher Profile', finisher_path, class: 'nav-link'
