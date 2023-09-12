@@ -1,7 +1,7 @@
 = form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
   = render "error_messages", resource: @finisher
   - if Skill.any?
-    .row.my-3
+    .row.g-1.g-sm-4
       .col
         = form.label 'Skill Assessment', class: 'form-label required'
         .form-info Rate yourself on one or more of the skills below. Add any other information you like!
@@ -18,19 +18,19 @@
               = assessment_form.select :rating, [['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], {}, { class: 'form-select' }
             .col-4.my-1
               = assessment_form.text_field :description, class: 'ml-2 form-control', placeholder: "Tell us more..."
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = form.label 'Other Skills?', class: 'form-label'
       .form-info Are there other crafts you love to do that we should know about?
       = form.text_area :other_skills, size: "60x3", class: 'form-control'
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12
       = form.label 'What is your dominant hand?', class: 'form-label required'
     .col-6.col-sm-5.col-md-4
       .form-info Lefty or Righty?
       = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
 
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12
       = form.label 'Sensitivities', class: 'form-label'
       .form-info If we find out an unfinished project was in a house with a smoker or pets, do you want to avoid this project?

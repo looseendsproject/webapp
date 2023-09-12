@@ -1,30 +1,30 @@
 = render 'title', title: 'Edit Settings'
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, data: { turbo: false }  }) do |f|
   = render "devise/shared/error_messages", resource: resource
-  .row
+  .row.g-1.g-sm-4
     .col-6.col-sm-5.col-md-4
       = f.label :first_name, class: 'form-label'
       = f.text_field :first_name, class: 'form-control'
     .col-6.col-sm-5.col-md-4
       = f.label :last_name, class: 'form-label'
       = f.text_field :last_name, class: 'form-control'
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.label :email, class: 'form-label'
       = f.email_field :email, class: 'form-control'
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     %div
       Currently waiting confirmation for: #{resource.unconfirmed_email}
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.label :password, class: 'form-label'
       .form-info (leave blank if you don't want to change it)
       = f.password_field :password, autocomplete: "new-password", class: 'form-control'
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.label :password_confirmation, class: 'form-label'
       = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
-  .row.my-3
+  .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.label :current_password, class: 'form-label'
       .form-info (we need your current password to confirm your changes)
