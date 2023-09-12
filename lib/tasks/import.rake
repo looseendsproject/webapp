@@ -76,64 +76,63 @@ namespace :import do
     worksheet_body.each do |row|
       id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone, active, unavailable, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
       if (id.length > 0)
-        User.where(email: email.downcase).destroy_all
-        user = User.create({
-                  email: email.downcase,
-                  first_name: first_name,
-                  last_name: last_name,
-                  heard_about_us: how_heard,
-                  phone: phone,
-                  password: SecureRandom.hex
+        if !User.where(email: email.downcase).exists?
+          user = User.create({
+                    email: email.downcase,
+                    first_name: first_name,
+                    last_name: last_name,
+                    heard_about_us: how_heard,
+                    phone: phone,
+                    password: SecureRandom.hex
+                             })
+
+          m, d, y = ts.split(' ')[0].split('/')
+          joined_on = Date.new(y.to_i, m.to_i, d.to_i)
+
+          processed_country = country ? (country.strip.downcase == 'usa' || country.strip.downcase == 'us' || country.strip == 'united states') ? 'US' : country.strip.upcase : ''
+
+          finisher = Finisher.create({
+                    joined_on: joined_on,
+                    user_id: user.id,
+                    chosen_name: first_name + ' ' + last_name,
+                    pronouns: pronouns,
+                    description: description + "\n\n" + skills + "\n\n" + skill_level + "\n\n" + products,
+                    street: street,
+                    city: city ? city.strip : '',
+                    state: state ? (state.strip.length == 2) ? state.strip.upcase : state.strip : '',
+                    country: processed_country,
+                    postal_code: postal_code ? postal_code.strip : '',
+                    dominant_hand: dominant_hand,
+                    dislikes: dislikes,
+                    no_smoke: smoker == 'No',
+                    can_publicize: post_ok.length > 0,
+                    social_media: social_media,
+                    terms_of_use: true,
+                    unavailable: unavailable.strip.length > 0
                            })
 
-        m, d, y = ts.split(' ')[0].split('/')
-        joined_on = Date.new(y.to_i, m.to_i, d.to_i)
-
-        processed_country = country ? (country.strip.downcase == 'usa' || country.strip.downcase == 'us' || country.strip == 'united states') ? 'US' : country.strip.upcase : ''
-
-        finisher = Finisher.create({
-                  joined_on: joined_on,
-                  user_id: user.id,
-                  chosen_name: first_name + ' ' + last_name,
-                  pronouns: pronouns,
-                  description: description + "\n\n" + skills + "\n\n" + skill_level + "\n\n" + products,
-                  street: street,
-                  city: city ? city.strip : '',
-                  state: state ? (state.strip.length == 2) ? state.strip.upcase : state.strip : '',
-                  country: processed_country,
-                  postal_code: postal_code ? postal_code.strip : '',
-                  dominant_hand: dominant_hand,
-                  dislikes: dislikes,
-                  no_smoke: smoker == 'No',
-                  can_publicize: post_ok.length > 0,
-                  social_media: social_media,
-                  terms_of_use: true,
-                  unavailable: unavailable.strip.length > 0
-                         })
-
-        if products.length > 0
-          db_products.each do |product_symbol, db_product |
-            if products.downcase.include?(product_symbol.to_s)
-              finisher.products << db_product
+          if products.length > 0
+            db_products.each do |product_symbol, db_product |
+              if products.downcase.include?(product_symbol.to_s)
+                finisher.products << db_product
+              end
             end
           end
-        end
 
-        rating = skill_level.downcase.include?('beginner') ? 1 : skill_level.downcase.include?('intermediate') ? 2 : skill_level.downcase.include?('pro') ? 3 : 2
+          rating = skill_level.downcase.include?('beginner') ? 1 : skill_level.downcase.include?('intermediate') ? 2 : skill_level.downcase.include?('pro') ? 3 : 2
 
-        if skills.length > 0
+          if skills.length > 0
 
-          db_skills.each do |skill_symbol, db_skill |
-            if skills.downcase.include?(skill_symbol.to_s)
-              finisher.assessments << Assessment.new( skill_id: db_skill.id, rating: rating)
+            db_skills.each do |skill_symbol, db_skill |
+              if skills.downcase.include?(skill_symbol.to_s)
+                finisher.assessments << Assessment.new( skill_id: db_skill.id, rating: rating)
+              end
             end
           end
+
+          puts id
         end
-
-        puts id
-
       end
-
     end
   end
 end
