@@ -3,8 +3,8 @@
     - if finisher.unavailable
       .unavailable
         Unavailable
-    .dominant-hand{ class: finisher.dominant_hand[0] }
-      = finisher.dominant_hand[0]
+    .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
+      = finisher.dominant_hand&.first
     - if finisher.picture.representable?
       = link_to image_tag(finisher.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top'), [:manage, finisher]
     - else

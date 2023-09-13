@@ -39,6 +39,7 @@ gem 'haml-rails'
 # Pagination
 gem 'will_paginate', '~> 3.3'
 
+gem 'airbrake'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
