@@ -1,9 +1,11 @@
 %h1.page-title
-  = @finisher.name
+  = @finisher.chosen_name
+%p= @finisher.pronouns
 
 - if @finisher.missing_information?
   .alert.alert-primary
-    Before we can connect you with projects, we need a little more information
+    Before we can connect you with projects, we need a little more information. #{ @finisher.has_completed_profile }
+
 
 .row
   .col-12.col-md-5.col-lg-4.mr-6

@@ -25,7 +25,17 @@ class Finisher < ApplicationRecord
     self.joined_on = Date.today if self.joined_on.blank?
   end
 
-  after_create :send_welcome_message
+  after_create :send_welcome_message, if: Proc.new { self.has_taken_ownership_of_profile }
+  after_save :see_if_finisher_has_completed_profile, if: Proc.new { self.has_taken_ownership_of_profile }
+
+  def see_if_finisher_has_completed_profile
+    if (!has_completed_profile)
+      if !missing_information?
+        update_column(:has_completed_profile, true)
+        send_profile_complete_message
+      end
+    end
+  end
 
   def approved?
     self.approved_at != nil
@@ -107,6 +117,10 @@ class Finisher < ApplicationRecord
 
   def send_welcome_message
     FinisherMailer.welcome(self).deliver_now
+  end
+
+  def send_profile_complete_message
+    FinisherMailer.profile_complete(self).deliver_now
   end
 
 end

@@ -7,7 +7,16 @@ class FinisherMailer < ActionMailer::Base
     mail(
       :from => "info@looseendsproject.org",
       :to => finisher.user.email,
-      :subject => "Welcome to Loose Ends"
+      :subject => "Loose Ends Project Account Created - Next Steps..."
+    )
+  end
+
+  def profile_complete (finisher)
+    @finisher = finisher
+    mail(
+      :from => "info@looseendsproject.org",
+      :to => finisher.user.email,
+      :subject => "Welcome, Loose Ends Finisher!"
     )
   end
 

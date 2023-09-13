@@ -35,7 +35,7 @@ class FinishersController < AuthenticatedController
   end
 
   def create
-    @finisher = Finisher.new(finisher_params)
+    @finisher = Finisher.new(finisher_params.merge(has_taken_ownership_of_profile: true))
     @finisher.user = current_user
     if @finisher.save
       redirect_to finisher_path
@@ -46,7 +46,8 @@ class FinishersController < AuthenticatedController
 
   def update
     @finisher = current_user.finisher
-    if @finisher.update(finisher_params)
+
+    if @finisher.update(finisher_params.merge(has_taken_ownership_of_profile: true))
       redirect_to finisher_path
     else
       render :edit, status: :unprocessable_entity
@@ -69,6 +70,7 @@ class FinishersController < AuthenticatedController
   def finisher_params
     params.require(:finisher).permit(
       :chosen_name,
+      :pronouns,
       :description,
       :street,
       :street_2,
