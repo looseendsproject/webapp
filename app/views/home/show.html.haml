@@ -1,4 +1,4 @@
-= render 'title', title: 'Loose Ends Projects'
+= render 'title', title: 'Loose Ends Project'
 %h3.page-subtitle Why it’s important to finish a handmade project
 .row
   .col-12.col-md-9
@@ -9,25 +9,22 @@
       %p
         Or, it can be finished as intended and given back to be cherished.
     - if current_user
-      .page-section
-        %h4 Get Involved!
-        %ul.list-unstyled
-          %li
-            = link_to "Submit a Project", new_project_path, class: 'button-primary'
-          - if !current_user.finisher?
-            %li
-              = link_to 'Become a Finisher', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'button-primary'
-  - if current_user
-    .col-12.col-md-3
+      - if !current_user.finisher?
+        .page-section
+          %h4 Get Involved!
+          %ul.list-unstyled.row
+            %li.col-6.col-lg-4
+              = link_to 'Become a Finisher', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn w-100'
       - if current_user.finisher?
         .page-section
           %b Finisher
-          %ul.list-unstyled
-            %li= link_to 'View your Profile', :finisher
-      - if current_user.projects.any? || current_user.finisher&.projects&.any?
-        .page-section
-          %b Projects
-          - if current_user.projects.any?
-            %ul.list-unstyled
-              - current_user.projects.each do |project|
-                %li= link_to project.name, project
+          %ul.list-unstyled.row
+            %li.col-6.col-lg-4
+              = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
+    - else
+      .page-section
+        %b Get Involved!
+        %ul.list-unstyled.row
+          %li.col-6.col-lg-4
+            = link_to 'Become a Finisher', new_registration_path('user'), class: 'btn-primary btn w-100'
+

@@ -1,10 +1,10 @@
 = form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
   = render "error_messages", resource: @finisher
   - if Skill.any?
-    .row.g-1.g-sm-4
+    .row.g-1.g-sm-4.mb-3
       .col
         = form.label 'Skill Assessment', class: 'form-label required'
-        .form-info Rate yourself on one or more of the skills below. Add any other information you like!
+        .form-info Rate yourself on the skills you love to do. Add any other information you like!
 
         = form.fields_for :assessments, @assessments do |assessment_form|
 

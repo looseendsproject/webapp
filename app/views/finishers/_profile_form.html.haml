@@ -2,12 +2,12 @@
   = render "error_messages", resource: @finisher
   .row.g-1.g-sm-4
     .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'Chosen or preferred Name', class: 'form-label required'
+      = form.label 'Name', class: 'form-label required'
       = form.text_field :chosen_name, class: 'form-control'
     .col-12.col-xl-2.col-lg-3.col-md-4
       = form.label 'Pronouns', class: 'form-label'
       = form.text_field :pronouns, class: 'form-control'
-  .row.my-3
+  .row.my-4
     .col-xl-6.col-lg-8.col-md-10
       = form.label 'Tell us about yourself', class: 'form-label required'
       = form.text_area :description, size: "60x4", class: 'form-control'
@@ -17,11 +17,11 @@
       .col-xl-6.col-lg-8.col-md-10
         .form-image
           = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
-  .row.g-1.g-sm-4
+  .row.g-1.g-sm-4.mb-4
     .col-xl-6.col-lg-8.col-md-10
-      = form.label 'Picture', class: 'form-label required'
+      = form.label 'A Photo of you', class: 'form-label'
       = form.file_field :picture, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp"
-  .row.g-1.g-sm-4
+  .row.g-1.g-sm-4.mb-4
     .col-xl-6.col-lg-8.col-md-10
       = form.label 'Social Media', class: 'form-label'
       .form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
