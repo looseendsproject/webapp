@@ -4,11 +4,10 @@
     .row.g-1.g-sm-4.mb-3
       .col
         = form.label 'Skill Assessment', class: 'form-label required'
-        .form-info Rate yourself on the skills you love to do. Add any other information you like!
+        .form-info Rate the skills you're offering.
 
         = form.fields_for :assessments, @assessments do |assessment_form|
-
-          .row.g-1
+          .row.g-1.mt-3
             .col-4.col-md-3.col-lg-2.my-1
               = assessment_form.label assessment_form.object.skill.name, class: 'form-label'
               - if assessment_form.object.skill.description.present?

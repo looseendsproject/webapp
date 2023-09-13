@@ -11,20 +11,27 @@
     - if current_user
       - if !current_user.finisher?
         .page-section
-          %h4 Get Involved!
+          %h4 Start your finisher profile!
           %ul.list-unstyled.row
             %li.col-6.col-lg-4
-              = link_to 'Become a Finisher', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn w-100'
-      - if current_user.finisher?
-        .page-section
-          %b Finisher
-          %ul.list-unstyled.row
-            %li.col-6.col-lg-4
-              = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
+              = link_to 'Fill out your Finisher Profile', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn w-100'
+      - else
+        - if !current_user.finisher.has_completed_profile
+          .page-section
+            %b Complete your finisher profile!
+            %ul.list-unstyled.row
+              %li.col-6.col-lg-4
+                = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
+        - else
+          .page-section
+            %b Finisher Profile Complete!
+            %ul.list-unstyled.row
+              %li.col-6.col-lg-4
+                = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
     - else
       .page-section
         %b Get Involved!
         %ul.list-unstyled.row
           %li.col-6.col-lg-4
-            = link_to 'Become a Finisher', new_registration_path('user'), class: 'btn-primary btn w-100'
+            = link_to 'Create an Account', new_registration_path('user'), class: 'btn-primary btn w-100'
 

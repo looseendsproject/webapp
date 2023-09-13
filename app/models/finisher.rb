@@ -46,7 +46,7 @@ class Finisher < ApplicationRecord
   end
 
   def missing_information?
-    description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments?
+    description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments? || missing_favorites?
   end
 
   def self.search(params)
@@ -93,6 +93,10 @@ class Finisher < ApplicationRecord
 
   def missing_assessments?
     assessments.all? { |a| a[:rating] == 0 }
+  end
+
+  def missing_favorites?
+    favorites.length == 0
   end
 
   def approved=(val)

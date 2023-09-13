@@ -90,8 +90,11 @@
     %hr/
     .page-section
       %h4
-        Projects
-        = link_to 'Edit', [:edit_projects, :finisher], class: 'btn btn-link float-end btn-sm'
+        Favorites
+        = link_to 'Edit', [:edit_favorites, :finisher], class: 'btn btn-link float-end btn-sm'
+
+      - if @finisher.missing_favorites?
+        %p.text-primary Please tell us what you like to do
       %ul
         - @finisher.favorites.each do |favorite|
           %li= favorite.product.name

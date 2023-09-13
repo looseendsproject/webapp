@@ -2,9 +2,9 @@
   = render "error_messages", resource: @finisher
 
   - if Product.any?
-    .row.g-1.g-sm-4
+    .row.g-1.g-sm-4.mb-3
       .col-12.col-md-9
-        = form.label 'What do you like to make?', class: 'form-label'
+        = form.label 'What do you like to make?', class: 'form-label required'
         = form.collection_check_boxes :product_ids, Product.all, :id, :name do |b|
           .row
             = b.label(class: 'form-label') do
@@ -12,18 +12,18 @@
               = b.object.name
               - if b.object.description.present?
                 (#{b.object.description})
-  .row.g-1.g-sm-4
+  .row.g-1.g-sm-4.mb-3
     .col-12.col-md-9
       = form.label 'Do you have favorites?', class: 'form-label'
       = form.text_area :other_favorites, size: "60x3", class: 'form-control'
-  .row.g-1.g-sm-4
+  .row.g-1.g-sm-4.mb-3
     .col-12.col-md-9
-      = form.label 'Finished Projects', class: 'form-label'
-      .form-info Please upload photos of projects you've done that you like.
+      = form.label "Things you've finished", class: 'form-label'
+      .form-info Please upload photos of things you'd like to show off!
       = form.file_field :append_finished_projects, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp",  :multiple => true
       - form.object.finished_projects.each do |image|
         = image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'
-  .row.g-1.g-sm-4.mb-3
+  .row.g-1.g-sm-4.mb-3.mb-3
     .col-12.col-md-9
       = form.label 'Please, Never Again!', class: 'form-label'
       .form-info Are there techniques or projects you would rather avoid?

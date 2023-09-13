@@ -19,11 +19,12 @@ Rails.application.routes.draw do
       get 'edit_crafter'
     end
   end
+
   resource :finisher, :except => :edit do
     member do
       get 'edit_profile'
       get 'edit_address'
-      get 'edit_projects'
+      get 'edit_favorites'
       get 'edit_skills'
     end
   end
