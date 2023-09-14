@@ -46,7 +46,7 @@ namespace :import do
     }
 
     sweaters = Product.find_or_create_by(name: "Sweaters")
-    garments = Product.find_or_create_by(name: "Garments")
+    garments = Product.find_or_create_by(name: "Other Garments")
     accessories = Product.find_or_create_by(name: "Accessories")
     quilts = Product.find_or_create_by(name: "Quilts")
     blankets = Product.find_or_create_by(name: "Blankets")
@@ -74,6 +74,7 @@ namespace :import do
     worksheet_header, *worksheet_body = worksheet.rows
 
     worksheet_body.each do |row|
+      # a, b,     c,          d,         e,        F,      G     H.     I,       J            K,             L,            M,      N,           O,      P,        Q,           R,        S,      T,         U,           V,             W,       X,            Y
       id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone_number, active, unavailable, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
       if (id.length > 0)
         if !User.where(email: email.downcase).exists?

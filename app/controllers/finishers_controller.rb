@@ -71,6 +71,7 @@ class FinishersController < AuthenticatedController
     params.require(:finisher).permit(
       :chosen_name,
       :pronouns,
+      :phone_number,
       :description,
       :street,
       :street_2,
