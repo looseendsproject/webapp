@@ -74,7 +74,7 @@ namespace :import do
     worksheet_header, *worksheet_body = worksheet.rows
 
     worksheet_body.each do |row|
-      id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone, active, unavailable, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
+      id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, confirm_email, phone_number, active, unavailable, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
       if (id.length > 0)
         if !User.where(email: email.downcase).exists?
           user = User.create({
@@ -82,7 +82,6 @@ namespace :import do
                     first_name: first_name,
                     last_name: last_name,
                     heard_about_us: how_heard,
-                    phone: phone,
                     password: SecureRandom.hex
                              })
 
@@ -96,6 +95,7 @@ namespace :import do
                     user_id: user.id,
                     chosen_name: first_name + ' ' + last_name,
                     pronouns: pronouns,
+                    phone_number: phone_number,
                     description: description + "\n\n" + skills + "\n\n" + skill_level + "\n\n" + products,
                     street: street,
                     city: city ? city.strip : '',

@@ -17,7 +17,7 @@
         = l(finisher.joined_on) if finisher.joined_on
       .skills
         %b Skills:
-        = finisher.assessments.map{|assessment| "#{assessment.skill.name} (#{assessment.rating})"}.join(', ')
+        = finisher.rated_assessments.map{|assessment| "#{assessment.skill.name} (#{assessment.rating})"}.join(', ')
       .favorites
         .row
           %b.col-10 Favorites:

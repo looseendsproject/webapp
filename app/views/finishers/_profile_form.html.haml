@@ -1,12 +1,16 @@
 = form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
   = render "error_messages", resource: @finisher
-  .row.g-1.g-sm-4
+  .row.g-1.g-sm-4.mb-3
     .col-12.col-xl-4.col-lg-5.col-md-6
       = form.label 'Name', class: 'form-label required'
       = form.text_field :chosen_name, class: 'form-control'
     .col-12.col-xl-2.col-lg-3.col-md-4
       = form.label 'Pronouns', class: 'form-label'
       = form.text_field :pronouns, class: 'form-control'
+  .row.g-1.g-sm-4
+    .col-12.col-xl-4.col-lg-5.col-md-6
+      = form.label 'Phone Number', class: 'form-label required'
+      = form.text_field :phone_number, class: 'form-control'
   .row.my-4
     .col-xl-6.col-lg-8.col-md-10
       = form.label 'Tell us about yourself', class: 'form-label required'

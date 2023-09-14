@@ -24,8 +24,8 @@
       %b Email
       = @finisher.user.email
     .page-section
-      %b Phone
-      = @finisher.user.phone
+      %b Phone Number
+      = @finisher.phone_number
     .page-section
       %b Pronouns
       = @finisher.pronouns
@@ -50,7 +50,7 @@
     .page-section
       %h4 Skills
       %ul
-        - @finisher.assessments.where(rating: 1..).each do |assessment|
+        - @finisher.rated_assessments.each do |assessment|
           %li
             = assessment.skill.name
             \: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}

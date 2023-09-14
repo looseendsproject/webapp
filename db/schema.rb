@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_003743) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_023426) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -124,6 +124,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_003743) do
     t.boolean "unavailable", default: false
     t.boolean "has_completed_profile", default: false
     t.boolean "has_taken_ownership_of_profile", default: false
+    t.string "phone_number"
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["user_id"], name: "index_finishers_on_user_id"
   end
@@ -157,6 +158,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_003743) do
     t.boolean "terms_of_use"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "phone_number"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 

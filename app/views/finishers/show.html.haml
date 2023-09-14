@@ -71,7 +71,7 @@
         %p.text-primary Please enter assessments
       - else
         %ul
-          - @finisher.assessments.where(rating: 1..).each do |assessment|
+          - @finisher.rated_assessments.each do |assessment|
             %li
               #{assessment.skill.name}: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}
 

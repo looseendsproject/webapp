@@ -11,6 +11,7 @@ class Finisher < ApplicationRecord
 
   has_many :assessments, dependent: :destroy
   has_many :skills, through: :assessments
+  has_many :rated_assessments, -> { where(:rating => 1..)}, :class_name => 'Assessment'
 
   has_many :favorites, dependent: :destroy
   has_many :products, through: :favorites
@@ -18,6 +19,7 @@ class Finisher < ApplicationRecord
   accepts_nested_attributes_for :assessments
 
   validates :chosen_name, presence: true
+  validates :phone_number, presence: true
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 
