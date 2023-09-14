@@ -50,10 +50,18 @@ class FinishersController < AuthenticatedController
     if @finisher.update(finisher_params.merge(has_taken_ownership_of_profile: true))
       redirect_to finisher_path
     else
-      render :edit, status: :unprocessable_entity
+      if finisher_params[:chosen_name]
+        render :edit_profile, status: :unprocessable_entity
+      elsif finisher_params[:country]
+        render :edit_address, status: :unprocessable_entity
+      elsif finisher_params[:other_skills]
+        render :edit_skills, status: :unprocessable_entity
+      elsif finisher_params[:other_favorites]
+        render :edit_favorites, status: :unprocessable_entity
+      end
+
     end
   end
-
 
   def destroy
     @finisher = current_user.finisher
