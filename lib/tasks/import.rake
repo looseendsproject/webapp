@@ -2,14 +2,14 @@ namespace :import do
 
   desc "Import Finishers"
   task :finishers => [:environment] do |t|
-    knitting = Skill.find_or_create_by(name: 'Knitting')
+    knitting = Skill.find_or_create_by(name: 'Knit')
     quilting = Skill.find_or_create_by(name: 'Quilting')
-    crocheting = Skill.find_or_create_by(name: 'Crocheting')
+    crocheting = Skill.find_or_create_by(name: 'Crochet')
     needlepoint = Skill.find_or_create_by(name: 'Needlepoint')
     cross_stitch = Skill.find_or_create_by(name: 'Cross-stitch')
     sewing = Skill.find_or_create_by(name: 'Sewing')
     spinning = Skill.find_or_create_by(name: 'Spinning')
-    rug_hooking = Skill.find_or_create_by(name: 'Rug Hooking')
+    rugs = Skill.find_or_create_by(name: 'Rugs')
     punch_needle = Skill.find_or_create_by(name: 'Punch Needle')
     tunisian_crochet = Skill.find_or_create_by(name: 'Tunisian Crochet')
     latch_hook = Skill.find_or_create_by(name: 'Latch Hook')
@@ -31,7 +31,7 @@ namespace :import do
       cross: cross_stitch,
       sew: sewing,
       spinning: spinning,
-      'rug hook': rug_hooking,
+      rug: rugs,
       punch: punch_needle,
       tunisian: tunisian_crochet,
       latch: latch_hook,
