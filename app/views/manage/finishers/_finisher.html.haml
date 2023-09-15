@@ -42,8 +42,10 @@
 
           %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
         .modal-body
-          %h5 About Me
+          %h6 About Me
           = finisher.description
           - if finisher.admin_notes.present?
             %h5 Admin Notes
             = finisher.admin_notes
+          %h6.mt-4 How Heard
+          = finisher.user.heard_about_us

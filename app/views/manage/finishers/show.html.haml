@@ -17,6 +17,9 @@
     %div
       Since:
       = @finisher.joined_on
+    %div
+      How Heard:
+      = @finisher.user.heard_about_us
 
     - if @finisher.picture.representable?
       = image_tag @finisher.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
