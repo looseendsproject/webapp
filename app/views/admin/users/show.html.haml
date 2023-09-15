@@ -5,5 +5,7 @@
 .row
   .col
     Since: #{l @user.created_at, format: :long}
+  .col
+    Email: #{@user.email}
 %p
   Role: #{@user.role}

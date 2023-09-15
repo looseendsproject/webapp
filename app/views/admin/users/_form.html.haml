@@ -1,15 +1,21 @@
 = form_with model: @user, url: admin_user_path(@user) do |form|
   = render "error_messages", resource: @user
+  .row.mb-4
+    .col-4
+      = form.label 'Role', class: 'form-label'
+      = form.select :role, [['User', 'user'], ['Manager', 'manager'], ['Admin', 'admin']], { }, { class: 'form-select' }
   .row
     .col-4
-      - if @user != current_user
-        = form.label 'Role', class: 'form-label'
-        = form.select :role, [['User', 'user'], ['Manager', 'manager'], ['Admin', 'admin']], { }, { class: 'form-select' }
-      - else
-        You can't edit yourself!
+      = form.label 'Email', class: 'form-label'
+      = form.text_field :email, class: 'form-control'
+
+
   - if @user != current_user
 
     .row
       .col-4
         .form-actions
           = form.submit class: "btn btn-primary"
+
+  - else
+    You can't edit yourself!
