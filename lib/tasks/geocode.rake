@@ -1,9 +1,9 @@
-# lib/tasks/generate_lat_long.rake
+# lib/tasks/geocode.rake
 
-namespace :generate_lat_long do
+namespace :geocode do
   desc 'Generate latitude and longitude for all finishers'
 
-  task :update => :environment do
+  task :finishers => :environment do
 
     # iterate through each finisher in batches of 500 and attempt to geocode them...
     Finisher.in_batches(of: 500).each_record do |finisher|
