@@ -4,10 +4,9 @@ namespace :generate_lat_long do
   desc 'Generate latitude and longitude for all finishers'
 
   task :update => :environment do
-    finishers = Finisher.all
 
-    # iterate through each finisher and attempt to geocode them...
-    finishers.each do |finisher|
+    # iterate through each finisher in batches of 500 and attempt to geocode them...
+    Finisher.in_batches(of: 500).each_record do |finisher|
       result = finisher.geocode
       if result
         # ...if successful, save the finisher
