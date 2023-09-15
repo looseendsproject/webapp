@@ -98,3 +98,5 @@ group :test do
   gem "webdrivers"
 end
 
+
+gem "geocoder", "~> 1.8"
