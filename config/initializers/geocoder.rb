@@ -1,7 +1,7 @@
 Geocoder.configure(
   # per Geocoder documentation, specifying a header while using default service Nominatim
   # https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md#nominatim-nominatim
-  http_headers: { "User-Agent" => "steven@looseendsproject.org" }
+  http_headers: { "User-Agent" => "info@looseendsproject.org" }
   # Geocoding options
   # timeout: 3,                 # geocoding service timeout (secs)
   # lookup: :nominatim,         # name of geocoding service (symbol)
