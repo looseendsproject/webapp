@@ -128,5 +128,19 @@ class Finisher < ApplicationRecord
   def send_profile_complete_message
     FinisherMailer.profile_complete(self).deliver_now
   end
+  
+  # logic for geocoding a finisher
+  geocoded_by :full_address
+  after_validation :geocode, if: :address_attribute_has_changed?
+  
+  # method for combining all available address attributes for geocoding
+  def full_address
+    [street, street_2, city, state, postal_code, country].compact.join(", ") 
+  end
+
+  # method for checking if any address attribute has changed
+  def address_attribute_has_changed? 
+    street_changed?||street_2_changed?||city_changed?||state_changed?||postal_code_changed?||country_changed?
+  end 
 
 end
