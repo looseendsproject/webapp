@@ -106,4 +106,4 @@
       setCountry('#{@finisher.country.present? ? @finisher.country&.downcase : ''}')
   }
 
-  document.addEventListener("load", initializeAddress)
+  document.addEventListener("turbo:load", initializeAddress)
