@@ -38,8 +38,7 @@
       - if @finisher.street_2.present?
         .street2= @finisher.street_2
       .city-state-zip
-        = @finisher.city
-        , #{@finisher.state} #{@finisher.postal_code}
+        #{@finisher.city}, #{@finisher.state} #{@finisher.postal_code}
       .country= @finisher.country
 
 

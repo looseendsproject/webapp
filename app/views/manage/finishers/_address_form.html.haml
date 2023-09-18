@@ -53,7 +53,6 @@
   const prefixes = ['us', 'ca', 'ot']
 
   const selectButton = (selected) => {
-      console.log({selected})
       prefixes.forEach(p => {
           const button = document.querySelector('#' + p + 'Button')
           if (selected === p) {
@@ -94,6 +93,9 @@
   }
 
   const setCountry = (val) => {
+      if (val === 'canada') {
+          val = 'ca'
+      }
       if (prefixes.includes(val)) {
           selectButton(val);
           showState(val);
@@ -110,3 +112,4 @@
   }
 
   document.addEventListener("load", initializeAddress)
+  document.addEventListener("turbo:load", initializeAddress)

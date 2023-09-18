@@ -91,6 +91,9 @@
   }
 
   const setCountry = (val) => {
+      if (val === 'CANADA') {
+          val = 'ca'
+      }
       if (prefixes.includes(val)) {
           selectButton(val);
           showState(val);
@@ -106,4 +109,5 @@
       setCountry('#{@finisher.country.present? ? @finisher.country&.downcase : ''}')
   }
 
+  document.addEventListener("load", initializeAddress)
   document.addEventListener("turbo:load", initializeAddress)
