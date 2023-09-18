@@ -9,10 +9,10 @@
           %li.nav-item
             %button#usButton{:class => "nav-link #{'active' if form.object.country == 'US' || form.object.country.blank?}", :onclick => "setCountry('us')", :type => "button"} US
           %li.nav-item
-            %button#caButton{:class => "nav-link #{'active' if form.object.country == 'CA'}", :onclick => "setCountry('ca')", :type => "button"} Canada
+            %button#caButton{:class => "nav-link #{'active' if form.object.country == 'CANADA'}", :onclick => "setCountry('ca')", :type => "button"} Canada
           %li.nav-item
-            %button#otButton{:class => "nav-link #{'active' if form.object.country.present? && form.object.country != 'US' && form.object.country != 'CA'}", :onclick => "setCountry('ot')", :type => "button"} Not US or Canada
-    #country_ui.row{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CA') }
+            %button#otButton{:class => "nav-link #{'active' if form.object.country.present? && form.object.country != 'US' && form.object.country != 'CANADA'}", :onclick => "setCountry('ot')", :type => "button"} Not US or Canada
+    #country_ui.row{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CANADA') }
       .col-4
         = form.label 'Country', class: 'form-label required'
         = form.text_field :country, class: 'form-control'
@@ -32,10 +32,10 @@
         = form.label 'State', class: 'form-label required'
         = form.select :state, STATES,                      |
           { include_blank: true }, { class: 'form-select' } |
-      #caState.col-3{ class: ("hidden" unless form.object.country == 'CA') }
+      #caState.col-3{ class: ("hidden" unless form.object.country == 'CANADA') }
         = form.label 'Province', class: 'form-label required'
         = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-select' }
-      #otState.col-3{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CA') }
+      #otState.col-3{ class: ("hidden" if form.object.country == 'US' || form.object.country == 'CANADA') }
         = form.label 'State/Province', class: 'form-label required'
         = form.text_field :state, class: 'form-control', id: 'state_ot'
       .col-2
@@ -80,7 +80,7 @@
           countryinput.value = 'US';
           countryField.style.display = "none"
       } else if (selected === 'ca') {
-          countryinput.value = 'CA';
+          countryinput.value = 'CANADA';
           countryField.style.display = "none"
       } else {
           countryinput.value = '';
