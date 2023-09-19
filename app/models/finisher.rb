@@ -65,7 +65,7 @@ class Finisher < ApplicationRecord
       @results = @results.joins(:favorites).where(:favorites => { product_id: params[:product_id]})
     end
     if params[:skill_id].present?
-      @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id]})
+      @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
     end
     if params[:state].present?
       @results = @results.where(:state => params[:state])
