@@ -1,7 +1,7 @@
 #country_ui.row
   .col-4
     = form.label 'Country', class: 'form-label required'
-    = form.select :country, options_for_select(ISO3166::Country.pluck(:iso_short_name, :alpha2), form.object.country), { include_blank: true }, { class: 'form-select', onChange: "setStates(this.value)", id: 'country' }
+    = form.select :country, options_for_select(ISO3166::Country.pluck(:iso_short_name, :alpha2).sort_by{|c| I18n.transliterate(c[0])}, form.object.country), { include_blank: true }, { class: 'form-select', onChange: "setStates(this.value)", id: 'country' }
   .row.my-2
     .col-12.col-md-10.col-lg-8
       = form.label 'Street', class: 'form-label required'

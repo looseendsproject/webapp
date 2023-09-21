@@ -7,7 +7,7 @@ class Manage::FinishersController < Manage::ManageController
     end
     @states = @stateQuery.pluck(:state).uniq
     @existing_countries = Finisher.where.not(country: "").order(:country).load_async.pluck(:country).uniq
-    @countries = ISO3166::Country.all.select{ |c| @existing_countries.include?(c.un_locode) }.map{ |c| [c.iso_short_name, c.un_locode]}
+    @countries = ISO3166::Country.all.select{ |c| @existing_countries.include?(c.alpha2) }.map{ |c| [c.iso_short_name, c.alpha2]}.sort_by{|c| I18n.transliterate(c[0])}
   end
 
   def show
