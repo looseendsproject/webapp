@@ -10,7 +10,7 @@ class Manage::FinishersController < Manage::ManageController
     @countries = ISO3166::Country.all.select{ |c| @existing_countries.include?(c.alpha2) }.map{ |c| [c.iso_short_name, c.alpha2]}.sort_by{|c| I18n.transliterate(c[0])}
     skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
     product = Product.find(params[:product_id]) if params[:product_id].present?
-    @title = ['Finishers', params[:search], params[:country], skill&.name, product&.name].reject(&:blank?).join(' ')
+    @title = ['Finishers', params[:search], params[:country], params[:state], skill&.name, product&.name].reject(&:blank?).join(' ')
   end
 
   def show
