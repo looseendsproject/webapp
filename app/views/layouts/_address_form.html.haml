@@ -41,12 +41,12 @@
     state.querySelector('select, input').disabled = false;
   };
 
-  const setStates = (stateCode) => {
-    if (stateCode === 'US') {
+  const setStates = (countryCode) => {
+    if (countryCode === 'US') {
       showState('us')
       hideState('ca')
       hideState('ot')
-    } else if (stateCode === 'CA') {
+    } else if (countryCode === 'CA') {
       showState('ca')
       hideState('us')
       hideState('ot')
@@ -57,5 +57,5 @@
     }
   }
 
-  document.addEventListener("load", () => initializeAddress(document.querySelector('#country').value))
-  document.addEventListener("turbo:load", () => initializeAddress(document.querySelector('#country').value))
+  document.addEventListener("load", () => setStates(document.querySelector('#country').value))
+  document.addEventListener("turbo:load", () => setStates(document.querySelector('#country').value))
