@@ -1,0 +1,61 @@
+#country_ui.row
+  .col-4
+    = form.label 'Country', class: 'form-label required'
+    = form.select :country, options_for_select(ISO3166::Country.pluck(:iso_short_name, :alpha2), form.object.country), { include_blank: true }, { class: 'form-select', onChange: "setStates(this.value)", id: 'country' }
+  .row.my-2
+    .col-12.col-md-10.col-lg-8
+      = form.label 'Street', class: 'form-label required'
+      = form.text_field :street, class: 'form-control'
+  .row.my-2
+    .col-12.col-md-10.col-lg-8
+      = form.label 'Line 2', class: 'form-label'
+      = form.text_field :street_2, class: 'form-control'
+  .row.my-2
+    .col-4.col-lg-3
+      = form.label 'City', class: 'form-label required'
+      = form.text_field :city, class: 'form-control'
+    #usState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'US') }
+      = form.label 'State', class: 'form-label required'
+      = form.select :state, STATES,                      |
+        { include_blank: true }, { class: 'form-select' } |
+    #caState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'CA') }
+      = form.label 'Province', class: 'form-label required'
+      = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-select' }
+    #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA']) ) }
+      = form.label 'State/Province', class: 'form-label required'
+      = form.text_field :state, class: 'form-control', id: 'state_ot'
+    .col-4.col-sm-4.col-md-3.col-lg-2
+      = form.label "Postal code", class: 'form-label required'
+      = form.text_field :postal_code, class: 'form-control'
+
+:javascript
+  const hideState = (stateCode) => {
+    const state = document.querySelector('#' + stateCode + 'State')
+    state.style.display = "none"
+    state.querySelector('select, input').disabled = true;
+  }
+
+  const showState = (stateCode) => {
+    const state = document.querySelector('#' + stateCode + 'State')
+    state.style.display = "block"
+    state.querySelector('select, input').disabled = false;
+  };
+
+  const setStates = (stateCode) => {
+    if (stateCode === 'US') {
+      showState('us')
+      hideState('ca')
+      hideState('ot')
+    } else if (stateCode === 'CA') {
+      showState('ca')
+      hideState('us')
+      hideState('ot')
+    } else {
+      showState('ot')
+      hideState('us')
+      hideState('ca')
+    }
+  }
+
+  document.addEventListener("load", () => initializeAddress(document.querySelector('#country').value))
+  document.addEventListener("turbo:load", () => initializeAddress(document.querySelector('#country').value))

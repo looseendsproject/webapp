@@ -53,7 +53,8 @@
             #{@finisher.city}, #{@finisher.state} #{@finisher.postal_code}
       - if @finisher.state.present? && @finisher.country.present?
         .row
-          .col= @finisher.country
+          .col
+            = ISO3166::Country[@finisher.country]&.iso_short_name
     %hr/
 
 

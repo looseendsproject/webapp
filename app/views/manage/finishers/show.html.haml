@@ -39,7 +39,8 @@
         .street2= @finisher.street_2
       .city-state-zip
         #{@finisher.city}, #{@finisher.state} #{@finisher.postal_code}
-      .country= @finisher.country
+      .country
+        = ISO3166::Country[@finisher.country]&.iso_short_name
 
 
   .col-6
