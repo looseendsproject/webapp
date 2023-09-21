@@ -64,6 +64,13 @@ class Finisher < ApplicationRecord
     if params[:product_id].present?
       @results = @results.joins(:favorites).where(:favorites => { product_id: params[:product_id]})
     end
+    if params[:available].present?
+      if params[:available] == 'yes'
+        @results = @results.where.not(unavailable: true)
+      elsif params[:available] == 'no'
+        @results = @results.where(unavailable: true)
+      end
+    end
     if params[:skill_id].present?
       @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
     end
