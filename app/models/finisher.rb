@@ -52,7 +52,7 @@ class Finisher < ApplicationRecord
   end
 
   def self.search(params)
-    @results = self.all.includes(:products, :skills).with_attached_picture.joins(:user)
+    @results = self.all.includes(:products, { :rated_assessments => :skill }, :user).with_attached_picture
     if params[:search].present?
 
       if params[:search].match(/^[0-9]+$/)
@@ -72,7 +72,7 @@ class Finisher < ApplicationRecord
       end
     end
     if params[:skill_id].present?
-      @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
+      @results = @results.where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
     end
     if params[:state].present?
       @results = @results.where(:state => params[:state])

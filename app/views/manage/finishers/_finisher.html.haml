@@ -35,9 +35,7 @@
         .modal-header
           .row
             .col-12
-              %b
-                = finisher.chosen_name
-
+              %b= finisher.name
               #{finisher.city}, #{finisher.state}
 
           %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
