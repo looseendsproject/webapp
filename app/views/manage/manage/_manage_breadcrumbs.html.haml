@@ -23,5 +23,5 @@
     = link_to_unless_current 'Finishers', manage_finishers_path, class: 'nav-item'
     - if @finisher
       = fa_icon("chevron-right")
-      = link_to_unless_current @finisher.name, manage_finisher_path(@finisher), class: 'nav-item'
+      = link_to_unless_current @finisher.chosen_name, manage_finisher_path(@finisher), class: 'nav-item'
 

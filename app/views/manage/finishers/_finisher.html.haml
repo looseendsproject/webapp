@@ -11,7 +11,7 @@
       = link_to image_tag('finisher.png', class: 'card-img-top'), [:manage, finisher]
     .card-body
       %h6.card-title.row.align-items-center
-        = link_to finisher.chosen_name, [:manage, finisher]
+        = link_to finisher.name, [:manage, finisher]
       .since
         %b Since:
         = l(finisher.joined_on) if finisher.joined_on

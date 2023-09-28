@@ -121,7 +121,7 @@ class Finisher < ApplicationRecord
   end
 
   def name
-    user.name
+    user.name != chosen_name ? "#{chosen_name} (#{user.name})" : chosen_name
   end
 
   def append_finished_projects=(attachables)
