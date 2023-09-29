@@ -36,7 +36,7 @@
       .row
         .col
           %b Mailing Address
-        .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@finisher.full_address}"
+        .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@finisher.full_address}", target: "_blank"
       .street= @finisher.street
       - if @finisher.street_2.present?
         .street2= @finisher.street_2
