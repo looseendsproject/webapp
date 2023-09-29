@@ -2,10 +2,5 @@
   %h5 Mailing Address
   .row.mb-3
     .form-info
-      = finisher.street
-      = finisher.street_2
-      = finisher.city
-      = finisher.state
-      = finisher.postal_code
-      = finisher.country
+      = finisher.full_address
   = render :partial => 'layouts/address_form', :locals => { form: form }

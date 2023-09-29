@@ -33,7 +33,10 @@
       %b Pronouns
       = @finisher.pronouns
     .page-section
-      %b Mailing Address
+      .row
+        .col
+          %b Mailing Address
+        .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@finisher.full_address}"
       .street= @finisher.street
       - if @finisher.street_2.present?
         .street2= @finisher.street_2
