@@ -90,11 +90,17 @@ class Finisher < ApplicationRecord
       @results = @results.where(:country => params[:country])
     end
     if params[:location].present?
+      # declare empty array to hold ids we have filtered to in previous steps
       ids_to_filter = []
+
+      # filter through results object and add ids to array
       @results.each do |result|
         ids_to_filter.push(result.id)
       end
 
+      # find finishers near location based on distance
+      # accomplished via geocoder gem
+      # then filter based on the ids remaining after other steps
       filtered_finishers = Finisher.near(params[:location], params[:distance]).where(:id => ids_to_filter)
 
       @results = filtered_finishers
