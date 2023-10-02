@@ -33,9 +33,9 @@
       = select_tag :state, options_for_select(@states, params[:state]), include_blank: true, class: 'form-select'
   .row.mb-0
     .col-7
-      = label_tag :location, "location", class: 'label'
+      = label_tag :location, "Location", class: 'label'
     .col-2
-      = label_tag :distance, "distance", class: 'label'
+      = label_tag :distance, "Distance", class: 'label'
   .row.mb-4
     .col-7
       = text_field_tag :location, params[:location], class: 'form-control'
