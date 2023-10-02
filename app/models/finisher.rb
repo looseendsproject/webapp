@@ -89,6 +89,16 @@ class Finisher < ApplicationRecord
     if params[:country].present?
       @results = @results.where(:country => params[:country])
     end
+    if params[:location].present?
+      ids_to_filter = []
+      @results.each do |result|
+        ids_to_filter.push(result.id)
+      end
+
+      filtered_finishers = Finisher.near(params[:location], params[:distance]).where(:id => ids_to_filter)
+
+      @results = filtered_finishers
+    end
     return @results
   end
 
