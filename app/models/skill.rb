@@ -1,6 +1,6 @@
 class Skill < ApplicationRecord
   has_many :assessments, dependent: :destroy
-  has_many :finishers, through: :assessments
+  has_many :finishers, -> { where assessments: { rating: 1.. } }, through: :assessments
 
   validates :name, presence: true
 
