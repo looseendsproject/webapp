@@ -57,15 +57,17 @@ class Finisher < ApplicationRecord
     keywords = search_string.split(/\s+/)
     conditions = []
     match_strings = []
-    attributes.each do |attr|
-      keywords.each do | keyword |
-        conditions << "#{attr} iLIKE ?"
+    keywords.each do | keyword |
+      phrase = []
+      attributes.each do |attr|
+        phrase << "#{attr} iLIKE ?"
         match_strings << "#{keyword}%"
       end
+      conditions << "(" + phrase.join(' OR ') + ")"
     end
-    conditions << "#{description} ~* ?"
+    str = conditions.join(' AND ') + " OR #{description} ~* ?"
     match_strings << "\\y#{search_string}\\y"
-    return [conditions.join(' OR '), match_strings].flatten
+    return [str, match_strings].flatten
   end
 
   def self.search(params)
