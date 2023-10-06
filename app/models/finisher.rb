@@ -54,7 +54,7 @@ class Finisher < ApplicationRecord
   def self.get_sql(search_string)
     attributes = ["users.first_name", "users.last_name", "users.email", "finishers.state", "finishers.city", "finishers.chosen_name"]
     description = "finishers.description"
-    keywords = search_string.split(/\s+/)
+    keywords = search_string.strip.split(/\s+/)
     conditions = []
     match_strings = []
     keywords.each do | keyword |
