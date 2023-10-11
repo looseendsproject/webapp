@@ -16,11 +16,12 @@
       = form.text_field :city, class: 'form-control'
     #usState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'US') }
       = form.label 'State', class: 'form-label required'
-      = form.select :state, STATES,                      |
+      = form.select :state, US_STATES,                      |
         { include_blank: true }, { class: 'form-select' } |
     #caState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'CA') }
       = form.label 'Province', class: 'form-label required'
-      = form.select :state, PROVINCES, { include_blank: true }, { class: 'form-select' }
+      = form.select :state, CA_PROVINCES, { include_blank: true }, { class: 'form-select' }
+
     #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA']) ) }
       = form.label 'State/Province', class: 'form-label required'
       = form.text_field :state, class: 'form-control', id: 'state_ot'

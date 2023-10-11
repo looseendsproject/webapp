@@ -33,4 +33,14 @@
     .col
       = select_tag :state, options_for_select(@states, params[:state]), include_blank: true, class: 'form-select'
     .col
-      = submit_tag "Search", name: nil, class: 'btn btn-primary'
+      .row
+        .col
+          = submit_tag "Search", name: nil, class: 'btn btn-primary'
+        - if params[:view] == 'list'
+          .col
+            = link_to 'Cards', url_for(params.to_unsafe_h.merge(view: nil))
+          .col
+            = link_to fa_icon('file-csv'), url_for(params.to_unsafe_h.merge(format: 'csv')), target: '_blank'
+        - else
+          .col
+            = link_to 'List', url_for(params.to_unsafe_h.merge(view: 'list'))

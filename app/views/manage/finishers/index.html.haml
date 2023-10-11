@@ -7,5 +7,16 @@
   .col= pluralize @finishers.total_entries, 'finisher'
 
 .row
-  = render @finishers
+  - if params[:view] == 'list'
+    %table.table
+      %thead
+        %tr
+          %th Name
+          %th Email
+          %th Address
+        = render partial: 'finisher_row', collection: @finishers, as: :finisher
+
+  - else
+    = render @finishers
+
   = will_paginate @finishers

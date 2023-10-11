@@ -1,16 +1,26 @@
 class Manage::FinishersController < Manage::ManageController
+  require 'csv'
   def index
-    @finishers = Finisher.search(params).paginate(page: params[:page])
-    @stateQuery = Finisher.where.not(state: "").order(:state).load_async
-    if params[:country].present?
-      @stateQuery = @stateQuery.where(country: params[:country])
+    respond_to do |format|
+      skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
+      product = Product.find(params[:product_id]) if params[:product_id].present?
+      @title = ['Finishers', params[:search] ? "'#{params[:search]}'" : nil, params[:country], params[:state], skill&.name, product&.name].reject(&:blank?).join(' ')
+      format.csv do
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+        @finishers = Finisher.search(params)
+      end
+      format.html do
+        @finishers = Finisher.search(params).paginate(page: params[:page])
+        @stateQuery = Finisher.where.not(state: "").order(:state).load_async
+        if params[:country].present?
+          @stateQuery = @stateQuery.where(country: params[:country])
+        end
+        @states = @stateQuery.pluck(:state).uniq
+        @existing_countries = Finisher.where.not(country: "").order(:country).load_async.pluck(:country).uniq
+        @countries = ISO3166::Country.all.select{ |c| @existing_countries.include?(c.alpha2) }.map{ |c| [c.iso_short_name, c.alpha2]}.sort_by{|c| I18n.transliterate(c[0])}
+      end
     end
-    @states = @stateQuery.pluck(:state).uniq
-    @existing_countries = Finisher.where.not(country: "").order(:country).load_async.pluck(:country).uniq
-    @countries = ISO3166::Country.all.select{ |c| @existing_countries.include?(c.alpha2) }.map{ |c| [c.iso_short_name, c.alpha2]}.sort_by{|c| I18n.transliterate(c[0])}
-    skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
-    product = Product.find(params[:product_id]) if params[:product_id].present?
-    @title = ['Finishers', params[:search] ? "'#{params[:search]}'" : nil, params[:country], params[:state], skill&.name, product&.name].reject(&:blank?).join(' ')
   end
 
   def show

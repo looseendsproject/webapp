@@ -1,4 +1,4 @@
-PROVINCES = [
+CA_PROVINCES = [
   [ "Alberta","AB"],
   [ "British Columbia","BC"],
   [ "Manitoba","MB"],
@@ -14,7 +14,11 @@ PROVINCES = [
   [ "Yukon Territory", "YT"],
 ]
 
-STATES = [
+GB_STATES = [
+
+]
+
+US_STATES = [
   ['Alabama', 'AL'],
   ['Alaska' , 'AK'],
   ['American Samoa', 'AS'],
