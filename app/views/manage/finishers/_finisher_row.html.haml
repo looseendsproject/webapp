@@ -1,6 +1,5 @@
 %tr
   %td
-    = finisher.user.first_name
-    = finisher.user.last_name
+    = link_to finisher.name, [:manage, finisher]
   %td= finisher.user.email
   %td= finisher.full_address
