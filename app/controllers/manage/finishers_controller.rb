@@ -11,6 +11,9 @@ class Manage::FinishersController < Manage::ManageController
         @finishers = Finisher.search(params)
       end
       format.html do
+        first = Finisher.order(:joined_on).first.joined_on.beginning_of_month
+        last = Date.today.beginning_of_month
+        @months = (first..last).map{ |date| date.strftime("%Y-%m-01") }.uniq.reverse
         @finishers = Finisher.search(params).paginate(page: params[:page])
         @stateQuery = Finisher.where.not(state: "").order(:state).load_async
         if params[:country].present?

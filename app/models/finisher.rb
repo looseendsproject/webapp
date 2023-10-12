@@ -80,6 +80,10 @@ class Finisher < ApplicationRecord
         @results = @results.where(get_sql(params[:search]))
       end
     end
+    if params[:since].present?
+      since_date = Date.parse(params[:since])
+      @results = @results.where(joined_on: since_date..)
+    end
     if params[:product_id].present?
       @results = @results.joins(:favorites).where(:favorites => { product_id: params[:product_id]})
     end

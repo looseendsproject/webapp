@@ -1,17 +1,21 @@
 = form_tag manage_finishers_path, :method => :get do
   = hidden_field_tag :view, params[:view]
   .row.mb-0
-    .col-7
+    .col-6
       = label_tag :search, "Search", class: 'label'
     .col-2
       = label_tag :search, "Sort", class: 'label'
     .col-2
+      = label_tag :search, "Since", class: 'label'
+    .col-2
       = label_tag :search, "Available", class: 'label'
   .row.mb-4
-    .col-7
+    .col-6
       = text_field_tag :search, params[:search], class: 'form-control'
     .col-2
       = select_tag :sort, options_for_select(['date', 'name'], params[:sort]), include_blank: true, class: 'form-select'
+    .col-2
+      = select_tag :since, options_for_select(@months, params[:since]), include_blank: true, class: 'form-select'
     .col-2
       = select_tag :available, options_for_select(['no', 'yes'], params[:available]), include_blank: true, class: 'form-select'
   .row.mb-0
