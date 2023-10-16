@@ -61,7 +61,7 @@ class Finisher < ApplicationRecord
       phrase = []
       attributes.each do |attr|
         phrase << "#{attr} iLIKE ?"
-        match_strings << "#{keyword}%"
+        match_strings << "%#{keyword}%"
       end
       conditions << "(" + phrase.join(' OR ') + ")"
     end
