@@ -16,13 +16,17 @@
       = form.text_field :city, class: 'form-control'
     #usState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'US') }
       = form.label 'State', class: 'form-label required'
-      = form.select :state, US_STATES,                      |
-        { include_blank: true }, { class: 'form-select' } |
+      = form.select :state, US_STATES, { include_blank: true }, { class: 'form-select' }
     #caState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'CA') }
       = form.label 'Province', class: 'form-label required'
       = form.select :state, CA_PROVINCES, { include_blank: true }, { class: 'form-select' }
-
-    #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA']) ) }
+    #gbState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'GB') }
+      = form.label 'State', class: 'form-label required'
+      = form.select :state, GB_STATES, { include_blank: true }, { class: 'form-select' }
+    #auState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'AU') }
+      = form.label 'State', class: 'form-label required'
+      = form.select :state, AU_STATES, { include_blank: true }, { class: 'form-select' }
+    #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA', 'AU', 'GB']) ) }
       = form.label 'State/Province', class: 'form-label required'
       = form.text_field :state, class: 'form-control', id: 'state_ot'
     .col-4.col-sm-4.col-md-3.col-lg-2
@@ -42,19 +46,26 @@
     state.querySelector('select, input').disabled = false;
   };
 
+  const hideAll = (exceptThisOne) => {
+      hideState('us')
+      hideState('ca')
+      hideState('au')
+      hideState('gb')
+      hideState('ot')
+      showState(exceptThisOne)
+  }
+
   const setStates = (countryCode) => {
     if (countryCode === 'US') {
-      showState('us')
-      hideState('ca')
-      hideState('ot')
+      hideAll('us')
     } else if (countryCode === 'CA') {
-      showState('ca')
-      hideState('us')
-      hideState('ot')
+      hideAll('ca')
+    } else if (countryCode === 'GB') {
+      hideAll('gb')
+    } else if (countryCode === 'AU') {
+      hideAll('au')
     } else {
-      showState('ot')
-      hideState('us')
-      hideState('ca')
+      hideAll('ot')
     }
   }
 
