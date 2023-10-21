@@ -1,0 +1,24 @@
+<div class="map-container">
+  <div 
+    id="breweries"
+    data-latitude=<%= '36.070289' %>
+    data-longitude=<%= '-94.173822' %>
+  >
+    <% location = Geocoder.search(params[:location]).first %>
+    <h2>Finishers in <%= location.display_name %></h2>
+    <ol>
+      <% @finishers.each do |finisher| %>
+        <li
+          class="brewery-list-item"
+          data-latitude=<%= finisher.latitude %>
+          data-longitude=<%= finisher.longitude %>
+        >
+          <h4><%= finisher.name %></h4>
+
+        </li>
+      <% end %>
+    </ol>
+  </div>
+  <div id="map"></div>
+</div>
+
