@@ -51,6 +51,25 @@ class Finisher < ApplicationRecord
     description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments? || missing_favorites?
   end
 
+  def self.get_sql(search_string)
+    attributes = ["users.first_name", "users.last_name", "users.email", "finishers.state", "finishers.city", "finishers.chosen_name"]
+    description = "finishers.description"
+    keywords = search_string.strip.split(/\s+/)
+    conditions = []
+    match_strings = []
+    keywords.each do | keyword |
+      phrase = []
+      attributes.each do |attr|
+        phrase << "#{attr} iLIKE ?"
+        match_strings << "%#{keyword}%"
+      end
+      conditions << "(" + phrase.join(' OR ') + ")"
+    end
+    str = conditions.join(' AND ') + " OR #{description} ~* ?"
+    match_strings << "\\y#{search_string}\\y"
+    return [str, match_strings].flatten
+  end
+
   def self.search(params)
     @results = self.all.includes(:products, { :rated_assessments => :skill }, :user).with_attached_picture#.joins(:user)
     if params[:search].present?
@@ -58,8 +77,12 @@ class Finisher < ApplicationRecord
       if params[:search].match(/^[0-9]+$/)
         @results = @results.where("finishers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
       else
-        @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name OR finishers.chosen_name iLIKE :name OR finishers.description ~* :desc", { name: "#{params[:search]}%", desc: "\\y#{params[:search]}\\y" })
+        @results = @results.where(get_sql(params[:search]))
       end
+    end
+    if params[:since].present?
+      since_date = Date.parse(params[:since])
+      @results = @results.where(joined_on: since_date..)
     end
     if params[:product_id].present?
       @results = @results.joins(:favorites).where(:favorites => { product_id: params[:product_id]})

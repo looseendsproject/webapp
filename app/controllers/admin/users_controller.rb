@@ -13,8 +13,18 @@ class Admin::UsersController < Admin::AdminController
 
   def update
     @user = User.find(params[:id])
-    @user.update!(user_params)
-    redirect_to [:admin, @user]
+    if @user.update(user_params)
+      redirect_to [:admin, @user]
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    if @user.destroy
+      redirect_to [:admin, :users]
+    end
   end
 
   private

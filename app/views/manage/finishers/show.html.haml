@@ -12,6 +12,9 @@
 .row
   .col-3
     %div
+      Publicize:
+      = fa_icon @finisher.can_publicize? ? 'bullhorn' : 'xmark'
+    %div
       Dominant Hand:
       = @finisher.dominant_hand
     %div
