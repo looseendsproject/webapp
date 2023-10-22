@@ -2,9 +2,7 @@ console.log("success");
 
 async function initMap() {
   const { Map, InfoWindow } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
-    "marker"
-  );
+  const { Marker, PinElement } = await google.maps.importLibrary("marker");
 
   let map;
 
@@ -18,6 +16,18 @@ async function initMap() {
     zoom: 11,
     center: position,
     mapId: "DEMO_MAP_ID",
+  });
+
+  const finishers = document.querySelectorAll("li.finisher-list-item");
+
+  finishers.forEach((finisher) => {
+    const marker = new google.maps.Marker({
+      position: {
+        lat: parseFloat(finisher.getAttribute("data-latitude")),
+        lng: parseFloat(finisher.getAttribute("data-longitude")),
+      },
+      map: map,
+    });
   });
 }
 

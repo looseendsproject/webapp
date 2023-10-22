@@ -6,7 +6,7 @@
 
       <ol>
         <% @finishers.each do |finisher| %>
-          <li class="brewery-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> >
+          <li class="finisher-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> >
             <h4><%= finisher.name %></h4>
           </li>
         <% end %>
