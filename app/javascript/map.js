@@ -13,12 +13,12 @@ async function initMap() {
   };
 
   map = new Map(document.getElementById("map"), {
-    zoom: 11,
+    zoom: 12,
     center: position,
     mapId: "DEMO_MAP_ID",
   });
 
-  const finishers = document.querySelectorAll("li.finisher-list-item");
+  const finishers = document.querySelectorAll("div.finisher-list-item");
 
   finishers.forEach((finisher) => {
     const marker = new google.maps.Marker({

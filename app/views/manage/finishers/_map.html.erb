@@ -2,17 +2,11 @@
   <% if params[:location] != nil && params[:location].length > 0%>
     <% location = Geocoder.search(params[:location]).first %>
     <div id="finishers-map" data-latitude=<%= location.latitude  %> data-longitude=<%= location.longitude %> >
-      <h2>Finishers in <%= location.display_name %></h2>
-
-      <ol>
-        <% @finishers.each do |finisher| %>
-          <li class="finisher-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> >
-            <h4><%= finisher.name %></h4>
-          </li>
-        <% end %>
-      </ol>
+      <% @finishers.each do |finisher| %>
+        <div class="finisher-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> ></div>
+      <% end %>
     </div>
-  <% end %>
   <div style="height: 400px" id="map"></div>
+  <% end %>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBK8awz5VcodcYwXRwUbQsjdJFnTR8a1s&callback=initMap" async defer data-turbolinks-eval="false"></script>
