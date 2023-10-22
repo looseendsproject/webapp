@@ -1,7 +1,11 @@
 console.log("success");
 
 async function initMap() {
-  const { Map } = await google.maps.importLibrary("maps");
+  const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
+    "marker"
+  );
+
   let map;
 
   const coords = document.getElementById("finishers-map");
@@ -11,8 +15,9 @@ async function initMap() {
   };
 
   map = new Map(document.getElementById("map"), {
-    center: position,
     zoom: 11,
+    center: position,
+    mapId: "DEMO_MAP_ID",
   });
 }
 
