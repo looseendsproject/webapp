@@ -1,24 +1,18 @@
 <div class="map-container">
-  <div 
-    id="breweries"
-    data-latitude=<%= '36.070289' %>
-    data-longitude=<%= '-94.173822' %>
-  >
+  <% if params[:location] != nil && params[:location].length > 0%>
     <% location = Geocoder.search(params[:location]).first %>
-    <h2>Finishers in <%= location.display_name %></h2>
-    <ol>
-      <% @finishers.each do |finisher| %>
-        <li
-          class="brewery-list-item"
-          data-latitude=<%= finisher.latitude %>
-          data-longitude=<%= finisher.longitude %>
-        >
-          <h4><%= finisher.name %></h4>
+    <div id="breweries" data-latitude=<%= location.latitude  %> data-longitude=<%= location.longitude %> >
+      <h2>Finishers in <%= location.display_name %></h2>
 
-        </li>
-      <% end %>
-    </ol>
-  </div>
-  <div id="map"></div>
+      <ol>
+        <% @finishers.each do |finisher| %>
+          <li class="brewery-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> >
+            <h4><%= finisher.name %></h4>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+  <% end %>
+  <div style="height: 400px" id="map"></div>
 </div>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBK8awz5VcodcYwXRwUbQsjdJFnTR8a1s&callback=initMap" async defer data-turbolinks-eval="false"></script>
