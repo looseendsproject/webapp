@@ -2,7 +2,8 @@ console.log("success");
 
 async function initMap() {
   const { Map, InfoWindow } = await google.maps.importLibrary("maps");
-  const { Marker, PinElement } = await google.maps.importLibrary("marker");
+  const { Marker, PinElement, AdvancedMarkerElement } =
+    await google.maps.importLibrary("marker");
 
   let map;
 

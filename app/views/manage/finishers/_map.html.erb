@@ -3,7 +3,7 @@
     <% location = Geocoder.search(params[:location]).first %>
     <div id="finishers-map" data-latitude=<%= location.latitude  %> data-longitude=<%= location.longitude %> >
       <% @finishers.each do |finisher| %>
-        <div class="finisher-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> ></div>
+        <div class="finisher-list-item" data-latitude=<%= finisher.latitude %> data-longitude=<%= finisher.longitude %> data-name=<%= finisher.name %> ></div>
       <% end %>
     </div>
   <div style="height: 400px" id="map"></div>
