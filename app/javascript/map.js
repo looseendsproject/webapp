@@ -4,8 +4,14 @@ async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
   let map;
 
+  const coords = document.getElementById("breweries");
+  const position = {
+    lat: parseFloat(coords.getAttribute("data-latitude")),
+    lng: parseFloat(coords.getAttribute("data-longitude")),
+  };
+
   map = new Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
+    center: position,
     zoom: 11,
   });
 }
