@@ -1,7 +1,7 @@
 <div class="map-container">
   <% if params[:location] != nil && params[:location].length > 0%>
     <% location = Geocoder.search(params[:location]).first %>
-    <div id="breweries" data-latitude=<%= location.latitude  %> data-longitude=<%= location.longitude %> >
+    <div id="finishers-map" data-latitude=<%= location.latitude  %> data-longitude=<%= location.longitude %> >
       <h2>Finishers in <%= location.display_name %></h2>
 
       <ol>

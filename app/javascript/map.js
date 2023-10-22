@@ -4,7 +4,7 @@ async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
   let map;
 
-  const coords = document.getElementById("breweries");
+  const coords = document.getElementById("finishers-map");
   const position = {
     lat: parseFloat(coords.getAttribute("data-latitude")),
     lng: parseFloat(coords.getAttribute("data-longitude")),
