@@ -4,7 +4,7 @@ class Manage::FinishersController < Manage::ManageController
     respond_to do |format|
       skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
       product = Product.find(params[:product_id]) if params[:product_id].present?
-      @title = ['Finishers', params[:search] ? "'#{params[:search]}'" : nil, params[:country], params[:state], skill&.name, product&.name].reject(&:blank?).join(' ')
+      @title = ['Finishers', params[:search].present? ? "'#{params[:search]}'" : nil, params[:country], params[:state], skill&.name, product&.name, params[:sort].present? ? "sort by #{params[:sort]}" : nil].reject(&:blank?).join(' ')
       format.csv do
         response.headers['Content-Type'] = 'text/csv'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"

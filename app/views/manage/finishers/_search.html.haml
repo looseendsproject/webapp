@@ -13,7 +13,7 @@
     .col-6
       = text_field_tag :search, params[:search], class: 'form-control'
     .col-2
-      = select_tag :sort, options_for_select(['date', 'name'], params[:sort]), include_blank: true, class: 'form-select'
+      = select_tag :sort, options_for_select([['Date (Oldest First)', 'date asc'], ['Date (Newest First)', 'date desc'], ['Name (A-Z)', 'name asc'], ['Name (Z-A)', 'name desc']], params[:sort]), include_blank: true, class: 'form-select'
     .col-2
       = select_tag :since, options_for_select(@months, params[:since]), include_blank: true, class: 'form-select'
     .col-2

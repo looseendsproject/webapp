@@ -4,7 +4,7 @@
     .row.g-1.g-sm-4.mb-3
       .col
         = form.label 'Skill Assessment', class: 'form-label required'
-        .form-info Rate the skills you're offering.
+        .form-info Rate the skills you're offering.  Leave blank if not applicable.
 
         = form.fields_for :assessments, @assessments do |assessment_form|
           .row.g-1.mt-3
@@ -28,6 +28,23 @@
     .col-6.col-sm-5.col-md-4
       .form-info Lefty or Righty?
       = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
+  .row.mb-3
+    .col-12
+      = form.label 'Tell us about your home', class: 'form-label'
+    .col-6.col-sm-5.col-md-4
+      .form-info Do you have pets in your home?
+      = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other', 'other'] ], :last, :first) do |b|
+        .row
+          %label.form-label
+            = b.check_box
+            = b.label
+
+  .row
+    .col-xl-8.col-md-10
+      .form-info Do you have cigarette smoke in your home?
+      = form.label 'has_smoke_in_home', class: 'form-label' do
+        = form.check_box :has_smoke_in_home
+        Yes, there is cigarette smoke in my home.
 
   .row.g-1.g-sm-4.mb-3
     .col-12
@@ -45,5 +62,6 @@
         %label.form-label
           = form.check_box :no_dogs
           No dogs, please.
+
   = form.submit 'Submit', class: "btn btn-primary"
   = link_to "Cancel", :finisher, class: "btn btn-link"

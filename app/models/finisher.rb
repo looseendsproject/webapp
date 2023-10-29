@@ -23,6 +23,8 @@ class Finisher < ApplicationRecord
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 
+  serialize :in_home_pets, Array
+
   before_create do
     self.joined_on = Date.today if self.joined_on.blank?
   end
@@ -101,8 +103,14 @@ class Finisher < ApplicationRecord
       @results = @results.where(:state => params[:state])
     end
     if params[:sort].present?
-      if params[:sort] == 'name'
-        @results = @results.order(:chosen_name)
+      if params[:sort] == 'name asc'
+        @results = @results.order('LOWER(finishers.chosen_name) ASC')
+      elsif params[:sort] == 'name desc'
+        @results = @results.order('LOWER(finishers.chosen_name) DESC')
+      elsif params[:sort] == 'date asc'
+        @results = @results.order(joined_on: :asc)
+      elsif params[:sort] == 'date desc'
+        @results = @results.order(joined_on: :desc)
       else
         @results = @results.order(:joined_on)
       end
