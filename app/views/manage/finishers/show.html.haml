@@ -14,6 +14,7 @@
     %div
       Publicize:
       = fa_icon @finisher.can_publicize? ? 'bullhorn' : 'xmark'
+
     %div
       Dominant Hand:
       = @finisher.dominant_hand
@@ -65,7 +66,7 @@
             \: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}
     %hr/
     - if @finisher.no_smoke || @finisher.no_cats || @finisher.no_dogs
-      .page-section
+      .page-section.mb-3
         %h4 Sensitivities
         %ul
           - if @finisher.no_smoke
@@ -74,6 +75,16 @@
             %li No Cats Please
           - if @finisher.no_dogs
             %li No Dogs Please
+    - if @finisher.in_home_pets.select(&:present?).any?
+      .page-section.mb-3
+        %h4 Pets in Home
+        = @finisher.in_home_pets.select(&:present?).map{|p| p.capitalize}.join(', ')
+
+    - if @finisher.has_smoke_in_home
+      .page-section.mb-3
+        %h4 Smoking in Home
+        Has Smoke In Home
+    - if @finisher.no_smoke || @finisher.no_cats || @finisher.no_dogs || @finisher.in_home_pets.select(&:present?).any? || @finisher.has_smoke_in_home
       %hr/
     .page-section
       %h4 About Me

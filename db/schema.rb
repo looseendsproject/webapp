@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_15_045944) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_29_142203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -127,6 +127,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_045944) do
     t.string "phone_number"
     t.float "latitude"
     t.float "longitude"
+    t.string "in_home_pets"
+    t.boolean "has_smoke_in_home", default: false
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"
     t.index ["longitude"], name: "index_finishers_on_longitude"

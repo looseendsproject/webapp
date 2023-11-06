@@ -97,7 +97,9 @@ class FinishersController < AuthenticatedController
       :no_smoke,
       :no_cats,
       :no_dogs,
+      :has_smoke_in_home,
       :terms_of_use,
+      in_home_pets: [],
       append_finished_projects: [],
       product_ids: [],
       assessments_attributes: [:id, :skill_id, :rating, :description, :user_id])
