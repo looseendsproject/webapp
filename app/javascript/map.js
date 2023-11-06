@@ -1,5 +1,3 @@
-console.log("success");
-
 async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
   const { Point } = await google.maps.importLibrary("core");
