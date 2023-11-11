@@ -15,7 +15,7 @@
 
 - if @finishers
   .row
-    = render @finishers
+    = render @finishers.first(48)
 
   = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google, :maps_api_key)}&callback=initMap", defer: true
 
