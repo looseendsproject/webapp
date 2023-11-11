@@ -180,15 +180,6 @@ class Finisher < ApplicationRecord
     street_changed?||street_2_changed?||city_changed?||state_changed?||postal_code_changed?||country_changed?
   end
 
-  def self.geocode
-    where(:latitude => nil).find_in_batches do |finishers|
-      # group is an array of 1000 records
-      finishers.each { |finisher|
-        finisher.save if finisher.geocode
-      }
-    end
-  end
-
 end
 
 
