@@ -32,6 +32,9 @@ class Finisher < ApplicationRecord
   after_create :send_welcome_message, if: Proc.new { self.has_taken_ownership_of_profile }
   after_save :see_if_finisher_has_completed_profile, if: Proc.new { self.has_taken_ownership_of_profile }
 
+  geocoded_by :full_address
+  after_validation :geocode, if: ->(obj){ obj.full_address.present? and  obj.full_address_has_changed? }
+
   def see_if_finisher_has_completed_profile
     if (!has_completed_profile)
       if !missing_information?
@@ -167,19 +170,24 @@ class Finisher < ApplicationRecord
     FinisherMailer.profile_complete(self).deliver_now
   end
   
-  # logic for geocoding a finisher
-  geocoded_by :full_address
-  after_validation :geocode, if: :address_attribute_has_changed?
-  
   # method for combining all available address attributes for geocoding
   def full_address
     [street, street_2, city, state, postal_code, country].compact.join(", ") 
   end
 
   # method for checking if any address attribute has changed
-  def address_attribute_has_changed? 
+  def full_address_has_changed?
     street_changed?||street_2_changed?||city_changed?||state_changed?||postal_code_changed?||country_changed?
-  end 
+  end
+
+  def self.geocode
+    where(:latitude => nil).find_in_batches do |finishers|
+      # group is an array of 1000 records
+      finishers.each { |finisher|
+        finisher.save if finisher.geocode
+      }
+    end
+  end
 
 end
 
