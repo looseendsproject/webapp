@@ -40,6 +40,9 @@ Rails.application.routes.draw do
     end
     resources :finishers do
       resources :assignments, :only => [:new, :create]
+      collection do
+        get 'map'
+      end
     end
   end
 

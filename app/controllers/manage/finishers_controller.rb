@@ -26,6 +26,14 @@ class Manage::FinishersController < Manage::ManageController
     end
   end
 
+  def map
+    results = Geocoder.search(params[:near])
+    if results.first
+      @finishers = Finisher.geocoded.near(results.first.coordinates, 100)
+      @center = results.first.coordinates
+    end
+  end
+
   def show
     @finisher = Finisher.find(params[:id])
     @title = @finisher.chosen_name

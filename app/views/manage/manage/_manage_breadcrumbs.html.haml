@@ -21,6 +21,9 @@
   - if controller_name == 'finishers'
     = fa_icon("chevron-right")
     = link_to_unless_current 'Finishers', manage_finishers_path, class: 'nav-item'
+    - if action_name == 'map'
+      = fa_icon("chevron-right")
+      Map
     - if @finisher
       = fa_icon("chevron-right")
       = link_to_unless_current @finisher.chosen_name, manage_finisher_path(@finisher), class: 'nav-item'

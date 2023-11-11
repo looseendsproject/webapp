@@ -44,6 +44,10 @@ class Finisher < ApplicationRecord
     end
   end
 
+  def rated_skills_string
+    rated_assessments.map{|assessment| "#{assessment.skill.name} (#{assessment.rating})"}.join(', ')
+  end
+
   def approved?
     self.approved_at != nil
   end
