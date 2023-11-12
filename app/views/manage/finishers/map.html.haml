@@ -10,7 +10,7 @@
     .col-9
       = text_field_tag :near, params[:near], class: 'form-control'
     .col-2
-      = select_tag :skill_id, options_from_collection_for_select(Skill.all, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
+      = select_tag :skill_id, options_from_collection_for_select(Skill.all.sort_by(&:name), "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col-1
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
@@ -47,11 +47,12 @@
       const projectLabel = {
         text: "Here",
         color: "#fd7e0d",
-        fontSize: "8px",
-        fontWeight: 'bold'
+        fontSize: "10px",
+        fontWeight: 'bold',
+        fontFamily: 'cursive'
       };
 
-      new google.maps.Marker({ position: { lat: #{@center[0]}, lng: #{@center[1]} }, zIndex: 9999, icon: projectIcon, label: projectLabel, map });
+      new google.maps.Marker({ position: { lat: #{@center[0]}, lng: #{@center[1]} }, zIndex: 9999, icon: projectIcon, label: projectLabel, map, optimized: false });
 
       const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
 
@@ -80,10 +81,10 @@
           text: finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
           color: "white",
           fontSize: "14px",
-          fontWeight: 'bold'
+          fontWeight: 'bold',
         }
 
-        const marker = new google.maps.Marker({ ...finisher, icon, label, map });
+        const marker = new google.maps.Marker({ ...finisher, icon, label, map, optimized: false });
 
         marker.addListener("click", () => {
           infowindow.open({
