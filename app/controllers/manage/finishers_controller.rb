@@ -29,7 +29,10 @@ class Manage::FinishersController < Manage::ManageController
   def map
     results = Geocoder.search(params[:near])
     if results.first
-      @finishers = Finisher.geocoded.near(results.first.coordinates, 100)
+      @finishers = Finisher.geocoded.near(results.first.coordinates, 50)
+      if params[:skill_id].present?
+        @finishers = @finishers.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
+      end
       @center = results.first.coordinates
     end
   end

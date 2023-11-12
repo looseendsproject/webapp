@@ -2,11 +2,15 @@
   Finishers Map
 = form_tag map_manage_finishers_path, :method => :get do
   .row.mb-0
-    .col-11
+    .col-9
       = label_tag :near, "#{@finishers&.size} Finishers Near", class: 'label'
+    .col-2
+      = label_tag :search, "Skill", class: 'label'
   .row.mb-4
-    .col-11
+    .col-9
       = text_field_tag :near, params[:near], class: 'form-control'
+    .col-2
+      = select_tag :skill_id, options_from_collection_for_select(Skill.all, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col-1
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
