@@ -25,51 +25,74 @@
 
   :javascript
     function initMap(){
-    const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 10,
-    center: { lat: #{@center[0]}, lng: #{@center[1]} },
-    });
-    const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 10,
+        center: { lat: #{@center[0]}, lng: #{@center[1]} },
+      });
 
-    finishers.forEach(finisher => {
-    const content = `<div><h3>${finisher.title}</h3><div><a href='${finisher.url}' target='_blank'>Profile</a></div><p>${finisher.skills}</p></div>`;
+      const pinSVGFilled = "M 12,2 C 8.1340068,2 5,5.1340068 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.8659932 -3.134007,-7 -7,-7 z";
+      const labelOriginFilled =  new google.maps.Point(12,9);
 
-    const infowindow = new google.maps.InfoWindow({
-    content: content,
-    ariaLabel: "Uluru",
-    });
+      const projectIcon = {
+        path: "m0,10l10,-10l10,10l-10,10l-10,-10z",
+        anchor: new google.maps.Point(10,17),
+        fillOpacity: 1,
+        fillColor: "white",
+        strokeWeight: 1,
+        strokeColor: "#fd7e0d",
+        scale: 1.5  ,
+        labelOrigin: new google.maps.Point(10,10)
+      };
 
-    const pinColor = finisher.zIndex === 3 ? "#22bc49" : finisher.zIndex === 2 ? "#dcce1f" : finisher.zIndex === 1 ? "#e72d2d" : "#3975EC";
-    const pinSVGFilled = "M 12,2 C 8.1340068,2 5,5.1340068 5,9 c 0,5.25 7,13 7,13 0,0 7,-7.75 7,-13 0,-3.8659932 -3.134007,-7 -7,-7 z";
-    const labelOriginFilled =  new google.maps.Point(12,9);
+      const projectLabel = {
+        text: "Here",
+        color: "#fd7e0d",
+        fontSize: "8px",
+        fontWeight: 'bold'
+      };
 
-    const icon = {
-    path: pinSVGFilled,
-    anchor: new google.maps.Point(12,17),
-    fillOpacity: 1,
-    fillColor: pinColor,
-    strokeWeight: 2,
-    strokeColor: "white",
-    scale: 2,
-    labelOrigin: labelOriginFilled
-    }
-    label = {
-    text: finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
-    color: "white",
-    fontSize: "14px",
-    fontWeight: 'bold'
-    }
+      new google.maps.Marker({ position: { lat: #{@center[0]}, lng: #{@center[1]} }, zIndex: 9999, icon: projectIcon, label: projectLabel, map });
 
-    const marker = new google.maps.Marker({ ...finisher, icon, label, map });
+      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
 
-    marker.addListener("click", () => {
-    infowindow.open({
-    anchor: marker,
-    map,
-    });
-    });
 
-    });
+      finishers.forEach(finisher => {
+        const content = `<div><h3>${finisher.title}</h3><div><a href='${finisher.url}' target='_blank'>Profile</a></div><p>${finisher.skills}</p></div>`;
+
+        const infowindow = new google.maps.InfoWindow({
+          content: content,
+          ariaLabel: "Uluru",
+        });
+
+        const pinColor = finisher.zIndex === 3 ? "#22bc49" : finisher.zIndex === 2 ? "#dcce1f" : finisher.zIndex === 1 ? "#e72d2d" : "#3975EC";
+
+        const icon = {
+          path: pinSVGFilled,
+          anchor: new google.maps.Point(12,17),
+          fillOpacity: 1,
+          fillColor: pinColor,
+          strokeWeight: 2,
+          strokeColor: "white",
+          scale: 2,
+          labelOrigin: labelOriginFilled
+        }
+        const label = {
+          text: finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
+          color: "white",
+          fontSize: "14px",
+          fontWeight: 'bold'
+        }
+
+        const marker = new google.maps.Marker({ ...finisher, icon, label, map });
+
+        marker.addListener("click", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+          });
+        });
+
+      });
     }
 
 
