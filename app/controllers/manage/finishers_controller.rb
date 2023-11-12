@@ -32,6 +32,7 @@ class Manage::FinishersController < Manage::ManageController
       @finishers = Finisher.geocoded.near(results.first.coordinates, 50)
       if params[:skill_id].present?
         @finishers = @finishers.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
+        @skill_id = params[:skill_id]
       end
       @center = results.first.coordinates
     end
