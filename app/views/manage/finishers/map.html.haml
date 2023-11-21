@@ -62,7 +62,7 @@
       const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
 
       const infowindow = new google.maps.InfoWindow({
-        maxWidth: 300,
+        maxWidth: 200,
       });
 
       finishers.forEach(finisher => {
