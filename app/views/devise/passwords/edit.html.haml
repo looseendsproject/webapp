@@ -2,14 +2,17 @@
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f|
   = render "devise/shared/error_messages", resource: resource
   = f.hidden_field :reset_password_token
-  .form-group
-    = f.label :password, "New password", class: 'form-label'
-    = f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-input w-2/3 md:w-1/2'
+  .row.my-3
+    = f.label :password, "New password", class: 'col-form-label col-sm-3'
+    .col-sm-4
+      = f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control'
     - if @minimum_password_length
-      .form-info
+      .col-sm-4.form-text
         (#{@minimum_password_length} characters minimum)
-  .form-group
-    = f.label :password_confirmation, "Confirm new password", class: 'form-label'
-    = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-input w-2/3 md:w-1/2'
-  .actions
-    = f.submit "Change my password", class: "btn-submit"
+  .row.my-3
+    = f.label :password_confirmation, "Confirm new password", class: 'col-form-label col-sm-3'
+    .col-sm-4
+      = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+  .row.form-actions
+    .col.offset-3
+      = f.submit "Change my password", class: "btn btn-primary"
