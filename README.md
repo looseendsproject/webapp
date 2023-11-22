@@ -13,7 +13,14 @@ Clone repo from git and start the Rails app as usual.
 - Start the dev server: `bin/dev`
 
 ## Getting development Data
-Data can be pulled from Heroku
+Data can be pulled from Heroku.
+
+Get the google api key from another developer to render maps and geocode objects.
+
+## Starting the App
+```
+bin/dev
+```
 
 ## Tests
 In progress with GitHub actions requiring tests to pass
