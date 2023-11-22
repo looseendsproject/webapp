@@ -66,8 +66,6 @@
       });
 
       finishers.forEach(finisher => {
-        const content = `<div><h3>${finisher.title}</h3><div><a href='${finisher.url}' target='_blank'>Profile</a></div><p>${finisher.skills}</p></div>`;
-
         const pinColor = finisher.zIndex === 3 ? "#22bc49" : finisher.zIndex === 2 ? "#dcce1f" : finisher.zIndex === 1 ? "#e72d2d" : "#3975EC";
 
         const icon = {
@@ -90,7 +88,7 @@
         const marker = new google.maps.Marker({ ...finisher, icon, label, map, optimized: false });
 
         marker.addListener("click", () => {
-          fetch(`http://localhost:3000${finisher.url}/card`)
+          fetch(`${finisher.url}/card`)
             .then(response => response.text())
             .then(html => {
               infowindow.setContent(html);
