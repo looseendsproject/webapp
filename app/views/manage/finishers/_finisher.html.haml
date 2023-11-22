@@ -1,5 +1,5 @@
 .col-6.col-sm-6.col-md-4.col-lg-3.col-xl-3.col-xxl-2
-  = render partial: 'finisher_card', :locals => {finisher: finisher}
+  = render partial: 'finisher_card', :locals => {finisher: finisher, classes: ['mb-4']}
 
   .modal.fade{ "id" => dom_id(finisher), "aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", tabindex: "-1"}
     .modal-dialog

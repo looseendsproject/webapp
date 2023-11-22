@@ -1,13 +1,13 @@
-.card.mb-4
+%div{:class => classes.append('card')}
   - if finisher.unavailable
     .unavailable
       Unavailable
   .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
     = finisher.dominant_hand&.first
   - if finisher.picture.representable?
-    = link_to image_tag(finisher.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top', style: 'height:6vw; object-fit:contain'), [:manage, finisher]
+    = link_to image_tag(finisher.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top', style: 'height:8vw; object-fit:contain'), [:manage, finisher]
   - else
-    = link_to image_tag('finisher.png', class: 'card-img-top', style: 'height:6vw; object-fit:contain'), [:manage, finisher]
+    = link_to image_tag('finisher.png', class: 'card-img-top', style: 'height:8vw; object-fit:contain'), [:manage, finisher]
   .card-body
     %h6.card-title.d-flex.align-items-start
       .flex-grow-1
