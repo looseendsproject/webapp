@@ -26,7 +26,12 @@
       = @finisher.user.heard_about_us
 
     - if @finisher.picture.representable?
-      = image_tag @finisher.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
+      .page_section
+        = image_tag @finisher.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
+      .page_section
+        %a{href: rails_blob_path(@finisher.picture, disposition: "attachment", only_path: true), class: 'btn btn-sm btn-outline-secondary mt-2 mb-2'}
+          %span.bi.bi-download &nbsp;Download Image
+
     .page-section
       %b Email
       = @finisher.user.email
