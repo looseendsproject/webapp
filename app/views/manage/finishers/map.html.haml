@@ -18,8 +18,13 @@
   .col#map{ style: "height:500px; flex: 1"}
 
 - if @finishers
-  .row
-    = render @finishers.first(48)
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Email
+        %th Address
+      = render partial: 'finisher_row', collection: @finishers, as: :finisher
 
   = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google, :maps_api_key)}&callback=initMap", defer: true
 
@@ -56,15 +61,11 @@
 
       const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
 
+      const infowindow = new google.maps.InfoWindow({
+        maxWidth: 200,
+      });
 
       finishers.forEach(finisher => {
-        const content = `<div><h3>${finisher.title}</h3><div><a href='${finisher.url}' target='_blank'>Profile</a></div><p>${finisher.skills}</p></div>`;
-
-        const infowindow = new google.maps.InfoWindow({
-          content: content,
-          ariaLabel: "Uluru",
-        });
-
         const pinColor = finisher.zIndex === 3 ? "#22bc49" : finisher.zIndex === 2 ? "#dcce1f" : finisher.zIndex === 1 ? "#e72d2d" : "#3975EC";
 
         const icon = {
@@ -87,12 +88,13 @@
         const marker = new google.maps.Marker({ ...finisher, icon, label, map, optimized: false });
 
         marker.addListener("click", () => {
-          infowindow.open({
-            anchor: marker,
-            map,
-          });
+          fetch(`${finisher.url}/card`)
+            .then(response => response.text())
+            .then(html => {
+              infowindow.setContent(html);
+              infowindow.open({anchor: marker, map}); })
+            .catch(error => { console.log(error)});
         });
-
       });
     }
 

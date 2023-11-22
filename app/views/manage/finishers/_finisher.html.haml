@@ -1,37 +1,5 @@
 .col-6.col-sm-6.col-md-4.col-lg-3.col-xl-3.col-xxl-2
-  .card.mb-4
-    - if finisher.unavailable
-      .unavailable
-        Unavailable
-    .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
-      = finisher.dominant_hand&.first
-    - if finisher.picture.representable?
-      = link_to image_tag(finisher.picture.representation( resize_to_limit: [300, 300]), class: 'card-img-top'), [:manage, finisher]
-    - else
-      = link_to image_tag('finisher.png', class: 'card-img-top'), [:manage, finisher]
-    .card-body
-      %h6.card-title.d-flex.align-items-start
-        .flex-grow-1
-          = link_to finisher.name, [:manage, finisher]
-        - if finisher.can_publicize?
-          = fa_icon 'bullhorn'
-
-      .since
-        %b Since:
-        = l(finisher.joined_on) if finisher.joined_on
-      .skills
-        %b Skills:
-        = finisher.rated_assessments.map{|assessment| "#{assessment.skill.name} (#{assessment.rating})"}.join(', ')
-      .favorites
-        .row
-          %b.col-10 Favorites:
-          .col-2
-            %button.btn.btn-link.p-0{"data-bs-target" => "##{dom_id(finisher)}", "data-bs-toggle" => "modal", type: "button"}
-              = fa_icon('comment')
-        = finisher.products.map{|fav| fav.name}.join(', ')
-
-    .card-footer
-      #{finisher.city}, #{finisher.state}
+  = render partial: 'finisher_card', :locals => {finisher: finisher, classes: ['mb-4']}
 
   .modal.fade{ "id" => dom_id(finisher), "aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", tabindex: "-1"}
     .modal-dialog

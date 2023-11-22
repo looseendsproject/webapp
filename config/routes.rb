@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       collection do
         get 'map'
       end
+      get 'card', on: :member
     end
   end
 

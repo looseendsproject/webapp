@@ -43,6 +43,15 @@ class Manage::FinishersController < Manage::ManageController
     @title = @finisher.chosen_name
   end
 
+  def card
+    @finisher = Finisher.find(params[:id])
+    respond_to do |format|
+      format.html do
+        render layout: false
+      end
+    end
+  end
+
   def edit
     @finisher = Finisher.find(params[:id])
     @title = "Edit " + @finisher.chosen_name
