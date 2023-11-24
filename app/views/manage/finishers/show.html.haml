@@ -48,7 +48,12 @@
         #{@finisher.city}, #{@finisher.state} #{@finisher.postal_code}
       .country
         = ISO3166::Country[@finisher.country]&.iso_short_name
-
+    .page-section.mb-4
+      %b Workplace Match?
+      = @finisher.workplace_match == nil ? "I don't know" : @finisher.workplace_match ? "Yes" : "No"
+    .page-section.mb-4
+      %b Workplace:
+      = @finisher.workplace
 
   .col-6
     .page-section
