@@ -11,35 +11,37 @@
 
 .row
   .col-3
-    %div
-      Publicize:
+    .page_section.mb-2
+      %b Publicize:
       = fa_icon @finisher.can_publicize? ? 'bullhorn' : 'xmark'
 
-    %div
-      Dominant Hand:
+    .page_section.mb-2
+      %b Dominant Hand:
       = @finisher.dominant_hand
-    %div
-      Since:
+    .page_section.mb-2
+      %b Since:
       = @finisher.joined_on
-    %div
-      How Heard:
+    .page_section.mb-2
+      %b How Heard:
       = @finisher.user.heard_about_us
 
     - if @finisher.picture.representable?
-      = image_tag @finisher.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'
-    .page-section
-      %b Email
+      .page_section.mb-2
+        = link_to image_tag(@finisher.picture.representation( resize_to_limit: [300, 300]), class: 'w-100'), url_for(@finisher.picture.variant(format: :jpg))
+
+    .page-section.mb-2
+      %b Email:
       = @finisher.user.email
-    .page-section
-      %b Phone Number
+    .page-section.mb-2
+      %b Phone Number:
       = @finisher.phone_number
-    .page-section
-      %b Pronouns
+    .page-section.mb-2
+      %b Pronouns:
       = @finisher.pronouns
-    .page-section
+    .page-section.mb-2
       .row
         .col
-          %b Mailing Address
+          %b Mailing Address:
         .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@finisher.full_address}", target: "_blank"
       .street= @finisher.street
       - if @finisher.street_2.present?
