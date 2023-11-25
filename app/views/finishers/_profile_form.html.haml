@@ -30,6 +30,15 @@
       = form.label 'Social Media', class: 'form-label'
       .form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
       = form.text_area :social_media, size: "60x3", class: 'form-control'
+  .row.g-1.g-sm-4.mb-4
+    .col-12.col-xl-4.col-lg-5.col-md-6
+      = form.label 'Do you work for a company that matches charitable donations or volunteer hours?', class: 'form-label required'
+      = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
+  .row.g-1.g-sm-4.mb-4
+    .col-12.col-xl-4.col-lg-5.col-md-6
+      = form.label 'If you do work outside the home what company do you work for?', class: 'form-label'
+      = form.text_field :workplace_name, class: 'form-control'
+
   .row.g-1.g-sm-4
     .col-xl-6.col-lg-8.col-md-10
       .form-info
