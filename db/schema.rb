@@ -129,8 +129,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_24_160500) do
     t.float "longitude"
     t.string "in_home_pets"
     t.boolean "has_smoke_in_home", default: false
-    t.string "workplace"
-    t.boolean "workplace_match"
+    t.string "workplace_name"
+    t.boolean "has_workplace_match"
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"
     t.index ["longitude"], name: "index_finishers_on_longitude"

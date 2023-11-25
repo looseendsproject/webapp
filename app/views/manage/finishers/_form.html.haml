@@ -26,11 +26,11 @@
   .row.mb-2
     = form.label 'Workplace Match?', class: 'col-2 form-label required'
     .col-4
-      = form.select :workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
+      = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
   .row.mb-2
     = form.label 'Where do you work?', class: 'col-2 form-label'
     .col-4
-      = form.text_field :workplace, class: 'form-control'
+      = form.text_field :workplace_name, class: 'form-control'
 
 
   = render partial: 'address_form', :locals => { form: form, finisher: @finisher }
