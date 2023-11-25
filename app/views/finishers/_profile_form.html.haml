@@ -32,11 +32,11 @@
       = form.text_area :social_media, size: "60x3", class: 'form-control'
   .row.g-1.g-sm-4.mb-4
     .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'Does your workplace match charitable donations or volunteer hours?', class: 'form-label required'
+      = form.label 'Do you work for a company that matches charitable donations or volunteer hours?', class: 'form-label required'
       = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
   .row.g-1.g-sm-4.mb-4
     .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'Where do you work?', class: 'form-label'
+      = form.label 'If you do work outside the home what company do you work for?', class: 'form-label'
       = form.text_field :workplace_name, class: 'form-control'
 
   .row.g-1.g-sm-4
