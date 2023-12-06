@@ -19,7 +19,7 @@
               = assessment_form.text_field :description, class: 'ml-2 form-control', placeholder: "Tell us more..."
   .row.g-1.g-sm-4.mb-3
     .col-12.col-sm-10.col-md-8
-      = form.label 'Other Skills?', class: 'form-label'
+      = form.label 'Other Skills?', class: 'form-label optional'
       .form-info Are there other crafts you love to do that we should know about?
       = form.text_area :other_skills, size: "60x3", class: 'form-control'
   .row.mb-3
@@ -30,7 +30,7 @@
       = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
   .row.mb-3
     .col-12
-      = form.label 'Tell us about your home', class: 'form-label'
+      = form.label 'Tell us about your home', class: 'form-label optional'
     .col-6.col-sm-5.col-md-4
       .form-info Do you have pets in your home?
       = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other', 'other'] ], :last, :first) do |b|
@@ -48,7 +48,7 @@
 
   .row.g-1.g-sm-4.mb-3
     .col-12
-      = form.label 'Sensitivities', class: 'form-label'
+      = form.label 'Sensitivities', class: 'form-label optional'
       .form-info If we find out an unfinished project was in a house with a smoker or pets, do you want to avoid this project?
       .row
         %label.form-label

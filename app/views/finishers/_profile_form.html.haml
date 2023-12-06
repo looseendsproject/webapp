@@ -5,7 +5,7 @@
       = form.label 'Name', class: 'form-label required'
       = form.text_field :chosen_name, class: 'form-control'
     .col-12.col-xl-2.col-lg-3.col-md-4
-      = form.label 'Pronouns', class: 'form-label'
+      = form.label 'Pronouns', class: 'form-label optional'
       = form.text_field :pronouns, class: 'form-control'
   .row.g-1.g-sm-4
     .col-12.col-xl-4.col-lg-5.col-md-6
@@ -23,11 +23,11 @@
           = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
   .row.g-1.g-sm-4.mb-4
     .col-xl-6.col-lg-8.col-md-10
-      = form.label 'A Photo of you', class: 'form-label'
+      = form.label 'A Photo of you', class: 'form-label optional'
       = form.file_field :picture, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp"
   .row.g-1.g-sm-4.mb-4
     .col-xl-6.col-lg-8.col-md-10
-      = form.label 'Social Media', class: 'form-label'
+      = form.label 'Social Media', class: 'form-label optional'
       .form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
       = form.text_area :social_media, size: "60x3", class: 'form-control'
   .row.g-1.g-sm-4.mb-4
@@ -36,7 +36,7 @@
       = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
   .row.g-1.g-sm-4.mb-4
     .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'If you do work outside the home what company do you work for?', class: 'form-label'
+      = form.label 'If you do work outside the home what company do you work for?', class: 'form-label optional'
       = form.text_field :workplace_name, class: 'form-control'
 
   .row.g-1.g-sm-4
