@@ -3,7 +3,10 @@
   .my-4
     %h5 Your Mailing Address
     .row.mb-3
-      .form-info Where will you receive an unfinished project?
+      .form-info.mb-2 Where will you receive an unfinished project?
+      .form-info.text-secondary Note to Snowbirds: Enter one address (where you are now).
+      .form-info.text-secondary If you’d like to change your address when you travel, simply log in and do so.
+
 
     = render :partial => 'layouts/address_form', :locals => { form: form }
 
