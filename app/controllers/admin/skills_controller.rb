@@ -1,6 +1,6 @@
 class Admin::SkillsController < Admin::AdminController
   def index
-    @skills = Skill.all.order(:name)
+    @skills = Skill.sorted_by_popularity
   end
 
   def show

@@ -12,12 +12,12 @@ class FinishersController < AuthenticatedController
       redirect_to edit_profile_finisher_path
     end
     @finisher = Finisher.new(chosen_name: current_user.first_name + ' ' + current_user.last_name)
-    @finisher.assessments = Skill.order(:name).all.map { |skill| Assessment.new(skill_id: skill.id, rating: 0)}
+    @finisher.assessments = Skill.sorted_by_popularity.map { |skill| Assessment.new(skill_id: skill.id, rating: 0)}
   end
 
   def edit_skills
     @finisher = current_user.finisher
-    Skill.order(:name).all.each do |skill|
+    Skill.sorted_by_popularity.each do |skill|
       if (!@finisher.assessments.where(skill_id: skill.id).any?)
         @finisher.assessments << Assessment.new(skill_id: skill.id, rating: 0)
       end
