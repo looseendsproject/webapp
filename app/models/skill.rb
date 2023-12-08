@@ -7,4 +7,8 @@ class Skill < ApplicationRecord
   def self.[](val)
     { 0 => :no_experience, 1 => :beginner, 2 => :intermediate, 3 => :expert }[val]
   end
+
+  def is_popular?
+    %w[Knit Crochet Quilting].include? name
+  end
 end

@@ -1,0 +1,10 @@
+.row.g-1.mt-3
+  .col-4.col-md-3.col-lg-2.my-1
+    = skill_assessment_form.label skill_assessment_form.object.skill.name, class: 'form-label'
+    - if skill_assessment_form.object.skill.description.present?
+      (#{skill_assessment_form.object.skill.description})
+  .col-4.col-md-3.col-lg-2.my-1
+    = skill_assessment_form.hidden_field :skill_id, value: skill_assessment_form.object.skill_id
+    = skill_assessment_form.select :rating, [['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], {}, { class: 'form-select' }
+  .col-4.my-1
+    = skill_assessment_form.text_field :description, class: 'ml-2 form-control', placeholder: "Tell us more..."

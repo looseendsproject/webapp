@@ -7,16 +7,13 @@
         .form-info Rate the skills you're offering.  Leave blank if not applicable.
 
         = form.fields_for :assessments, @assessments do |assessment_form|
-          .row.g-1.mt-3
-            .col-4.col-md-3.col-lg-2.my-1
-              = assessment_form.label assessment_form.object.skill.name, class: 'form-label'
-              - if assessment_form.object.skill.description.present?
-                (#{assessment_form.object.skill.description})
-            .col-4.col-md-3.col-lg-2.my-1
-              = assessment_form.hidden_field :skill_id, value: assessment_form.object.skill_id
-              = assessment_form.select :rating, [['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], {}, { class: 'form-select' }
-            .col-4.my-1
-              = assessment_form.text_field :description, class: 'ml-2 form-control', placeholder: "Tell us more..."
+          -if assessment_form.object.skill.is_popular?
+            = render :partial => 'skills_assessment_form', :locals => { skill_assessment_form: assessment_form, featured: true }
+
+        = form.fields_for :assessments, @assessments do |assessment_form|
+          -if !assessment_form.object.skill.is_popular?
+            = render :partial => 'skills_assessment_form', :locals => { skill_assessment_form: assessment_form, featured: true }
+
   .row.g-1.g-sm-4.mb-3
     .col-12.col-sm-10.col-md-8
       = form.label 'Other Skills?', class: 'form-label optional'
