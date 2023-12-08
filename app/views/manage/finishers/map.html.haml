@@ -10,7 +10,7 @@
     .col-9
       = text_field_tag :near, params[:near], class: 'form-control'
     .col-2
-      = select_tag :skill_id, options_from_collection_for_select(Skill.all.sort_by(&:name), "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
+      = select_tag :skill_id, options_from_collection_for_select(Skill.sorted_by_popularity, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col-1
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
