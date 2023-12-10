@@ -33,7 +33,7 @@ class Admin::SkillsController < Admin::AdminController
   private
 
   def skill_params
-    params.require(:skill).permit(:name, :description)
+    params.require(:skill).permit(:name, :description, :position)
   end
 
 end

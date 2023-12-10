@@ -10,8 +10,8 @@ class Finisher < ApplicationRecord
   has_many :projects, through: :assignments
 
   has_many :assessments, dependent: :destroy
-  has_many :skills, through: :assessments
-  has_many :rated_assessments, -> { where(:rating => 1..)}, :class_name => 'Assessment'
+  has_many :rated_assessments, -> { includes(:skill).where(:rating => 1..).order('skills.position, skills.name')}, :class_name => 'Assessment'
+  has_many :skills, -> { order('skills.position, skills.name') }, through: :assessments
 
   has_many :favorites, dependent: :destroy
   has_many :products, through: :favorites
