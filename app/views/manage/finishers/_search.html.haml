@@ -30,9 +30,9 @@
     .col
   .row.mb-4
     .col
-      = select_tag :skill_id, options_from_collection_for_select(Skill.all, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
+      = select_tag :skill_id, options_from_collection_for_select(Skill.sorted_by_popularity, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col
-      = select_tag :product_id, options_from_collection_for_select(Product.all, "id", "name", params[:product_id]), include_blank: true, class: 'form-select'
+      = select_tag :product_id, options_from_collection_for_select(Product.order(:name), "id", "name", params[:product_id]), include_blank: true, class: 'form-select'
     .col
       = select_tag :country, options_for_select(@countries, params[:country]), include_blank: true, class: 'form-select'
     .col
