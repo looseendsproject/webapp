@@ -1,5 +1,4 @@
 class Skill < ApplicationRecord
-  POPULAR_SKILLS = %w[Knit Crochet Quilting]
 
   has_many :assessments, dependent: :destroy
   has_many :finishers, -> { where assessments: { rating: 1.. } }, through: :assessments
@@ -11,6 +10,6 @@ class Skill < ApplicationRecord
   end
 
   def self.sorted_by_popularity
-    where(name: POPULAR_SKILLS).order(:name) + where.not(name: POPULAR_SKILLS).order(:name)
+    order(:position, :name)
   end
 end
