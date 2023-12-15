@@ -2,13 +2,17 @@
   Finishers Map
 = form_tag map_manage_finishers_path, :method => :get do
   .row.mb-0
-    .col-9
+    .col-7
       = label_tag :near, "#{@finishers&.size} Finishers Near", class: 'label'
+    .col-2
+      = label_tag :search, "Radius", class: 'label'
     .col-2
       = label_tag :search, "Skill", class: 'label'
   .row.mb-4
-    .col-9
+    .col-7
       = text_field_tag :near, params[:near], class: 'form-control'
+    .col-2
+      = select_tag :radius, options_for_select([30,50,100,200], params[:radius] || 50), class: 'form-select'
     .col-2
       = select_tag :skill_id, options_from_collection_for_select(Skill.sorted_by_popularity, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col-1
@@ -31,7 +35,7 @@
   :javascript
     function initMap(){
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 10,
+        zoom: #{params[:radius].length >= 3 ? 9 : 10},
         center: { lat: #{@center[0]}, lng: #{@center[1]} },
       });
 
