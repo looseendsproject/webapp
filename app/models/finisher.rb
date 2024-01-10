@@ -104,7 +104,7 @@ class Finisher < ApplicationRecord
       end
     end
     if params[:skill_id].present?
-      @results = @results.where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
+      @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
     end
     if params[:state].present?
       @results = @results.where(:state => params[:state])
