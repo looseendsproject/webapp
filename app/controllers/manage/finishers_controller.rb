@@ -15,12 +15,12 @@ class Manage::FinishersController < Manage::ManageController
         last = Date.today.beginning_of_month
         @months = (first..last).map{ |date| date.strftime("%Y-%m-01") }.uniq.reverse
         @finishers = Finisher.search(params).paginate(page: params[:page])
-        @stateQuery = Finisher.where.not(state: "").order(:state).load_async
         if params[:country].present?
-          @stateQuery = @stateQuery.where(country: params[:country])
+          @states = Finisher.where(country: params[:country]).distinct.pluck(:state).reject(&:blank?).sort
+        else
+          @states = Finisher.distinct.pluck(:state).reject(&:blank?).sort
         end
-        @states = @stateQuery.pluck(:state).uniq
-        @existing_countries = Finisher.where.not(country: "").order(:country).load_async.pluck(:country).uniq
+        @existing_countries = Finisher.distinct.pluck(:country).reject(&:blank?).sort
         @countries = ISO3166::Country.all.select{ |c| @existing_countries.include?(c.alpha2) }.map{ |c| [c.iso_short_name, c.alpha2]}.sort_by{|c| I18n.transliterate(c[0])}
       end
     end
