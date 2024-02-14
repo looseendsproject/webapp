@@ -98,7 +98,7 @@ class FinishersController < AuthenticatedController
       in_home_pets: [],
       append_finished_projects: [],
       product_ids: [],
-      assessments_attributes: [:id, :skill_id, :rating, :description, :user_id])
+      assessments_attributes: [:id, :skill_id, :rating, :description])
   end
 
 end
