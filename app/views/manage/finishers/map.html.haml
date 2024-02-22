@@ -63,14 +63,15 @@
 
       new google.maps.Marker({ position: { lat: #{@center[0]}, lng: #{@center[1]} }, zIndex: 9999, icon: projectIcon, label: projectLabel, map, optimized: false });
 
-      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
+      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0}, eager: #{f.eager} }"}.join(',') }];
 
       const infowindow = new google.maps.InfoWindow({
         maxWidth: 200,
       });
 
       finishers.forEach(finisher => {
-        const pinColor = finisher.zIndex === 3 ? "#22bc49" : finisher.zIndex === 2 ? "#dcce1f" : finisher.zIndex === 1 ? "#e72d2d" : "#3975EC";
+        console.log(finisher.eager);
+        const pinColor = finisher.zIndex === 3 ? "#22bc49" : finisher.zIndex === 2 ? "#dcce1f" : finisher.zIndex === 1 ? "#e72d2d" : finisher.eager ? "#fca503" : "#3975EC";
 
         const icon = {
           path: pinSVGFilled,
@@ -83,7 +84,7 @@
           labelOrigin: labelOriginFilled
         }
         const label = {
-          text: finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
+          text: finisher.eager ? "!!!" : finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
           color: "white",
           fontSize: "14px",
           fontWeight: 'bold',
