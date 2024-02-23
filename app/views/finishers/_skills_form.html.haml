@@ -6,7 +6,7 @@
         = form.label 'Skill Assessment', class: 'form-label required'
         .form-info Rate the skills you're offering.  Leave blank if not applicable.
         - finisher_assessments = @finisher.assessments
-        - Skill.sorted_by_popularity.each do |skill|
+        - Skill.sorted_by_popularity.each_with_index do |skill, i|
           - finisher_assessment = finisher_assessments.find{|a| a.skill_id == skill.id}
           .row.g-1.mt-3
             .col-4.col-md-3.col-lg-2.my-1
@@ -15,11 +15,11 @@
                 (#{skill.description})
             .col-4.col-md-3.col-lg-2.my-1
               - if finisher_assessment
-                = hidden_field_tag "finisher[assessments_attributes][#{finisher_assessment&.id}][id]", finisher_assessment.id
-              = hidden_field_tag "finisher[assessments_attributes][#{finisher_assessment&.id}][skill_id]", skill.id
-              = select_tag "finisher[assessments_attributes][#{finisher_assessment&.id}][rating]", options_for_select([['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], finisher_assessment&.rating), { class: 'form-select' }
+                = hidden_field_tag "finisher[assessments_attributes][#{i}][id]", finisher_assessment.id
+              = hidden_field_tag "finisher[assessments_attributes][#{i}][skill_id]", skill.id
+              = select_tag "finisher[assessments_attributes][#{i}][rating]", options_for_select([['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], finisher_assessment&.rating), { class: 'form-select' }
             .col-4.my-1
-              = text_field_tag "finisher[assessments_attributes][#{finisher_assessment&.id}][description]", finisher_assessment&.description, class: 'ml-2 form-control', placeholder: "Tell us more..."
+              = text_field_tag "finisher[assessments_attributes][#{i}][description]", finisher_assessment&.description, class: 'ml-2 form-control', placeholder: "Tell us more..."
   .row.g-1.g-sm-4.mb-3
     .col-12.col-sm-10.col-md-8
       = form.label 'Other Skills?', class: 'form-label optional'
