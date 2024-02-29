@@ -53,7 +53,6 @@ class FinishersController < AuthenticatedController
       elsif finisher_params[:other_favorites]
         render :edit_favorites, status: :unprocessable_entity
       end
-
     end
   end
 
