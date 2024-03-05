@@ -63,7 +63,7 @@
 
       new google.maps.Marker({ position: { lat: #{@center[0]}, lng: #{@center[1]} }, zIndex: 9999, icon: projectIcon, label: projectLabel, map, optimized: false });
 
-      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
+      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0}, eager: #{f.eager} }"}.join(',') }];
 
       const infowindow = new google.maps.InfoWindow({
         maxWidth: 200,
@@ -83,7 +83,8 @@
           labelOrigin: labelOriginFilled
         }
         const label = {
-          text: finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
+          // if finisher is eager label marker !!!, else label according to zIndex
+          text: finisher.eager ? "!!!" : finisher.zIndex === 3 ? "E" : finisher.zIndex === 2 ? "I" : finisher.zIndex === 1 ? "B" : "F",
           color: "white",
           fontSize: "14px",
           fontWeight: 'bold',
