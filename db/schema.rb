@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_10_033135) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_17_155844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -167,6 +167,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_033135) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "phone_number"
+    t.string "in_home_pets"
+    t.boolean "has_smoke_in_home", default: false
+    t.boolean "no_smoke"
+    t.boolean "no_cats"
+    t.boolean "no_dogs"
+    t.string "crafter_dominant_hand"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
