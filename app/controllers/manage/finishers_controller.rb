@@ -1,4 +1,6 @@
 class Manage::FinishersController < Manage::ManageController
+
+  before_action :get_project, only: [:index, :map, :card]
   require 'csv'
   def index
     respond_to do |format|
@@ -72,6 +74,14 @@ class Manage::FinishersController < Manage::ManageController
 
   def finisher_params
     params.require(:finisher).permit(:admin_notes, :approved, :unavailable, :joined_on, :chosen_name, :dominant_hand, :street, :street_2, :city, :state, :country, :postal_code, :has_workplace_match, :workplace_name)
+  end
+
+  private
+
+  def get_project
+    if params[:project_id]
+      @project = Project.find(params[:project_id])
+    end
   end
 
 end

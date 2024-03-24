@@ -1,4 +1,4 @@
-= form_with model: @project, html: { class: 'form' } do |form|
+= form_with model: [:manage, @project], html: { class: 'form', data: { turbo: false } } do |form|
   = render "error_messages", resource: @project
   .row.mb-4
     .col-6
@@ -31,6 +31,43 @@
     %h5 Mailing Address
     .form-info After it's finished, we'll send it back here
     = render :partial => 'layouts/address_form', :locals => { form: form }
+
+
+  .row.mb-3
+    .col-12
+      = form.label "Tell us about the crafter's home", class: 'form-label optional'
+    .col-6.col-sm-5.col-md-4
+      .form-info Were there pets in the home?
+      = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other', 'other'] ], :last, :first) do |b|
+        .row
+          %label.form-label
+            = b.check_box
+            = b.label
+
+  .row
+    .col-xl-8.col-md-10
+      .form-info Was there cigarette smoke in the home?
+      = form.label 'has_smoke_in_home', class: 'form-label' do
+        = form.check_box :has_smoke_in_home
+        Yes, there was cigarette smoke in the home.
+
+  .row.g-1.g-sm-4.mb-3
+    .col-12
+      = form.label 'Sensitivities', class: 'form-label optional'
+      .form-info If we find a finisher who has smoke or pets in their home, do you want to avoid this finisher?
+      .row
+        %label.form-label
+          = form.check_box :no_smoke
+          No smoke, please.
+      .row
+        %label.form-label
+          = form.check_box :no_cats
+          No cats, please.
+      .row
+        %label.form-label
+          = form.check_box :no_dogs
+          No dogs, please.
+
 
   .form-actions
     = form.submit 'Submit Project', class: "btn btn-primary"

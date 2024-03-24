@@ -1,8 +1,7 @@
+
 .col
-  - if !@project
-    = link_to assignment.project.name, [ :manage, assignment.project ]
-  = link_to 'assigned', [ :manage, assignment ]
-  - if !@finisher
-    to
-    = link_to assignment.finisher.user.name, [ :manage, assignment.finisher ]
-  = l assignment.created_at, format: :short
+  %turbo-frame{ id: dom_id(assignment)}
+    Assigned to
+    = link_to assignment.finisher.user.name, [ :manage, assignment.finisher ], data: { turbo_frame: :_top }
+    = l assignment.created_at, format: :short
+    = button_to fa_icon("trash"), manage_assignment_path(assignment), method: :delete, :onclick => "return confirm('Are you sure?')", form_class: 'd-inline', class: 'btn btn-link p-0'

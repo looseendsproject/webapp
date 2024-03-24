@@ -1,4 +1,4 @@
-= form_tag manage_finishers_path, :method => :get do
+= form_tag [:manage, @project, :finishers], :method => :get do
   = hidden_field_tag :view, params[:view]
   .row.mb-0
     .col-6

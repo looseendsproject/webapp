@@ -2,7 +2,7 @@ class Project < ApplicationRecord
 
   STATUSES = ['proposed', 'approved', 'in progress', 'finished']
 
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :assignments
   has_many :finishers, through: :assignments
 
@@ -25,6 +25,15 @@ class Project < ApplicationRecord
   validates :project_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
   validates :crafter_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
   validates :material_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+
+  serialize :in_home_pets, Array
+  geocoded_by :full_address
+  after_validation :geocode, if: ->(obj){
+    puts obj.full_address
+    puts obj.full_address_has_changed?
+    obj.full_address.present? && obj.full_address_has_changed?
+  }
+
 
   def set_default_status
     self.status ||= 'proposed'
@@ -56,15 +65,14 @@ class Project < ApplicationRecord
 
   def self.has_assigned (assigned_state)
     if (assigned_state === 'true')
-      joins(:assignments).where({ assignments: { ended_at: nil } })
+      joins(:assignments).distinct
     elsif (assigned_state === 'false')
-      joins(:assignments).where.not({ assignments: { ended_at: nil } })
+      where.missing(:assignments)
     end
   end
 
-
   def missing_information?
-    description.blank? || missing_address_information?
+    description.blank? || missing_address_information? || has_pattern.blank? || material_type.blank? || project_images.blank?
   end
 
   def missing_address_information?
@@ -89,6 +97,16 @@ class Project < ApplicationRecord
 
   def append_material_images=(attachables)
     material_images.attach(attachables)
+  end
+
+  # method for combining all available address attributes for geocoding
+  def full_address
+    [street, street_2, city, state, postal_code, country].compact.join(", ")
+  end
+
+  # method for checking if any address attribute has changed
+  def full_address_has_changed?
+    street_changed?||street_2_changed?||city_changed?||state_changed?||postal_code_changed?||country_changed?
   end
 
 end
