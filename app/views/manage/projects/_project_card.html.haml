@@ -1,0 +1,20 @@
+- classes ||= []
+%div{:class => classes.append('card')}
+  - if project.project_images.first&.representable?
+    = image_tag(project.project_images.first.representation( resize_to_limit: [300, 300]), class: 'card-img-top', style: 'height:8vw; object-fit:cover;')
+
+  .card-body
+
+    %h6.card-title
+      = link_to project.name, [:manage, project]
+    .card-text
+      = project.status
+
+      = project.description
+
+      = project.finisher&.name
+
+
+
+  .card-footer
+    #{project.city}, #{project.state}

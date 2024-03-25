@@ -1,10 +1,10 @@
 class Manage::ProjectsController < Manage::ManageController
   def index
     @projects = Project.all
-    if (params[:status])
+    if (params[:status].present?)
       @projects = @projects.has_status(params[:status])
     end
-    if (params[:assigned])
+    if (params[:assigned].present?)
       @projects = @projects.has_assigned(params[:assigned])
     end
     @projects = @projects.paginate(page: params[:page])
@@ -20,9 +20,8 @@ class Manage::ProjectsController < Manage::ManageController
 
   def create
     @project = Project.new(project_params)
-    @project.user = current_user
     if @project.save
-      redirect_to @project
+      redirect_to [:manage, @project]
     else
       render "new"
     end
@@ -33,8 +32,9 @@ class Manage::ProjectsController < Manage::ManageController
   end
 
   def update
+    @project = Project.find(params[:id])
     if @project.update(project_params)
-      redirect_to @project
+      redirect_to [:manage, @project]
     else
       render 'edit'
     end
@@ -59,9 +59,15 @@ class Manage::ProjectsController < Manage::ManageController
       :material_type,
       :crafter_name,
       :crafter_description,
+      :crafter_dominant_hand,
       :recipient_name,
       :can_publicize,
       :terms_of_use,
+      :no_smoke,
+      :no_cats,
+      :no_dogs,
+      :has_smoke_in_home,
+      in_home_pets: [],
       append_crafter_images: [],
       append_project_images: [],
       append_pattern_files: [],

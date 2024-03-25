@@ -5,6 +5,8 @@ class Assignment < ApplicationRecord
 
   has_many :assignment_updates, dependent: :destroy
 
+  validates :finisher_id, uniqueness: { scope: :project_id }
+
   def self.active
     self.where(ended_at: nil)
   end

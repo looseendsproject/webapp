@@ -2,6 +2,11 @@
   = @project.name
   - if current_user.admin?
     (#{@project.status.humanize})
+
+
+- if @project.missing_information?
+  .alert.alert-primary
+    Before we can match this project, we need a little more information.  See the messages below.
 .row
   .col-4.mr-6.row
     - @project.project_images.each do |image|
@@ -55,7 +60,7 @@
         .col-3
           = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
     - if !@project.material_type.present? || @project.material_images.present?
-      %p
+      %p.text-primary
         Tell us about the material
 
     = @project.material_type
@@ -67,8 +72,13 @@
       .row
         .col-9
           Pattern Details
-    %p
-      Is there a pattern? #{@project.has_pattern}
+
+    - if !@project.has_pattern.present?
+      %p.text-primary
+        Tell us about the pattern
+    - else
+      %p
+        Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
@@ -89,6 +99,20 @@
       .removeable_image
         = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
         = button_to fa_icon("trash"), project_path(@project, { crafter_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+
+    %p= @project.crafter_dominant_hand
+
+    - if @project.no_smoke || @project.no_cats || @project.no_dogs
+      .page-section
+        %b Sensitivities
+        %ul
+          - if @project.no_smoke
+            %li No Smoke Please
+          - if @project.no_cats
+            %li No Cats Please
+          - if @project.no_dogs
+            %li No Dogs Please
+
     = @project.recipient_name
     %hr/
     %h3.page_section More

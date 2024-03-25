@@ -3,9 +3,11 @@ one:
   user_id: 1
   name: Project Title One
   description: Project desc one.
+  status: proposed
 
 two:
   id: 2
   user_id: 2
   name: Project Title Two
   description: Project desc two.
+  status: approved

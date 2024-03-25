@@ -1,0 +1,11 @@
+crocheter:
+  id: 1
+  user_id: 1
+  chosen_name: Fae Fenwick
+  description: I love to crochet.
+
+knitter:
+  id: 2
+  user_id: 2
+  chosen_name: Fran Fishman
+  description: I love to knit.

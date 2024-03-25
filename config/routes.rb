@@ -35,11 +35,17 @@ Rails.application.routes.draw do
     resources :assignments, :only => [:index, :edit, :update, :show, :destroy] do
       resources :assignment_updates, :only => [:create, :destroy]
     end
+    resources :assignments, :only => [:destroy, :create]
     resources :projects do
-      resources :assignments, :only => [:new, :create]
+      resources :assignments, :only => [:new]
+      resources :finishers, :only => [:index] do
+        collection do
+          get 'map'
+        end
+        get 'card', on: :member
+      end
     end
     resources :finishers do
-      resources :assignments, :only => [:new, :create]
       collection do
         get 'map'
       end
