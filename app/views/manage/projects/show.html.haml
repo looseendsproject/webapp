@@ -12,8 +12,32 @@
     %hr
     - @project.project_images.each do |image|
       = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
-  .col-9
+  .col-6
     %h3
       Assignees
       = link_to 'New Assignment', [:new, :manage, @project, :assignment], class: 'btn btn-outline-secondary float-end'
     = render @project.assignments
+
+  .col-3
+    %h3 Notes
+    #project_notes
+      = render @project.project_notes
+    #project_note_form
+      = render partial: 'manage/project_notes/form', locals: { project: @project}
+
+:javascript
+  const descriptionField = document.getElementById('project_note_description');
+
+  const setEnabledButton = () => {
+    const submitButton = document.getElementById('project_note_form_submit_button');
+    if (descriptionField.value.length === 0) {
+      submitButton.setAttribute('disabled', '');
+    } else {
+      submitButton.removeAttribute("disabled")
+    }
+  }
+
+  descriptionField.addEventListener('input', () => {
+    console.log('hy')
+    setEnabledButton();
+  });

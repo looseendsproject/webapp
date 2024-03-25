@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resources :assignment_updates, :only => [:create, :destroy]
     end
     resources :projects do
+      resources :project_notes, :only => [:create, :destroy]
       resources :assignments, :only => [:new, :create]
     end
     resources :finishers do

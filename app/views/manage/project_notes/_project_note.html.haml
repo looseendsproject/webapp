@@ -1,0 +1,5 @@
+= turbo_frame_tag(dom_id(project_note)) do
+  = project_note.description
+  = project_note.created_at
+  = project_note.user.name
+  = button_to "Remove", manage_project_project_note_path(project_note.project, project_note), method: :delete

@@ -1,0 +1,7 @@
+= form_for [:manage, project, project.project_notes.new] do |f|
+  .row
+    .col
+      = f.text_area :description
+  .row
+    .col
+      = f.submit 'Submit', { id: 'project_note_form_submit_button', disabled: 'true' }

@@ -1,0 +1,7 @@
+= turbo_stream.append "project_notes" do
+  = render @project_note
+end
+
+= turbo_stream.update "project_note_form" do
+  = render partial: 'manage/project_notes/form', locals: { project: @project}
+end
