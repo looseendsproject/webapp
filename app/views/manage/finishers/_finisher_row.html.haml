@@ -3,3 +3,5 @@
     = link_to finisher.name, [:manage, finisher]
   %td= finisher.user.email
   %td= finisher.full_address
+  - if @project
+    %td= link_to 'Assign', [:new, :manage, @project, :assignment, { finisher_id: finisher.id }]

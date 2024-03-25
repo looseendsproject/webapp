@@ -1,6 +1,6 @@
 %h1.page-title
   Finishers Map
-= form_tag map_manage_finishers_path, :method => :get do
+= form_tag [:map, :manage, @project, :finishers], :method => :get do
   .row.mb-0
     .col-7
       = label_tag :near, "#{@finishers&.size} Finishers Near", class: 'label'
@@ -28,6 +28,8 @@
         %th Name
         %th Email
         %th Address
+        - if @project
+          %th Assign
       = render partial: 'finisher_row', collection: @finishers, as: :finisher
 
   = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google, :maps_api_key)}&callback=initMap", defer: true
@@ -63,7 +65,7 @@
 
       new google.maps.Marker({ position: { lat: #{@center[0]}, lng: #{@center[1]} }, zIndex: 9999, icon: projectIcon, label: projectLabel, map, optimized: false });
 
-      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '/manage/finishers/#{f.id}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
+      const finishers = [#{ @finishers.map{|f| "{ position: { lat: #{f.latitude}, lng: #{f.longitude}}, title: '#{escape_javascript(f.name)}', skills: '#{f.rated_skills_string}', url: '#{url_for([:card, :manage, @project, f])}', zIndex: #{@skill_id ? f.assessments.find_by(skill_id: @skill_id).rating : 0} }"}.join(',') }];
 
       const infowindow = new google.maps.InfoWindow({
         maxWidth: 200,
@@ -92,7 +94,7 @@
         const marker = new google.maps.Marker({ ...finisher, icon, label, map, optimized: false });
 
         marker.addListener("click", () => {
-          fetch(`${finisher.url}/card`)
+          fetch(finisher.url)
             .then(response => response.text())
             .then(html => {
               infowindow.setContent(html);

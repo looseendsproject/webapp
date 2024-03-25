@@ -2,9 +2,14 @@
   = @project.name
   - if current_user.admin?
     (#{@project.status.humanize})
-  - if current_user == @project.user
+  - if current_user.can_manage? || current_user == @project.user
     = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
 
+%h3 Owner
+- if @project.user.blank?
+  %p System
+- else
+  %p= "#{@project.user.name}, #{@project.user.email}"
 .row
   .col-3
     %h3 Description
@@ -12,15 +17,55 @@
     %hr
     - @project.project_images.each do |image|
       = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
+    - if @project.more_details.present?
+      .page-section
+        %h5 More Details
+        = @project.more_details
+    .page-section.mb-2
+      .row
+        .col
+          %b Mailing Address:
+        .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@project.full_address}", target: "_blank"
+      .street= @project.street
+      - if @project.street_2.present?
+        .street2= @project.street_2
+      .city-state-zip
+        #{@project.city}, #{@project.state} #{@project.postal_code}
+      .country
+        = ISO3166::Country[@project.country]&.iso_short_name
   .col-6
+    - if @project.no_smoke || @project.no_cats || @project.no_dogs
+      .page-section.mb-3
+        %h4 Sensitivities
+        %ul
+          - if @project.no_smoke
+            %li No Smoke Please
+          - if @project.no_cats
+            %li No Cats Please
+          - if @project.no_dogs
+            %li No Dogs Please
+      - if @project.in_home_pets.select(&:present?).any?
+        .page-section.mb-3
+          %h4 Pets in Home
+          = @project.in_home_pets.select(&:present?).map{|p| p.capitalize}.join(', ')
+
+      - if @project.has_smoke_in_home
+        .page-section.mb-3
+          %h4 Smoking in Home
+          Has Smoke In Home
+    - if @project.no_smoke || @project.no_cats || @project.no_dogs || @project.in_home_pets.select(&:present?).any? || @project.has_smoke_in_home
+      %hr/
     %h3
       Assignees
-      = link_to 'New Assignment', [:new, :manage, @project, :assignment], class: 'btn btn-outline-secondary float-end'
+      .float-end
+        = link_to 'Search for Finisher', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-outline-secondary'
+        - if @project.state.present? && @project.country.present?
+          = link_to 'Find on Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-outline-secondary'
     = render @project.assignments
-
   .col-3
     %h3 Notes
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project}
+

@@ -1,3 +1,4 @@
+- classes ||= []
 %div{:class => classes.append('card')}
   - if finisher.unavailable
     .unavailable
@@ -14,7 +15,11 @@
         = link_to finisher.name, [:manage, finisher]
       - if finisher.can_publicize?
         = fa_icon 'bullhorn'
-
+    - if @project
+      .assign
+        = link_to 'Assign', [:new, :manage, @project, :assignment, { finisher_id: finisher.id }]
+        to
+        = link_to 'Project', [:manage, @project]
     .since
       %b Since:
       = l(finisher.joined_on) if finisher.joined_on
@@ -28,6 +33,8 @@
           %button.btn.btn-link.p-0{"data-bs-target" => "##{dom_id(finisher)}", "data-bs-toggle" => "modal", type: "button"}
             = fa_icon('comment')
       = finisher.products.map{|fav| fav.name}.join(', ')
+
+
 
   .card-footer
     #{finisher.city}, #{finisher.state}

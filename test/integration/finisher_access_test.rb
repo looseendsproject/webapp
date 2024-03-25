@@ -1,21 +1,20 @@
 require 'test_helper'
 
-class ProjectAccessTest < ActionDispatch::IntegrationTest
+class FinisherAccessTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   def setup
-    @one = projects :one
-    @two = projects :two
+    @knitter = finishers :knitter
   end
 
   test 'project page logged out' do
-    get '/projects/1'
+    get '/finisher'
     assert_redirected_to '/'
   end
 
   test 'project page logged in' do
-    sign_in users(:bob)
-    get '/projects/1'
+    sign_in users(:fran)
+    get '/finisher'
     assert_response :success
   end
 

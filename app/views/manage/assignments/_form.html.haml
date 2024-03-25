@@ -1,8 +1,13 @@
-= form_with model: @assignment, url: [ :manage, @project, :assignments ], html: { class: 'form', data: { turbo: false } } do |form|
+= form_with model: @assignment, url: [ :manage, :assignments ], html: { class: 'form', data: { turbo: false } } do |form|
+  = form.hidden_field :project_id
+  = form.hidden_field :finisher_id
+
   = render "error_messages", resource: @assignment
   .row
-    .col-4
-      = form.label 'Pick a Finisher', class: 'form-label required'
-      = form.select :finisher_id, Finisher.approved.collect {|v| [ v.name, v.id ] }, { include_blank: true }, { class: 'form-select' }
-  .form-actions
-    = form.submit 'Assign Project', class: "btn btn-primary"
+    .col-6
+      = render 'manage/projects/project_card', { project: @project }
+    .col-6
+      = render 'manage/finishers/finisher_card', { finisher: @finisher }
+  - if !@finisher.assigned_to(@project)
+    .form-actions
+      = form.submit 'Assign Project', class: "btn btn-primary"

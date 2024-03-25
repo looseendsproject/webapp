@@ -162,6 +162,10 @@ class Finisher < ApplicationRecord
     user.name != chosen_name ? "#{chosen_name} (#{user.name})" : chosen_name
   end
 
+  def assigned_to project
+    assignments.where(project_id: project.id).exists?
+  end
+
   def append_finished_projects=(attachables)
     finished_projects.attach(attachables)
   end
