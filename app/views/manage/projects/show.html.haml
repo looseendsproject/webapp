@@ -20,24 +20,7 @@
 
   .col-3
     %h3 Notes
-    #project_notes
+    #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project}
-
-:javascript
-  const descriptionField = document.getElementById('project_note_description');
-
-  const setEnabledButton = () => {
-    const submitButton = document.getElementById('project_note_form_submit_button');
-    if (descriptionField.value.length === 0) {
-      submitButton.setAttribute('disabled', '');
-    } else {
-      submitButton.removeAttribute("disabled")
-    }
-  }
-
-  descriptionField.addEventListener('input', () => {
-    console.log('hy')
-    setEnabledButton();
-  });
