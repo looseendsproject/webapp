@@ -15,8 +15,8 @@ class ProjectAccessTest < ActionDispatch::IntegrationTest
 
   test 'project page logged in' do
     sign_in users(:bob)
-
     get '/projects/1'
     assert_response :success
   end
+
 end

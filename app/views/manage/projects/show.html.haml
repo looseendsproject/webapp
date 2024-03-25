@@ -59,5 +59,6 @@
       Assignees
       .float-end
         = link_to 'Search for Finisher', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-outline-secondary'
-        = link_to 'Find on Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-outline-secondary'
+        - if @project.state.present? && @project.country.present?
+          = link_to 'Find on Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-outline-secondary'
     = render @project.assignments

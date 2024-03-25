@@ -9,3 +9,17 @@ jane:
   first_name: Jane
   last_name: Howard
   email: jane@gmail.com
+
+mick:
+  id: 3
+  first_name: Mick
+  last_name: Franks
+  email: mick@gmail.com
+  role: 'manager'
+
+anne:
+  id: 4
+  first_name: Anne
+  last_name: Addaire
+  email: anne@gmail.com
+  role: 'admin'
