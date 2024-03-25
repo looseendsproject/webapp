@@ -33,7 +33,7 @@
         #{@project.city}, #{@project.state} #{@project.postal_code}
       .country
         = ISO3166::Country[@project.country]&.iso_short_name
-  .col-9
+  .col-6
     - if @project.no_smoke || @project.no_cats || @project.no_dogs
       .page-section.mb-3
         %h4 Sensitivities
@@ -62,3 +62,10 @@
         - if @project.state.present? && @project.country.present?
           = link_to 'Find on Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-outline-secondary'
     = render @project.assignments
+  .col-3
+    %h3 Notes
+    #project_notes.d-flex.flex-column
+      = render @project.project_notes
+    #project_note_form
+      = render partial: 'manage/project_notes/form', locals: { project: @project}
+

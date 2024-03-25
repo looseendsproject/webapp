@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     end
     resources :assignments, :only => [:destroy, :create]
     resources :projects do
+      resources :project_notes, :only => [:create, :destroy]
       resources :assignments, :only => [:new]
       resources :finishers, :only => [:index] do
         collection do
