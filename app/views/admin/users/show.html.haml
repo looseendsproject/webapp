@@ -8,4 +8,4 @@
   .col
     Email: #{@user.email}
 %p
-  Role: #{@user.role}
+  Role: #{@user.role} #{@user.is_project_manager ? '(Matcher)' : ''}

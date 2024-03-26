@@ -7,6 +7,9 @@ class Manage::ProjectsController < Manage::ManageController
     if (params[:assigned].present?)
       @projects = @projects.has_assigned(params[:assigned])
     end
+    if (params[:project_manager].present?)
+      @projects = @projects.where(manager_id: params[:project_manager])
+    end
     @projects = @projects.paginate(page: params[:page])
   end
 
@@ -44,6 +47,7 @@ class Manage::ProjectsController < Manage::ManageController
 
   def project_params
     params.require(:project).permit(
+      :manager_id,
       :name,
       :description,
       :more_details,

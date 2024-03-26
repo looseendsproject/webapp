@@ -4,9 +4,12 @@
     .col-6
       = form.label 'Give this project a name', class: 'form-label required'
       = form.text_field :name, class: 'form-control'
-    .col-4
+    .col-2
       = form.label :status, class: 'form-label'
       = form.select :status, Project::STATUSES.map{ |status| [status.humanize, status ]}, { }, { class: 'form-select' }
+    .col-2
+      = form.label :manager_id, class: 'form-label'
+      = form.select :manager_id, User.project_managers.map { |a| [a.name, a.id] }, { include_blank: true }, { class: 'form-select' }
 
   .row.mb-4
     .col-6
