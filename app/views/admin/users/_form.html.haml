@@ -4,6 +4,9 @@
     .col-4
       = form.label 'Role', class: 'form-label'
       = form.select :role, [['User', 'user'], ['Manager', 'manager'], ['Admin', 'admin']], { }, { class: 'form-select' }
+    .col-4
+      = form.check_box :is_project_manager, class: 'form-check-input'
+      = form.label :is_project_manager, class: 'form-check-label'
   .row
     .col-4
       = form.label 'Email', class: 'form-label'

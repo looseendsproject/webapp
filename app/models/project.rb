@@ -2,6 +2,7 @@ class Project < ApplicationRecord
 
   STATUSES = ['proposed', 'approved', 'in progress', 'finished']
 
+  belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
   has_many :assignments
   has_many :finishers, through: :assignments
@@ -13,7 +14,6 @@ class Project < ApplicationRecord
   has_many_attached :material_images
 
   before_validation :set_default_status
-
 
   validates :status, inclusion: { in: STATUSES }
   validates :status, presence: true

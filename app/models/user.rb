@@ -48,6 +48,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def self.project_managers
+    where(role: %w[admin manager], is_project_manager: true)
+  end
+
   def admin?
     role == 'admin'
   end

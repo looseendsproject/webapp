@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_25_015308) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_26_024112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -185,8 +185,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_25_015308) do
     t.string "crafter_dominant_hand"
     t.float "latitude"
     t.float "longitude"
+    t.bigint "manager_id"
     t.index ["latitude"], name: "index_projects_on_latitude"
     t.index ["longitude"], name: "index_projects_on_longitude"
+    t.index ["manager_id"], name: "index_projects_on_manager_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
@@ -216,10 +218,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_25_015308) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_project_manager"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "projects", "users", column: "manager_id"
 end

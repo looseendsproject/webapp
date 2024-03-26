@@ -9,11 +9,15 @@
     .col
       Assigned:
     .col
+      Manager:
+    .col
   .row.mb-4
     .col
       = select_tag :status, options_for_select(Project::STATUSES.map{ |status| [status.humanize, status ]}, params[:status]), include_blank: true, class: 'form-select'
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
+    .col
+      = select_tag :project_manager, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:project_manager]), include_blank: true, class: 'form-select'
     .col
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 

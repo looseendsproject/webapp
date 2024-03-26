@@ -30,7 +30,7 @@ class Admin::UsersController < Admin::AdminController
   private
 
   def user_params
-    params.require(:user).permit(:role, :email)
+    params.require(:user).permit(:role, :email, :is_project_manager)
   end
 
 end
