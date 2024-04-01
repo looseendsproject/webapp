@@ -59,7 +59,9 @@ Rails.application.routes.draw do
     resource :dashboard
     resources :skills
     resources :products
-    resources :users
+    resources :users do
+      get :assume_identity, :on => :member
+    end
   end
 
 end
