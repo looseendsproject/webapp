@@ -9,7 +9,8 @@ Ruby on Rails 7 running with Postgres DB
 ## Downloading and Installing
 Clone repo from git and start the Rails app as usual.
 - Bundle: `bundle`
-- Build the database: `rails db:create`
+- Create the database: `rails db:create`
+- Load the Schema: `rails db:schema:load`
 - Start the dev server: `bin/dev`
 
 ## Getting development Data

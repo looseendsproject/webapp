@@ -1,6 +1,8 @@
 %h1
   = @user.name
-  = link_to 'Edit User', [:edit, :admin, @user], class: 'btn btn-outline-secondary float-end'
+  .float-end
+    = link_to "Assume Identity", [:assume_identity, :admin, @user], class: 'btn btn-outline-secondary'
+    = link_to 'Edit User', [:edit, :admin, @user], class: 'btn btn-outline-secondary'
 
 .row
   .col

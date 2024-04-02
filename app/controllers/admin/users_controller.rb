@@ -3,6 +3,12 @@ class Admin::UsersController < Admin::AdminController
     @users = User.search(params).paginate(page: params[:page])
   end
 
+  def assume_identity
+    user = User.find(params[:id])
+    sign_in user
+    redirect_to :root
+  end
+
   def show
     @user = User.find(params[:id])
   end
