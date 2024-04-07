@@ -34,7 +34,7 @@
         %ul.list-unstyled.row
           %li.col-6.col-lg-4
             = link_to 'Create an Account', new_registration_path('user'), class: 'btn-primary btn w-100'
-  .col-12.col-md-4.col-lg-3.col-xl-2{ style: 'background: #EEE'}
-    - if current_user&.projects
+  - if current_user&.projects
+    .col-12.col-md-4.col-lg-3.col-xl-2.rounded-3.p-3{ style: 'background: #EEE'}
       %h3 Projects
       = render current_user.projects
