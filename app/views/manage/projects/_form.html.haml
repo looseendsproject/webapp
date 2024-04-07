@@ -13,6 +13,10 @@
 
   .row.mb-4
     .col-6
+      = form.label 'Phone Number', class: 'form-label required'
+      = form.text_field :phone_number, class: 'form-control'
+  .row.mb-4
+    .col-6
       = form.label 'What type of craft is this?', class: 'form-label required'
       .form-info Knit, Crochet, Quilt. Do you know what it is?
       = form.text_field :craft_type, class: 'form-control'

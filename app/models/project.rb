@@ -73,7 +73,7 @@ class Project < ApplicationRecord
   end
 
   def missing_information?
-    description.blank? || missing_address_information? || has_pattern.blank? || material_type.blank? || project_images.blank?
+    description.blank? || phone_number.blank? || missing_address_information? || has_pattern.blank? || material_type.blank? || project_images.blank?
   end
 
   def missing_address_information?

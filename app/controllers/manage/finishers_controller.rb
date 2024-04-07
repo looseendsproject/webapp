@@ -73,7 +73,20 @@ class Manage::FinishersController < Manage::ManageController
 
 
   def finisher_params
-    params.require(:finisher).permit(:admin_notes, :approved, :unavailable, :joined_on, :chosen_name, :dominant_hand, :street, :street_2, :city, :state, :country, :postal_code, :has_workplace_match, :workplace_name)
+    params.require(:finisher).permit(:admin_notes,
+                                     :approved,
+                                     :unavailable,
+                                     :joined_on,
+                                     :chosen_name,
+                                     :dominant_hand,
+                                     :street,
+                                     :street_2,
+                                     :city,
+                                     :state,
+                                     :country,
+                                     :postal_code,
+                                     :has_workplace_match,
+                                     :workplace_name)
   end
 
   private

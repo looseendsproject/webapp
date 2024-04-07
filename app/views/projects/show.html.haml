@@ -3,7 +3,6 @@
   - if current_user.admin?
     (#{@project.status.humanize})
 
-
 - if @project.missing_information?
   .alert.alert-primary
     Before we can match this project, we need a little more information.  See the messages below.
@@ -29,6 +28,15 @@
         %hr/
         %p= @project.more_details
   .col-8
+    %h4
+      .row
+        .col-9
+          Phone Number
+        .col-3.fs-6.text-end
+          - if @project.phone_number.blank?
+            = link_to 'Required', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
+          - else
+            = @project.phone_number
     %h4
       .row
         .col-9

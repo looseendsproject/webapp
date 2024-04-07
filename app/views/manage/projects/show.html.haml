@@ -10,10 +10,15 @@
   %p System
 - else
   %p= "#{@project.user.name}, #{@project.user.email}"
+
+
 .row
   .col-3
     %h3 Description
     = @project.description
+
+    %h5 Phone Number
+    = @project.phone_number
     %hr
     - @project.project_images.each do |image|
       = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))

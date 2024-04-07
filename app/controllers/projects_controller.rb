@@ -42,7 +42,7 @@ class ProjectsController < AuthenticatedController
     if @project.update(project_params)
       redirect_to @project
     else
-      render 'edit'
+      render 'edit_basics'
     end
   end
 
@@ -77,6 +77,7 @@ class ProjectsController < AuthenticatedController
   def project_params
     params.require(:project).permit(
       :name,
+      :phone_number,
       :description,
       :more_details,
       :status,
