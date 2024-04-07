@@ -4,9 +4,9 @@
 
   = render "error_messages", resource: @assignment
   .row
-    .col-6
+    .col-6.col-sm-6.col-md-4.col-lg-3.col-xl-3.col-xxl-2
       = render 'manage/projects/project_card', { project: @project }
-    .col-6
+    .col-6.col-sm-6.col-md-4.col-lg-3.col-xl-3.col-xxl-2
       = render 'manage/finishers/finisher_card', { finisher: @finisher }
   - if !@finisher.assigned_to(@project)
     .form-actions
