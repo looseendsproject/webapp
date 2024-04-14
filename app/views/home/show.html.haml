@@ -46,4 +46,5 @@
       .rounded-3.p-3{ style: 'background: #EEE'}
         %h4 Projects
         - if current_user.projects
-          = render current_user.projects
+          %ul.list-unstyled
+            = render current_user.projects
