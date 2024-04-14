@@ -1,4 +1,8 @@
-%h1
-  Edit Project
+%h1.page-title.row
+  .col
+    Edit Project
+  .col.text-end
+    = button_to fa_icon("trash"), manage_project_path(@project), method: :delete, :onclick => "return confirm('Are you sure you want to delete this Project?')", class: 'icon'
+
 
 = render 'form'

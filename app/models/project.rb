@@ -4,9 +4,9 @@ class Project < ApplicationRecord
 
   belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
-  has_many :assignments
+  has_many :assignments, dependent: :destroy
   has_many :finishers, through: :assignments
-  has_many :project_notes
+  has_many :project_notes, dependent: :destroy
 
   has_many_attached :crafter_images
   has_many_attached :project_images

@@ -3,7 +3,7 @@
   - if current_user.admin?
     (#{@project.status.humanize})
   - if current_user.can_manage? || current_user == @project.user
-    = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
+    = link_to 'Edit', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
 
 %h3 Owner
 - if @project.user.blank?

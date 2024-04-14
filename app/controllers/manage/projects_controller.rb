@@ -43,6 +43,13 @@ class Manage::ProjectsController < Manage::ManageController
     end
   end
 
+  def destroy
+    @project = Project.find(params[:id])
+    if @project.destroy
+      redirect_to [:manage, :projects]
+    end
+  end
+
   protected
 
   def project_params
