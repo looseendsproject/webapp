@@ -1,40 +1,49 @@
 = render 'title', title: 'Loose Ends Project'
 %h2.page-subtitle.mb-3 Why it’s important to finish a handmade project
 .row
-  .col-12.col-md-8.col-lg-9.col-xl-10
+  .col-12.col-md-6.col-lg-8.col-xl-9
     .page-section
-      %p “You look like somebody loves you.”
-      %p
-        Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
-      %p
-        Or, it can be finished as intended and given back to be cherished.
-    - if current_user
-      - if !current_user.finisher?
+      %h4 Become a Finisher
+      %p Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
+      %p Or, it can be finished as intended and given back to be cherished.
+
+      - if current_user
         .page-section
+        - if !current_user.finisher?
+
           %h4 Start your finisher profile!
           %ul.list-unstyled.row
             %li.col-6.col-lg-4
               = link_to 'Fill out your Finisher Profile', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn w-100'
-      - else
-        - if !current_user.finisher.has_completed_profile
-          .page-section
-            %b Complete your finisher profile!
-            %ul.list-unstyled.row
-              %li.col-6.col-lg-4
-                = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
         - else
-          .page-section
-            %b Finisher Profile Complete!
-            %ul.list-unstyled.row
-              %li.col-6.col-lg-4
-                = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
-    - else
-      .page-section
-        %b Get Involved!
-        %ul.list-unstyled.row
-          %li.col-6.col-lg-4
-            = link_to 'Create an Account', new_registration_path('user'), class: 'btn-primary btn w-100'
-  - if current_user&.projects
-    .col-12.col-md-4.col-lg-3.col-xl-2.rounded-3.p-3{ style: 'background: #EEE'}
-      %h3 Projects
-      = render current_user.projects
+          %b
+            - if !current_user.finisher.has_completed_profile
+              Complete your finisher profile!
+            - else
+              Finisher Profile Complete!
+          %ul.list-unstyled.row
+            %li.col-6.col-lg-4
+              = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
+      - else
+        .page-section
+          %ul.list-unstyled.row
+            %li.col-6.col-lg-4
+              = link_to 'Sign Up', new_registration_path('user'), class: 'btn-primary btn w-100'
+
+
+      %h4.mt-5 Submit a Project
+      %p When Loose Ends receives a project submission, we look through our database of finishers to find a good match. With an eye toward geography, skill level, and druthers, we will identify a good fit based on the information volunteer finishers submitted in their profiles. The next step is running this by the finishers themselves to find out if they’re feeling it too.
+      %p Once a finisher says yes to a project, we make the connection by introducing the finisher and project holder in an email. Then… we step away and let the project evolve within this new connection. We are always here to troubleshoot, advise or reassign if needed.
+      %ul.list-unstyled.row
+        %li.col-6.col-lg-4
+          - if current_user
+            = link_to "Submit your project", [:new, :project], class: 'btn-primary btn w-100'
+          - else
+            = link_to 'Create an account', new_registration_path('user'), class: 'btn-primary btn w-100'
+
+  - if current_user
+    .col-12.col-md-6.col-lg-4.col-xl-3
+      .rounded-3.p-3{ style: 'background: #EEE'}
+        %h4 Projects
+        - if current_user.projects
+          = render current_user.projects
