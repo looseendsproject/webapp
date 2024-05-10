@@ -48,26 +48,30 @@ class ProjectsController < AuthenticatedController
 
   def destroy
     if (params[:project_image_id])
-      project_image = @project.project_images.find(params[:project_image_id])
-      project_image.purge
+      image = @project.project_images.find(params[:project_image_id])
+      if (@project.project_images.size > 1)
+        Rails.env.production? ? image.purge : image.delete
+      else
+        flash.alert = "There must be at least one project image"
+      end
       redirect_to @project
     end
 
     if (params[:material_image_id])
-      material_image = @project.material_images.find(params[:material_image_id])
-      material_image.purge
+      image = @project.material_images.find(params[:material_image_id])
+      Rails.env.production? ? image.purge : image.delete
       redirect_to @project
     end
 
     if (params[:crafter_image_id])
-      crafter_image = @project.crafter_images.find(params[:crafter_image_id])
-      crafter_image.purge
+      image = @project.crafter_images.find(params[:crafter_image_id])
+      Rails.env.production? ? image.purge : image.delete
       redirect_to @project
     end
 
     if (params[:pattern_file_id])
-      pattern_file = @project.pattern_files.find(params[:pattern_file_id])
-      pattern_file.purge
+      image = @project.pattern_files.find(params[:pattern_file_id])
+      Rails.env.production? ? image.purge : image.delete
       redirect_to @project
     end
   end
