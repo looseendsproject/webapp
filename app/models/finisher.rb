@@ -19,7 +19,8 @@ class Finisher < ApplicationRecord
   accepts_nested_attributes_for :assessments
 
   validates :chosen_name, presence: true
-  validates :phone_number, presence: true
+  validates :phone_number, format: { with: /\A[0-9]{10,15}\z/, message: "must be at least 10 digits" }
+
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
 

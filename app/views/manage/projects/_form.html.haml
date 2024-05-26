@@ -27,7 +27,7 @@
       = form.text_area :description, size: "60x5", class: 'form-control'
   .row.mb-4
     .col-4
-      = form.label 'Project Images', class: 'form-label'
+      = form.label 'Project Images', class: 'form-label required'
       .form-info Please upload photos of the unfinished project.
       = form.file_field :append_project_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
       - form.object.project_images.each do |image|

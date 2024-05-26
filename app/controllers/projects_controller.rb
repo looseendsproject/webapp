@@ -42,7 +42,11 @@ class ProjectsController < AuthenticatedController
     if @project.update(project_params)
       redirect_to @project
     else
-      render 'edit_basics'
+      if project_params[:phone_number]
+        render 'edit_address'
+      else
+        render 'edit_basics'
+      end
     end
   end
 

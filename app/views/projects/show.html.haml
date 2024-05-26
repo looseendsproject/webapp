@@ -36,7 +36,7 @@
           - if @project.phone_number.blank?
             = link_to 'Required', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
           - else
-            = @project.phone_number
+            = number_to_phone @project.phone_number.last(10), country_code:  @project.phone_number.length > 10 ?  @project.phone_number.first(@project.phone_number.length - 10) : nil
     %h4
       .row
         .col-9
@@ -123,6 +123,11 @@
 
     = @project.recipient_name
     %hr/
-    %h3.page_section More
-    OK To talk about this publicly? #{@project.can_publicize ? fa_icon(:check) : 'No'}
+    %h4
+      .row
+        .col-9
+          More
+        .col-3
+          = link_to 'Edit', [:edit_crafter, @project], class: 'btn btn-link float-end btn-sm'
+    OK to talk about this publicly? #{@project.can_publicize ? fa_icon(:check) : 'No'}
 

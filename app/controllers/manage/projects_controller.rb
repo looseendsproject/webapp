@@ -56,6 +56,7 @@ class Manage::ProjectsController < Manage::ManageController
     params.require(:project).permit(
       :manager_id,
       :name,
+      :phone_number,
       :description,
       :more_details,
       :status,

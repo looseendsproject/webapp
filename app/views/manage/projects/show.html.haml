@@ -5,12 +5,19 @@
   - if current_user.can_manage? || current_user == @project.user
     = link_to 'Edit', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
 
-%h3 Owner
-- if @project.user.blank?
-  %p System
-- else
-  %p= "#{@project.user.name}, #{@project.user.email}"
-
+.row
+  .col-3
+    %h3 Owner
+    - if @project.user.blank?
+      %p System
+    - else
+      %p= "#{@project.user.name}, #{@project.user.email}"
+  .col-3
+    %h3 Manager
+    - if @project.manager.blank?
+      %p None
+    - else
+      %p= @project.manager.name
 
 .row
   .col-3
@@ -18,7 +25,10 @@
     = @project.description
 
     %h5 Phone Number
-    = @project.phone_number
+    - if @project.phone_number
+      = number_to_phone @project.phone_number.last(10), country_code:  @project.phone_number.length > 10 ?  @project.phone_number.first(@project.phone_number.length - 10) : nil
+    - else
+      Missing
     %hr
     - @project.project_images.each do |image|
       = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
