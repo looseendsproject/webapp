@@ -19,7 +19,7 @@ class Project < ApplicationRecord
   validates :status, presence: true
 
   validates :name, presence: true
-  validates :phone_number, format: { with: /\A[0-9]{10,15}\z/, message: "must be at least 10 digits" }
+  validates :phone_number, length: { minimum: 10 }
   validates :description, presence: true
   validates :craft_type, presence: true
   validates :terms_of_use, acceptance: true

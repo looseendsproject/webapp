@@ -74,6 +74,7 @@ class Manage::FinishersController < Manage::ManageController
 
   def finisher_params
     params.require(:finisher).permit(:admin_notes,
+                                     :phone_number,
                                      :approved,
                                      :unavailable,
                                      :joined_on,

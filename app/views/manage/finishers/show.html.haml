@@ -35,7 +35,6 @@
     .page-section.mb-2
       %b Phone Number:
       = @finisher.phone_number
-      = number_to_phone @finisher.phone_number.last(10), country_code:  @finisher.phone_number.length > 10 ?  @finisher.phone_number.first(@finisher.phone_number.length - 10) : nil
     .page-section.mb-2
       %b Pronouns:
       = @finisher.pronouns

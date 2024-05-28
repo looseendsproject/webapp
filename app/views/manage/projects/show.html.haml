@@ -25,8 +25,8 @@
     = @project.description
 
     %h5 Phone Number
-    - if @project.phone_number
-      = number_to_phone @project.phone_number.last(10), country_code:  @project.phone_number.length > 10 ?  @project.phone_number.first(@project.phone_number.length - 10) : nil
+    - if @project.phone_number.present?
+      = @project.phone_number
     - else
       Missing
     %hr

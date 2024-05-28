@@ -24,6 +24,10 @@
     .col-4
       = form.date_field :joined_on, class: 'form-control'
   .row.mb-2
+    = form.label :phone_number, class: 'col-2 col-form-label'
+    .col-4
+      = form.text_field :phone_number, class: 'form-control'
+  .row.mb-2
     = form.label 'Workplace Match?', class: 'col-2 form-label required'
     .col-4
       = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
