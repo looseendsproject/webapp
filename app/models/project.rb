@@ -19,7 +19,7 @@ class Project < ApplicationRecord
   validates :status, presence: true
 
   validates :name, presence: true
-  validates :phone_number, length: { minimum: 10 }
+  validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %{count} digits." }
   validates :description, presence: true
   validates :craft_type, presence: true
   validates :terms_of_use, acceptance: true
