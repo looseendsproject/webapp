@@ -4,6 +4,10 @@
     .col-4
       = form.label 'Give this project a name', class: 'form-label required'
       = form.text_field :name, class: 'form-control'
+  .row
+    .col-4
+      = form.label 'Your Phone Number', class: 'form-label required'
+      = form.text_field :phone_number, class: 'form-control'
   .page-section
     %h5 Project
     .row.mb-2
@@ -42,6 +46,6 @@
           = form.check_box :terms_of_use
           By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
   .form-actions
-    = form.submit 'Submit Project', class: "btn btn-primary"
+    = form.submit 'Submit', class: "btn btn-primary"
     - if @project.persisted?
       = link_to "Cancel", @project, class: "btn btn-link"

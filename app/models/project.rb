@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
 
-  STATUSES = ['proposed', 'approved', 'in progress', 'finished']
+  STATUSES = ['draft', 'proposed', 'approved', 'in progress', 'finished']
 
   belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
@@ -36,9 +36,16 @@ class Project < ApplicationRecord
     obj.full_address.present? && obj.full_address_has_changed?
   }
 
+  after_update :move_to_proposed
+
+  def move_to_proposed
+    if !missing_information? && status == 'draft'
+      update_column(:status, 'proposed')
+    end
+  end
 
   def set_default_status
-    self.status ||= 'proposed'
+    self.status ||= 'draft'
   end
 
   def finisher

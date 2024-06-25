@@ -8,7 +8,7 @@
     %h6.card-title
       = link_to project.name, [:manage, project]
     .card-text
-      = project.status
+      %b (#{project.status})
 
       = project.description
 

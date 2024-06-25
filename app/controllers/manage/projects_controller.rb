@@ -1,8 +1,9 @@
 class Manage::ProjectsController < Manage::ManageController
   def index
-    @projects = Project.all
     if (params[:status].present?)
-      @projects = @projects.has_status(params[:status])
+      @projects = Project.has_status(params[:status])
+    else
+      @projects = Project.has_status(['proposed', 'approved', 'in progress'])
     end
     if (params[:assigned].present?)
       @projects = @projects.has_assigned(params[:assigned])

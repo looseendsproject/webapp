@@ -13,7 +13,7 @@
     .col
   .row.mb-4
     .col
-      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| [status.humanize, status ]}, params[:status]), include_blank: true, class: 'form-select'
+      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, class: 'form-select'
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
