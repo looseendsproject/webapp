@@ -128,6 +128,9 @@ class Finisher < ApplicationRecord
     if params[:country].present?
       @results = @results.where(:country => params[:country])
     end
+    if params[:has_workplace_match].present? && params[:has_workplace_match] == '1'
+      @results = @results.where(has_workplace_match: true)
+    end
     return @results
   end
 
