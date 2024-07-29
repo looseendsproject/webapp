@@ -3,7 +3,7 @@
 %p= @finisher.pronouns
 
 - if @finisher.missing_information?
-  .alert.alert-primary
+  .alert.alert-danger
     Before we can connect you with projects, we need a little more information.  See the messages below.
 
 
@@ -21,7 +21,7 @@
           .col-3
             = link_to 'Edit', [:edit_profile, :finisher], class: 'btn btn-link float-end btn-sm'
       - if @finisher.description.blank?
-        %p.text-primary Please give more information about yourself
+        %p.text-danger Please give more information about yourself
       %p= @finisher.description
 
     .page-section
@@ -39,7 +39,7 @@
           .col-3
             = link_to 'Edit', [:edit_address, :finisher], class: 'btn btn-link float-end btn-sm'
       - if @finisher.missing_address_information?
-        %p.text-primary You must enter a complete mailing address to receive projects.
+        %p.text-danger You must enter a complete mailing address to receive projects.
       - if @finisher.street.present?
         .row
           .col-12= @finisher.street
@@ -64,12 +64,12 @@
         = link_to 'Edit', [:edit_skills, :finisher], class: 'btn btn-link float-end btn-sm'
 
       - if @finisher.dominant_hand.blank?
-        %p.text-primary Please enter dominant hand
+        %p.text-danger Please enter dominant hand
       - else
         %p= @finisher.dominant_hand
 
       - if @finisher.missing_assessments?
-        %p.text-primary Please enter assessments
+        %p.text-danger Please enter assessments
       - else
         %ul
           - @finisher.rated_assessments.each do |assessment|
@@ -95,7 +95,7 @@
         = link_to 'Edit', [:edit_favorites, :finisher], class: 'btn btn-link float-end btn-sm'
 
       - if @finisher.missing_favorites?
-        %p.text-primary Please tell us what you like to do
+        %p.text-danger Please tell us what you like to do
       %ul
         - @finisher.favorites.each do |favorite|
           %li= favorite.product.name
