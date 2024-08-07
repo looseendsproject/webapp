@@ -1,5 +1,6 @@
 class Manage::ProjectsController < Manage::ManageController
   def index
+    @title = "Loose Ends - Manage - Projects"
     if (params[:status].present?)
       @projects = Project.has_status(params[:status])
     else
@@ -16,9 +17,11 @@ class Manage::ProjectsController < Manage::ManageController
 
   def show
     @project = Project.find(params[:id])
+    @title = "Loose Ends - Manage - Projects - " + @project.name
   end
 
   def new
+    @title = "Loose Ends - Manage - New Project"
     @project = Project.new
   end
 
@@ -33,6 +36,7 @@ class Manage::ProjectsController < Manage::ManageController
 
   def edit
     @project = Project.find(params[:id])
+    @title = "Loose Ends - Manage - Edit Project - " + @project.name
   end
 
   def update

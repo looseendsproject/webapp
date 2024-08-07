@@ -25,6 +25,7 @@ class Manage::AssignmentsController < Manage::ManageController
     @project = Project.find(params[:project_id])
     @finisher = Finisher.find(params[:finisher_id])
     @assignment = @project.assignments.new(project_id: @project.id, finisher_id: @finisher.id)
+    @title = "Loose Ends - Manage - Assign Project - " + @project.name
   end
 
   protected

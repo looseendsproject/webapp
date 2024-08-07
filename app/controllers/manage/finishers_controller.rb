@@ -6,7 +6,7 @@ class Manage::FinishersController < Manage::ManageController
     respond_to do |format|
       skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
       product = Product.find(params[:product_id]) if params[:product_id].present?
-      @title = ['Finishers', params[:search].present? ? "'#{params[:search]}'" : nil, params[:country], params[:state], skill&.name, product&.name, params[:sort].present? ? "sort by #{params[:sort]}" : nil].reject(&:blank?).join(' ')
+      @title = ['Loose Ends - Manage - Finishers', params[:search].present? ? "'#{params[:search]}'" : nil, params[:country], params[:state], skill&.name, product&.name, params[:sort].present? ? "sort by #{params[:sort]}" : nil].reject(&:blank?).join(' ')
       format.csv do
         response.headers['Content-Type'] = 'text/csv'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
@@ -29,6 +29,7 @@ class Manage::FinishersController < Manage::ManageController
   end
 
   def map
+    @title = "Loose Ends - Manage - Finishers Map"
     params[:radius] ||= 50
     results = Geocoder.search(params[:near])
     if results.first
@@ -43,7 +44,7 @@ class Manage::FinishersController < Manage::ManageController
 
   def show
     @finisher = Finisher.find(params[:id])
-    @title = @finisher.chosen_name
+    @title = "Loose Ends - Manage - Finishers - " + @finisher.chosen_name
   end
 
   def card
@@ -57,7 +58,7 @@ class Manage::FinishersController < Manage::ManageController
 
   def edit
     @finisher = Finisher.find(params[:id])
-    @title = "Edit " + @finisher.chosen_name
+    @title = "Loose Ends - Manage - Edit Finisher - " + @finisher.chosen_name
   end
 
   def update
