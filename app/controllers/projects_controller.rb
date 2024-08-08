@@ -26,6 +26,7 @@ class ProjectsController < AuthenticatedController
 
   def new
     @project = Project.new
+    @title = "Loose Ends - New Project"
   end
 
   def create

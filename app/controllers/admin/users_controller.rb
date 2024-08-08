@@ -1,6 +1,7 @@
 class Admin::UsersController < Admin::AdminController
   def index
     @users = User.search(params).paginate(page: params[:page])
+    @title = "Loose Ends - Admin - Users"
   end
 
   def assume_identity
@@ -11,10 +12,12 @@ class Admin::UsersController < Admin::AdminController
 
   def show
     @user = User.find(params[:id])
+    @title = "Loose Ends - Admin - Users - #{@user.name}"
   end
 
   def edit
     @user = User.find(params[:id])
+    @title = "Loose Ends - Admin - Edit User - #{@user.name}"
   end
 
   def update

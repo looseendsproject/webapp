@@ -4,6 +4,7 @@ class FinishersController < AuthenticatedController
   before_action :authenticate_user!, except: [:show]
 
   def show
+    @title = "Loose Ends - Finisher Profile"
     @finisher = current_user.finisher
   end
 
@@ -12,20 +13,25 @@ class FinishersController < AuthenticatedController
       redirect_to edit_profile_finisher_path
     end
     @finisher = Finisher.new(chosen_name: current_user.first_name + ' ' + current_user.last_name)
+    @title = "Loose Ends - Finisher Profile - New Finisher"
   end
 
   def edit_skills
     @finisher = current_user.finisher
+    @title = "Loose Ends - Finisher Profile - Edit Skills"
   end
 
   def edit_profile
     @finisher = current_user.finisher
+    @title = "Loose Ends - Finisher Profile - Edit Profile"
   end
   def edit_favorites
     @finisher = current_user.finisher
+    @title = "Loose Ends - Finisher Profile - Edit Favorites"
   end
   def edit_address
     @finisher = current_user.finisher
+    @title = "Loose Ends - Finisher Profile - Edit Address"
   end
 
   def create
