@@ -28,7 +28,8 @@
     - if @project.phone_number.present?
       = @project.phone_number
     - else
-      Missing
+      %p.text-danger
+        (Required)
     %hr
     - @project.project_images.each do |image|
       = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
@@ -70,15 +71,41 @@
           Has Smoke In Home
     - if @project.no_smoke || @project.no_cats || @project.no_dogs || @project.in_home_pets.select(&:present?).any? || @project.has_smoke_in_home
       %hr/
+    %h4 Material Details
+    - if !@project.material_type.present? || @project.material_images.present?
+      %p.text-danger
+        (Required)
+
+    = @project.material_type
+    - @project.material_images.each do |image|
+      .removeable_image
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    %h4.mt-4
+      .row
+        .col-9
+          Pattern Details
+
+    - if !@project.has_pattern.present?
+      %p.text-danger
+        (Required)
+    - else
+      %p
+        Is there a pattern? #{@project.has_pattern}
+    - @project.pattern_files.each do |file|
+      .removeable_file
+        = link_to file.blob.filename, url_for(file), { download: true }
+        = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+
+  .col-3
     %h3
       Assignees
       .float-end
-        = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-outline-secondary'
+        = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
         - if @project.state.present? && @project.country.present?
-          = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-outline-secondary'
+          = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
     = render @project.assignments
-  .col-3
-    %h3 Notes
+    %h3.mt-4 Notes
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
