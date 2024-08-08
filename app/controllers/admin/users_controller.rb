@@ -12,12 +12,12 @@ class Admin::UsersController < Admin::AdminController
 
   def show
     @user = User.find(params[:id])
-    @title = "Loose Ends - Admin - Users - " + @user.name
+    @title = "Loose Ends - Admin - Users - #{@user.name}"
   end
 
   def edit
     @user = User.find(params[:id])
-    @title = "Loose Ends - Admin - Edit User - " + @user.name
+    @title = "Loose Ends - Admin - Edit User - #{@user.name}"
   end
 
   def update

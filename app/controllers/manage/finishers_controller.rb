@@ -44,7 +44,7 @@ class Manage::FinishersController < Manage::ManageController
 
   def show
     @finisher = Finisher.find(params[:id])
-    @title = "Loose Ends - Manage - Finishers - " + @finisher.chosen_name
+    @title = "Loose Ends - Manage - Finishers - #{@finisher.chosen_name}"
   end
 
   def card
@@ -58,7 +58,7 @@ class Manage::FinishersController < Manage::ManageController
 
   def edit
     @finisher = Finisher.find(params[:id])
-    @title = "Loose Ends - Manage - Edit Finisher - " + @finisher.chosen_name
+    @title = "Loose Ends - Manage - Edit Finisher - #{@finisher.chosen_name}"
   end
 
   def update

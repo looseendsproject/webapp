@@ -6,12 +6,12 @@ class Admin::SkillsController < Admin::AdminController
 
   def show
     @skill = Skill.find(params[:id])
-    @title = "Loose Ends - Admin - Skills - " + @skill.name
+    @title = "Loose Ends - Admin - Skills - #{@skill.name}"
   end
 
   def edit
     @skill = Skill.find(params[:id])
-    @title = "Loose Ends - Admin - Edit Skill - " + @skill.name
+    @title = "Loose Ends - Admin - Edit Skill - #{@skill.name}"
   end
 
   def new

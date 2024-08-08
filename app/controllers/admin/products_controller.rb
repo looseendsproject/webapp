@@ -6,12 +6,12 @@ class Admin::ProductsController < Admin::AdminController
 
   def show
     @product = Product.find(params[:id])
-    @title = "Loose Ends - Admin - Products - " + @product.name
+    @title = "Loose Ends - Admin - Products - #{@product.name}"
   end
 
   def edit
     @product = Product.find(params[:id])
-    @title = "Loose Ends - Admin - Edit Product - " + @product.name
+    @title = "Loose Ends - Admin - Edit Product - #{@product.name}"
   end
 
   def new
