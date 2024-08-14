@@ -103,7 +103,7 @@ class FinishersController < AuthenticatedController
       in_home_pets: [],
       append_finished_projects: [],
       product_ids: [],
-      assessments_attributes: [:id, :skill_id, :rating, :description])
+      assessments_attributes: [:id, :skill_id, :rating, :description, :can_work_without_pattern])
   end
 
 end
