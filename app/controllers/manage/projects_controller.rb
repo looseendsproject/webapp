@@ -4,7 +4,9 @@ class Manage::ProjectsController < Manage::ManageController
     if (params[:status].present?)
       @projects = Project.has_status(params[:status])
     else
-      @projects = Project.has_status(['proposed', 'approved', 'in progress'])
+      @projects = Project.has_status(['proposed', 'breakup/decline', 'on hold', 'project confirmation email sent/ready to match',
+      'finisher invited', 'rematch', 'project accepted', 'introduced', 'humming along', 'unresponsive',
+      'f2f rematch'])
     end
     if (params[:assigned].present?)
       @projects = @projects.has_assigned(params[:assigned])

@@ -1,6 +1,10 @@
 class Project < ApplicationRecord
 
-  STATUSES = ['draft', 'proposed', 'approved', 'in progress', 'finished']
+  STATUSES = [
+    'draft', 'proposed', 'breakup/decline', 'on hold', 'project confirmation email sent/ready to match',
+    'finisher invited', 'rematch', 'project accepted', 'introduced', 'humming along', 'unresponsive',
+    'f2f rematch', 'done'
+  ]
 
   belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
@@ -56,16 +60,48 @@ class Project < ApplicationRecord
     where({ status: 'proposed' })
   end
 
-  def self.approved
-    where({ status: 'approved' })
+  def self.breakup_decline
+    where({ status: 'breakup/decline' })
   end
 
-  def self.in_progress
-    where({ status: 'in progress' })
+  def self.on_hold
+    where({ status: 'on hold' })
   end
 
-  def self.finished
-    where({ status: 'finished' })
+  def self.project_confirmation_email_sent_ready_to_match
+    where({ status: 'project confirmation email sent/ready to match' })
+  end
+
+  def self.finisher_invited
+    where({ status: 'finisher invited' })
+  end
+
+  def self.rematch
+    where({ status: 'rematch' })
+  end
+
+  def self.project_accepted
+    where({ status: 'project accepted' })
+  end
+
+  def self.introduced
+    where({ status: 'introduced' })
+  end
+
+  def self.humming_along
+    where({ status: 'humming along' })
+  end
+
+  def self.unresponsive
+    where({ status: 'unresponsive' })
+  end
+
+  def self.f2f_rematch
+    where({ status: 'f2f rematch' })
+  end
+
+  def self.done
+    where({ status: 'done' })
   end
 
   def self.has_status (status_state)
