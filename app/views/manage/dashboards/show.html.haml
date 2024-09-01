@@ -21,6 +21,6 @@
     .col-2
       Proposed: #{Project.proposed.count}
     .col-2
-      In Progress: #{Project.breakup_decline.count + Project.on_hold.count + Project.project_confirmation_email_sent_ready_to_match.count + Project.finisher_invited.count + Project.rematch.count + Project.project_accepted.count + Project.introduced.count + Project.humming_along.count + Project.unresponsive.count + Project.f2f_rematch.count}
+      In Progress: #{Project.on_hold.count + Project.project_confirmation_email_sent_ready_to_match.count + Project.finisher_invited.count + Project.rematch.count + Project.project_accepted.count + Project.introduced.count + Project.humming_along.count + Project.unresponsive.count + Project.f2f_rematch.count}
     .col-2
       Done: #{Project.done.count}
