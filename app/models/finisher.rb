@@ -19,7 +19,7 @@ class Finisher < ApplicationRecord
   accepts_nested_attributes_for :assessments
 
   validates :chosen_name, presence: true
-  validates :phone_number, length: { minimum: 10 }
+  validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %{count} digits." }
 
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
@@ -81,7 +81,7 @@ class Finisher < ApplicationRecord
   end
 
   def self.search(params)
-    @results = self.all.includes(:products, :user).with_attached_picture.joins(:user)
+    @results = self.includes(:products, :user, { :rated_assessments => :skill }).with_attached_picture.joins(:user)
     if params[:search].present?
 
       if params[:search].match(/^[0-9]+$/)
