@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
 
   def self.search(params)
-    @results = self.all.includes(:projects)
+    @results = self.includes(:projects, :finisher)
     if params[:search].present?
       @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" })
     end
