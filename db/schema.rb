@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_08_024446) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_13_220742) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_024446) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "can_work_without_pattern"
     t.index ["finisher_id"], name: "index_assessments_on_finisher_id"
     t.index ["skill_id"], name: "index_assessments_on_skill_id"
   end

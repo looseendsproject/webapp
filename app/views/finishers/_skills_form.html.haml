@@ -6,6 +6,10 @@
         = form.label 'Skill Assessment', class: 'form-label required'
         .form-info Rate the skills you're offering.  Leave blank if not applicable.
         - finisher_assessments = @finisher.assessments
+        .row.g-1.mt-3.h5
+          .col-4.col-md-3.col-lg-2.my-1 Craft
+          .col-4.col-md-3.col-lg-2.my-1 Skill Level
+          .col-4.col-md-3.col-lg-2.my-1 Can work without pattern?
         - Skill.sorted_by_popularity.each_with_index do |skill, i|
           - finisher_assessment = finisher_assessments.find{|a| a.skill_id == skill.id}
           .row.g-1.mt-3
@@ -18,6 +22,8 @@
                 = hidden_field_tag "finisher[assessments_attributes][#{i}][id]", finisher_assessment.id
               = hidden_field_tag "finisher[assessments_attributes][#{i}][skill_id]", skill.id
               = select_tag "finisher[assessments_attributes][#{i}][rating]", options_for_select([['', '0'],['Beginner', '1'],['Intermediate', '2'],['Expert', '3']], finisher_assessment&.rating), { class: 'form-select' }
+            .col-4.col-md-3.col-lg-2.my-1
+              = select_tag "finisher[assessments_attributes][#{i}][can_work_without_pattern]", options_for_select([['', 0],['No', 1], ['Maybe', 2], ['Yes', 3]], finisher_assessment&.can_work_without_pattern), { class: 'form-select' }
             .col-4.my-1
               = text_field_tag "finisher[assessments_attributes][#{i}][description]", finisher_assessment&.description, class: 'ml-2 form-control', placeholder: "Tell us more..."
   .row.g-1.g-sm-4.mb-3

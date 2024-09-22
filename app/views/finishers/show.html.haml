@@ -73,8 +73,7 @@
       - else
         %ul
           - @finisher.rated_assessments.each do |assessment|
-            %li
-              #{assessment.skill.name}: #{Skill[assessment.rating].to_s.humanize}. #{assessment.description}
+            %li= assessment.to_s
 
       %p= @finisher.other_skills
 
