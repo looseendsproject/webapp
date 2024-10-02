@@ -10,13 +10,13 @@ class Manage::FinishersController < Manage::ManageController
       format.csv do
         response.headers['Content-Type'] = 'text/csv'
         response.headers['Content-Disposition'] = "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
-        @finishers = Finisher.search(params)
+        @finishers = Finisher.includes(:user).select(:id, :user_id, :first_name, :last_name, :email, :has_workplace_match).search(params)
       end
       format.html do
         first = Finisher.order(:joined_on).first.joined_on.beginning_of_month
         last = Date.today.beginning_of_month
         @months = (first..last).map{ |date| date.strftime("%Y-%m-01") }.uniq.reverse
-        @finishers = Finisher.search(params).paginate(page: params[:page])
+        @finishers = Finisher.includes(:products, :user, { :rated_assessments => :skill }).with_attached_picture.search(params).paginate(page: params[:page])
         if params[:country].present?
           @states = Finisher.where(country: params[:country]).distinct.pluck(:state).reject(&:blank?).sort
         else

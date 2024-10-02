@@ -81,9 +81,8 @@ class Finisher < ApplicationRecord
   end
 
   def self.search(params)
-    @results = self.includes(:products, :user, { :rated_assessments => :skill }).with_attached_picture.joins(:user)
+    @results = self.joins(:user)
     if params[:search].present?
-
       if params[:search].match(/^[0-9]+$/)
         @results = @results.where("finishers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
       else
