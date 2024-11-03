@@ -1,10 +1,28 @@
 class Manage::ProjectsController < Manage::ManageController
   def index
     @title = "Loose Ends - Manage - Projects"
+    @status = params[:status] || 'ready to match'
     if (params[:status].present?)
       @projects = Project.has_status(params[:status])
     else
-      @projects = Project.has_status(['proposed', 'approved', 'in progress'])
+      @projects = Project.has_status([
+        'drafted',
+        'proposed',
+        'submitted via google',
+        'project confirm email sent',
+        'ready to match',
+        'finisher invited',
+        'project accepted/waiting on terms',
+        'introduced',
+        'in process',
+        'finished/not returned',
+        'done',
+        'unresponsive',
+        'on hold',
+        'will not do',
+        'waiting for return to rematch',
+        'weird circumstance'
+      ])
     end
     if (params[:assigned].present?)
       @projects = @projects.has_assigned(params[:assigned])
@@ -65,6 +83,7 @@ class Manage::ProjectsController < Manage::ManageController
       :description,
       :more_details,
       :status,
+      :ready_status,
       :street,
       :street_2,
       :city,

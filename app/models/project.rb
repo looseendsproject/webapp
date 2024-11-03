@@ -1,6 +1,30 @@
 class Project < ApplicationRecord
+  STATUSES = [
+    'drafted',
+    'proposed',
+    'submitted via google',
+    'project confirm email sent',
+    'ready to match',
+    'finisher invited',
+    'project accepted/waiting on terms',
+    'introduced',
+    'in process',
+    'finished/not returned',
+    'done',
+    'unresponsive',
+    'on hold',
+    'will not do',
+    'waiting for return to rematch',
+    'weird circumstance'
+  ].freeze
 
-  STATUSES = ['draft', 'proposed', 'approved', 'in progress', 'finished']
+  READY_TO_MATCH_STATUSES = [
+    'new',
+    'new - additional attempt',
+    'new - needs to go on facebook',
+    'old - needs match with a second skill',
+    'old - finisher requested rematch'
+  ].freeze
 
   belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
@@ -39,13 +63,13 @@ class Project < ApplicationRecord
   after_update :move_to_proposed
 
   def move_to_proposed
-    if !missing_information? && status == 'draft'
+    if !missing_information? && status == 'drafted'
       update_column(:status, 'proposed')
     end
   end
 
   def set_default_status
-    self.status ||= 'draft'
+    self.status ||= 'drafted'
   end
 
   def finisher
@@ -56,16 +80,60 @@ class Project < ApplicationRecord
     where({ status: 'proposed' })
   end
 
-  def self.approved
-    where({ status: 'approved' })
+  def self.submitted_via_google
+    where({ status: 'submitted via google' })
   end
 
-  def self.in_progress
-    where({ status: 'in progress' })
+  def self.project_confirm_email_sent
+    where({ status: 'project confirm email sent' })
+  end
+
+  def self.ready_to_match
+    where({ status: 'ready to match' })
+  end
+
+  def self.finisher_invited
+    where({ status: 'finisher invited' })
+  end
+
+  def self.project_accepted_waiting_on_terms
+    where({ status: 'project accepted/waiting on terms' })
+  end
+
+  def self.introduced
+    where({ status: 'introduced' })
+  end
+
+  def self.in_process
+    where({ status: 'in process' })
   end
 
   def self.finished
-    where({ status: 'finished' })
+    where({ status: 'finished/not returned' })
+  end
+
+  def self.done
+    where({ status: 'done' })
+  end
+
+  def self.unresponsive
+    where({ status: 'unresponsive' })
+  end
+
+  def self.on_hold
+    where({ status: 'on hold' })
+  end
+
+  def self.will_not_do
+    where({ status: 'will not do' })
+  end
+
+  def self.waiting_for_return_to_rematch
+    where({ status: 'waiting for return to rematch' })
+  end
+
+  def self.weird_circumstance
+    where({ status: 'weird circumstance' })
   end
 
   def self.has_status (status_state)

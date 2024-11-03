@@ -5,4 +5,6 @@
 import { application } from "./application"
 
 import HelloController from "./hello_controller"
+import ToggleReadyStatus from "./toggle_ready_status"
 application.register("hello", HelloController)
+application.register("toggle-ready-status", ToggleReadyStatus)
