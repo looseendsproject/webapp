@@ -9,6 +9,11 @@ class Manage::ProjectsController < Manage::ManageController
       if params[:status] == 'ready to match' && params[:ready_status].present?
         @projects = @projects.where(ready_status: params[:ready_status])
       end
+
+      # Additional filter for `in_process_status` if `status` is "in process"
+      if params[:status] == 'in process' && params[:in_process_status].present?
+        @projects = @projects.where(in_process_status: params[:in_process_status])
+      end
     else
       @projects = Project.has_status([
         'drafted',
@@ -89,6 +94,7 @@ class Manage::ProjectsController < Manage::ManageController
       :more_details,
       :status,
       :ready_status,
+      :in_process_status,
       :street,
       :street_2,
       :city,

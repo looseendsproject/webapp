@@ -3,6 +3,8 @@
   - if current_user.admin?
     - if @project.status == 'ready to match' && @project.ready_status.present?
       (#{@project.status.humanize} - #{@project.ready_status.humanize})
+    - elsif @project.status == 'in process' && @project.in_process_status.present?
+      (#{@project.status.humanize} - #{@project.in_process_status.humanize})
     - else
       (#{@project.status.humanize})
   - if current_user.can_manage? || current_user == @project.user

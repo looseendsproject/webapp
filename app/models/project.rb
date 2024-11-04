@@ -26,6 +26,14 @@ class Project < ApplicationRecord
     'old - finisher requested rematch'
   ].freeze
 
+  IN_PROCESS_STATUSES = [
+    'connected (both finisher and po have responded)',
+    'po still has project',
+    'humming along',
+    'check in',
+    'po out of touch'
+  ].freeze
+
   belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
   has_many :assignments, dependent: :destroy
@@ -59,6 +67,9 @@ class Project < ApplicationRecord
     puts obj.full_address_has_changed?
     obj.full_address.present? && obj.full_address_has_changed?
   }
+
+  before_save :clear_ready_status_unless_ready_to_match
+  before_save :clear_in_process_status_unless_in_process
 
   after_update :move_to_proposed
 
@@ -144,6 +155,10 @@ class Project < ApplicationRecord
     where(ready_status: status)
   end
 
+  def self.has_in_process_status(status)
+    where(in_process_status: status)
+  end
+
   def self.has_assigned (assigned_state)
     if (assigned_state === 'true')
       joins(:assignments).distinct
@@ -190,4 +205,13 @@ class Project < ApplicationRecord
     street_changed?||street_2_changed?||city_changed?||state_changed?||postal_code_changed?||country_changed?
   end
 
+  private
+
+  def clear_ready_status_unless_ready_to_match
+    self.ready_status = nil unless status == 'ready to match'
+  end
+
+  def clear_in_process_status_unless_in_process
+    self.in_process_status = nil unless status == 'in process'
+  end
 end
