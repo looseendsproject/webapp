@@ -4,6 +4,11 @@ class Manage::ProjectsController < Manage::ManageController
     @status = params[:status] || 'ready to match'
     if (params[:status].present?)
       @projects = Project.has_status(params[:status])
+
+      # Additional filter for `ready_status` if `status` is "ready to match"
+      if params[:status] == 'ready to match' && params[:ready_status].present?
+        @projects = @projects.where(ready_status: params[:ready_status])
+      end
     else
       @projects = Project.has_status([
         'drafted',

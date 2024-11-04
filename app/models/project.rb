@@ -140,6 +140,10 @@ class Project < ApplicationRecord
     where({ status: status_state })
   end
 
+  def self.has_ready_status(status)
+    where(ready_status: status)
+  end
+
   def self.has_assigned (assigned_state)
     if (assigned_state === 'true')
       joins(:assignments).distinct
