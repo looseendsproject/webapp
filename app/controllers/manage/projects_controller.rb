@@ -1,10 +1,38 @@
 class Manage::ProjectsController < Manage::ManageController
   def index
     @title = "Loose Ends - Manage - Projects"
+    @status = params[:status] || 'ready to match'
     if (params[:status].present?)
       @projects = Project.has_status(params[:status])
+
+      # Additional filter for `ready_status` if `status` is "ready to match"
+      if params[:status] == 'ready to match' && params[:ready_status].present?
+        @projects = @projects.where(ready_status: params[:ready_status])
+      end
+
+      # Additional filter for `in_process_status` if `status` is "in process"
+      if params[:status] == 'in process' && params[:in_process_status].present?
+        @projects = @projects.where(in_process_status: params[:in_process_status])
+      end
     else
-      @projects = Project.has_status(['proposed', 'approved', 'in progress'])
+      @projects = Project.has_status([
+        'drafted',
+        'proposed',
+        'submitted via google',
+        'project confirm email sent',
+        'ready to match',
+        'finisher invited',
+        'project accepted/waiting on terms',
+        'introduced',
+        'in process',
+        'finished/not returned',
+        'done',
+        'unresponsive',
+        'on hold',
+        'will not do',
+        'waiting for return to rematch',
+        'weird circumstance'
+      ])
     end
     if (params[:assigned].present?)
       @projects = @projects.has_assigned(params[:assigned])
@@ -65,6 +93,8 @@ class Manage::ProjectsController < Manage::ManageController
       :description,
       :more_details,
       :status,
+      :ready_status,
+      :in_process_status,
       :street,
       :street_2,
       :city,
