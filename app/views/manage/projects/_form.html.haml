@@ -6,10 +6,20 @@
       = form.text_field :name, class: 'form-control'
     .col-2
       = form.label :status, class: 'form-label'
-      = form.select :status, Project::STATUSES.map{ |status| [status.humanize, status ]}, { }, { class: 'form-select' }
+      = form.select :status, Project::STATUSES.map { |status| [status.humanize, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
     .col-2
       = form.label :manager_id, class: 'form-label'
       = form.select :manager_id, User.project_managers.map { |a| [a.name, a.id] }, { include_blank: true }, { class: 'form-select' }
+    
+  -# This section will be toggled based on the selected status
+  .row.mb-4#ready-status-row{ style: (@project.status == 'ready to match' ? '' : 'display: none;') }
+    .col-4
+      = form.label :ready_status, 'Ready to Match Status', class: 'form-label'
+      = form.select :ready_status, Project::READY_TO_MATCH_STATUSES.map { |status| [status.humanize, status] }, { include_blank: true }, { class: 'form-select' }
+  .row.mb-4#in-process-status-row{ style: (@project.status == 'in process' ? '' : 'display: none;') }
+    .col-4
+      = form.label :in_process_status, 'In Process Status', class: 'form-label'
+      = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize, status] }, { include_blank: true }, { class: 'form-select' }
 
   .row.mb-4
     .col-6
