@@ -19,7 +19,7 @@
   .row.mb-4#in-process-status-row{ style: (@project.status == 'in process' ? '' : 'display: none;') }
     .col-4
       = form.label :in_process_status, 'In Process Status', class: 'form-label'
-      = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize, status] }, { include_blank: true }, { class: 'form-select' }
+      = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize.gsub(/\bpo\b/i, 'PO'), status] }, { include_blank: true }, { class: 'form-select' }
 
   .row.mb-4
     .col-6
