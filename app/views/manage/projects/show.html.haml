@@ -23,6 +23,46 @@
       %p None
     - else
       %p= @project.manager.name
+  .col-6
+    %h3 Project Attributes
+    - if @project.joann_helped || @project.urgent || @project.influencer || @project.group_project || @project.press || @project.privacy_needed
+      %ul.list-unstyled
+        - if @project.joann_helped
+          %li
+            %i.fa.fa-check
+            Joann helped
+        - if @project.urgent
+          %li
+            %i.fa.fa-check
+            Urgent
+        - if @project.influencer
+          %li
+            %i.fa.fa-check
+            Influencer
+        - if @project.group_project
+          %li
+            %i.fa.fa-check
+            Group project
+            - if @project.group_manager
+              %br
+              %small.text-muted
+                Group Manager: #{@project.group_manager.name}
+        - if @project.press
+          %li
+            %i.fa.fa-check
+            Press
+            - if @project.press_region.present? || @project.press_outlet.present?
+              %br
+              %small.text-muted
+                = "Region: #{@project.press_region}" if @project.press_region.present?
+                = " | " if @project.press_region.present? && @project.press_outlet.present?
+                = "Outlet: #{@project.press_outlet}" if @project.press_outlet.present?
+        - if @project.privacy_needed
+          %li
+            %i.fa.fa-check
+            Privacy needed
+    - else
+      %p No special attributes set
 
 .row
   .col-3
