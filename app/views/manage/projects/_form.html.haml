@@ -138,8 +138,10 @@
     .row.mb-3#group-manager-row{ style: (@project.group_project ? '' : 'display: none;') }
       .col-6
         = form.label :group_manager_id, 'Group Manager', class: 'form-label'
-        = form.collection_select :group_manager_id, Finisher.all, :id, :name, { include_blank: true }, { class: 'form-select' }
-    
+        .autocomplete#group-manager-autocomplete{ data: { controller: 'autocomplete', autocomplete_url: search_finishers_path } }
+          = text_field_tag :group_manager_name, @project.group_manager&.name, class: 'form-control', data: { autocomplete_target: 'input', action: 'input->autocomplete#fetch' }
+          = form.hidden_field :group_manager_id, value: @project.group_manager_id, data: { autocomplete_target: 'hidden' }
+
     .row.mb-3
       .col-12
         .row
