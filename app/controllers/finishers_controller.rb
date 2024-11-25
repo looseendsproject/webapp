@@ -71,7 +71,6 @@ class FinishersController < AuthenticatedController
     end
   end
 
-
   private
 
   def finisher_params
