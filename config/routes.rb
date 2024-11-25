@@ -29,12 +29,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :finishers, only: [] do
-    collection do
-      get :search, to: 'finishers#search'
-    end
-  end
-
   namespace :manage do
     root :to => "dashboards#show"
     resource :dashboard
@@ -48,6 +42,7 @@ Rails.application.routes.draw do
       resources :finishers, :only => [:index] do
         collection do
           get 'map'
+          get :search, to: 'finishers#search'
         end
         get 'card', on: :member
       end

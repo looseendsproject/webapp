@@ -71,12 +71,6 @@ class FinishersController < AuthenticatedController
     end
   end
 
-  def search
-    # Fetch finishers matching the search term (case insensitive)
-    finishers = Finisher.where('chosen_name ILIKE ?', "%#{params[:term]}%").limit(20)
-    render json: finishers.map { |f| { id: f.id, name: f.chosen_name } }
-  end
-
   private
 
   def finisher_params
