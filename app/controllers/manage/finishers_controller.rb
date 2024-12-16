@@ -72,7 +72,11 @@ class Manage::FinishersController < Manage::ManageController
 
   def search
     # Fetch finishers matching the search term (case insensitive)
-    finishers = Finisher.where('chosen_name ILIKE ?', "%#{params[:term]}%").limit(20)
+    finishers = Finisher
+                  .where('chosen_name ILIKE ?', "%#{params[:term]}%")
+                  .limit(20)
+                  .select(:id, :chosen_name)
+  
     render json: finishers.map { |f| { id: f.id, name: f.chosen_name } }
   end
 
