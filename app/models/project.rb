@@ -36,6 +36,7 @@ class Project < ApplicationRecord
 
   belongs_to :manager, optional: true, class_name: 'User'
   belongs_to :user, optional: true
+  belongs_to :group_manager, class_name: 'Finisher', optional: true
   has_many :assignments, dependent: :destroy
   has_many :finishers, through: :assignments
   has_many :project_notes, dependent: :destroy
@@ -59,6 +60,10 @@ class Project < ApplicationRecord
   validates :project_images, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
   validates :crafter_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
   validates :material_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+
+  validates :group_manager, presence: true, if: :group_project?
+  validates :press_region, presence: true, if: :press?
+  validates :press_outlet, presence: true, if: :press?
 
   serialize :in_home_pets, Array
   geocoded_by :full_address

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_11_235510) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_17_115747) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -188,6 +188,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_235510) do
     t.bigint "manager_id"
     t.string "ready_status"
     t.string "in_process_status"
+    t.boolean "joann_helped", default: false
+    t.boolean "urgent", default: false
+    t.boolean "influencer", default: false
+    t.boolean "group_project", default: false
+    t.boolean "press", default: false
+    t.boolean "privacy_needed", default: false
+    t.bigint "group_manager_id"
+    t.string "press_region"
+    t.string "press_outlet"
+    t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["latitude"], name: "index_projects_on_latitude"
     t.index ["longitude"], name: "index_projects_on_longitude"
     t.index ["manager_id"], name: "index_projects_on_manager_id"
@@ -227,5 +237,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_11_235510) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "projects", "finishers", column: "group_manager_id"
   add_foreign_key "projects", "users", column: "manager_id"
 end
