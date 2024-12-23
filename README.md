@@ -11,6 +11,7 @@ Clone repo from git and start the Rails app as usual.
 - Bundle: `bundle`
 - Create the database: `rails db:create`
 - Load the Schema: `rails db:schema:load`
+- Seed the database (optional): `rails db:seed`
 - Start the dev server: `bin/dev`
 
 ## Getting development Data
