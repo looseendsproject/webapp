@@ -11,6 +11,8 @@
     .col
       Manager:
     .col
+      Attributes:
+    .col
   .row.mb-4
     .col
       = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
@@ -18,6 +20,25 @@
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
       = select_tag :project_manager, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:project_manager]), include_blank: true, class: 'form-select'
+    .col
+      .form-check.mb-2
+        = check_box_tag :joann_helped, 'true', params[:joann_helped] == 'true', class: 'form-check-input'
+        = label_tag :joann_helped, 'Joann Helped', class: 'form-check-label'
+      .form-check.mb-2
+        = check_box_tag :urgent, 'true', params[:urgent] == 'true', class: 'form-check-input'
+        = label_tag :urgent, 'Urgent', class: 'form-check-label'
+      .form-check.mb-2
+        = check_box_tag :influencer, 'true', params[:influencer] == 'true', class: 'form-check-input'
+        = label_tag :influencer, 'Influencer', class: 'form-check-label'
+      .form-check.mb-2
+        = check_box_tag :group_project, 'true', params[:group_project] == 'true', class: 'form-check-input'
+        = label_tag :group_project, 'Group Project', class: 'form-check-label'
+      .form-check.mb-2
+        = check_box_tag :press, 'true', params[:press] == 'true', class: 'form-check-input'
+        = label_tag :press, 'Press', class: 'form-check-label'
+      .form-check
+        = check_box_tag :privacy_needed, 'true', params[:privacy_needed] == 'true', class: 'form-check-input'
+        = label_tag :privacy_needed, 'Privacy Needed', class: 'form-check-label'
     .col
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
