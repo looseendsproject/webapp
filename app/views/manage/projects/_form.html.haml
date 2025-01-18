@@ -63,10 +63,10 @@
 
   .row
     .col-xl-8.col-md-10
-      .form-info Was there cigarette smoke in the home?
+      .form-info Has this project been exposed to cigarette smoke?
       = form.label 'has_smoke_in_home', class: 'form-label' do
         = form.check_box :has_smoke_in_home
-        Yes, there was cigarette smoke in the home.
+        Yes, this project has been exposed to cigarette smoke.
 
   .row.g-1.g-sm-4.mb-3
     .col-12
@@ -90,7 +90,7 @@
     .row.mb-2
       .col-6
         = form.label 'What kind of yarn / material is used?', class: 'form-label required'
-        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). Do you know?
+        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). If you do not know, say "I don't know."
         = form.text_field :material_type, class: 'form-control'
     .row.mb-2
       .col-4

@@ -6,7 +6,7 @@
     .row.mb-2
       .col-6
         = form.label 'What kind of yarn / material is used?', class: 'form-label required'
-        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). Do you know?
+        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). If you do not know, say "I don't know."
         = form.text_field :material_type, class: 'form-control'
     .row.mb-2
       .col-4
@@ -18,7 +18,7 @@
   .page-section
     %h5 Pattern
     .row.mb-2
-      .col-2
+      .col-4
         = form.label 'Is there a pattern', class: 'form-label required'
         = form.select :has_pattern, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-select' }
     .row.mb-2
