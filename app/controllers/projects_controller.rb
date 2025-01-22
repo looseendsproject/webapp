@@ -104,6 +104,7 @@ class ProjectsController < AuthenticatedController
       :crafter_dominant_hand,
       :recipient_name,
       :can_publicize,
+      :can_use_first_name,
       :terms_of_use,
       :no_smoke,
       :no_cats,

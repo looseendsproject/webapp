@@ -6,14 +6,15 @@
       = form.text_field :name, class: 'form-control'
   .row
     .col-4
-      = form.label 'Your Phone Number', class: 'form-label required'
+      = form.label 'Your Cell Phone Number', class: 'form-label required'
+      .form-info Loose Ends Project may reach out to you via text message.
       = form.text_field :phone_number, class: 'form-control'
   .page-section
     %h5 Project
     .row.mb-2
       .col-6
         = form.label 'What type of craft project are you submitting?', class: 'form-label required'
-        .form-info Knit, Crochet, Quilt. Do you know what it is?
+        .form-info Knit, Crochet, Quilt. If you do not know, say "I don't know."
         = form.text_field :craft_type, class: 'form-control'
     .row.mb-2
       .col-6
@@ -29,15 +30,16 @@
           = image_tag image.representation( resize_to_limit: [100, 100])
   .row.mb-2
     .col-8
-      .page-section
+      .page-section#permissions
         %h5 Can we talk about this project?
         .form-info
-          Sharing images of projects helps others understand what
-          it's like to be a part of Loose Ends. Is it OK if we post photos of your project on our social media and online?
-          All of your name and personal information would be kept private.
+          Sharing images of projects helps others understand what it's like to be a part of Loose Ends. May we have your permission to post photos of your project online, including on our social media? Your personal information will be kept confidential.
       = form.label 'can_publicize', class: 'form-label my-2' do
         = form.check_box :can_publicize
-        It is OK to post about this project on the Internet and Social Media.
+        Loose Ends Project has permission to post about my project online, including on social media.
+      = form.label 'can_use_first_name', class: 'form-label my-2' do
+        = form.check_box :can_use_first_name
+        Loose Ends Project has permission to use my first name in posts online.
   - if !@project.persisted?
     .row.mb-2
       .col-8
@@ -45,6 +47,9 @@
         %label
           = form.check_box :terms_of_use
           By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
+  .row.mb-2
+    .col-8
+      %p By clicking below, you agree that Loose Ends Project and its volunteers are not responsible for lost or damaged projects or materials and that although we thoughtfully match each project to skilled volunteers, there is a chance that your finished piece may have imperfections.
   .form-actions
     = form.submit 'Submit', class: "btn btn-primary"
     - if @project.persisted?
