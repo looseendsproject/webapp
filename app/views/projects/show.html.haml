@@ -126,8 +126,8 @@
     %h4
       .row
         .col-9
-          More
+          Permissions
         .col-3
-          = link_to 'Edit', [:edit_basics, @project], class: 'btn btn-link float-end btn-sm'
-    OK to talk about this publicly? #{@project.can_publicize ? fa_icon(:check) : 'No'}
-
+          = link_to 'Edit', [:edit_basics, @project, anchor: 'permissions'], class: 'btn btn-link float-end btn-sm'
+    %p Loose Ends Project has permission to post about my project online, including on social media. #{@project.can_publicize ? fa_icon(:check) : 'No'}
+    %p Loose Ends Project has permission to use my first name in posts online. #{@project.can_use_first_name ? fa_icon(:check) : 'No'}
