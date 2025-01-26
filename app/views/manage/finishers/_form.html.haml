@@ -31,18 +31,37 @@
     = form.label 'Workplace Match?', class: 'col-2 form-label required'
     .col-4
       = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
-  .row.mb-2
+  .row.mb-4
     = form.label 'Where do you work?', class: 'col-2 form-label'
     .col-4
       = form.text_field :workplace_name, class: 'form-control'
+  .row
+    = form.label :notes, class: 'col-2 form-label'
+    .col-4
+      = form.text_area :admin_notes, rows: 3, class: 'form-control'
 
 
   = render partial: 'address_form', :locals => { form: form, finisher: @finisher }
 
-  .row
-    .col-4
-      = form.label :notes
-      = form.text_area :admin_notes, rows: 10, class: 'form-control'
+  .my-4
+    %h5 Emergency Contact Information
+    .row.mb-2
+      = form.label 'Name', class: 'form-label'
+      .col-4
+        = form.text_field :emergency_contact_name, class: 'form-control'
+
+      = form.label 'Relation', class: 'form-label'
+      .col-4
+        = form.text_field :emergency_contact_relation, class: 'form-control'
+
+      = form.label 'Phone Number', class: 'form-label'
+      .col-4
+        = form.text_field :emergency_contact_phone_number, class: 'form-control'
+
+      = form.label 'Email', class: 'form-label'
+      .col-4
+        = form.text_field :emergency_contact_email, class: 'form-control'
+
 
   .form-actions
     = form.submit class: "btn btn-primary"

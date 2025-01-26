@@ -40,9 +40,9 @@
       = @finisher.pronouns
     .page-section.mb-2
       .row
-        .col
+        .col-8
           %b Mailing Address:
-        .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@finisher.full_address}", target: "_blank"
+        .col-4.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@finisher.full_address}", target: "_blank"
       .street= @finisher.street
       - if @finisher.street_2.present?
         .street2= @finisher.street_2
@@ -56,6 +56,16 @@
     .page-section.mb-4
       %b Workplace:
       = @finisher.workplace_name
+
+    .page-section.mb-4
+      %b Emergency Contact:
+      .row
+        .col-12
+          - name_relation = [@finisher.emergency_contact_name, (@finisher.emergency_contact_relation ? "(#{@finisher.emergency_contact_relation})" : nil)].compact.join(' ')
+          = [name_relation, @finisher.emergency_contact_phone_number].compact.join(', ')
+        .col-12
+          = @finisher.emergency_contact_email
+
 
   .col-6
     .page-section
@@ -108,6 +118,7 @@
       .removeable_image
         = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
         = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+
     %hr/
     .page-section
       %h4 Never Again!

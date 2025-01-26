@@ -1,55 +1,85 @@
 = form_with model: @finisher, url: finisher_path, html: { class: 'form' } do |form|
   = render "error_messages", resource: @finisher
-  .row.g-1.g-sm-4.mb-3
-    .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'Name', class: 'form-label required'
-      = form.text_field :chosen_name, class: 'form-control'
-    .col-12.col-xl-2.col-lg-3.col-md-4
-      = form.label 'Pronouns', class: 'form-label optional'
-      = form.text_field :pronouns, class: 'form-control'
-  .row.g-1.g-sm-4
-    .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'Phone Number', class: 'form-label required'
-      .form-info Loose Ends will call or text you once you've been matched with a project. Submitting your number counts as your "OK" to be contacted by phone or text. We will never share or sell any of your info.
-      = form.text_field :phone_number, class: 'form-control'
-  .row.my-4
-    .col-xl-6.col-lg-8.col-md-10
-      = form.label 'Tell us about yourself', class: 'form-label required'
-      = form.text_area :description, size: "60x4", class: 'form-control'
+  .row.g-5
+    .col-12.col-md-8
+      .row.g-1.g-sm-4.mb-3
+        .col-12.col-md-6
+          = form.label 'Name', class: 'form-label required'
+          = form.text_field :chosen_name, class: 'form-control'
+        .col-12.col-md-6
+          = form.label 'Pronouns', class: 'form-label optional'
+          = form.text_field :pronouns, class: 'form-control'
+      .row.g-1.g-sm-4
+        .col-12
+          = form.label 'Phone Number', class: 'form-label required'
+          .form-info Loose Ends will call or text you once you've been matched with a project. Submitting your number counts as your "OK" to be contacted by phone or text. We will never share or sell any of your info.
+      .row
+        .col-6
+          = form.text_field :phone_number, class: 'form-control col-sm-8'
+      .row.my-4
+        .col-12
+          = form.label 'Tell us about yourself', class: 'form-label required'
+          = form.text_area :description, size: "60x4", class: 'form-control'
 
-  - if @finisher.picture.representable?
-    .row.g-1.g-sm-4
-      .col-xl-6.col-lg-8.col-md-10
-        .form-image
-          = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
-  .row.g-1.g-sm-4.mb-4
-    .col-xl-6.col-lg-8.col-md-10
-      = form.label 'A Photo of you', class: 'form-label optional'
-      = form.file_field :picture, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp"
-  .row.g-1.g-sm-4.mb-4
-    .col-xl-6.col-lg-8.col-md-10
-      = form.label 'Social Media', class: 'form-label optional'
-      .form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
-      = form.text_area :social_media, size: "60x3", class: 'form-control'
-  .row.g-1.g-sm-4.mb-4
-    .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'Do you work for a company that matches charitable donations or volunteer hours?', class: 'form-label required'
-      = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
-  .row.g-1.g-sm-4.mb-4
-    .col-12.col-xl-4.col-lg-5.col-md-6
-      = form.label 'If you do work outside the home what company do you work for?', class: 'form-label optional'
-      = form.text_field :workplace_name, class: 'form-control'
+      - if @finisher.picture.representable?
+        .row.g-1.g-sm-4
+          .col-6
+            .form-image
+              = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
+      .row.g-1.g-sm-4.mb-4
+        .col-12
+          = form.label 'A Photo of you', class: 'form-label optional'
+          = form.file_field :picture, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp"
+      .row.g-1.g-sm-4.mb-4
+        .col-12
+          = form.label 'Social Media', class: 'form-label optional'
+          .form-info Use this space to share your Ravelry, Instagram or Facebook account (optional).
+          = form.text_area :social_media, size: "60x3", class: 'form-control'
+      .row.g-1.g-sm-4.mb-4
+        .col-12
+          = form.label 'Do you work for a company that matches charitable donations or volunteer hours?', class: 'form-label required'
+          = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
+      .row.g-1.g-sm-4.mb-4
+        .col-12
+          = form.label 'If you do work outside the home what company do you work for?', class: 'form-label optional'
+          = form.text_field :workplace_name, class: 'form-control'
 
-  .row.g-1.g-sm-4
-    .col-xl-6.col-lg-8.col-md-10
-      .form-info
-        Can we post a welcome post about you on our social media? We will use the picture from above.
-        There's no obligation to do this but we'd love to show you off.
-  .row.g-1.g-sm-4.mb-3
-    .col-xl-6.col-lg-8.col-md-10
-      = form.label 'can_publicize', class: 'form-label' do
-        = form.check_box :can_publicize
-        It's OK to post about me on social media!
+
+
+      .row.g-1.g-sm-4
+        .col-xl-6.col-lg-8.col-md-10
+          .form-info
+            Can we post a welcome post about you on our social media? We will use the picture from above.
+            There's no obligation to do this but we'd love to show you off.
+      .row.g-1.g-sm-4.mb-3
+        .col-xl-6.col-lg-8.col-md-10
+          = form.label 'can_publicize', class: 'form-label' do
+            = form.check_box :can_publicize
+            It's OK to post about me on social media!
+    .col-4
+      %b Emergency Contact Information
+
+      .callout.callout-info.mt-2
+        .form-info
+          This should be someone we can contact if we haven’t heard from you.
+        .row.mb-3
+          .col-12
+            = form.label 'Name', class: 'form-label'
+            = form.text_field :emergency_contact_name, class: 'form-control'
+        .row.mb-3
+          .col-12
+            = form.label 'Relation', class: 'form-label'
+            = form.text_field :emergency_contact_relation, class: 'form-control'
+        .row.mb-3
+          .col-12
+            = form.label 'Phone Number', class: 'form-label'
+            = form.text_field :emergency_contact_phone_number, class: 'form-control'
+        .row.mb-3
+          .col-12
+            = form.label 'Email', class: 'form-label'
+            = form.text_field :emergency_contact_email, class: 'form-control'
+
+
   - if !@finisher.persisted?
     .row.g-1.g-sm-4.mb-3
       .col-xl-8.col-md-10

@@ -98,6 +98,10 @@ class Manage::FinishersController < Manage::ManageController
                                      :country,
                                      :postal_code,
                                      :has_workplace_match,
+                                     :emergency_contact_name,
+                                     :emergency_contact_relation,
+                                     :emergency_contact_phone_number,
+                                     :emergency_contact_email,
                                      :workplace_name)
   end
 
