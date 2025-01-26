@@ -27,14 +27,15 @@
     .page-section
       %p= @finisher.social_media
 
-    .page-section
-      %b Emergency Contact
-      .row
-        .col-12
-          - name_relation = [@finisher.emergency_contact_name, (@finisher.emergency_contact_relation ? "(#{@finisher.emergency_contact_relation})" : nil)].compact.join(' ')
-          = [name_relation, @finisher.emergency_contact_phone_number].join(', ')
-        .col-12
-          = @finisher.emergency_contact_email
+    - if @finisher.emergency_contact_name.presence || @finisher.emergency_contact_phone_number.presence || @finisher.emergency_contact_email.presence
+      .page-section
+        %b Emergency Contact
+        .row
+          .col-12
+            - name_relation = [@finisher.emergency_contact_name.presence, (@finisher.emergency_contact_relation.presence ? "(#{@finisher.emergency_contact_relation})" : nil)].compact.join(' ')
+            = [name_relation, @finisher.emergency_contact_phone_number.presence].compact.join(', ')
+          .col-12
+            = @finisher.emergency_contact_email.presence
 
     .d-md-none
       %hr/
