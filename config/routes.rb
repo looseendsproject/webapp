@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get 'about-us', to: 'home#about-us'
 
+  get 'users', to: redirect('/users/sign_up')
+
   resources :projects, :except => :edit do
     member do
       get 'edit_basics'
