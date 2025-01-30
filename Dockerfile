@@ -9,7 +9,7 @@ COPY Gemfile /webapp/Gemfile
 COPY Gemfile.lock /webapp/Gemfile.lock
 RUN bundle install
 
-FROM base AS packaged
+FROM bundler AS packaged
 COPY . /webapp/
 RUN npm install -g yarn && yarn install && yarn build
 
