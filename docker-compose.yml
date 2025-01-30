@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  web:
+    build:
+      context: .
+      target: development
+    command: /bin/bash -c "rm -f /tmp/server.pid && bundle exec rails server -b 0.0.0.0 -P /tmp/server.pid"
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgresql://postgres@db/looseends_development
+    volumes:
+      - .:/webapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
