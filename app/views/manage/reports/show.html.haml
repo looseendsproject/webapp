@@ -1,0 +1,12 @@
+%h3= params[:action]
+%div(style="padding-bottom: 20px;")= @description
+%table.table.table-striped
+  %thead
+    %tr
+      - @result.fields.each do |f|
+        %th= f
+  %tbody
+    - @result.values.each do |v|
+      %tr
+        - v.each do |r|
+          %td= r
