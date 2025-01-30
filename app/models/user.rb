@@ -1,5 +1,9 @@
 class User < ApplicationRecord
   ROLES = ['user', 'manager', 'admin']
+  HEARD_ABOUT_US_OPTIONS = [
+    'Facebook', 'Instagram', 'Newspaper', 'Radio', 'TV', 'AARP Magazine',
+    'Other Magazine', 'Friend', 'Local Yarn Store', 'Saw a Flyer', 'Other'
+  ].freeze
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -14,6 +18,7 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :heard_about_us, presence: true
 
   def set_default_role
     if (User.count < 3)
@@ -21,7 +26,6 @@ class User < ApplicationRecord
     end
     self.role ||= 'user'
   end
-
 
   def self.search(params)
     @results = self.includes(:projects, :finisher)
