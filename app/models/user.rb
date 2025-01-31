@@ -1,9 +1,31 @@
 class User < ApplicationRecord
   ROLES = ['user', 'manager', 'admin']
-  HEARD_ABOUT_US_OPTIONS = [
-    'Facebook', 'Instagram', 'Newspaper', 'Radio', 'TV', 'AARP Magazine',
-    'Other Magazine', 'Friend', 'Local Yarn Store', 'Saw a Flyer', 'Other'
-  ].freeze
+
+  class HeardAboutUs
+    HEARD_ABOUT_US_OPTIONS = {
+      'Facebook' => {  additional: false },
+      'Instagram' => {  additional: false },
+      'Newspaper' => {  additional: true },
+      'Radio' => {  additional: true },
+      'TV' => {  additional: true },
+      'AARP Magazine' => {  additional: false },
+      'Other Magazine' => {  additional: true },
+      'Friend' => {  additional: false },
+      'Local Yarn Store' => {  additional: false },
+      'Saw a Flyer' => {  additional: false },
+      'Other' => {  additional: true }
+    }.freeze
+
+    def self.options_for_select
+      HEARD_ABOUT_US_OPTIONS.keys
+    end
+
+    def self.options_for_additional
+      results = []
+      HEARD_ABOUT_US_OPTIONS.map { |k,v| results << k if v[:additional] }
+      results
+    end
+  end
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
