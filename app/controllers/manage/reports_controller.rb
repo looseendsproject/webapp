@@ -1,5 +1,5 @@
 class Manage::ReportsController < Manage::ManageController
-  # Add route for each report
+  # Add route for each report and link on dashboard
 
   def heard_about_us
     @description = 'Counts of user records by heard_about_us value'
