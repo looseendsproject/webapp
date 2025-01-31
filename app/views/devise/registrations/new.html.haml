@@ -23,11 +23,14 @@
     .col-12.col-sm-10.col-md-8
       = f.text_field :heard_about_us, class: 'hidden', id: 'heard-about-us'
       = f.label 'Where did you hear about us?', class: 'col-form-label required'
-      = f.select :heard_about_us, User::HEARD_ABOUT_US_OPTIONS, { :include_blank => true }, { class: 'form-select', id: 'heard-about-us-select', name: 'heard-about-us-select' }
+      = f.select :heard_about_us, User::HeardAboutUs.options_for_select,
+        { :include_blank => true }, { class: 'form-select',
+          id: 'heard-about-us-select', name: 'heard-about-us-select' }
   .row.g-1.g-sm-4.hidden#heard-container
     .col-12.col-sm-10.col-md-8
-      = f.label 'Please provide details on how you heard about us', class: 'col-form-label required'
-      = f.text_field :heard_about_us, class: 'form-control', id: 'heard-about-us-other', name: 'heard-about-us-other'
+      = f.label 'Please provide additional details on how you heard about us',
+          class: 'col-form-label optional'
+      = f.text_field :heard_about_us, class: 'form-control', id: 'heard-about-us-additional', name: 'heard-about-us-additional'
   .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.label :password, class: 'col-form-label required'
@@ -38,15 +41,17 @@
   .row.g-1.g-sm-4.mb-4
     .col-12.col-sm-10.col-md-8
       = f.label :password_confirmation, class: 'col-form-label required'
-      = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control w-2/3 md:w-1/2'
-
+      = f.password_field :password_confirmation, autocomplete: "new-password",
+          class: 'form-control w-2/3 md:w-1/2'
 
   = f.submit "Sign up", class: "btn btn-primary me-3"
   = link_to "Sign in", new_user_session_path
 
 :javascript
+  let options = #{User::HeardAboutUs.options_for_additional};
+  console.log(options);
   $('#heard-about-us-select').on('change', () => {
-    if ( $('#heard-about-us-select').val() == 'Other' ) {
+    if ( options.includes( $('#heard-about-us-select').val() )) {
       $('#heard-about-us').val('');
       $('#heard-container').show();
     } else {
@@ -55,6 +60,8 @@
     }
   });
 
-  $('#heard-about-us-other').on('change', () => {
-    $('#heard-about-us').val( $('#heard-about-us-other').val() );
+  $('#heard-about-us-additional').on('change', () => {
+    $('#heard-about-us').val(
+      $('#heard-about-us-select').val() + ': ' + $('#heard-about-us-additional').val()
+    );
   });
