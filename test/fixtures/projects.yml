@@ -6,6 +6,13 @@ one:
   status: proposed
   phone_number: 1234567890
   craft_type: knitting
+  has_pattern: true
+  material_type: wool
+  street: 123 Main St
+  city: Anytown
+  state: WA
+  postal_code: 12345
+  country: USA
 
 two:
   id: 2
