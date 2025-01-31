@@ -1,7 +1,7 @@
 # README
 
 ## Contributing
-Volunteers are welcome. 
+Volunteers are welcome.
 
 ## System
 Ruby on Rails 7 running with Postgres DB
@@ -13,6 +13,9 @@ Clone repo from git and start the Rails app as usual.
 - Load the Schema: `rails db:schema:load`
 - Seed the database (optional): `rails db:seed`
 - Start the dev server: `bin/dev`
+
+## Running Tests
+Run the test suite with `rake test`
 
 ## Getting development Data
 Data can be pulled from Heroku.
