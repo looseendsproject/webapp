@@ -4,10 +4,14 @@ one:
   name: Project Title One
   description: Project desc one.
   status: proposed
+  phone_number: 1234567890
+  craft_type: knitting
 
 two:
   id: 2
   user_id: 2
   name: Project Title Two
   description: Project desc two.
-  status: approved
+  status: ready to match
+  phone_number: 1234567890
+  craft_type: knitting
