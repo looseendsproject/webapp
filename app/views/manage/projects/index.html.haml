@@ -2,7 +2,7 @@
   Projects
   = link_to 'New Project', [:new, :manage, :project], class: 'btn btn-outline-secondary float-end'
 
-= form_tag [:manage, :projects ], :method => :get, data: { controller: 'toggle-status' } do
+= form_tag [:manage, :projects ], :method => :get do
   .row
     .col
       Status:
@@ -15,7 +15,7 @@
     .col
   .row.mb-4
     .col
-      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select', data: { toggle_status_target: 'status', action: 'toggle-status#statusChanged' }
+      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
@@ -42,11 +42,11 @@
     .col
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
-  .row.mb-4#ready-status-row{ style: "display: none;", data: { toggle_status_target: 'readyStatus' } }
+  .row.mb-4#ready-status-row{ style: "display: none;" }
     .col-4
       = label_tag :ready_status, 'Ready to Match Status:', class: 'form-label'
       = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{Project.has_ready_status(status).any? ? " (#{Project.has_ready_status(status).count})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
-  .row.mb-4#in-process-status-row{ style: "display: none;", data: { toggle_status_target: 'inProcessStatus' } }
+  .row.mb-4#in-process-status-row{ style: "display: none;" }
     .col-4
       = label_tag :in_process_status, 'In Process Status:', class: 'form-label'
       = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{Project.has_in_process_status(status).any? ? " (#{Project.has_in_process_status(status).count})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
@@ -54,3 +54,37 @@
 .row
   = render @projects
   = will_paginate @projects
+
+:javascript
+  var updateStatus = (newStatus) => {
+    const readyStatusRow = document.getElementById('ready-status-row');
+    const inProcessStatusRow = document.getElementById('in-process-status-row');
+
+    if (newStatus === 'ready to match') {
+      readyStatusRow.style.display = 'block';
+      inProcessStatusRow.style.display = 'none';
+    } else if (newStatus === 'in process') {
+      readyStatusRow.style.display = 'none';
+      inProcessStatusRow.style.display = 'block';
+    } else {
+      readyStatusRow.style.display = 'none';
+      inProcessStatusRow.style.display = 'none';
+    }
+  }
+
+  var setupStatusDropdown = () => {
+    const statusElement = document.getElementById('status-dropdown');
+    if (!statusElement) {
+      return;
+    }
+
+    // Update with dropdown state on page load.
+    updateStatus(statusElement.value);
+    statusElement.addEventListener('change', () => {
+      // Update when changed after page load.
+      updateStatus(statusElement.value);
+    });
+  };
+
+  window.addEventListener('load', setupStatusDropdown);
+  document.addEventListener('turbo:load', setupStatusDropdown);

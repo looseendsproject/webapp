@@ -175,3 +175,26 @@
   .form-actions
     = form.submit 'Submit Project', class: "btn btn-primary"
 
+:javascript
+  const addRevealHandler = (parent, child) => {
+    if (!parent || !child) {
+      return;
+    }
+
+    parent.addEventListener('change', () => {
+      child.style.display = parent.checked ? '' : 'none';
+    });
+  };
+
+  const setupCheckboxes = () => {
+    const groupProjectCheckbox = document.getElementById('project_group_project');
+    const groupProjectRow = document.getElementById('group-manager-row');
+    addRevealHandler(groupProjectCheckbox, groupProjectRow);
+
+    const pressCheckbox = document.getElementById('project_press');
+    const pressFields = document.getElementById('press-fields');
+    addRevealHandler(pressCheckbox, pressFields);
+  };
+
+  window.addEventListener('load', setupCheckboxes);
+  document.addEventListener('turbo:load', setupCheckboxes);
