@@ -49,7 +49,6 @@
 
 :javascript
   let options = #{User::HeardAboutUs.options_for_additional};
-  console.log(options);
   $('#heard-about-us-select').on('change', () => {
     if ( options.includes( $('#heard-about-us-select').val() )) {
       $('#heard-about-us').val('');
