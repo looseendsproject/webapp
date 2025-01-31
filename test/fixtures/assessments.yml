@@ -1,0 +1,15 @@
+
+knitter_assessment:
+  skill: knit
+  finisher_id: 2
+  rating: 2
+
+crocheter_assessment:
+  skill: crochet
+  finisher_id: 1
+  rating: 3
+
+crocheter_weaving_assessment:
+  skill: weave
+  finisher_id: 1
+  rating: 3
