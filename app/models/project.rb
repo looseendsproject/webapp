@@ -68,8 +68,6 @@ class Project < ApplicationRecord
   serialize :in_home_pets, Array
   geocoded_by :full_address
   after_validation :geocode, if: ->(obj){
-    puts obj.full_address
-    puts obj.full_address_has_changed?
     obj.full_address.present? && obj.full_address_has_changed?
   }
 
