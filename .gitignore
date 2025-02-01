@@ -6,6 +6,7 @@
 
 .DS_Store
 */.DS_Store
+latest.dump
 
 # Ignore bundler config.
 /.bundle
