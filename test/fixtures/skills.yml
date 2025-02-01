@@ -1,0 +1,13 @@
+knit:
+  name: knit
+  description: Basic knitting. Can knit and purl.
+  position: 1
+
+crochet:
+  name: crochet
+  description: Basic crochet. Can single crochet and double crochet.
+  position: 2
+
+weave:
+  name: weave
+  description: Basic weaving. Can warp and weft.

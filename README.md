@@ -1,7 +1,7 @@
 # README
 
 ## Contributing
-Volunteers are welcome. 
+Volunteers are welcome.
 
 ## System
 Ruby on Rails 7 running with Postgres DB
@@ -15,6 +15,9 @@ Clone repo from git and start the Rails app as usual.
 - Install js dependencies: `yarn install`
 - Start the dev server: `bin/dev`
 - create yourself a user through the UI, then set `role = 'admin'` manually in your database
+
+## Running Tests
+Run the test suite with `rake test`
 
 ## Getting development Data
 Data can be pulled from Heroku.
