@@ -54,3 +54,37 @@
 .row
   = render @projects
   = will_paginate @projects
+
+:javascript
+  var updateStatus = (newStatus) => {
+    const readyStatusRow = document.getElementById('ready-status-row');
+    const inProcessStatusRow = document.getElementById('in-process-status-row');
+
+    if (newStatus === 'ready to match') {
+      readyStatusRow.style.display = 'block';
+      inProcessStatusRow.style.display = 'none';
+    } else if (newStatus === 'in process') {
+      readyStatusRow.style.display = 'none';
+      inProcessStatusRow.style.display = 'block';
+    } else {
+      readyStatusRow.style.display = 'none';
+      inProcessStatusRow.style.display = 'none';
+    }
+  }
+
+  var setupStatusDropdown = () => {
+    const statusElement = document.getElementById('status-dropdown');
+    if (!statusElement) {
+      return;
+    }
+
+    // Update with dropdown state on page load.
+    updateStatus(statusElement.value);
+    statusElement.addEventListener('change', () => {
+      // Update when changed after page load.
+      updateStatus(statusElement.value);
+    });
+  };
+
+  window.addEventListener('load', setupStatusDropdown);
+  document.addEventListener('turbo:load', setupStatusDropdown);
