@@ -9,9 +9,3 @@ application.register("autocomplete", AutocompleteController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
-
-import ProjectFormController from "./project_form_controller"
-application.register("project-form", ProjectFormController)
-
-import ToggleStatusController from "./toggle_status_controller"
-application.register("toggle-status", ToggleStatusController)
