@@ -3,9 +3,11 @@ crocheter:
   user_id: 1
   chosen_name: Fae Fenwick
   description: I love to crochet.
+  phone_number: 1234567890
 
 knitter:
   id: 2
   user_id: 2
   chosen_name: Fran Fishman
   description: I love to knit.
+  phone_number: 1234567890
