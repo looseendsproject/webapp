@@ -3,12 +3,14 @@ bob:
   first_name: Bob
   last_name: Simmons
   email: bob@gmail.com
+  heard_about_us: Facebook
 
 fran:
   id: 2
   first_name: Fran
   last_name: Fishman
   email: fred@gmail.com
+  heard_about_us: Instagram
 
 mick:
   id: 3
@@ -16,6 +18,7 @@ mick:
   last_name: Franks
   email: mick@gmail.com
   role: 'manager'
+  heard_about_us: 'Newspaper: Times Record'
 
 anne:
   id: 4
@@ -23,3 +26,4 @@ anne:
   last_name: Addaire
   email: anne@gmail.com
   role: 'admin'
+  heard_about_us: 'TV: PBS Maine'
