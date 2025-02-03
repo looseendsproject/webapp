@@ -69,6 +69,15 @@ class Manage::ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to manage_project_path(Project.last)
   end
 
+  test 'destroy removes project' do
+    sign_in @user
+    assert_difference('Project.count', -1) do
+      delete :destroy, params: { id: @project.id }
+    end
+    assert_redirected_to manage_projects_path
+    refute(Project.exists?(@project.id))
+  end
+
   private
 
   def new_project_params
