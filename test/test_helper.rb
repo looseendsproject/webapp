@@ -10,6 +10,19 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  Geocoder.configure(:lookup => :test)
+  # Locations form test fixtures
+  Geocoder::Lookup::Test.add_stub(
+    "123 Main St, , Anytown, WA, 12345", [    {
+      'latitude'     => 40.7143528,
+      'longitude'    => -74.0059731,
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'country'      => 'United States',
+      'country_code' => 'US'
+    }]
+  )
 end
 
 class ActionController::TestCase
