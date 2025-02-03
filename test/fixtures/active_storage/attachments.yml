@@ -1,0 +1,11 @@
+project_one_picture:
+  name: project_images
+  record_type: Project
+  record_id: 1
+  blob: project_one_blob
+
+project_two_picture:
+  name: project_images
+  record_type: Project
+  record_id: 2
+  blob: project_two_blob

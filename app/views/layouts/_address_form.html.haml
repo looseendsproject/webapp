@@ -69,5 +69,12 @@
     }
   }
 
-  document.addEventListener("load", () => setStates(document.querySelector('#country').value))
-  document.addEventListener("turbo:load", () => setStates(document.querySelector('#country').value))
+  const setupCountries = () => {
+    const countrySelector = document.querySelector('#country');
+    if (countrySelector) {
+      setStates(countrySelector.value);
+    }
+  }
+
+  window.addEventListener("load", setupCountries)
+  document.addEventListener("turbo:load", setupCountries)

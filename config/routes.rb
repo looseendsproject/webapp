@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get 'about-us', to: 'home#about-us'
 
+  get 'users', to: redirect('/users/sign_up')
+
   resources :projects, :except => :edit do
     member do
       get 'edit_basics'
@@ -42,9 +44,11 @@ Rails.application.routes.draw do
       resources :finishers, :only => [:index] do
         collection do
           get 'map'
-          get :search, to: 'finishers#search'
         end
         get 'card', on: :member
+      end
+      collection do
+        get 'finishers/search', to: 'finishers#search'
       end
     end
     resources :finishers do
