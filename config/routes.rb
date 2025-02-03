@@ -44,9 +44,11 @@ Rails.application.routes.draw do
       resources :finishers, :only => [:index] do
         collection do
           get 'map'
-          get :search, to: 'finishers#search'
         end
         get 'card', on: :member
+      end
+      collection do
+        get 'finishers/search', to: 'finishers#search'
       end
     end
     resources :finishers do
