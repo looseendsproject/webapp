@@ -15,6 +15,7 @@ Clone repo from git and start the Rails app as usual.
 - Install js dependencies: `yarn install`
 - Start the dev server: `bin/dev`
 - create yourself a user through the UI, then set `role = 'admin'` manually in your database
+- Install overcommit by running `overcommit` at the root. This will run automatically from then on.
 
 ## Running Tests
 Run the test suite with `rake test`
