@@ -1,0 +1,14 @@
+AllCops:
+  Exclude:
+    - lib/generators/**/*.rb
+    - .annotaterb.yml
+    - db/migrate/**
+
+  TargetRubyVersion: 3.0
+  NewCops: enable
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
