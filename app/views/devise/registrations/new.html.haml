@@ -22,14 +22,14 @@
   .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.text_field :heard_about_us, class: 'hidden', id: 'heard-about-us'
-      = f.label 'Where did you hear about us?', class: 'col-form-label required'
+      = f.label 'Where did you hear about us?', class: 'col-form-label required', for: 'heard-about-us-select'
       = f.select :heard_about_us, User::HeardAboutUs.options_for_select,
         { :include_blank => true }, { class: 'form-select',
           id: 'heard-about-us-select', name: 'heard-about-us-select' }
   .row.g-1.g-sm-4.hidden#heard-container
     .col-12.col-sm-10.col-md-8
       = f.label 'Please provide additional details on how you heard about us',
-          class: 'col-form-label optional'
+          class: 'col-form-label optional', for: 'heard-about-us-additional'
       = f.text_field :heard_about_us, class: 'form-control', id: 'heard-about-us-additional', name: 'heard-about-us-additional'
   .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
