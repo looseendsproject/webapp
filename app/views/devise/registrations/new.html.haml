@@ -48,19 +48,23 @@
   = link_to "Sign in", new_user_session_path
 
 :javascript
-  let options = #{User::HeardAboutUs.options_for_additional};
-  $('#heard-about-us-select').on('change', () => {
-    if ( options.includes( $('#heard-about-us-select').val() )) {
-      $('#heard-about-us').val('');
-      $('#heard-container').show();
+  const options = #{User::HeardAboutUs.options_for_additional}
+  const heardAboutUsSelect = document.getElementById('heard-about-us-select')
+  const heardAboutUsAdditional = document.getElementById('heard-about-us-additional')
+  const heardContainer = document.getElementById('heard-container')
+  const heardAboutUsInput = document.getElementById('heard-about-us')
+
+  heardAboutUsSelect.addEventListener('change', function(){
+    const val = heardAboutUsSelect.value
+    if (options.includes(val)) {
+      heardAboutUsSelect.value = ""
+      heardContainer.classList.remove('hidden')
     } else {
-      $('#heard-container').hide();
-      $('#heard-about-us').val( $('#heard-about-us-select').val() );
+      heardContainer.classList.add('hidden')
+      heardAboutUsInput.value = heardAboutUsSelect.value
     }
   });
 
-  $('#heard-about-us-additional').on('change', () => {
-    $('#heard-about-us').val(
-      $('#heard-about-us-select').val() + ': ' + $('#heard-about-us-additional').val()
-    );
+  heardAboutUsAdditional.addEventListener('change', function(){
+    heardAboutUsInput.value = `${heardAboutUsSelect.value}: ${heardAboutUsAdditional.value}`
   });
