@@ -10,10 +10,10 @@
 
   .row.g-1.g-sm-4
     .col-6.col-sm-5.col-md-4
-      = f.label 'First Name', class: 'col-form-label required'
+      = f.label :first_name,  'First Name', class: 'col-form-label required'
       = f.text_field :first_name, autofocus: true, autocomplete: "given-name", class: 'form-control'
     .col-6.col-sm-5.col-md-4
-      = f.label 'Last name', class: 'col-form-label required'
+      = f.label :last_name, 'Last name', class: 'col-form-label required'
       = f.text_field :last_name, autocomplete: "family-name", class: 'form-control'
   .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
