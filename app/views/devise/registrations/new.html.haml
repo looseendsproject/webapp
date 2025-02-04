@@ -48,7 +48,7 @@
   = link_to "Sign in", new_user_session_path
 
 :javascript
-  const options = #{User::HeardAboutUs.options_for_additional}
+  const options_for_additional = #{User::HeardAboutUs.options_for_additional}
   const heardAboutUsSelect = document.getElementById('heard-about-us-select')
   const heardAboutUsAdditional = document.getElementById('heard-about-us-additional')
   const heardContainer = document.getElementById('heard-container')
@@ -56,8 +56,8 @@
 
   heardAboutUsSelect.addEventListener('change', function(){
     const val = heardAboutUsSelect.value
-    if (options.includes(val)) {
-      heardAboutUsSelect.value = ""
+    if (options_for_additional.includes(val)) {
+      heardAboutUsInput.value = ""
       heardContainer.classList.remove('hidden')
     } else {
       heardContainer.classList.add('hidden')
