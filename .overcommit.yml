@@ -36,6 +36,6 @@ PostCheckout:
   BundleInstall:
     enabled: true
 
-PrePush:
-  RSpec:
-    enabled: true
+# PrePush:
+#   RSpec:
+#     enabled: true
