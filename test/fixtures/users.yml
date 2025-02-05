@@ -1,18 +1,15 @@
-# Basic User
 basic:
   id: 1
   first_name: Bob
   last_name: Simmons
   email: bob@gmail.com
 
-# Finisher
 finisher:
   id: 2
   first_name: Fran
   last_name: Fishman
   email: fred@gmail.com
 
-# Manager
 manager:
   id: 3
   first_name: Mick
@@ -20,7 +17,6 @@ manager:
   email: mick@gmail.com
   role: 'manager'
 
-# Admin
 admin:
   id: 4
   first_name: Anne
@@ -28,7 +24,6 @@ admin:
   email: anne@gmail.com
   role: 'admin'
 
-# Has Projects
 project_owner:
   id: 5
   first_name: Peter
