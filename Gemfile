@@ -78,8 +78,8 @@ gem "google_drive"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem 'dotenv'
+  gem "debug", platforms: %i[mri mingw x64_mingw]
+  gem "dotenv"
 end
 
 group :development do
@@ -99,6 +99,8 @@ group :development do
   gem "overcommit", "~> 0.64.0"
   gem "reek", "~> 6.4"
   gem "rubocop", "~> 1.69"
+  gem "rubocop-capybara", require: false
+  gem "rubocop-rails", require: false
   gem "rubocop-rspec", "~> 3.4"
 end
 
@@ -110,4 +112,3 @@ group :test do
 end
 
 gem "geocoder", "~> 1.8"
-

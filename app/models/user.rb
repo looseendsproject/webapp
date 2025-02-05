@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
-  ROLES = ['user', 'manager', 'admin']
+  ROLES = %w[user manager admin].freeze
 
   class HeardAboutUs
     HEARD_ABOUT_US_OPTIONS = {
-      'Facebook' => {  additional: false },
-      'Instagram' => {  additional: false },
-      'Newspaper' => {  additional: true },
-      'Radio' => {  additional: true },
-      'TV' => {  additional: true },
-      'AARP Magazine' => {  additional: false },
-      'Other Magazine' => {  additional: true },
-      'Friend' => {  additional: false },
-      'Local Yarn Store' => {  additional: false },
-      'Saw a Flyer' => {  additional: false },
-      'Other' => {  additional: true }
+      "Facebook" => { additional: false },
+      "Instagram" => {  additional: false },
+      "Newspaper" => {  additional: true },
+      "Radio" => { additional: true },
+      "TV" => {  additional: true },
+      "AARP Magazine" => { additional: false },
+      "Other Magazine" => { additional: true },
+      "Friend" => { additional: false },
+      "Local Yarn Store" => { additional: false },
+      "Saw a Flyer" => { additional: false },
+      "Other" => {  additional: true }
     }.freeze
 
     def self.options_for_select
@@ -22,7 +24,7 @@ class User < ApplicationRecord
 
     def self.options_for_additional
       results = []
-      HEARD_ABOUT_US_OPTIONS.map { |k,v| results << k if v[:additional] }
+      HEARD_ABOUT_US_OPTIONS.map { |k, v| results << k if v[:additional] }
       results
     end
   end
@@ -43,32 +45,29 @@ class User < ApplicationRecord
   validates :heard_about_us, presence: true
 
   def set_default_role
-    if (User.count < 3)
-      self.role = 'admin'
-    end
-    self.role ||= 'user'
+    self.role = "admin" if User.count < 3
+    self.role ||= "user"
   end
 
   def self.search(params)
-    @results = self.includes(:projects, :finisher)
+    @results = includes(:projects, :finisher)
     if params[:search].present?
-      @results = @results.where("users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" })
+      @results = @results.where(
+        "users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" }
+      )
     end
-    if params[:role].present?
-      @results = @results.where("users.role = :role", { role: params[:role] })
-    end
-    if params[:sort].present?
-      if params[:sort] == 'name'
-        @results = @results.order(:last_name)
-      else
-        @results = @results.order(:created_at)
-      end
-    else
-      @results = @results.order(:last_name)
-    end
-    return @results
+    @results = @results.where("users.role = :role", { role: params[:role] }) if params[:role].present?
+    @results = if params[:sort].present?
+                 if params[:sort] == "name"
+                   @results.order(:last_name)
+                 else
+                   @results.order(:created_at)
+                 end
+               else
+                 @results.order(:last_name)
+               end
+    @results
   end
-
 
   def name
     "#{first_name} #{last_name}"
@@ -79,11 +78,11 @@ class User < ApplicationRecord
   end
 
   def admin?
-    role == 'admin'
+    role == "admin"
   end
 
   def manager?
-    role == 'manager'
+    role == "manager"
   end
 
   def can_manage?
@@ -93,5 +92,4 @@ class User < ApplicationRecord
   def finisher?
     !!finisher
   end
-
 end

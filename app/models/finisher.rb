@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Finisher < ApplicationRecord
   belongs_to :user
   validates :user, uniqueness: true
@@ -10,8 +12,10 @@ class Finisher < ApplicationRecord
   has_many :projects, through: :assignments
 
   has_many :assessments, dependent: :destroy
-  has_many :rated_assessments, -> { includes(:skill).where(:rating => 1..).order('skills.position, skills.name')}, :class_name => 'Assessment'
-  has_many :skills, -> { order('skills.position, skills.name') }, through: :assessments
+  has_many :rated_assessments, lambda {
+    includes(:skill).where(rating: 1..).order("skills.position, skills.name")
+  }, class_name: "Assessment"
+  has_many :skills, -> { order("skills.position, skills.name") }, through: :assessments
 
   has_many :favorites, dependent: :destroy
   has_many :products, through: :favorites
@@ -19,38 +23,37 @@ class Finisher < ApplicationRecord
   accepts_nested_attributes_for :assessments
 
   validates :chosen_name, presence: true
-  validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %{count} digits." }
+  validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." }
 
   validates :terms_of_use, acceptance: true
-  validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  validates :finished_projects, content_type: %i[png jpg jpeg webp gif]
 
   serialize :in_home_pets, Array
 
   before_create do
-    self.joined_on = Date.today if self.joined_on.blank?
+    self.joined_on = Date.today if joined_on.blank?
   end
 
-  after_create :send_welcome_message, if: Proc.new { self.has_taken_ownership_of_profile }
-  after_save :see_if_finisher_has_completed_profile, if: Proc.new { self.has_taken_ownership_of_profile }
+  after_create :send_welcome_message, if: proc { has_taken_ownership_of_profile }
+  after_save :see_if_finisher_has_completed_profile, if: proc { has_taken_ownership_of_profile }
 
   geocoded_by :full_address
-  after_validation :geocode, if: ->(obj){ obj.full_address.present? and  obj.full_address_has_changed? }
+  after_validation :geocode, if: ->(obj) { obj.full_address.present? and obj.full_address_has_changed? }
 
   def see_if_finisher_has_completed_profile
-    if (!has_completed_profile)
-      if !missing_information?
-        update_column(:has_completed_profile, true)
-        send_profile_complete_message
-      end
-    end
+    return if has_completed_profile
+    return if missing_information?
+
+    update_column(:has_completed_profile, true)
+    send_profile_complete_message
   end
 
   def rated_skills_string
-    rated_assessments.map{|assessment| "#{assessment.skill.name} (#{assessment.rating})"}.join(', ')
+    rated_assessments.map { |assessment| "#{assessment.skill.name} (#{assessment.rating})" }.join(", ")
   end
 
   def approved?
-    self.approved_at != nil
+    approved_at != nil
   end
 
   def approved
@@ -62,110 +65,104 @@ class Finisher < ApplicationRecord
   end
 
   def self.get_sql(search_string)
-    attributes = ["users.first_name", "users.last_name", "users.email", "finishers.state", "finishers.city", "finishers.chosen_name"]
+    attributes = ["users.first_name", "users.last_name", "users.email", "finishers.state", "finishers.city",
+                  "finishers.chosen_name"]
     description = "finishers.description"
     keywords = search_string.strip.split(/\s+/)
     conditions = []
     match_strings = []
-    keywords.each do | keyword |
+    keywords.each do |keyword|
       phrase = []
       attributes.each do |attr|
         phrase << "#{attr} iLIKE ?"
         match_strings << "%#{keyword}%"
       end
-      conditions << "(" + phrase.join(' OR ') + ")"
+      conditions << ("(#{phrase.join(" OR ")})")
     end
-    str = conditions.join(' AND ') + " OR #{description} ~* ?"
+    str = conditions.join(" AND ") + " OR #{description} ~* ?"
     match_strings << "\\y#{search_string}\\y"
-    return [str, match_strings].flatten
+    [str, match_strings].flatten
   end
 
   def self.search(params)
-    @results = self.joins(:user)
+    @results = joins(:user)
     if params[:search].present?
-      if params[:search].match(/^[0-9]+$/)
-        @results = @results.where("finishers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
-      else
-        @results = @results.where(get_sql(params[:search]))
-      end
+      @results = if params[:search].match(/^[0-9]+$/)
+                   @results.where("finishers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
+                 else
+                   @results.where(get_sql(params[:search]))
+                 end
     end
     if params[:since].present?
       since_date = Date.parse(params[:since])
       @results = @results.where(joined_on: since_date..)
     end
     if params[:product_id].present?
-      @results = @results.joins(:favorites).where(:favorites => { product_id: params[:product_id]})
+      @results = @results.joins(:favorites).where(favorites: { product_id: params[:product_id] })
     end
     if params[:available].present?
-      if params[:available] == 'yes'
+      if params[:available] == "yes"
         @results = @results.where.not(unavailable: true)
-      elsif params[:available] == 'no'
+      elsif params[:available] == "no"
         @results = @results.where(unavailable: true)
       end
     end
     if params[:skill_id].present?
-      @results = @results.joins(:assessments).where(:assessments => { skill_id: params[:skill_id], rating: 1.. })
+      @results = @results.joins(:assessments).where(assessments: { skill_id: params[:skill_id], rating: 1.. })
     end
-    if params[:state].present?
-      @results = @results.where(:state => params[:state])
-    end
-    if params[:sort].present?
-      if params[:sort] == 'name asc'
-        @results = @results.order('LOWER(finishers.chosen_name) ASC')
-      elsif params[:sort] == 'name desc'
-        @results = @results.order('LOWER(finishers.chosen_name) DESC')
-      elsif params[:sort] == 'date asc'
-        @results = @results.order(joined_on: :asc)
-      elsif params[:sort] == 'date desc'
-        @results = @results.order(joined_on: :desc)
-      else
-        @results = @results.order(:joined_on)
-      end
-    else
-      @results = @results.order(:joined_on)
-    end
-    if params[:country].present?
-      @results = @results.where(:country => params[:country])
-    end
-    if params[:has_workplace_match].present? && params[:has_workplace_match] == '1'
+    @results = @results.where(state: params[:state]) if params[:state].present?
+    @results = if params[:sort].present?
+                 case params[:sort]
+                 when "name asc"
+                   @results.order("LOWER(finishers.chosen_name) ASC")
+                 when "name desc"
+                   @results.order("LOWER(finishers.chosen_name) DESC")
+                 when "date asc"
+                   @results.order(joined_on: :asc)
+                 when "date desc"
+                   @results.order(joined_on: :desc)
+                 else
+                   @results.order(:joined_on)
+                 end
+               else
+                 @results.order(:joined_on)
+               end
+    @results = @results.where(country: params[:country]) if params[:country].present?
+    if params[:has_workplace_match].present? && params[:has_workplace_match] == "1"
       @results = @results.where(has_workplace_match: true)
     end
-    return @results
+    @results
   end
 
   def missing_address_information?
     street.blank? ||
-    city.blank? ||
-    state.blank? ||
-    country.blank? ||
-    postal_code.blank?
+      city.blank? ||
+      state.blank? ||
+      country.blank? ||
+      postal_code.blank?
   end
 
   def missing_assessments?
-    assessments.all? { |a| a[:rating] == 0 }
+    assessments.all? { |a| (a[:rating]).zero? }
   end
 
   def missing_favorites?
-    favorites.length == 0
+    favorites.empty?
   end
 
   def approved=(val)
-    if val == '1'
-      self.approved_at = DateTime.now
-    else
-      self.approved_at = nil
-    end
+    self.approved_at = (DateTime.now if val == "1")
   end
 
   def self.approved
-    self.where.not({ approved_at: nil })
+    where.not({ approved_at: nil })
   end
 
   def name
-    user.name != chosen_name ? "#{chosen_name} (#{user.name})" : chosen_name
+    user.name == chosen_name ? chosen_name : "#{chosen_name} (#{user.name})"
   end
 
-  def assigned_to project
+  def assigned_to(project)
     assignments.where(project_id: project.id).exists?
   end
 
@@ -180,17 +177,14 @@ class Finisher < ApplicationRecord
   def send_profile_complete_message
     FinisherMailer.profile_complete(self).deliver_now
   end
-  
+
   # method for combining all available address attributes for geocoding
   def full_address
-    [street, street_2, city, state, postal_code, country].compact.join(", ") 
+    [street, street_2, city, state, postal_code, country].compact.join(", ")
   end
 
   # method for checking if any address attribute has changed
   def full_address_has_changed?
-    street_changed?||street_2_changed?||city_changed?||state_changed?||postal_code_changed?||country_changed?
+    street_changed? || street_2_changed? || city_changed? || state_changed? || postal_code_changed? || country_changed?
   end
-
 end
-
-
