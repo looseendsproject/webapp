@@ -36,14 +36,14 @@ export default class extends Controller {
   selectFinisher(event) {
     const finisherName = event.target.dataset.name;
     const finisherId = event.target.dataset.id;
-  
+
     this.inputTarget.value = finisherName;
     this.hiddenTarget.value = finisherId;
-  
+
     // Trigger a change event to ensure the form detects the update
     const changeEvent = new Event("change");
     this.hiddenTarget.dispatchEvent(changeEvent);
-  
+
     this.clearSuggestions();
   }
 

@@ -1,5 +1,6 @@
-class Skill < ApplicationRecord
+# frozen_string_literal: true
 
+class Skill < ApplicationRecord
   has_many :assessments, dependent: :destroy
   has_many :finishers, -> { where assessments: { rating: 1.. } }, through: :assessments
 

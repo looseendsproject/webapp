@@ -1,6 +1,7 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
-  def after_sign_out_path_for(resource_or_scope)
+class ApplicationController < ActionController::Base
+  def after_sign_out_path_for(_resource_or_scope)
     root_path
   end
 
@@ -14,6 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
@@ -21,5 +23,4 @@ class ApplicationController < ActionController::Base
   def store_user_location!
     store_location_for(:user, request.fullpath)
   end
-
 end

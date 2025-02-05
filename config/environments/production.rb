@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -57,7 +59,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -68,19 +70,20 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { :host => "app.looseendsproject.org", protocol: 'https'  }
+  config.action_mailer.default_url_options = { host: "app.looseendsproject.org", protocol: "https" }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'looseendsproject.org',
-    user_name:            Rails.application.credentials.dig(:email, :user),
-    password:             Rails.application.credentials.dig(:email, :password),
-    authentication:       'plain',
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "looseendsproject.org",
+    user_name: Rails.application.credentials.dig(:email, :user),
+    password: Rails.application.credentials.dig(:email, :password),
+    authentication: "plain",
     enable_starttls_auto: true,
-    open_timeout:         5,
-    read_timeout:         5 }
+    open_timeout: 5,
+    read_timeout: 5
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -94,14 +97,14 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end

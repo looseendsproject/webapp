@@ -1,5 +1,6 @@
-class FinishersController < AuthenticatedController
+# frozen_string_literal: true
 
+class FinishersController < AuthenticatedController
   before_action :store_user_location!, if: :storable_location?
   before_action :authenticate_user!, except: [:show]
 
@@ -9,10 +10,8 @@ class FinishersController < AuthenticatedController
   end
 
   def new
-    if current_user.finisher
-      redirect_to edit_profile_finisher_path
-    end
-    @finisher = Finisher.new(chosen_name: current_user.first_name + ' ' + current_user.last_name)
+    redirect_to edit_profile_finisher_path if current_user.finisher
+    @finisher = Finisher.new(chosen_name: "#{current_user.first_name} #{current_user.last_name}")
     @title = "Loose Ends - Finisher Profile - New Finisher"
   end
 
@@ -25,10 +24,12 @@ class FinishersController < AuthenticatedController
     @finisher = current_user.finisher
     @title = "Loose Ends - Finisher Profile - Edit Profile"
   end
+
   def edit_favorites
     @finisher = current_user.finisher
     @title = "Loose Ends - Finisher Profile - Edit Favorites"
   end
+
   def edit_address
     @finisher = current_user.finisher
     @title = "Loose Ends - Finisher Profile - Edit Address"
@@ -49,26 +50,24 @@ class FinishersController < AuthenticatedController
 
     if @finisher.update(finisher_params.merge(has_taken_ownership_of_profile: true))
       redirect_to finisher_path
-    else
-      if finisher_params[:chosen_name]
-        render :edit_profile, status: :unprocessable_entity
-      elsif finisher_params[:country]
-        render :edit_address, status: :unprocessable_entity
-      elsif finisher_params[:other_skills]
-        render :edit_skills, status: :unprocessable_entity
-      elsif finisher_params[:other_favorites]
-        render :edit_favorites, status: :unprocessable_entity
-      end
+    elsif finisher_params[:chosen_name]
+      render :edit_profile, status: :unprocessable_entity
+    elsif finisher_params[:country]
+      render :edit_address, status: :unprocessable_entity
+    elsif finisher_params[:other_skills]
+      render :edit_skills, status: :unprocessable_entity
+    elsif finisher_params[:other_favorites]
+      render :edit_favorites, status: :unprocessable_entity
     end
   end
 
   def destroy
     @finisher = current_user.finisher
-    if (params[:finished_project_id])
-      finished_project_image = @finisher.finished_projects.find(params[:finished_project_id])
-      finished_project_image.purge
-      redirect_to finisher_path
-    end
+    return unless params[:finished_project_id]
+
+    finished_project_image = @finisher.finished_projects.find(params[:finished_project_id])
+    finished_project_image.purge
+    redirect_to finisher_path
   end
 
   private
@@ -106,7 +105,7 @@ class FinishersController < AuthenticatedController
       in_home_pets: [],
       append_finished_projects: [],
       product_ids: [],
-      assessments_attributes: [:id, :skill_id, :rating, :description])
+      assessments_attributes: %i[id skill_id rating description]
+    )
   end
-
 end

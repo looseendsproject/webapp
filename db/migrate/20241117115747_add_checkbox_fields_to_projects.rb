@@ -6,7 +6,7 @@ class AddCheckboxFieldsToProjects < ActiveRecord::Migration[7.0]
     add_column :projects, :group_project, :boolean, default: false
     add_column :projects, :press, :boolean, default: false
     add_column :projects, :privacy_needed, :boolean, default: false
-    
+
     # Associated fields
     add_reference :projects, :group_manager, foreign_key: { to_table: :finishers }
     add_column :projects, :press_region, :string

@@ -1,4 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 class FinisherAccessTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -7,15 +9,14 @@ class FinisherAccessTest < ActionDispatch::IntegrationTest
     @knitter = finishers :knitter
   end
 
-  test 'project page logged out' do
-    get '/finisher'
-    assert_redirected_to '/'
+  test "project page logged out" do
+    get "/finisher"
+    assert_redirected_to "/"
   end
 
-  test 'project page logged in' do
+  test "project page logged in" do
     sign_in @knitter.user
-    get '/finisher'
+    get "/finisher"
     assert_response :success
   end
-
 end
