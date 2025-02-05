@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Manage::FinishersControllerTest < ActionController::TestCase
   setup do
-    @user = users(:anne)
+    @user = users(:admin)
     assert(@user.can_manage?)
   end
 
@@ -12,7 +12,7 @@ class Manage::FinishersControllerTest < ActionController::TestCase
   end
 
   test 'search requires can_manage? access' do
-    @user_without_manager = users(:bob)
+    @user_without_manager = users(:basic)
     refute(@user_without_manager.can_manage?)
 
     sign_in @user_without_manager
