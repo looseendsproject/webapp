@@ -7,6 +7,5 @@ Geocoder.configure(
   use_https: true,
 
   # geocoding service request timeout, in seconds (default 3):
-  timeout: 5,
-
-  )
+  timeout: 5
+)
