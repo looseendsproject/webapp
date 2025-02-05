@@ -10,7 +10,7 @@
         %ul.nav.navbar-nav.ms-auto.mb-2.mb-lg-0
           - if current_user&.finisher?
             %li.nav-item
-              = link_to 'Finisher Profile', finisher_path, class: 'nav-link', data: { 'test-id': 'finisher-profile-link' }
+              = link_to 'Finisher Profile', finisher_path, class: 'nav-link'
           - if current_user&.can_manage?
             %li.nav-item
               = link_to 'Manage', manage_dashboard_path, class: 'nav-link'
