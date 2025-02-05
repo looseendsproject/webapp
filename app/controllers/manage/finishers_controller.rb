@@ -9,7 +9,7 @@ module Manage
         skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
         product = Product.find(params[:product_id]) if params[:product_id].present?
         @title = ["Loose Ends - Manage - Finishers", params[:search].present? ? "'#{params[:search]}'" : nil,
-                  params[:country], params[:state], skill&.name, product&.name, params[:sort].present? ? "sort by #{params[:sort]}" : nil].reject(&:blank?).join(" ")
+                  params[:country], params[:state], skill&.name, product&.name, params[:sort].present? ? "sort by #{params[:sort]}" : nil].compact_blank.join(" ")
         format.csv do
           response.headers["Content-Type"] = "text/csv"
           response.headers["Content-Disposition"] =
@@ -19,16 +19,16 @@ module Manage
         end
         format.html do
           first = Finisher.order(:joined_on).first.joined_on.beginning_of_month
-          last = Date.today.beginning_of_month
+          last = Time.zone.today.beginning_of_month
           @months = (first..last).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
           @finishers = Finisher.includes(:products, :user,
                                          { rated_assessments: :skill }).with_attached_picture.search(params).paginate(page: params[:page])
           @states = if params[:country].present?
-                      Finisher.where(country: params[:country]).distinct.pluck(:state).reject(&:blank?).sort
+                      Finisher.where(country: params[:country]).distinct.pluck(:state).compact_blank.sort
                     else
-                      Finisher.distinct.pluck(:state).reject(&:blank?).sort
+                      Finisher.distinct.pluck(:state).compact_blank.sort
                     end
-          @existing_countries = Finisher.distinct.pluck(:country).reject(&:blank?).sort
+          @existing_countries = Finisher.distinct.pluck(:country).compact_blank.sort
           @countries = ISO3166::Country.all.select do |c|
             @existing_countries.include?(c.alpha2)
           end.map { |c| [c.iso_short_name, c.alpha2] }.sort_by { |c| I18n.transliterate(c[0]) }

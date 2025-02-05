@@ -31,14 +31,14 @@ class Finisher < ApplicationRecord
   serialize :in_home_pets, Array
 
   before_create do
-    self.joined_on = Date.today if joined_on.blank?
+    self.joined_on = Time.zone.today if joined_on.blank?
   end
 
+  after_validation :geocode, if: ->(obj) { obj.full_address.present? and obj.full_address_has_changed? }
   after_create :send_welcome_message, if: proc { has_taken_ownership_of_profile }
   after_save :see_if_finisher_has_completed_profile, if: proc { has_taken_ownership_of_profile }
 
   geocoded_by :full_address
-  after_validation :geocode, if: ->(obj) { obj.full_address.present? and obj.full_address_has_changed? }
 
   def see_if_finisher_has_completed_profile
     return if has_completed_profile
@@ -163,7 +163,7 @@ class Finisher < ApplicationRecord
   end
 
   def assigned_to(project)
-    assignments.where(project_id: project.id).exists?
+    assignments.exists?(project_id: project.id)
   end
 
   def append_finished_projects=(attachables)

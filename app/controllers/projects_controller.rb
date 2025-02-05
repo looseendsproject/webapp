@@ -116,7 +116,7 @@ class ProjectsController < AuthenticatedController
   end
 
   def get_project
-    @project = current_user.projects.find_by_id(params[:id])
+    @project = current_user.projects.find_by(id: params[:id])
     redirect_to :root unless @project
   end
 end

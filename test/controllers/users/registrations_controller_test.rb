@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Users
-  class RegistrationsControllerTest < ActionController::TestCase
+  class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     def setup
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @params = { user: {

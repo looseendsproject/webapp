@@ -8,7 +8,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "All fixtures should be valid" do
-    Project.all.each do |project|
+    Project.find_each do |project|
       assert(project.valid?, "Project fixture is invalid. Errors: #{project.errors.inspect}")
     end
   end
@@ -27,7 +27,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "Short phone number not allowed" do
     @project.phone_number = "123123123"
-    refute(@project.valid?, "Short phone number should not be allowed")
+    assert_not(@project.valid?, "Short phone number should not be allowed")
   end
 
   test "status defaults to proposed if the project IS NOT missing information" do
@@ -45,11 +45,11 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "invalid status rejected" do
     @project.status = "invalid status"
-    refute(@project.valid?, "Invalid status should not be allowed")
+    assert_not(@project.valid?, "Invalid status should not be allowed")
   end
 
   test "missing_address_information? helper" do
-    refute(@project.missing_address_information?, "Project fixture should not be missing address information")
+    assert_not(@project.missing_address_information?, "Project fixture should not be missing address information")
     %i[street city state postal_code country].each do |field|
       @project[field] = nil
       assert(@project.missing_address_information?,
@@ -58,7 +58,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "missing_information? helper" do
-    refute(@project.missing_information?, "Project fixture should not be missing information")
+    assert_not(@project.missing_information?, "Project fixture should not be missing information")
     %i[description phone_number has_pattern material_type].each do |field|
       @project[field] = nil
       assert(@project.missing_information?, "Project should be missing information when #{field} is nil")

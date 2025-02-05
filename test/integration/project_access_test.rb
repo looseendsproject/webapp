@@ -8,7 +8,7 @@ class ProjectAccessTest < ActionDispatch::IntegrationTest
   def setup
     @one = projects :one
     @two = projects :two
-    refute_equal("Tests rely on different users", @one.user_id, @two.user_id)
+    assert_not_equal("Tests rely on different users", @one.user_id, @two.user_id)
   end
 
   test "project page logged out" do

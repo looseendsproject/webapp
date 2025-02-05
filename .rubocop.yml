@@ -1,8 +1,14 @@
+require:
+  - rubocop-rspec
+  - rubocop-capybara
+  - rubocop-rails
+
 AllCops:
   Exclude:
     - lib/generators/**/*.rb
     - .annotaterb.yml
     - db/migrate/**
+    - db/**
 
   TargetRubyVersion: 3.0
   NewCops: enable

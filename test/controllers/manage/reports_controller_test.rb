@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Manage
-  class ReportsControllerTest < ActionController::TestCase
+  class ReportsControllerTest < ActionDispatch::IntegrationTest
     test "heard_about_us" do
       sign_in users(:admin)
       get :heard_about_us

@@ -58,6 +58,11 @@ module Manage
       @project = Project.new
     end
 
+    def edit
+      @project = Project.find(params[:id])
+      @title = "Loose Ends - Manage - Edit Project - #{@project.name}"
+    end
+
     def create
       @project = Project.new(project_params)
       if @project.save
@@ -65,11 +70,6 @@ module Manage
       else
         render "new"
       end
-    end
-
-    def edit
-      @project = Project.find(params[:id])
-      @title = "Loose Ends - Manage - Edit Project - #{@project.name}"
     end
 
     def update
