@@ -15,6 +15,7 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
+# Pre-Commit hooks
 PreCommit:
   RuboCop:
     enabled: false
@@ -32,10 +33,8 @@ PreCommit:
   Reek:
     enabled: false
 
+
+# After checkout run bundle install if necessary
 PostCheckout:
   BundleInstall:
     enabled: true
-
-# PrePush:
-#   RSpec:
-#     enabled: true
