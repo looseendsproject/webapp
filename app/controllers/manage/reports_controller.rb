@@ -3,12 +3,8 @@ class Manage::ReportsController < Manage::ManageController
 
   def heard_about_us
     @description = 'Counts of user records by heard_about_us value'
-    @result = ActiveRecord::Base.connection.execute("
-      SELECT heard_about_us, COUNT(*) AS count
-      FROM users
-      GROUP BY heard_about_us
-      ORDER BY count DESC
-    ")
+    @columns = %w(heard_about_us count)
+    @results = User.group(:heard_about_us).order('count_heard_about_us DESC').count(:heard_about_us)
     render 'show'
   end
 end

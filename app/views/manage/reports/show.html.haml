@@ -3,10 +3,10 @@
 %table.table.table-striped
   %thead
     %tr
-      - @result.fields.each do |f|
+      - @columns.each do |f|
         %th= f
   %tbody
-    - @result.values.each do |v|
+    - @results.each do |r|
       %tr
-        - v.each do |r|
-          %td= r
+        - r.each do |value|
+          %td= value
