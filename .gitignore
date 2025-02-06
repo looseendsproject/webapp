@@ -4,6 +4,7 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+.env
 .DS_Store
 */.DS_Store
 
@@ -29,6 +30,8 @@
 !/tmp/storage/.keep
 
 /public/assets
+
+/db/backups/*
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key

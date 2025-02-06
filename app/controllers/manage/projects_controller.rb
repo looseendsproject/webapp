@@ -40,14 +40,14 @@ class Manage::ProjectsController < Manage::ManageController
     if (params[:project_manager].present?)
       @projects = @projects.where(manager_id: params[:project_manager])
     end
-    
+
     # Add filters for checkbox attributes
     [:joann_helped, :urgent, :influencer, :group_project, :press, :privacy_needed].each do |attr|
       if params[attr].present?
         @projects = @projects.where(attr => params[attr] == 'true')
       end
     end
-    
+
     @projects = @projects.paginate(page: params[:page])
   end
 
