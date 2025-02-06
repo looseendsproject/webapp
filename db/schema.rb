@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_26_210320) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_03_180045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -799,6 +799,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_26_210320) do
     t.string "press_region"
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
+    t.boolean "can_share_crafter_details", default: false
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["latitude"], name: "index_projects_on_latitude"
     t.index ["longitude"], name: "index_projects_on_longitude"
