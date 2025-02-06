@@ -43,13 +43,13 @@
   - if !@project.persisted?
     .row.mb-2
       .col-8
-        = form.label 'terms_of_use', class: 'form-label required'
-        %label
+        %h5 Terms of Service
+        By clicking below, you agree that Loose Ends Project and its volunteers are not responsible for lost or damaged projects or materials and that although we thoughtfully match each project to skilled volunteers, there is a chance that your finished piece may have imperfections. By clicking here you also acknowledge that you understand that Loose Ends volunteers are not under any time pressure, or obligation to finish projects under a deadline.
+    .row.mb-2
+      .col-8
+        = form.label 'terms_of_use', class: 'form-label required' do
           = form.check_box :terms_of_use
-          By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
-  .row.mb-2
-    .col-8
-      %p By clicking below, you agree that Loose Ends Project and its volunteers are not responsible for lost or damaged projects or materials and that although we thoughtfully match each project to skilled volunteers, there is a chance that your finished piece may have imperfections.
+          I agree.
   .form-actions
     = form.submit 'Submit', class: "btn btn-primary"
     - if @project.persisted?
