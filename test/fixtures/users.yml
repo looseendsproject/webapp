@@ -1,18 +1,18 @@
-bob:
+basic:
   id: 1
   first_name: Bob
   last_name: Simmons
   email: bob@gmail.com
   heard_about_us: Facebook
 
-fran:
+finisher:
   id: 2
   first_name: Fran
   last_name: Fishman
   email: fred@gmail.com
   heard_about_us: Instagram
 
-mick:
+manager:
   id: 3
   first_name: Mick
   last_name: Franks
@@ -20,10 +20,17 @@ mick:
   role: 'manager'
   heard_about_us: 'Newspaper: Times Record'
 
-anne:
+admin:
   id: 4
   first_name: Anne
   last_name: Addaire
   email: anne@gmail.com
   role: 'admin'
   heard_about_us: 'TV: PBS Maine'
+
+project_owner:
+  id: 5
+  first_name: Peter
+  last_name: Moore
+  email: peter@gmail.com
+  heard_about_us: 'Local Yarn Store'

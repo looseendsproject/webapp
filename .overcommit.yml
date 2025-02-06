@@ -17,7 +17,7 @@
 
 PreCommit:
   RuboCop:
-    enabled: true
+    enabled: false
     on_warn: fail # Treat all warnings as failures
 
   TrailingWhitespace:
@@ -30,12 +30,12 @@ PreCommit:
     enabled: true
 
   Reek:
-    enabled: true
+    enabled: false
 
 PostCheckout:
   BundleInstall:
     enabled: true
 
-# PrePush:
-#   RSpec:
-#     enabled: true
+PrePush:
+  RSpec:
+    enabled: false

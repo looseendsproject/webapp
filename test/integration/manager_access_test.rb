@@ -9,19 +9,19 @@ class ManagerAccessTest < ActionDispatch::IntegrationTest
   end
 
   test 'manager dashboard logged in normal' do
-    sign_in users(:bob)
+    sign_in users(:basic)
     get '/manage/dashboard'
     assert_redirected_to '/'
   end
 
   test 'manager dashboard logged in manager' do
-    sign_in users(:mick)
+    sign_in users(:manager)
     get '/manage/dashboard'
     assert_response :success
   end
 
   test 'manager dashboard logged in admin' do
-    sign_in users(:anne)
+    sign_in users(:admin)
     get '/manage/dashboard'
     assert_response :success
   end

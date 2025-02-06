@@ -41,10 +41,9 @@
           - else
             = link_to 'Create an account', new_registration_path('user'), class: 'btn-primary btn w-100'
 
-  - if current_user
-    .col-12.col-md-6.col-lg-4.col-xl-3
+  - if current_user && current_user.projects.any?
+    #projects.col-12.col-md-6.col-lg-4.col-xl-3
       .rounded-3.p-3{ style: 'background: #EEE'}
         %h4 Projects
-        - if current_user.projects
-          %ul.list-unstyled
-            = render current_user.projects
+        %ul.list-unstyled
+          = render current_user.projects

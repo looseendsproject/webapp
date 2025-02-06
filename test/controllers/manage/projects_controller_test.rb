@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Manage::ProjectsControllerTest < ActionController::TestCase
   setup do
-    @user = users(:anne)
+    @user = users(:admin)
     assert(@user.can_manage?)
     @project = projects(:one)
   end
@@ -13,7 +13,7 @@ class Manage::ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'index requires can_manage? access' do
-    @user_without_manager = users(:bob)
+    @user_without_manager = users(:basic)
     refute(@user_without_manager.can_manage?)
 
     sign_in @user_without_manager

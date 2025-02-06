@@ -17,6 +17,7 @@
         = form.file_field :append_crafter_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
         - form.object.crafter_images.each do |image|
           = image_tag image.representation( resize_to_limit: [100, 100])
+
     .row.mb-2
       .col-4
         = form.label 'recipient_name', class: 'form-label'
@@ -57,6 +58,15 @@
           %label.form-label
             = form.check_box :no_dogs
             No dogs, please.
+
+
+    .row.mb-2
+      .col-xl-8.col-md-10
+        = form.label 'Is it OK to publicly share details about the crafter including images?', class: 'form-label'
+        = form.label 'can_share_crafter_details', class: 'form-label' do
+          = form.check_box :can_share_crafter_details
+          Yes, it is OK to share details about the crafter online.
+
 
   .form-actions
     = form.submit 'Submit Crafter Details', class: "btn btn-primary"
