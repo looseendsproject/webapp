@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Manage::FinishersControllerTest < ActionController::TestCase
   setup do
-    @user = users(:anne)
+    @user = users(:admin)
     assert(@user.can_manage?)
   end
 
@@ -12,7 +12,7 @@ class Manage::FinishersControllerTest < ActionController::TestCase
   end
 
   test 'search requires can_manage? access' do
-    @user_without_manager = users(:bob)
+    @user_without_manager = users(:basic)
     refute(@user_without_manager.can_manage?)
 
     sign_in @user_without_manager
@@ -36,16 +36,16 @@ class Manage::FinishersControllerTest < ActionController::TestCase
 
   test 'search with parameters returning one match' do
     sign_in @user
-    get :search, params: { term: 'fish' }
+    get :search, params: { term: 'fran' }
     assert_response :success
-    assert_equal([{"id"=>2, "name"=>"Fran Fishman"}], JSON.parse(response.body))
+    assert_equal([{"id"=>2, "name"=>"Franny"}], JSON.parse(response.body))
   end
 
   test 'search with parameters returning multiple matches' do
     sign_in @user
     get :search, params: { term: 'f' }
     assert_response :success
-    assert_equal([{"id"=>1, "name"=>"Fae Fenwick"}, {"id"=>2, "name"=>"Fran Fishman"}], JSON.parse(response.body))
+    assert_equal([{"id"=>2, "name"=>"Franny"}], JSON.parse(response.body))
   end
 
   test 'does not allow SQL injection' do
