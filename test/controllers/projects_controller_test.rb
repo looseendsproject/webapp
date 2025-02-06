@@ -49,4 +49,18 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(@project)
     assert_equal "Updated Name", @project.reload.name
   end
+
+  test "should show terms of service" do
+    sign_in users(:project_owner)
+    get :new
+    assert_select 'h5', { text: 'Terms of Service' }
+  end
+
+  test "should not show terms of service" do
+    @project_owner = users(:project_owner)
+    sign_in @project_owner
+    get :edit_basics, params: { id: @project_owner.projects.first.to_param }
+    assert_select 'h5', { text: 'Terms of Service', count: 0 }
+  end
+
 end
