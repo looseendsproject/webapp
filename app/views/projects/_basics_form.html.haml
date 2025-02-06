@@ -28,7 +28,7 @@
         = form.file_field :append_project_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
         - form.object.project_images.each do |image|
           = image_tag image.representation( resize_to_limit: [100, 100])
-  .row.mb-2
+  .row
     .col-8
       .page-section#permissions
         %h5 Can we talk about this project?
@@ -41,16 +41,16 @@
         = form.check_box :can_use_first_name
         Loose Ends Project has permission to use my first name in posts online.
   - if !@project.persisted?
-    .row.mb-2
+    .row
       .col-8
-        = form.label 'terms_of_use', class: 'form-label required'
+        %h5 Terms of Use
+        = form.label class: 'form-label required' do
+          By clicking below, you agree that Loose Ends Project and its volunteers are not responsible for lost or damaged projects or materials and that although we thoughtfully match each project to skilled volunteers, there is a chance that your finished piece may have imperfections. By clicking here you also acknowledge that you understand that Loose Ends volunteers are not under any time pressure, or obligation to finish projects under a deadline.
         %label
           = form.check_box :terms_of_use
-          By checking this box I hold harmless Loose Ends Project from any and all claims, lawsuits, demands, causes of action, liability, loss, damage, and/or injury of any kind.
-  .row.mb-2
-    .col-8
-      %p By clicking below, you agree that Loose Ends Project and its volunteers are not responsible for lost or damaged projects or materials and that although we thoughtfully match each project to skilled volunteers, there is a chance that your finished piece may have imperfections.
-  .form-actions
+          I agree
+
+  .form-actions.mt-4
     = form.submit 'Submit', class: "btn btn-primary"
     - if @project.persisted?
       = link_to "Cancel", @project, class: "btn btn-link"
