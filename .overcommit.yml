@@ -37,5 +37,11 @@ PostCheckout:
     enabled: true
 
 PrePush:
+  ALL:
+    env:
+      # MacOS hangs due to odd fork/exec behavior
+      OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "ON"
+  Minitest:
+    enabled: true
   RSpec:
     enabled: false
