@@ -22,7 +22,8 @@ class Finisher < ApplicationRecord
   validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %{count} digits." }
 
   validates :terms_of_use, acceptance: true
-  validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  validates :finished_projects, content_type: [:png, :jpg, :jpeg, :webp, :gif], processable_file: true
+  validates :picture, content_type: [:png, :jpg, :jpeg, :webp, :gif], processable_file: true
 
   serialize :in_home_pets, Array
 

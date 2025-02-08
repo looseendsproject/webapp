@@ -57,9 +57,9 @@ class Project < ApplicationRecord
   validates :craft_type, presence: true
   validates :terms_of_use, acceptance: true
 
-  validates :project_images, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif]
-  validates :crafter_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
-  validates :material_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif]
+  validates :project_images, attached: true, content_type: [:png, :jpg, :jpeg, :webp, :gif], processable_file: true
+  validates :crafter_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif], processable_file: true
+  validates :material_images, attached: false, content_type: [:png, :jpg, :jpeg, :webp, :gif], processable_file: true
 
   validates :group_manager, presence: true, if: :group_project?
   validates :press_region, presence: true, if: :press?

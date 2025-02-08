@@ -65,7 +65,7 @@ gem "bootsnap", require: false
 gem "sassc-rails"
 
 # Validations for uploads
-gem "active_storage_validations"
+gem 'active_storage_validations', '>= 2.0.2'
 
 # S3 Storage for Images
 gem "aws-sdk-s3"
