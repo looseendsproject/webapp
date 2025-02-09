@@ -469,6 +469,7 @@ DEPENDENCIES
   image_processing (>= 1.2)
   jbuilder
   jsbundling-rails
+  mini_magick
   overcommit (~> 0.64.0)
   pg (~> 1.5.3)
   puma (~> 5.0)
