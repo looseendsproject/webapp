@@ -16,7 +16,22 @@ class ProjectsControllerTest < ActionController::TestCase
       }
     }
 
-    assert_response :success
+    assert_select '.error_message li', { text: "Project images can't be blank", count: 1 }
+  end
+
+  test "should fail to create project with tiny image" do
+    sign_in @project.user
+    post :create, params: {
+      project: {
+        name: 'New Project',
+        phone_number: '1234561890',
+        description: 'Description here',
+        craft_type: 'Knitting',
+        append_project_images: [fixture_file_upload('tiny.jpg')]
+      }
+    }
+
+    assert_match('Project images file size must be greater than or equal to 5 KB', response.body)
   end
 
   test "should create project with image" do
@@ -25,7 +40,7 @@ class ProjectsControllerTest < ActionController::TestCase
       post :create, params: {
         project: {
           name: 'New Project',
-          phone_number: '1234561890',
+          phone_number: '1234567890',
           description: 'Description here',
           craft_type: 'Knitting',
           append_project_images: [fixture_file_upload('test.jpg')]
