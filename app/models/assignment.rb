@@ -1,4 +1,6 @@
 class Assignment < ApplicationRecord
+  STATUS = %w[potential invited accepted declined unresponsive completed].freeze
+
   belongs_to :project
   belongs_to :finisher
   belongs_to :user
@@ -6,9 +8,9 @@ class Assignment < ApplicationRecord
   has_many :assignment_updates, dependent: :destroy
 
   validates :finisher_id, uniqueness: { scope: :project_id }
+  validates :status, inclusion: { in: STATUS }, allow_nil: true
 
   def self.active
-    self.where(ended_at: nil)
+    where(ended_at: nil)
   end
-
 end
