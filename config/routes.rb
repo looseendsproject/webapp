@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       end
       get 'card', on: :member
     end
+    get 'reports/heard_about_us', to: 'reports#heard_about_us'
   end
 
   namespace :admin do
