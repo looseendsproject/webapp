@@ -4,7 +4,7 @@ require "test_helper"
 
 class FinisherTest < ActiveSupport::TestCase
   test "Fixtures should be valid" do
-    Finisher.all.each do |finisher|
+    Finisher.find_each do |finisher|
       assert finisher.valid?, "Finisher #{finisher.id} is invalid: #{finisher.errors.full_messages.to_sentence}"
     end
   end

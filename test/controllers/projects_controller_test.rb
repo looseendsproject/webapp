@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class ProjectsControllerTest < ActionController::TestCase
+class ProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:one)
   end
@@ -50,7 +50,7 @@ class ProjectsControllerTest < ActionController::TestCase
       }
     end
 
-    new_project = Project.find_by_name("New Project")
+    new_project = Project.find_by(name: "New Project")
     assert_not_nil new_project
     assert_redirected_to project_path(new_project)
   end

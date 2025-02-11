@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Manage
-  class ProjectsControllerTest < ActionController::TestCase
+  class ProjectsControllerTest < ActionDispatch::IntegrationTest
     setup do
       @user = users(:admin)
       assert(@user.can_manage?)
@@ -17,7 +17,7 @@ module Manage
 
     test "index requires can_manage? access" do
       @user_without_manager = users(:basic)
-      refute(@user_without_manager.can_manage?)
+      assert_not(@user_without_manager.can_manage?)
 
       sign_in @user_without_manager
       get :index
@@ -78,7 +78,7 @@ module Manage
         delete :destroy, params: { id: @project.id }
       end
       assert_redirected_to manage_projects_path
-      refute(Project.exists?(@project.id))
+      assert_not(Project.exists?(@project.id))
     end
 
     private

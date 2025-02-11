@@ -102,9 +102,9 @@ group :development do
   gem "rubocop", "~> 1.69"
   gem "rubocop-rspec", "~> 3.4"
 
+  gem "fasterer", "~> 0.11.0"
   gem "rubocop-capybara", "~> 2.21"
   gem "rubocop-rails", "~> 2.29"
-  gem "fasterer", "~> 0.11.0"
 end
 
 group :test do
