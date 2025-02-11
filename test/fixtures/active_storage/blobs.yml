@@ -3,7 +3,7 @@ project_one_blob:
   filename: knit.jpg
   content_type: image/jpeg
   metadata: '{"identified":true,"analyzed":true}'
-  byte_size: 1000
+  byte_size: 40000
   checksum: fdUivZUf74Y6pjAiemuvlg==
   service_name: test_fixtures
 
@@ -12,6 +12,6 @@ project_two_blob:
   filename: knit.jpg
   content_type: image/jpeg
   metadata: '{"identified":true,"analyzed":true}'
-  byte_size: 1000
+  byte_size: 40000
   checksum: fdUivZUf74Y6pjAiemuvlg==
   service_name: test_fixtures

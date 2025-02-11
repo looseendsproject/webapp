@@ -65,13 +65,14 @@ gem "bootsnap", require: false
 gem "sassc-rails"
 
 # Validations for uploads
-gem "active_storage_validations"
+gem 'active_storage_validations', '>= 2.0.2'
 
 # S3 Storage for Images
 gem "aws-sdk-s3"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", ">= 1.2"
+gem 'mini_magick'
 
 # Google Data
 gem "google_drive"
