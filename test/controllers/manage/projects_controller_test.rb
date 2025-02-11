@@ -35,6 +35,17 @@ module Manage
       assert_response :success
     end
 
+    test "index filters by updated_at" do
+      sign_in @user
+      get :index, params: { updated_after: @project.updated_at.to_date }
+      assert_response :success
+      assert_select "h6", { text: @project.name, count: 1 }
+
+      get :index, params: { updated_before: @project.updated_at.to_date - 1.day }
+      assert_response :success
+      assert_select "h6", { text: @project.name, count: 0 }
+    end
+
     test "new project page loads" do
       sign_in @user
       get :new
