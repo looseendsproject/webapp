@@ -78,6 +78,17 @@ class Manage::ProjectsControllerTest < ActionController::TestCase
     refute(Project.exists?(@project.id))
   end
 
+  test "index filters by updated_at" do
+    sign_in @user
+    get :index, params: { updated_after: @project.updated_at.to_date }
+    assert_response :success
+    assert_select "h6", { text: @project.name, count: 1 }
+
+    get :index, params: { updated_before: @project.updated_at.to_date - 1.day }
+    assert_response :success
+    assert_select "h6", { text: @project.name, count: 0 }
+  end
+
   private
 
   def new_project_params

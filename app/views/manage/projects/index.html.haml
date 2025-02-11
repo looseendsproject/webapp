@@ -15,6 +15,12 @@
       = select_tag :project_manager, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:project_manager]), include_blank: true, class: 'form-select'
   .row.mb-4
     .col
+      = label_tag :updated_after, "Updated After:"
+      = date_field_tag :updated_after, params[:updated_after], class: 'form-control'
+    .col
+      = label_tag :updated_before, "Updated Before:"
+      = date_field_tag :updated_before, params[:updated_before], class: 'form-control'
+    .col
       = label_tag :attributes, "Attributes:"
       .row
         .col
