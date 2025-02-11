@@ -1,6 +1,9 @@
 class Manage::AssignmentsController < Manage::ManageController
+  before_action :get_project, only: [:new]
 
-  before_action :get_project, :only => [:new]
+  def index
+    @assignments = Assignment.all
+  end
 
   def create
     @assignment = Assignment.new(create_assignment_params)
@@ -10,6 +13,21 @@ class Manage::AssignmentsController < Manage::ManageController
       redirect_to manage_project_path(@assignment.project)
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @assignment = Assignment.find(params[:id])
+
+    if params[:commit] == "Delete"
+      @assignment.destroy
+    else
+      @assignment.update(create_assignment_params)
+    end
+
+    respond_to do |format|
+      format.html { redirect_to manage_project_path(@assignment.project) }
+      format.turbo_stream
     end
   end
 
@@ -35,7 +53,6 @@ class Manage::AssignmentsController < Manage::ManageController
   end
 
   def create_assignment_params
-    params.require(:assignment).permit([:project_id, :finisher_id])
+    params.require(:assignment).permit(%i[project_id finisher_id status])
   end
-
 end
