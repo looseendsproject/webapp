@@ -194,6 +194,8 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
+    fasterer (0.11.0)
+      ruby_parser (>= 3.19.1)
     ffi (1.15.5)
     geocoder (1.8.2)
     globalid (1.2.1)
@@ -368,12 +370,22 @@ GEM
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.38.0)
       parser (>= 3.3.1.0)
+    rubocop-capybara (2.21.0)
+      rubocop (~> 1.41)
+    rubocop-rails (2.29.1)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.52.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rspec (3.4.0)
       rubocop (~> 1.61)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
+    ruby_parser (3.21.1)
+      racc (~> 1.5)
+      sexp_processor (~> 4.16)
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -387,6 +399,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sexp_processor (4.17.3)
     signet (0.17.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -463,6 +476,7 @@ DEPENDENCIES
   debug
   devise
   dotenv
+  fasterer (~> 0.11.0)
   geocoder (~> 1.8)
   google_drive
   haml-rails
@@ -476,6 +490,8 @@ DEPENDENCIES
   rails (~> 7.0.6, >= 7.0.6)
   reek (~> 6.4)
   rubocop (~> 1.69)
+  rubocop-capybara (~> 2.21)
+  rubocop-rails (~> 2.29)
   rubocop-rspec (~> 3.4)
   sassc-rails
   selenium-webdriver
@@ -488,7 +504,7 @@ DEPENDENCIES
   will_paginate (~> 3.3)
 
 RUBY VERSION
-   ruby 3.2.6p234
+   ruby 3.3.4p94
 
 BUNDLED WITH
    2.3.26
