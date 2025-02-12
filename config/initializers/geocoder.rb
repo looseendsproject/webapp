@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Geocoder.configure(
   # street address geocoding service (default :nominatim)
   lookup: :google,

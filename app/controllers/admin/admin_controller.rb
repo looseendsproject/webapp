@@ -1,12 +1,15 @@
-class Admin::AdminController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :authenticate_user!
-  before_action :require_admin
+module Admin
+  class AdminController < ApplicationController
+    before_action :authenticate_user!
+    before_action :require_admin
 
-  layout 'admin'
+    layout "admin"
 
-  def require_admin
-    if !current_user.admin?
+    def require_admin
+      return if current_user.admin?
+
       redirect_to root_path
     end
   end

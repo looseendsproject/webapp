@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Assignment < ApplicationRecord
   belongs_to :project
   belongs_to :finisher
@@ -8,7 +10,6 @@ class Assignment < ApplicationRecord
   validates :finisher_id, uniqueness: { scope: :project_id }
 
   def self.active
-    self.where(ended_at: nil)
+    where(ended_at: nil)
   end
-
 end
