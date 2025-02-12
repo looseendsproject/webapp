@@ -1,3 +1,6 @@
+include:
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - lib/generators/**/*.rb
