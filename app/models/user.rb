@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :trackable
 
   validates :role, inclusion: { in: ROLES }
@@ -64,5 +64,13 @@ class User < ApplicationRecord
 
   def finisher?
     !!finisher
+  end
+
+  protected
+
+  # Allow users with unconfirmed emails to log in.  (Just don't send transactional
+  # emails until they're confirmed.)
+  def confirmation_required?
+    false
   end
 end
