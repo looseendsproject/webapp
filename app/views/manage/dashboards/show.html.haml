@@ -24,3 +24,34 @@
       In Progress: #{Project.on_hold.count + Project.project_confirm_email_sent.count + Project.ready_to_match.count + Project.finisher_invited.count + Project.project_accepted_waiting_on_terms.count + Project.introduced.count + Project.in_process.count + Project.will_not_do.count + Project.unresponsive.count + Project.waiting_for_return_to_rematch.count + Project.weird_circumstance.count}
     .col-2
       Done: #{Project.done.count}
+
+  .row.pt-3
+    .col-6
+      %hr
+      %h3 Automated Email Templates
+  .row
+    .col-3
+      %h5 Devise::Mailer
+      %ul
+        %li
+          %a(href="/rails/mailers/devise/mailer/confirmation_instructions") Confirmation Instructions
+        %li
+          %a(href="") Email Changed
+        %li
+          %a(href="") Password Changed
+        %li
+          %a(href="/rails/mailers/devise/mailer/reset_password_instructions") Reset Password Instructions
+        %li
+          %a(href="") Unlock Instructions
+    .col-3
+      %h5 FinisherMailer
+      %ul
+        %li
+          %a(href="/rails/mailers/finisher_mailer/welcome") Welcome
+        %li
+          %a(href="/rails/mailers/finisher_mailer/profile_complete") Profile Complete
+
+    .col-3
+      %h5 AssignmentMailer
+
+
