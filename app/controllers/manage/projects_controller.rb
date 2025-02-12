@@ -48,6 +48,10 @@ class Manage::ProjectsController < Manage::ManageController
       end
     end
 
+    @projects = @projects.where("updated_at >= ?", params[:updated_after]) if params[:updated_after].present?
+
+    @projects = @projects.where("updated_at <= ?", params[:updated_before]) if params[:updated_before].present?
+
     @projects = @projects.paginate(page: params[:page])
   end
 
