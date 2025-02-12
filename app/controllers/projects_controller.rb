@@ -1,28 +1,27 @@
-class ProjectsController < AuthenticatedController
+# frozen_string_literal: true
 
+class ProjectsController < AuthenticatedController
   before_action :store_user_location!, if: :storable_location?
 
-  before_action :get_project, :only => [
-    :show,
-    :edit_address,
-    :edit_basics,
-    :edit_crafter,
-    :edit_project,
-    :update,
-    :destroy
+  before_action :get_project, only: %i[
+    show
+    edit_address
+    edit_basics
+    edit_crafter
+    edit_project
+    update
+    destroy
   ]
 
-  def show
-  end
+  def show; end
 
-  def edit_address
-  end
-  def edit_basics
-  end
-  def edit_crafter
-  end
-  def edit_project
-  end
+  def edit_address; end
+
+  def edit_basics; end
+
+  def edit_crafter; end
+
+  def edit_project; end
 
   def new
     @project = Project.new
@@ -42,19 +41,17 @@ class ProjectsController < AuthenticatedController
   def update
     if @project.update(project_params)
       redirect_to @project
+    elsif project_params[:phone_number]
+      render "edit_address"
     else
-      if project_params[:phone_number]
-        render 'edit_address'
-      else
-        render 'edit_basics'
-      end
+      render "edit_basics"
     end
   end
 
   def destroy
-    if (params[:project_image_id])
+    if params[:project_image_id]
       image = @project.project_images.find(params[:project_image_id])
-      if (@project.project_images.size > 1)
+      if @project.project_images.size > 1
         Rails.env.production? ? image.purge : image.delete
       else
         flash.alert = "There must be at least one project image"
@@ -62,23 +59,23 @@ class ProjectsController < AuthenticatedController
       redirect_to @project
     end
 
-    if (params[:material_image_id])
+    if params[:material_image_id]
       image = @project.material_images.find(params[:material_image_id])
       Rails.env.production? ? image.purge : image.delete
       redirect_to @project
     end
 
-    if (params[:crafter_image_id])
+    if params[:crafter_image_id]
       image = @project.crafter_images.find(params[:crafter_image_id])
       Rails.env.production? ? image.purge : image.delete
       redirect_to @project
     end
 
-    if (params[:pattern_file_id])
-      image = @project.pattern_files.find(params[:pattern_file_id])
-      Rails.env.production? ? image.purge : image.delete
-      redirect_to @project
-    end
+    return unless params[:pattern_file_id]
+
+    image = @project.pattern_files.find(params[:pattern_file_id])
+    Rails.env.production? ? image.purge : image.delete
+    redirect_to @project
   end
 
   private
@@ -120,8 +117,6 @@ class ProjectsController < AuthenticatedController
 
   def get_project
     @project = current_user.projects.find_by_id(params[:id])
-    redirect_to :root if !@project
+    redirect_to :root unless @project
   end
-
-
 end

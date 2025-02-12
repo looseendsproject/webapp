@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.6"
+ruby "3.3.7"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.6", ">= 7.0.6"
@@ -65,22 +65,22 @@ gem "bootsnap", require: false
 gem "sassc-rails"
 
 # Validations for uploads
-gem 'active_storage_validations', '>= 2.0.2'
+gem "active_storage_validations", ">= 2.0.2"
 
 # S3 Storage for Images
 gem "aws-sdk-s3"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", ">= 1.2"
-gem 'mini_magick'
+gem "mini_magick"
 
 # Google Data
 gem "google_drive"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem 'dotenv'
+  gem "debug", platforms: %i[mri mingw x64_mingw]
+  gem "dotenv"
 end
 
 group :development do
@@ -100,6 +100,7 @@ group :development do
   gem "overcommit", "~> 0.64.0"
   gem "reek", "~> 6.4"
   gem "rubocop", "~> 1.69"
+  gem "rubocop-capybara", "~> 2.21"
   gem "rubocop-rspec", "~> 3.4"
 end
 
@@ -111,4 +112,3 @@ group :test do
 end
 
 gem "geocoder", "~> 1.8"
-

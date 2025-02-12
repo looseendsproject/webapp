@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Assignment < ApplicationRecord
   STATUS = %w[potential invited accepted declined unresponsive completed].freeze
 
