@@ -148,7 +148,7 @@
         = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
         - if @project.state.present? && @project.country.present?
           = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
-    = render @project.assignments, readonly: true
+    = render @project.assignments
     %h3.mt-4 Notes
     #project_notes.d-flex.flex-column
       = render @project.project_notes
