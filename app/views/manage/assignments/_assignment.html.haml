@@ -1,21 +1,4 @@
 
-.col.border.rounded.p-2
-  %turbo-frame{ id: dom_id(assignment), class: 'assignment' }
-    = form_for [:manage, assignment] do |form|
-      .row
-        .col
-          = form.label 'Assigned to', class: 'form-label'
-          = link_to(assignment.finisher.user.name, [ :manage, assignment.finisher ], data: { turbo_frame: :_top })
-          @ #{assignment.created_at.to_formatted_s(:short)}
-          =# button_to fa_icon("trash"), manage_assignment_path(assignment), method: :delete, :onclick => "return confirm('Are you sure?')", form_class: 'd-inline', class: 'btn btn-link p-0'
-        .col
-          = form.label 'Current Status', class: 'form-label'
-          - if local_assigns[:readonly]
-            %strong
-              = (assignment.status || 'Unknown').titleize
-          - else
-            = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm', autocomplete: 'off' }
-        - unless local_assigns[:readonly]
-          .col
-            = form.submit 'Save', class: "btn btn-sm btn-primary"
-            = form.submit 'Delete', class: "btn btn-sm btn-outline-danger"
+.d-inline-block.border.rounded.p-2
+  %turbo-frame{ id: dom_id(assignment) }
+    = render "manage/assignments/assignment_form", assignment: assignment
