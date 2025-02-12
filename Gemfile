@@ -101,6 +101,7 @@ group :development do
   gem "reek", "~> 6.4"
   gem "rubocop", "~> 1.69"
   gem "rubocop-rspec", "~> 3.4"
+  gem "rubocop-capybara", "~> 2.21"
 end
 
 group :test do

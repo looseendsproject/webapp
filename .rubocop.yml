@@ -1,5 +1,6 @@
-include:
+require:
   - rubocop-rspec
+  - rubocop-capybara
 
 AllCops:
   Exclude:
