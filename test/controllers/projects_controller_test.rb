@@ -1,4 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 class ProjectsControllerTest < ActionController::TestCase
   setup do
@@ -9,46 +11,46 @@ class ProjectsControllerTest < ActionController::TestCase
     sign_in @project.user
     post :create, params: {
       project: {
-        name: 'New Project',
-        phone_number: '1234561890',
-        description: 'Description here',
-        craft_type: 'Knitting'
+        name: "New Project",
+        phone_number: "1234561890",
+        description: "Description here",
+        craft_type: "Knitting"
       }
     }
 
-    assert_select '.error_message li', { text: "Project images can't be blank", count: 1 }
+    assert_select ".error_message li", { text: "Project images can't be blank", count: 1 }
   end
 
   test "should fail to create project with tiny image" do
     sign_in @project.user
     post :create, params: {
       project: {
-        name: 'New Project',
-        phone_number: '1234561890',
-        description: 'Description here',
-        craft_type: 'Knitting',
-        append_project_images: [fixture_file_upload('tiny.jpg')]
+        name: "New Project",
+        phone_number: "1234561890",
+        description: "Description here",
+        craft_type: "Knitting",
+        append_project_images: [fixture_file_upload("tiny.jpg")]
       }
     }
 
-    assert_match('Project images file size must be greater than or equal to 5 KB', response.body)
+    assert_match("Project images file size must be greater than or equal to 5 KB", response.body)
   end
 
   test "should create project with image" do
     sign_in @project.user
-    assert_difference('Project.count') do
+    assert_difference("Project.count") do
       post :create, params: {
         project: {
-          name: 'New Project',
-          phone_number: '1234567890',
-          description: 'Description here',
-          craft_type: 'Knitting',
-          append_project_images: [fixture_file_upload('test.jpg')]
+          name: "New Project",
+          phone_number: "1234567890",
+          description: "Description here",
+          craft_type: "Knitting",
+          append_project_images: [fixture_file_upload("test.jpg")]
         }
       }
     end
 
-    new_project = Project.find_by_name('New Project')
+    new_project = Project.find_by_name("New Project")
     assert_not_nil new_project
     assert_redirected_to project_path(new_project)
   end
@@ -68,14 +70,13 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should show terms of service" do
     sign_in users(:project_owner)
     get :new
-    assert_select 'h5', { text: 'Terms of Service' }
+    assert_select "h5", { text: "Terms of Service" }
   end
 
   test "should not show terms of service" do
     @project_owner = users(:project_owner)
     sign_in @project_owner
     get :edit_basics, params: { id: @project_owner.projects.first.to_param }
-    assert_select 'h5', { text: 'Terms of Service', count: 0 }
+    assert_select "h5", { text: "Terms of Service", count: 0 }
   end
-
 end
