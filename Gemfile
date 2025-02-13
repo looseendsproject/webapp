@@ -101,7 +101,8 @@ group :development do
   gem "reek", "~> 6.4"
   gem "rubocop", "~> 1.69"
   gem "rubocop-capybara", "~> 2.21"
-  gem "rubocop-rspec", "~> 3.4"
+  gem "rubocop-minitest", "~> 0.36.0"
+  gem "rubocop-rails", "~> 2.29"
 end
 
 group :test do
@@ -112,3 +113,5 @@ group :test do
 end
 
 gem "geocoder", "~> 1.8"
+
+gem "annotaterb", "~> 4.13"

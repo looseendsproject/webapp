@@ -1,5 +1,57 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: finishers
+#
+#  id                             :bigint           not null, primary key
+#  admin_notes                    :text
+#  approved_at                    :datetime
+#  can_publicize                  :boolean
+#  chosen_name                    :string
+#  city                           :string
+#  country                        :string
+#  description                    :text             not null
+#  dislikes                       :text
+#  dominant_hand                  :string
+#  emergency_contact_email        :string
+#  emergency_contact_name         :string
+#  emergency_contact_phone_number :string
+#  emergency_contact_relation     :string
+#  has_completed_profile          :boolean          default(FALSE)
+#  has_smoke_in_home              :boolean          default(FALSE)
+#  has_taken_ownership_of_profile :boolean          default(FALSE)
+#  has_workplace_match            :boolean
+#  in_home_pets                   :string
+#  joined_on                      :date
+#  latitude                       :float
+#  longitude                      :float
+#  no_cats                        :boolean
+#  no_dogs                        :boolean
+#  no_smoke                       :boolean
+#  other_favorites                :text
+#  other_skills                   :text
+#  phone_number                   :string
+#  postal_code                    :string
+#  pronouns                       :string
+#  social_media                   :text
+#  state                          :string
+#  street                         :string
+#  street_2                       :string
+#  terms_of_use                   :boolean
+#  unavailable                    :boolean          default(FALSE)
+#  workplace_name                 :string
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  user_id                        :bigint           not null
+#
+# Indexes
+#
+#  index_finishers_on_joined_on  (joined_on)
+#  index_finishers_on_latitude   (latitude)
+#  index_finishers_on_longitude  (longitude)
+#  index_finishers_on_user_id    (user_id)
+#
 class Finisher < ApplicationRecord
   belongs_to :user
   validates :user, uniqueness: true
@@ -33,14 +85,14 @@ class Finisher < ApplicationRecord
   serialize :in_home_pets, Array
 
   before_create do
-    self.joined_on = Date.today if joined_on.blank?
+    self.joined_on = Time.zone.today if joined_on.blank?
   end
 
+  after_validation :geocode, if: ->(obj) { obj.full_address.present? and obj.full_address_has_changed? }
   after_create :send_welcome_message, if: proc { has_taken_ownership_of_profile }
   after_save :see_if_finisher_has_completed_profile, if: proc { has_taken_ownership_of_profile }
 
   geocoded_by :full_address
-  after_validation :geocode, if: ->(obj) { obj.full_address.present? and obj.full_address_has_changed? }
 
   def see_if_finisher_has_completed_profile
     return if has_completed_profile
@@ -165,7 +217,7 @@ class Finisher < ApplicationRecord
   end
 
   def assigned_to(project)
-    assignments.where(project_id: project.id).exists?
+    assignments.exists?(project_id: project.id)
   end
 
   def append_finished_projects=(attachables)
