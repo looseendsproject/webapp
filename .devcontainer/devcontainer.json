@@ -18,15 +18,19 @@
 	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"features": {
-		"ghcr.io/devcontainers-extra/features/node-asdf:0": {},
-		"ghcr.io/devcontainers-extra/features/ruby-asdf:0": {}
+		"ghcr.io/devcontainers-extra/features/node-asdf:0": {
+			"version": "23.5.0"
+		},
+		"ghcr.io/devcontainers-extra/features/ruby-asdf:0": {
+			"version": "3.3.7"
+		}
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [3000,5432],
+	"forwardPorts": [3000,5432],
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
 	"runServices": ["db"]
