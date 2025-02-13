@@ -1,2 +1,0 @@
-class DeviseMailer < ApplicationMailer
-end
