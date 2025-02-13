@@ -85,7 +85,7 @@ class User < ApplicationRecord
         "users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" }
       )
     end
-    @results = @results.where("users.role = :role", { role: params[:role] }) if params[:role].present?
+    @results = @results.where(users: { role: params[:role] }) if params[:role].present?
     @results = if params[:sort].present?
                  if params[:sort] == "name"
                    @results.order(:last_name)

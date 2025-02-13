@@ -11,12 +11,14 @@ class FinisherAccessTest < ActionDispatch::IntegrationTest
 
   test "project page logged out" do
     get "/finisher"
+
     assert_redirected_to "/"
   end
 
   test "project page logged in" do
     sign_in @knitter.user
     get "/finisher"
+
     assert_response :success
   end
 end
