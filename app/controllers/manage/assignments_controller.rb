@@ -2,7 +2,9 @@
 
 module Manage
   class AssignmentsController < Manage::ManageController
-    before_action :get_project, only: [:new]
+    def index
+      @assignments = Assignment.all
+    end
 
     def create
       @assignment = Assignment.new(create_assignment_params)
@@ -12,6 +14,28 @@ module Manage
         redirect_to manage_project_path(@assignment.project)
       else
         render :new, status: :unprocessable_entity
+      end
+    end
+
+    def update
+      @assignment = Assignment.find(params[:id])
+      should_delete = params[:commit] == "Delete"
+
+      if should_delete
+        @assignment.destroy
+      else
+        @assignment.update(create_assignment_params)
+      end
+
+      respond_to do |format|
+        format.html { redirect_to manage_project_path(@assignment.project) }
+        format.turbo_stream do
+          if should_delete
+            render turbo_stream: turbo_stream.remove(@assignment)
+          else
+            turbo_stream
+          end
+        end
       end
     end
 
@@ -30,12 +54,8 @@ module Manage
 
     protected
 
-    def get_project
-      @project = Project.find(params[:project_id])
-    end
-
     def create_assignment_params
-      params.require(:assignment).permit(%i[project_id finisher_id])
+      params.require(:assignment).permit(%i[project_id finisher_id status])
     end
   end
 end

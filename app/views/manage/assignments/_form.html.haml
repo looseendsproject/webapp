@@ -9,5 +9,7 @@
     .col-6.col-sm-6.col-md-4.col-lg-3.col-xl-3.col-xxl-2
       = render 'manage/finishers/finisher_card', { finisher: @finisher }
   - if !@finisher.assigned_to(@project)
-    .form-actions
+    .form-actions.border-top.pt-4
+      = form.label :status, 'Assignment Status'
+      = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm me-4', autocomplete: 'off' }
       = form.submit 'Assign Project', class: "btn btn-primary"

@@ -1,7 +1,4 @@
 
-.col
-  %turbo-frame{ id: dom_id(assignment)}
-    Assigned to
-    = link_to assignment.finisher.user.name, [ :manage, assignment.finisher ], data: { turbo_frame: :_top }
-    = l assignment.created_at, format: :short
-    = button_to fa_icon("trash"), manage_assignment_path(assignment), method: :delete, :onclick => "return confirm('Are you sure?')", form_class: 'd-inline', class: 'btn btn-link p-0'
+.d-inline-block.border.rounded.p-2
+  %turbo-frame{ id: dom_id(assignment) }
+    = render "manage/assignments/assignment_form", assignment: assignment, readonly: local_assigns[:readonly]
