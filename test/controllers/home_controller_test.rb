@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class HomeControllerTest < ActionDispatch::IntegrationTest
+class HomeControllerTest < ActionController::TestCase
   test "should get show, logged out" do
     get :show
 

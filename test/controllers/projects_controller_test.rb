@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class ProjectsControllerTest < ActionDispatch::IntegrationTest
+class ProjectsControllerTest < ActionController::TestCase
   setup do
     @project = projects(:one)
   end

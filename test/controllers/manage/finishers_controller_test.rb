@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Manage
-  class FinishersControllerTest < ActionDispatch::IntegrationTest
+  class FinishersControllerTest < ActionController::TestCase
     setup do
       @user = users(:admin)
 
