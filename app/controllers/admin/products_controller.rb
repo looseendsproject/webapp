@@ -3,7 +3,7 @@
 module Admin
   class ProductsController < Admin::AdminController
     def index
-      @products = Product.all.order(:name)
+      @products = Product.order(:name)
       @title = "Loose Ends - Admin - Products"
     end
 
@@ -12,14 +12,14 @@ module Admin
       @title = "Loose Ends - Admin - Products - #{@product.name}"
     end
 
-    def edit
-      @product = Product.find(params[:id])
-      @title = "Loose Ends - Admin - Edit Product - #{@product.name}"
-    end
-
     def new
       @product = Product.new
       @title = "Loose Ends - Admin - New Product"
+    end
+
+    def edit
+      @product = Product.find(params[:id])
+      @title = "Loose Ends - Admin - Edit Product - #{@product.name}"
     end
 
     def create

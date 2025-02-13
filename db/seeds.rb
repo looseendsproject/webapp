@@ -16,7 +16,7 @@ created_projects = []
 created_finishers = []
 
 # Seed Projects
-puts "Seeding projects..."
+Rails.logger.debug "Seeding projects..."
 CSV.foreach(Rails.root.join("db/seed_data/projects.csv"), headers: true) do |row|
   # Skip if user already exists, but continue with next record
   next if User.exists?(email: row["email"])
@@ -68,14 +68,14 @@ CSV.foreach(Rails.root.join("db/seed_data/projects.csv"), headers: true) do |row
 
     project.save!
     created_projects << project
-    puts "Created project: #{project.name}"
+    Rails.logger.debug { "Created project: #{project.name}" }
   rescue StandardError => e
-    puts "Error creating project for #{row["email"]}: #{e.message}"
+    Rails.logger.debug { "Error creating project for #{row["email"]}: #{e.message}" }
   end
 end
 
 # Seed Finishers
-puts "Seeding finishers..."
+Rails.logger.debug "Seeding finishers..."
 CSV.foreach(Rails.root.join("db/seed_data/finishers.csv"), headers: true) do |row|
   # Skip if user already exists, but continue with next record
   next if User.exists?(email: row["email"])
@@ -118,12 +118,12 @@ CSV.foreach(Rails.root.join("db/seed_data/finishers.csv"), headers: true) do |ro
       has_taken_ownership_of_profile: true
     )
     created_finishers << finisher
-    puts "Created finisher: #{finisher.chosen_name}"
+    Rails.logger.debug { "Created finisher: #{finisher.chosen_name}" }
   rescue StandardError => e
-    puts "Error creating finisher for #{row["email"]}: #{e.message}"
+    Rails.logger.debug { "Error creating finisher for #{row["email"]}: #{e.message}" }
   end
 end
 
-puts "\nSeeding completed!"
-puts "Created #{created_projects.length} projects"
-puts "Created #{created_finishers.length} finishers"
+Rails.logger.debug "\nSeeding completed!"
+Rails.logger.debug { "Created #{created_projects.length} projects" }
+Rails.logger.debug { "Created #{created_finishers.length} finishers" }
