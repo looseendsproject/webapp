@@ -20,7 +20,8 @@ Download [VsCode](https://code.visualstudio.com/download)
 - In the bottom left select the blue arrows
 ![Open In Container](images/reopen.png)
 - Select "Reopen in container" from the dropdown.
-- Develop!
+- Install overcommit by running `overcommit` at the root. This will run automatically from then on.
+- Start Developing
 
 ### GitHub CodeSpace Install
 Navigate to [LooseEnds](https://github.com/looseendsproject/webapp)
@@ -28,6 +29,7 @@ Navigate to [LooseEnds](https://github.com/looseendsproject/webapp)
 ![CodeSpace](images/CodeSpace.png)
 - Next to the word Codespaces click on the plus symbol:
 ![New Codespace](images/new_codespace.png)
+- Install overcommit by running `overcommit` at the root. This will run automatically from then on.
 - Start Developing
 
 
@@ -40,7 +42,6 @@ Clone repo from git and start the Rails app as usual.
 - Install js dependencies: `yarn install`
 - Start the dev server: `bin/dev`
 - create yourself a user through the UI, then set `role = 'admin'` manually in your database
-- Install overcommit by running `overcommit` at the root. This will run automatically from then on.
 
 
 ## Running Tests
