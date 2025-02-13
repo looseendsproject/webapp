@@ -50,7 +50,8 @@ class ProjectsControllerTest < ActionController::TestCase
       }
     end
 
-    new_project = Project.find_by_name("New Project")
+    new_project = Project.find_by(name: "New Project")
+
     assert_not_nil new_project
     assert_redirected_to project_path(new_project)
   end
@@ -63,6 +64,7 @@ class ProjectsControllerTest < ActionController::TestCase
         name: "Updated Name"
       }
     }
+
     assert_redirected_to project_path(@project)
     assert_equal "Updated Name", @project.reload.name
   end
@@ -70,6 +72,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should show terms of service" do
     sign_in users(:project_owner)
     get :new
+
     assert_select "h5", { text: "Terms of Service" }
   end
 
@@ -77,6 +80,7 @@ class ProjectsControllerTest < ActionController::TestCase
     @project_owner = users(:project_owner)
     sign_in @project_owner
     get :edit_basics, params: { id: @project_owner.projects.first.to_param }
+
     assert_select "h5", { text: "Terms of Service", count: 0 }
   end
 end
