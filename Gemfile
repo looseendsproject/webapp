@@ -77,6 +77,17 @@ gem "mini_magick"
 # Google Data
 gem "google_drive"
 
+# Geocoding
+gem "geocoder", "~> 1.8"
+
+# Annotated source code for Models
+gem "annotaterb", "~> 4.13"
+
+# Gems being moved out of core ruby
+gem "csv", "~> 3.3"
+gem "drb", "~> 2.2"
+gem "mutex_m", "~> 0.3.0"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
@@ -111,7 +122,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-
-gem "geocoder", "~> 1.8"
-
-gem "annotaterb", "~> 4.13"
