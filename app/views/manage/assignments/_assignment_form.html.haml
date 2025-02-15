@@ -6,20 +6,16 @@
       %strong
         = (assignment.status || 'Unknown').titleize
     - else
-      = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm', autocomplete: 'off' }
+      = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
     - if assignment.updated_at > 5.seconds.ago
       %span.update-flash.visible SAVED
-  - unless local_assigns[:readonly]
-    .form-actions.d-inline.ps-4
-      = form.submit 'Save', class: "btn btn-sm btn-primary"
-      = form.submit 'Delete', class: "btn btn-sm btn-outline-danger", onclick: "return confirm('Are you sure?')"
 
 
 :javascript
   setTimeout(() => {
-    let selector = document.querySelector('.update-flash.visible');
-    if (selector) {
-      selector.classList.remove('visible')
-      selector.classList.add('hidden')
+    let visibleFlashSelector = document.querySelector('.update-flash.visible');
+    if (visibleFlashSelector) {
+      visibleFlashSelector.classList.remove('visible')
+      visibleFlashSelector.classList.add('hidden')
     }
   }, 1000)
