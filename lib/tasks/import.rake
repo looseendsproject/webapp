@@ -77,7 +77,7 @@ namespace :import do
       id, ts, email, first_name, last_name, pronouns, street, city, state, country, postal_code, _, phone_number, _, unavailable, skills, products, skill_level, dislikes, smoker, how_heard, description, dominant_hand, post_ok, social_media = row
       next unless id.length.positive?
 
-      next if User.where(email: email.downcase).exists?
+      next if User.exists?(email: email.downcase)
 
       user = User.create({
                            email: email.downcase,
