@@ -76,6 +76,7 @@ one:
   state: WA
   postal_code: 12345
   country: USA
+  updated_at: <%= 7.days.ago %>
 
 two:
   id: 2
@@ -85,3 +86,4 @@ two:
   status: ready to match
   phone_number: 1234567890
   craft_type: knitting
+  updated_at: <%= 2.days.ago %>
