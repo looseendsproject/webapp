@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Manage
-  class ProjectsControllerTest < ActionController::TestCase
+  class ProjectsControllerTest < ActionDispatch::IntegrationTest
     setup do
       @user = users(:admin)
 
@@ -38,10 +38,12 @@ module Manage
     test "index filters by updated_at" do
       sign_in @user
       get :index, params: { updated_after: @project.updated_at.to_date }
+
       assert_response :success
       assert_select "h6", { text: @project.name, count: 1 }
 
       get :index, params: { updated_before: @project.updated_at.to_date - 1.day }
+
       assert_response :success
       assert_select "h6", { text: @project.name, count: 0 }
     end

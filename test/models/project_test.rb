@@ -140,26 +140,30 @@ class ProjectTest < ActiveSupport::TestCase
   test "updated_at timestamp updated when a project note is added" do
     original_updated_at = @project.updated_at
     @project.project_notes.create(user: User.new, description: "here's a new note")
-    refute_equal(original_updated_at, @project.updated_at)
+
+    assert_not_equal(original_updated_at, @project.updated_at)
   end
 
   test "updated_at timestamp updated when a project note is updated" do
     note = @project.project_notes.create(user: User.new, description: "here's a new note")
     original_updated_at = @project.updated_at
     note.update(description: "updated note description")
-    refute_equal(original_updated_at, @project.updated_at)
+
+    assert_not_equal(original_updated_at, @project.updated_at)
   end
 
   test "updated_at timestamp updated when an assignment is added" do
     original_updated_at = @project.updated_at
     @project.assignments.create(user: User.new, finisher: finishers(:crocheter))
-    refute_equal(original_updated_at, @project.updated_at)
+
+    assert_not_equal(original_updated_at, @project.updated_at)
   end
 
   test "updated_at timestamp updated when an assignment is updated" do
     assignment = @project.assignments.create(user: User.new, finisher: finishers(:crocheter))
     original_updated_at = @project.updated_at
     assignment.update(started_at: DateTime.now)
-    refute_equal(original_updated_at, @project.updated_at)
+
+    assert_not_equal(original_updated_at, @project.updated_at)
   end
 end
