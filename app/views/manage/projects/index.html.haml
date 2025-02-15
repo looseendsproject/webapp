@@ -14,12 +14,13 @@
       = label_tag :project_manager, "Manager:"
       = select_tag :project_manager, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:project_manager]), include_blank: true, class: 'form-select'
   .row.mb-4
-    .col
-      = label_tag :updated_after, "Updated After:"
-      = date_field_tag :updated_after, params[:updated_after], class: 'form-control'
-    .col
-      = label_tag :updated_before, "Updated Before:"
-      = date_field_tag :updated_before, params[:updated_before], class: 'form-control'
+    .col.d-inline-flex
+      .d-flex.flex-column.me-2.w-50
+        = label_tag :updated_after, "Updated After:"
+        = date_field_tag :updated_after, params[:updated_after], class: 'form-control'
+      .d-flex.flex-column.ms-2.w-50
+        = label_tag :updated_before, "Updated Before:"
+        = date_field_tag :updated_before, params[:updated_before], class: 'form-control'
     .col
       = label_tag :attributes, "Attributes:"
       .row
@@ -43,8 +44,8 @@
           .form-check
             = check_box_tag :privacy_needed, 'true', params[:privacy_needed] == 'true', class: 'form-check-input'
             = label_tag :privacy_needed, 'Privacy Needed', class: 'form-check-label'
-  .d-flex.mb-4.justify-content-center
-    = submit_tag "Search", name: nil, class: 'btn btn-primary'
+    .col
+      = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
   .row.mb-4#ready-status-row{ style: "display: none;" }
     .col-4
