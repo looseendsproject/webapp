@@ -17,6 +17,6 @@
 #  index_project_notes_on_user_id     (user_id)
 #
 class ProjectNote < ApplicationRecord
-  belongs_to :project
+  belongs_to :project, touch: true
   belongs_to :user
 end

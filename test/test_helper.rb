@@ -44,3 +44,9 @@ module ActionController
     include Devise::Test::ControllerHelpers
   end
 end
+
+module ActionDispatch
+  class IntegrationTest
+    include Devise::Test::IntegrationHelpers
+  end
+end
