@@ -45,6 +45,18 @@ module Manage
         @projects = @projects.where(attr => params[attr] == "true") if params[attr].present?
       end
 
+      updated_after = params[:updated_after]
+      updated_before = params[:updated_before]
+      # when both are present, make sure we're comparing the earliest date as the 'from' date
+      # and the latest date as the 'to' date (in case of user error)
+      if updated_after.present? && updated_before.present?
+        updated_after = [updated_after, updated_before].compact.min
+        updated_before = [updated_after, updated_before].compact.max
+      end
+
+      if updated_after.present? || updated_before.present?
+        @projects = @projects.where(updated_at: updated_after..updated_before)
+      end
       @projects = @projects.paginate(page: params[:page])
     end
 
