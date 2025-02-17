@@ -13,7 +13,6 @@ module Manage
 
     test "index requires login" do
       get "/manage/projects"
-      get :index
 
       assert_redirected_to new_user_registration_path
     end
