@@ -4,6 +4,13 @@ module Manage
   class AssignmentsController < Manage::ManageController
     before_action :get_project, only: [:new]
 
+    def new
+      @project = Project.find(params[:project_id])
+      @finisher = Finisher.find(params[:finisher_id])
+      @assignment = @project.assignments.new(project_id: @project.id, finisher_id: @finisher.id)
+      @title = "Loose Ends - Manage - Assign Project - #{@project.name}"
+    end
+
     def create
       @assignment = Assignment.new(create_assignment_params)
       @assignment.started_at = DateTime.now
@@ -19,13 +26,6 @@ module Manage
       @assignment = Assignment.find(params[:id])
       @assignment.destroy
       respond_to(&:turbo_stream)
-    end
-
-    def new
-      @project = Project.find(params[:project_id])
-      @finisher = Finisher.find(params[:finisher_id])
-      @assignment = @project.assignments.new(project_id: @project.id, finisher_id: @finisher.id)
-      @title = "Loose Ends - Manage - Assign Project - #{@project.name}"
     end
 
     protected
