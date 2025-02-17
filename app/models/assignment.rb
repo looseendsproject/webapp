@@ -20,7 +20,7 @@
 #  index_assignments_on_user_id      (user_id)
 #
 class Assignment < ApplicationRecord
-  belongs_to :project
+  belongs_to :project, touch: true
   belongs_to :finisher
   belongs_to :user
 
