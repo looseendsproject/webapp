@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class FinisherMailer < ApplicationMailer
-  layout "mailer"
 
   def welcome(finisher)
     @finisher = finisher
