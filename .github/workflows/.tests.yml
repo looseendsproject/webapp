@@ -41,8 +41,6 @@ jobs:
         with:
           node-version: 23.5.0
           cache: yarn
-      - name: Enforce yarn install
-        run: npm install yarn -g
       - name: Bundle install
         run: |
           bundle install
