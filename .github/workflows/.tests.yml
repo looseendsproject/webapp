@@ -39,8 +39,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 23.5.0
           cache: yarn
+      - name: Enforce yarn install
+        run: npm install yarn -g
       - name: Bundle install
         run: |
           bundle install
