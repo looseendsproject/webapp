@@ -29,7 +29,7 @@
 
 	// Uncomment the next line to run commands after the container is created.
 	// "postCreateCommand": "cat /etc/os-release",
-	"postCreateCommand": "bundle install && bundle exec rake db:create db:migrate db:seed && overcommit"
+	"postCreateCommand": "bundle install && overcommit"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
