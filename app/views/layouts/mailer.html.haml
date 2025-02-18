@@ -4,5 +4,11 @@
     %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
     :css
       /* Email styles need to be inline */
+      body { font-family: sans-serif; }
+      hr { border-top: 0.5px solid gray; }
   %body
+    = image_tag(attachments['looseendslogo.png'].url, width: "300px", alt: 'Loose Ends logo')
+    %div(style="padding-top: 10px") &nbsp;
     = yield
+
+    = render 'layouts/email_footer'

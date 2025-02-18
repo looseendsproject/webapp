@@ -58,3 +58,9 @@ project_owner:
   first_name: Peter
   last_name: Moore
   email: peter@gmail.com
+
+new:
+  id: 6
+  first_name: Jello
+  last_name: Biafra
+  email: jello@example.com

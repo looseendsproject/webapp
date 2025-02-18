@@ -38,6 +38,7 @@ class FinishersController < AuthenticatedController
   def create
     @finisher = Finisher.new(finisher_params.merge(has_taken_ownership_of_profile: true))
     @finisher.user = current_user
+
     if @finisher.save
       redirect_to finisher_path
     else
