@@ -59,6 +59,18 @@ module Manage
       end
       @projects = @projects.paginate(page: params[:page])
     end
+    if (params[:sort].present?)
+      sort_dir = params[:sort].split(' ')[1] == 'desc' ? 'DESC' : 'ASC'
+      sort_by = params[:sort].split(' ')[0]
+      case sort_by
+      when 'created'
+        @projects = @projects.order(created_at: sort_dir)
+      when 'updated'
+        @projects = @projects.order(updated_at: sort_dir)
+      else
+        @projects = @projects.order(created_at: :DESC)
+      end
+    end
 
     def show
       @project = Project.find(params[:id])
