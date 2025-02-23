@@ -98,7 +98,7 @@
         #{@project.city}, #{@project.state} #{@project.postal_code}
       .country
         = ISO3166::Country[@project.country]&.iso_short_name
-  .col-6
+  .col-9
     - if @project.no_smoke || @project.no_cats || @project.no_dogs
       .page-section.mb-3
         %h4 Sensitivities
@@ -145,8 +145,7 @@
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-
-  .col-3
+    %hr/
     %h3
       Assignees
       .float-end

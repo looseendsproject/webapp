@@ -20,6 +20,8 @@
 #  index_assignments_on_user_id      (user_id)
 #
 class Assignment < ApplicationRecord
+  STATUS = %w[potential invited accepted declined unresponsive completed].freeze
+
   belongs_to :project, touch: true
   belongs_to :finisher
   belongs_to :user
@@ -27,6 +29,7 @@ class Assignment < ApplicationRecord
   has_many :assignment_updates, dependent: :destroy
 
   validates :finisher_id, uniqueness: { scope: :project_id }
+  validates :status, inclusion: { in: STATUS }, allow_nil: true
 
   def self.active
     where(ended_at: nil)
