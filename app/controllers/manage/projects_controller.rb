@@ -70,6 +70,8 @@ module Manage
         else
           @projects = @projects.order(created_at: :DESC)
         end
+      else
+        @projects = @projects.order(created_at: :DESC)
       end
     end
 
