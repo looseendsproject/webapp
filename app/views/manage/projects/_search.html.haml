@@ -13,7 +13,7 @@
     .col
   .row.mb-4
     .col
-      = select_tag :sort, options_for_select([['Created (Oldest First)', 'created asc'], ['Created (Newest First)', 'created desc'], ['Updated (Oldest First)', 'updated asc'], ['Updated (Newest First)', 'updated desc']], params[:sort]), class: 'form-select'
+      = select_tag :sort, options_for_select([['Created (Newest First)', 'created desc'], ['Created (Oldest First)', 'created asc'], ['Updated (Newest First)', 'updated desc'], ['Updated (Oldest First)', 'updated asc']], params[:sort]), class: 'form-select'
     .col
       = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
     .col
