@@ -22,7 +22,7 @@
 class Assignment < ApplicationRecord
   STATUS = %w[potential invited accepted declined unresponsive completed].freeze
 
-  belongs_to :project
+  belongs_to :project, touch: true
   belongs_to :finisher
   belongs_to :user
 

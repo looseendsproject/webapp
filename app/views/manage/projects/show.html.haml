@@ -1,3 +1,5 @@
+= hidden_field_tag "updated_at_utc", @project.updated_at.iso8601
+%small#updated_at= "Last updated:"
 %h1
   = @project.name
   - if current_user.admin?
@@ -155,3 +157,15 @@
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project}
 
+:javascript
+  var updateProjectTimestamp = () => {
+    const timestamp = document.getElementById('updated_at_utc');
+    const date = new Date(timestamp.value).toLocaleDateString()
+    const time = new Date(timestamp.value).toLocaleTimeString()
+
+    const text = document.getElementById('updated_at')
+    text.innerHTML = `Last updated: ${date} ${time}`
+  }
+
+  window.addEventListener('load', updateProjectTimestamp);
+  document.addEventListener('turbo:load', updateProjectTimestamp);

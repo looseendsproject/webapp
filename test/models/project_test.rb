@@ -72,6 +72,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "All fixtures should be valid" do
     Project.find_each do |project|
+      project.save
       assert_predicate(project, :valid?, "Project fixture is invalid. Errors: #{project.errors.inspect}")
     end
   end
@@ -135,5 +136,35 @@ class ProjectTest < ActiveSupport::TestCase
 
       assert_predicate(@project, :missing_information?, "Project should be missing information when #{field} is nil")
     end
+  end
+
+  test "updated_at timestamp updated when a project note is added" do
+    original_updated_at = @project.updated_at
+    @project.project_notes.create(user: User.new, description: "here's a new note")
+
+    assert_not_equal(original_updated_at, @project.updated_at)
+  end
+
+  test "updated_at timestamp updated when a project note is updated" do
+    note = @project.project_notes.create(user: User.new, description: "here's a new note")
+    original_updated_at = @project.updated_at
+    note.update(description: "updated note description")
+
+    assert_not_equal(original_updated_at, @project.updated_at)
+  end
+
+  test "updated_at timestamp updated when an assignment is added" do
+    original_updated_at = @project.updated_at
+    @project.assignments.create(user: User.new, finisher: finishers(:crocheter))
+
+    assert_not_equal(original_updated_at, @project.updated_at)
+  end
+
+  test "updated_at timestamp updated when an assignment is updated" do
+    assignment = @project.assignments.create(user: User.new, finisher: finishers(:crocheter))
+    original_updated_at = @project.updated_at
+    assignment.update(started_at: DateTime.now)
+
+    assert_not_equal(original_updated_at, @project.updated_at)
   end
 end

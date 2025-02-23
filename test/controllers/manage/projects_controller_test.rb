@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Manage
-  class ProjectsControllerTest < ActionController::TestCase
+  class ProjectsControllerTest < ActionDispatch::IntegrationTest
     setup do
       @user = users(:admin)
 
@@ -12,7 +12,7 @@ module Manage
     end
 
     test "index requires login" do
-      get :index
+      get "/manage/projects"
 
       assert_redirected_to new_user_registration_path
     end
@@ -23,35 +23,62 @@ module Manage
       assert_not_predicate(@user_without_manager, :can_manage?)
 
       sign_in @user_without_manager
-      get :index
+      get "/manage/projects"
 
       assert_redirected_to root_path
     end
 
     test "index loads" do
       sign_in @user
-      get :index
+      get "/manage/projects"
 
       assert_response :success
     end
 
+    test "index filters by updated_at" do
+      sign_in @user
+      get "/manage/projects", params: { updated_after: @project.updated_at.to_date }
+
+      assert_response :success
+      assert_select "h6", { text: @project.name, count: 1 }
+
+      get "/manage/projects", params: { updated_before: @project.updated_at.to_date - 1.day }
+
+      assert_response :success
+      assert_select "h6", { text: @project.name, count: 0 }
+    end
+
+    test "index default sorts by created_at" do
+      sign_in @user
+      get "/manage/projects"
+      projects = assigns(:projects)
+      assert (projects[0].created_at > projects[1].created_at)
+    end
+
+    test "index sort by created_at desc returns results in new order" do
+      sign_in @user
+      get "/manage/projects?sort=created+asc"
+      projects = assigns(:projects)
+      assert (projects[0].created_at < projects[1].created_at)
+    end
+
     test "new project page loads" do
       sign_in @user
-      get :new
+      get "/manage/projects/new"
 
       assert_response :success
     end
 
     test "show loads" do
       sign_in @user
-      get :show, params: { id: @project.id }
+      get "/manage/projects/#{@project.id}"
 
       assert_response :success
     end
 
     test "edit loads" do
       sign_in @user
-      get :edit, params: { id: @project.id }
+      get "/manage/projects/#{@project.id}/edit"
 
       assert_response :success
     end
@@ -60,7 +87,7 @@ module Manage
       @project.name = "New Name"
 
       sign_in @user
-      patch :update, params: { id: @project.id, project: { name: "New Name" } }
+      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" } }
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("New Name", @project.reload.name)
@@ -68,7 +95,7 @@ module Manage
 
     test "create with incomplete params renders page" do
       sign_in @user
-      get :create, params: { project: { name: "Lacking Details" } }
+      post "/manage/projects", params: { project: { name: "Lacking Details" } }
 
       assert_response :success
     end
@@ -77,7 +104,7 @@ module Manage
       project_params = new_project_params
       sign_in @user
       assert_difference("Project.count") do
-        post :create, params: { project: project_params }
+        post "/manage/projects", params: { project: project_params }
       end
       assert_redirected_to manage_project_path(Project.last)
     end
@@ -85,7 +112,7 @@ module Manage
     test "destroy removes project" do
       sign_in @user
       assert_difference("Project.count", -1) do
-        delete :destroy, params: { id: @project.id }
+        delete "/manage/projects/#{@project.id}"
       end
       assert_redirected_to manage_projects_path
       assert_not(Project.exists?(@project.id))
