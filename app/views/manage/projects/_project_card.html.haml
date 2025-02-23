@@ -9,7 +9,7 @@
       = link_to project.name, [:manage, project]
     .since
       %b Since:
-      = l(project.created_at, format: :default)
+      %span.since-date= l(project.created_at, format: :default)
     .card-text
       %b (#{project.status})
 
