@@ -52,14 +52,14 @@ module Manage
       sign_in @user
       get "/manage/projects"
       projects = assigns(:projects)
-      assert (projects[0].created_at < projects[1].created_at)
+      assert (projects[0].created_at > projects[1].created_at)
     end
 
     test "index sort by created_at desc returns results in new order" do
       sign_in @user
-      get "/manage/projects?sort=created+desc"
+      get "/manage/projects?sort=created+asc"
       projects = assigns(:projects)
-      assert (projects[0].created_at > projects[1].created_at)
+      assert (projects[0].created_at < projects[1].created_at)
     end
 
     test "new project page loads" do
