@@ -72,6 +72,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "All fixtures should be valid" do
     Project.find_each do |project|
+      project.save
       assert_predicate(project, :valid?, "Project fixture is invalid. Errors: #{project.errors.inspect}")
     end
   end
