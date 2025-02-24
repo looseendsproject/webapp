@@ -119,11 +119,14 @@
     - if @project.no_smoke || @project.no_cats || @project.no_dogs || @project.in_home_pets.select(&:present?).any? || @project.has_smoke_in_home
       %hr/
     %h4 Material Details
-    = @project.material_type
-    - @project.material_images.each do |image|
-      .removeable_image
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-        = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+    .row
+      %b Type:
+      = @project.material_type
+    .row
+      - @project.material_images.each do |image|
+        .removeable_image
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+          = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %h4.mt-4
       .row
         .col-9
@@ -153,7 +156,7 @@
             %li No Cats Please
           - if @project.no_dogs
             %li No Dogs Please
-              
+
     %h4 Recipient
     = @project.recipient_name
 
