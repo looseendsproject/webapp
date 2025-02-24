@@ -18,7 +18,8 @@ module Manage
                                                        :has_workplace_match).search(params)
         end
         format.html do
-          first = Finisher.order(:joined_on).first.joined_on.beginning_of_month
+          first_finisher = Finisher.order(:joined_on).first
+          first = first_finisher.joined_on&.beginning_of_month || first_finisher.created_at.beginning_of_month
           last = Time.zone.today.beginning_of_month
           @months = (first..last).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
           @finishers = Finisher.includes(:products, :user,

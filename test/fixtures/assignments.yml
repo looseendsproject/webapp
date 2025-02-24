@@ -1,0 +1,12 @@
+knit_active:
+  project_id: 1
+  finisher_id: 2
+  user_id: 3
+  started_at: 2024-01-01
+
+knit_inactive:
+  project_id: 2
+  finisher_id: 2
+  user_id: 3
+  started_at: 2024-01-01
+  ended_at: 2024-12-31
