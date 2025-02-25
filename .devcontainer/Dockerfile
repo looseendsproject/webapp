@@ -9,11 +9,12 @@ RUN su vscode -c "rm -rf /usr/local/rvm/bin/rvm"
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
 # [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends imagemagick \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # [Optional] Uncomment this line to install additional gems.
-# RUN su vscode -c "gem install <your-gem-names-here>"
+RUN su vscode -c "gem install foreman"
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
