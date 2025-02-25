@@ -7,6 +7,7 @@
 #  id          :bigint           not null, primary key
 #  ended_at    :datetime
 #  started_at  :datetime
+#  status      :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  finisher_id :bigint
