@@ -29,7 +29,7 @@
 
 	// Uncomment the next line to run commands after the container is created.
 	// "postCreateCommand": "cat /etc/os-release",
-	"postCreateCommand": "bundle install && overcommit"
+	"postCreateCommand": "bundle install && overcommit && gem install foreman"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
