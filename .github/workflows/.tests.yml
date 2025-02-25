@@ -51,7 +51,7 @@ jobs:
       - name: Yarn Build CSS
         run: yarn build:css
       - name: Copy Database configuration file
-        run: cp config/database.yml.example config/database.yml
+        run: cp config/database.yml.ci config/database.yml
       - name: Run tests
         env:
           RAILS_ENV: test
