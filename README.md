@@ -23,6 +23,7 @@ Download [VsCode](https://code.visualstudio.com/download)
 ![Open In Container](images/reopen.png)
 - Select "Reopen in container" from the dropdown.
 - Install overcommit by running `overcommit` at the root. This will run automatically from then on.
+- Run `bin/dev` to start the server
 - Start Developing
 
 ### GitHub CodeSpace Install
@@ -32,6 +33,7 @@ Navigate to [LooseEnds](https://github.com/looseendsproject/webapp)
 - Next to the word Codespaces click on the plus symbol:
 ![New Codespace](images/new_codespace.png)
 - Install overcommit by running `overcommit` at the root. This will run automatically from then on.
+- Run `bin/dev` to start the server
 - Start Developing
 
 
