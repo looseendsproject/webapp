@@ -53,10 +53,13 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_predicate @assignment, :valid?
   end
 
-  test "allows empty string status" do
+  test "empty status coerced into nil" do
     @assignment.status = ""
 
     assert_predicate @assignment, :valid?
+    @assignment.save!
+
+    assert_nil @assignment.reload.status
   end
 
   test "active scope" do

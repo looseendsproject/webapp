@@ -32,7 +32,15 @@ class Assignment < ApplicationRecord
   validates :finisher_id, uniqueness: { scope: :project_id }
   validates :status, inclusion: { in: STATUS, allow_blank: true }
 
+  before_save :sanitize_status
+
   def self.active
     where(ended_at: nil)
+  end
+
+  private
+
+  def sanitize_status
+    self.status = nil if status.blank?
   end
 end
