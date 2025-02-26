@@ -1,0 +1,21 @@
+= form_for [:manage, assignment] do |form|
+  .pb-2 Assigned to #{link_to(assignment.finisher.user.name, [ :manage, assignment.finisher ], data: { turbo_frame: :_top })} on #{assignment.created_at.to_formatted_s(:short)}
+  .d-inline
+    = form.label 'Current Status', class: 'form-label'
+    - if local_assigns[:readonly]
+      %strong
+        = (assignment.status || 'Unknown').titleize
+    - else
+      = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
+    - if assignment.saved_change_to_status?
+      %span.update-flash.visible SAVED
+
+
+:javascript
+  setTimeout(() => {
+    let visibleFlashSelector = document.querySelector('.update-flash.visible');
+    if (visibleFlashSelector) {
+      visibleFlashSelector.classList.remove('visible')
+      visibleFlashSelector.classList.add('hidden')
+    }
+  }, 1000)

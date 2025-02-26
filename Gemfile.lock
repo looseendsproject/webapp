@@ -76,7 +76,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     airbrake (13.0.3)
       airbrake-ruby (~> 6.0)
-    airbrake-ruby (6.2.1)
+    airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
     annotaterb (4.13.0)
     ast (2.4.2)
@@ -334,6 +334,10 @@ GEM
       activesupport (= 7.0.8.7)
       bundler (>= 1.15.0)
       railties (= 7.0.8.7)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -502,6 +506,7 @@ DEPENDENCIES
   pg (~> 1.5.3)
   puma (~> 5.0)
   rails (~> 7.0.6, >= 7.0.6)
+  rails-controller-testing
   reek (~> 6.4)
   rubocop (~> 1.69)
   rubocop-capybara (~> 2.21)
@@ -521,4 +526,4 @@ RUBY VERSION
    ruby 3.3.7p123
 
 BUNDLED WITH
-   2.6.3
+   2.6.5

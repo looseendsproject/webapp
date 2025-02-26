@@ -5,7 +5,7 @@
 @import "@fortawesome/fontawesome-free/scss/brands"
 
 
-// Volunteers
+// Finishers
 
 .unavailable
   position: absolute
@@ -17,6 +17,14 @@
   color: white
   border-top-left-radius: 5px
   border-top-right-radius: 5px
+
+h1.assigned
+  color: red
+
+.card.assigned
+  border-color: red
+  .card-footer
+    background-color: pink
 
 .dominant-hand
   background-color: lightgray
@@ -70,6 +78,23 @@
 
 .field_with_errors
   display: inline-block
+
+.update-flash
+  background-color: #d4edda
+  color: #155724
+  border: 1px solid #c3e6cb
+  border-radius: .25rem
+  font-size: 0.8rem
+  padding: 0.25rem
+
+  .visible
+    visibility: visible
+    opacity: 1
+    transition: opacity 2s linear
+  .hidden
+    visibility: hidden
+    opacity: 0
+    transition: visibility 0s 2s, opacity 2s linear
 
 // Breadcrumbs
 
