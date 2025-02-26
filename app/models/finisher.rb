@@ -60,6 +60,8 @@ class Finisher < ApplicationRecord
 
   has_many_attached :finished_projects
 
+  has_many :active_assignments, lambda { where(status: ['invited', 'accepted', 'unresponsive'])}, class_name: 'Assignment'
+
   has_many :assignments, dependent: :destroy
   has_many :projects, through: :assignments
 
@@ -210,6 +212,10 @@ class Finisher < ApplicationRecord
 
   def self.approved
     where.not({ approved_at: nil })
+  end
+
+  def assigned?
+    self.active_assignments.size > 0
   end
 
   def name
