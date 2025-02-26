@@ -40,6 +40,8 @@
 !/app/assets/builds/.keep
 
 /config/credentials/production.key
+# Ignore database configurations so we dont't upload personal configurations
+/config/database.yml
 
 /node_modules
 
