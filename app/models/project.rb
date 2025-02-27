@@ -107,7 +107,7 @@ class Project < ApplicationRecord
   search_sort_name_field :name
   search_text_fields :"projects.name", :"projects.description", :"projects.craft_type", :"projects.material_type",
                      :"projects.city", :"projects.state", :"users.first_name", :"users.last_name", :"users.email"
-  search_default_sort "date asc"
+  search_default_sort "date desc"
 
   belongs_to :manager, optional: true, class_name: "User"
   belongs_to :user, optional: true

@@ -124,7 +124,7 @@ module LooseEndsSearchable
 
     def with_project_fields(query, params)
       query = with_assigned(query, params[:assigned])
-      query = with_status(query, params[:status])
+      query = with_statuses(query, params)
       query = with_manager_id(query, params[:manager_id])
       query = with_project_boolean_attributes(query, params)
       query
@@ -207,8 +207,12 @@ module LooseEndsSearchable
       with_field_value(query, :state, state)
     end
 
-    def with_status(query, status)
-      with_field_value(query, :status, status)
+    def with_statuses(query, params)
+      result = query
+      result = with_field_value(result, :status, params[:status])
+      result = with_field_value(result, :ready_status, params[:ready_status])
+      result = with_field_value(result, :in_process_status, params[:in_process_status])
+      result
     end
 
     def with_manager_id(query, manager_id)
@@ -241,7 +245,7 @@ module LooseEndsSearchable
         # Form passed in something custom, so just use it
         query.order(sort)
       else
-        query.order(custom_sorts[sort])
+        query.order(sort.present? ? custom_sorts[sort] : custom_sorts[_default_sort])
       end
     end
   end

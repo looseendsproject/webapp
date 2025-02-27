@@ -178,12 +178,13 @@
   - else
     None
 
-%hr
-.page-section
-  %h5 Danger Zone
-  %p Actions in this area are permanent.
-  .form-danger
-    = button_to "Delete Project", manage_project_path(@project), method: :delete, :onclick => "return confirm('Are you sure you want to delete this Project?')", class: 'btn btn-danger'
+- unless @project.new_record?
+  %hr
+  .page-section
+    %h5 Danger Zone
+    %p Actions in this area are permanent.
+    .form-danger
+      = button_to "Delete Project", manage_project_path(@project), method: :delete, :onclick => "return confirm('Are you sure you want to delete this Project?')", class: 'btn btn-danger'
 
 
 :javascript
