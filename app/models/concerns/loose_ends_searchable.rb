@@ -117,7 +117,7 @@ module LooseEndsSearchable
 
     def with_finisher_fields(query, params)
       query = with_product_id(query, params[:product_id])
-      query = with_workplace_match(query, params[:workplace_match])
+      query = with_workplace_match(query, params[:has_workplace_match])
       query = with_available(query, params[:available])
       query
     end
