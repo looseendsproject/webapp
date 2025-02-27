@@ -3,7 +3,7 @@
 if Rails.env.staging?
   class OverrideStagingRecipient
     def self.delivering_email(mail)
-      mail.to = Rails.application.credentials.dig(:email, :staging_recipient_override)
+      mail.to = 'app-staging@looseendsproject.org'
       mail.from = 'no-reply-staging@looseendsproject.org'
       mail.subject = "[#{Rails.env.upcase}] #{mail.subject}"
     end
