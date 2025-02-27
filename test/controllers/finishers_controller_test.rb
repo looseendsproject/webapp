@@ -28,12 +28,12 @@ class FinishersControllerTest < ActionController::TestCase
     # PATCH :update
     @address_params = {
       "finisher" => {
-        "country"=>"US",
-        "street"=>"123 Main St",
-        "street_2"=>"",
-        "city"=>"Anytown",
-        "state"=>"WA",
-        "postal_code"=>"12345"
+        "country" => "US",
+        "street" => "123 Main St",
+        "street_2" => "",
+        "city" => "Anytown",
+        "state" => "WA",
+        "postal_code" => "12345"
       }
     }
 
@@ -68,19 +68,39 @@ class FinishersControllerTest < ActionController::TestCase
 
   test "profile flow sends welcome & profile_complete messages" do
     post :create, params: @profile_params
+
     assert_redirected_to finisher_path
     assert_equal "Loose Ends Project Account Created - Next Steps...", ActionMailer::Base.deliveries.last.subject
 
     patch :update, params: @address_params
+
     assert_redirected_to finisher_path
     assert_equal "Loose Ends Project Account Created - Next Steps...", ActionMailer::Base.deliveries.last.subject
 
     patch :update, params: @skills_params
+
     assert_redirected_to finisher_path
     assert_equal "Loose Ends Project Account Created - Next Steps...", ActionMailer::Base.deliveries.last.subject
 
     patch :update, params: @favorites_params
+
     assert_redirected_to finisher_path
     assert_equal "Welcome, Loose Ends Finisher!", ActionMailer::Base.deliveries.last.subject
+  end
+
+  test "can update if the finisher has volunteer time off" do
+    post :create, params: @profile_params
+
+    finisher = Finisher.find_by(chosen_name: @profile_params["finisher"]["chosen_name"])
+
+    assert_not_nil(finisher)
+
+    @profile_params["finisher"].merge!("has_volunteer_time_off" => "true")
+
+    patch :update, params: @profile_params.merge("id" => finisher.id)
+
+    finisher.reload
+
+    assert(finisher.has_volunteer_time_off)
   end
 end

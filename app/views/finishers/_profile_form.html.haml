@@ -41,6 +41,11 @@
           = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
       .row.g-1.g-sm-4.mb-4
         .col-12
+          = form.label 'has_volunteer_time_off', class: 'form-label' do
+            = form.check_box :has_volunteer_time_off
+            My company pays for volunteer time off
+      .row.g-1.g-sm-4.mb-4
+        .col-12
           = form.label 'If you do work outside the home what company do you work for?', class: 'form-label optional'
           = form.text_field :workplace_name, class: 'form-control'
 
