@@ -167,6 +167,7 @@ module LooseEndsSearchable
         "name" => "LOWER(#{_sort_name_field}) ASC",
         "name asc" => "LOWER(#{_sort_name_field}) ASC",
         "name desc" => "LOWER(#{_sort_name_field}) DESC",
+        "date" => "#{_since_field} ASC",
         "date asc" => "#{_since_field} ASC",
         "date desc" => "#{_since_field} DESC"
       }
