@@ -2,9 +2,9 @@
   .row
     .col
       Search
-  .row
+  .row.mb-2
     .col
-      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Cities, etc.'
+      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
   .row
     .col
       Sort:
@@ -14,10 +14,7 @@
       Assigned:
     .col
       Manager:
-    .col
-      Attributes:
-    .col
-  .row.mb-4
+  .row.mb-2
     .col
       = select_tag :sort, options_for_select([['Created (Newest First)', 'created_at desc'], ['Created (Oldest First)', 'created_at asc'], ['Updated (Newest First)', 'updated_at desc'], ['Updated (Oldest First)', 'updated_at asc']], params[:sort]), class: 'form-select'
     .col
@@ -26,12 +23,13 @@
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
       = select_tag :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), include_blank: true, class: 'form-select'
-    .col
+  .row.mb-4
+    .col-auto
       - Project::BOOLEAN_ATTRIBUTES.each do |attr|
-        .form-check.mb-2
+        .form-check.me-2.d-inline-block
           = check_box_tag attr, 'true', params[attr] == 'true', class: 'form-check-input'
           = label_tag attr, attr.to_s.titleize, class: 'form-check-label'
-    .col
+    .col.ms-2
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
   .row.mb-4#ready-status-row{ style: "display: none;" }
