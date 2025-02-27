@@ -98,12 +98,4 @@ class User < ApplicationRecord
   def finisher?
     !!finisher
   end
-
-  protected
-
-  # Allow users with unconfirmed emails to log in.  (Just don't send transactional
-  # emails until they're confirmed.)
-  def confirmation_required?
-    false
-  end
 end
