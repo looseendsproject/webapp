@@ -21,7 +21,7 @@ module Manage
           first_finisher = Finisher.order(:joined_on).first
           first = first_finisher.joined_on&.beginning_of_month || first_finisher.created_at.beginning_of_month
           last = Time.zone.today.beginning_of_month
-          @months = (first..last).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
+          @months = (first.to_datetime..last.to_datetime).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
           @finishers = Finisher.includes(:products, :user, :active_assignments,
                                          { rated_assessments: :skill })
                                .with_attached_picture

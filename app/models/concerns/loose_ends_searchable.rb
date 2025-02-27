@@ -142,8 +142,27 @@ module LooseEndsSearchable
     def with_text_fields(query, search)
       return query if search.blank?
 
-      where_clause = _text_fields.map { |field| "#{field} iLike :name" }.join(" OR ")
-      query.where([where_clause, { name: "%#{search.strip}%" }])
+      tokens = extract_tokens(search)
+      clauses = []
+      replacements = []
+      tokens.each do |token|
+        subclauses = []
+        _text_fields.each do |field|
+          subclauses << "#{field} iLike ?"
+          replacements << "%#{token}%"
+        end
+        clauses << "(#{subclauses.join(" OR ")})"
+      end
+
+      query.where([clauses.join(" AND "), *replacements])
+    end
+
+    # Split search string into tokens, allowing for quoted phrases but remote the quotes
+    # Examples:
+    #    'john doe knit' => ["john", "doe", "knit"]
+    #    '"jane doe" knit' => ["jane doe", "knit"]
+    def extract_tokens(search)
+      search.scan(/(?:\w|"[^"]*")+/).map{ |token| token.gsub(/"/, "") }
     end
 
     def with_since(query, since)
