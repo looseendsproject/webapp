@@ -92,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.datetime "started_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "status"
     t.index ["finisher_id"], name: "index_assignments_on_finisher_id"
     t.index ["project_id"], name: "index_assignments_on_project_id"
     t.index ["user_id"], name: "index_assignments_on_user_id"
