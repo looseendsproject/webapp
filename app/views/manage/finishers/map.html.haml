@@ -32,7 +32,7 @@
           %th Assign
       = render partial: 'finisher_row', collection: @finishers, as: :finisher
 
-  = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google, :maps_api_key)}&callback=initMap", defer: true
+  = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}&callback=initMap", defer: true
 
   :javascript
     function initMap(){

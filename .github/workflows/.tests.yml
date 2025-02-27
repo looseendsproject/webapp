@@ -53,6 +53,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          RAILS_ENV_DISPLAY: test
           PGHOST: localhost
           PGUSER: myapp
           PGPASSWORD: password

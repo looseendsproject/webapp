@@ -39,7 +39,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
+  # Where to store uploaded files.  Remember:  both production and staging environments
+  # have RAILS_ENV=production, so use RAILS_ENV_DISPLAY to determine which storage
+  # service to use here.
   config.active_storage.service = :amazon
 
   # Mount Action Cable outside main process or domain.
@@ -77,8 +79,8 @@ Rails.application.configure do
     address: "smtp.gmail.com",
     port: 587,
     domain: "looseendsproject.org",
-    user_name: Rails.application.credentials.dig(:email, :user),
-    password: Rails.application.credentials.dig(:email, :password),
+    user_name: ENV['GOOGLE_SMTP_USER'],
+    password: ENV['GOOGLE_SMTP_PASSWORD'],
     authentication: "plain",
     enable_starttls_auto: true,
     open_timeout: 5,
