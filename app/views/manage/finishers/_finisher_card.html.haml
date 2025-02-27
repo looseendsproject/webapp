@@ -35,6 +35,7 @@
       = finisher.products.map{|fav| fav.name}.join(', ')
 
 
-
+  - if finisher.has_volunteer_time_off?
+    %p.bg-success.px-2.text-white.font-weight-bold.mb-0.text-center VTO
   .card-footer
     #{finisher.city}, #{finisher.state}
