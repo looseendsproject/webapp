@@ -123,3 +123,7 @@ group :test do
   gem "webdrivers"
   gem 'rails-controller-testing'
 end
+
+gem "geocoder", "~> 1.8"
+
+gem "annotaterb", "~> 4.13"
