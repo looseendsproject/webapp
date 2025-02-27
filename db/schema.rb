@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_27_211311) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -466,6 +466,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.string "emergency_contact_phone_number"
     t.string "emergency_contact_email"
     t.string "emergency_contact_relation"
+    t.boolean "has_volunteer_time_off", default: false
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"
     t.index ["longitude"], name: "index_finishers_on_longitude"
