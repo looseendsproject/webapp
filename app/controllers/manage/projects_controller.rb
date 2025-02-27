@@ -8,62 +8,6 @@ module Manage
       @status_counts = Project.group(:status).count
     end
 
-    # def index
-    #   @title = "Loose Ends - Manage - Projects"
-    #   @status = params[:status] || "ready to match"
-    #   if params[:status].present?
-    #     @projects = Project.has_status(params[:status])
-
-    #     # Additional filter for `ready_status` if `status` is "ready to match"
-    #     if params[:status] == "ready to match" && params[:ready_status].present?
-    #       @projects = @projects.where(ready_status: params[:ready_status])
-    #     end
-
-    #     # Additional filter for `in_process_status` if `status` is "in process"
-    #     if params[:status] == "in process" && params[:in_process_status].present?
-    #       @projects = @projects.where(in_process_status: params[:in_process_status])
-    #     end
-    #   else
-    #     @projects = Project.has_status(Project::STATUSES)
-    #   end
-    #   @projects = @projects.has_assigned(params[:assigned]) if params[:assigned].present?
-    #   @projects = @projects.where(manager_id: params[:project_manager]) if params[:project_manager].present?
-
-    #   # Add filters for checkbox attributes
-    #   %i[joann_helped urgent influencer group_project press privacy_needed].each do |attr|
-    #     @projects = @projects.where(attr => params[attr] == "true") if params[attr].present?
-    #   end
-
-    #   updated_after = params[:updated_after]
-    #   updated_before = params[:updated_before]
-    #   # when both are present, make sure we're comparing the earliest date as the 'from' date
-    #   # and the latest date as the 'to' date (in case of user error)
-    #   if updated_after.present? && updated_before.present?
-    #     updated_after = [updated_after, updated_before].compact.min
-    #     updated_before = [updated_after, updated_before].compact.max
-    #   end
-
-    #   if updated_after.present? || updated_before.present?
-    #     @projects = @projects.where(updated_at: updated_after..updated_before)
-    #   end
-    #   @projects = @projects.paginate(page: params[:page])
-
-    #   if params[:sort].present?
-    #     sort_dir = params[:sort].split(' ')[1] == 'desc' ? 'DESC' : 'ASC'
-    #     sort_by = params[:sort].split(' ')[0]
-    #     case sort_by
-    #     when 'created'
-    #       @projects = @projects.order(created_at: sort_dir)
-    #     when 'updated'
-    #       @projects = @projects.order(updated_at: sort_dir)
-    #     else
-    #       @projects = @projects.order(created_at: :DESC)
-    #     end
-    #   else
-    #     @projects = @projects.order(created_at: :DESC)
-    #   end
-    # end
-
     def show
       @project = Project.find(params[:id])
       @title = "Loose Ends - Manage - Projects - #{@project.name}"

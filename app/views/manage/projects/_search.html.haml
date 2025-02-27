@@ -1,6 +1,12 @@
 = form_tag [:manage, :projects ], :method => :get do
   .row
     .col
+      Search
+  .row
+    .col
+      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Cities, etc.'
+  .row
+    .col
       Sort:
     .col
       Status:

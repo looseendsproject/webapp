@@ -103,7 +103,7 @@ class Project < ApplicationRecord
 
   include LooseEndsSearchable
 
-  search_query_includes :user
+  search_query_joins :user
   search_sort_name_field :name
   search_text_fields :"projects.name", :"projects.description", :"projects.craft_type", :"projects.material_type",
                      :"projects.city", :"projects.state", :"users.first_name", :"users.last_name", :"users.email"
