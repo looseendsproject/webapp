@@ -13,13 +13,13 @@
     .col
   .row.mb-4
     .col
-      = select_tag :sort, options_for_select([['Created (Newest First)', 'created desc'], ['Created (Oldest First)', 'created asc'], ['Updated (Newest First)', 'updated desc'], ['Updated (Oldest First)', 'updated asc']], params[:sort]), class: 'form-select'
+      = select_tag :sort, options_for_select([['Created (Newest First)', 'created_at desc'], ['Created (Oldest First)', 'created_at asc'], ['Updated (Newest First)', 'updated_at desc'], ['Updated (Oldest First)', 'updated_at asc']], params[:sort]), class: 'form-select'
     .col
-      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
+      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
-      = select_tag :project_manager, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:project_manager]), include_blank: true, class: 'form-select'
+      = select_tag :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), include_blank: true, class: 'form-select'
     .col
       .form-check.mb-2
         = check_box_tag :joann_helped, 'true', params[:joann_helped] == 'true', class: 'form-check-input'
@@ -45,8 +45,8 @@
   .row.mb-4#ready-status-row{ style: "display: none;" }
     .col-4
       = label_tag :ready_status, 'Ready to Match Status:', class: 'form-label'
-      = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{Project.has_ready_status(status).any? ? " (#{Project.has_ready_status(status).count})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
+      = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
   .row.mb-4#in-process-status-row{ style: "display: none;" }
     .col-4
       = label_tag :in_process_status, 'In Process Status:', class: 'form-label'
-      = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{Project.has_in_process_status(status).any? ? " (#{Project.has_in_process_status(status).count})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
+      = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'

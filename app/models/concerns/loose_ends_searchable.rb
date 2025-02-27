@@ -92,20 +92,42 @@ module LooseEndsSearchable
     # Search method to be used in the controller.
     def search(params)
       query = all
-      query = with_includes_and_joins(query)
-      query = with_role(query, params[:role])
-      query = with_product_id(query, params[:product_id])
-      query = with_skill_id(query, params[:skill_id])
-      query = with_since(query, params[:since])
-      query = with_available(query, params[:available])
-      query = with_workplace_match(query, params[:workplace_match])
-      query = with_state(query, params[:state])
-      query = with_country(query, params[:country])
-      query = with_text_fields(query, params[:search])
+      query = with_shared_fields(query, params)
+      query = with_user_fields(query, params) if self == User
+      query = with_finisher_fields(query, params) if self == Finisher
+      query = with_project_fields(query, params) if self == Project
       with_sort(query, params[:sort])
     end
 
     private
+
+    def with_shared_fields(query, params)
+      query = with_includes_and_joins(query)
+      query = with_since(query, params[:since])
+      query = with_skill_id(query, params[:skill_id])
+      query = with_state(query, params[:state])
+      query = with_country(query, params[:country])
+      query = with_text_fields(query, params[:search])
+      query
+    end
+
+    def with_user_fields(query, params)
+      with_role(query, params[:role])
+    end
+
+    def with_finisher_fields(query, params)
+      query = with_product_id(query, params[:product_id])
+      query = with_workplace_match(query, params[:workplace_match])
+      query = with_available(query, params[:available])
+      query
+    end
+
+    def with_project_fields(query, params)
+      query = with_assigned(query, params[:assigned])
+      query = with_status(query, params[:status])
+      query = with_manager_id(query, params[:manager_id])
+      query
+    end
 
     def with_includes_and_joins(query)
       return query if _search_query_includes.blank? && _search_query_joins.blank?
@@ -158,6 +180,16 @@ module LooseEndsSearchable
       end
     end
 
+    def with_assigned(query, assigned)
+      return query if assigned.blank?
+
+      if assigned === "true"
+        query.joins(:assignments).distinct
+      elsif assigned === "false"
+        query.where.missing(:assignments)
+      end
+    end
+
     def with_workplace_match(query, has_workplace_match)
       return query if has_workplace_match != "1"
 
@@ -174,6 +206,14 @@ module LooseEndsSearchable
       with_field_value(query, :state, state)
     end
 
+    def with_status(query, status)
+      with_field_value(query, :status, status)
+    end
+
+    def with_manager_id(query, manager_id)
+      with_field_value(query, :manager_id, manager_id)
+    end
+
     def with_country(query, country)
       with_field_value(query, :country, country)
     end
@@ -188,7 +228,12 @@ module LooseEndsSearchable
         "date desc" => "#{_since_field} DESC"
       }
 
-      query.order(custom_sorts[sort] || custom_sorts[_default_sort.to_s])
+      if sort.present? && custom_sorts[sort].nil?
+        # Form passed in something custom, so just use it
+        query.order(sort)
+      else
+        query.order(custom_sorts[sort])
+      end
     end
   end
 end

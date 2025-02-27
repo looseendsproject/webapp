@@ -58,6 +58,7 @@ class Finisher < ApplicationRecord
   search_query_joins :user
   search_text_fields :"finishers.description", :"finishers.chosen_name", :"finishers.city", :"finishers.state",
                      :"users.first_name", :"users.last_name", :"users.email"
+  search_since_field :joined_on
   search_sort_name_field :chosen_name
   search_default_sort "name asc"
 
