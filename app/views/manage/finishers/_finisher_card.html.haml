@@ -1,5 +1,5 @@
 - classes ||= []
-%div{:class => [:card, finisher.active_assignments.any? && :assigned ]}
+%div{:class => [:card, finisher.active_assignments.any? && :assigned ].concat(classes)}
   - if finisher.unavailable
     .unavailable
       Unavailable
