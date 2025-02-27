@@ -171,11 +171,21 @@
     = form.submit 'Submit Project', class: "btn btn-primary"
 
 .page-section
-  %h5 Assignment Statuses
+  %h5 Related Content
+  %h6 Assignment Statuses
   - if @project.assignments.exists?
     = render @project.assignments
   - else
     None
+
+- unless @project.new_record?
+  %hr
+  .page-section
+    %h5 Danger Zone
+    %p Actions in this area are permanent.
+    .form-danger
+      = button_to "Delete Project", manage_project_path(@project), method: :delete, :onclick => "return confirm('Are you sure you want to delete this Project?')", class: 'btn btn-danger'
+
 
 :javascript
   const addRevealHandler = (parent, child) => {
