@@ -13,6 +13,13 @@ module Manage
       @title = "Loose Ends - Manage - Assign Project - #{@project.name}"
     end
 
+    def new
+      @project = Project.find(params[:project_id])
+      @finisher = Finisher.find(params[:finisher_id])
+      @assignment = @project.assignments.new(project_id: @project.id, finisher_id: @finisher.id)
+      @title = "Loose Ends - Manage - Assign Project - #{@project.name}"
+    end
+
     def create
       @assignment = Assignment.new(create_assignment_params)
       @assignment.started_at = DateTime.now
