@@ -99,6 +99,8 @@ class Project < ApplicationRecord
     "po out of touch"
   ].freeze
 
+  BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
+
   include LooseEndsSearchable
 
   search_query_includes :user

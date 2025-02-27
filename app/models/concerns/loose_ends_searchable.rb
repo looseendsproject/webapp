@@ -126,6 +126,7 @@ module LooseEndsSearchable
       query = with_assigned(query, params[:assigned])
       query = with_status(query, params[:status])
       query = with_manager_id(query, params[:manager_id])
+      query = with_project_boolean_attributes(query, params)
       query
     end
 
@@ -216,6 +217,14 @@ module LooseEndsSearchable
 
     def with_country(query, country)
       with_field_value(query, :country, country)
+    end
+
+    def with_project_boolean_attributes(query, params)
+      result = query
+      Project::BOOLEAN_ATTRIBUTES.each do |attr|
+        result = result.where(attr => params[attr] == "true") if params[attr].present?
+      end
+      result
     end
 
     def with_sort(query, sort)
