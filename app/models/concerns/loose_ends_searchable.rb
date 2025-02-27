@@ -10,6 +10,8 @@ module LooseEndsSearchable
   included do
     class_attribute :_search_query_includes
     self._search_query_includes = []
+    class_attribute :_search_query_joins
+    self._search_query_joins = []
     class_attribute :_text_fields
     self._text_fields = []
     class_attribute :_since_field
@@ -41,6 +43,17 @@ module LooseEndsSearchable
     # @param includes [Array<Symbol>] the associations to include in the search query
     def search_query_includes(*includes)
       self._search_query_includes = includes
+    end
+
+    # Configuration method to specify the associations to join in the search query.
+    # Default is an empty array.
+    #
+    # Example:
+    # search_query_joins :user
+    #
+    # @param joins [Array<Symbol>] the associations to join in the search query
+    def search_query_joins(*joins)
+      self._search_query_joins = joins
     end
 
     # Configuration method to specify the fields to search for text matches.
@@ -79,7 +92,7 @@ module LooseEndsSearchable
     # Search method to be used in the controller.
     def search(params)
       query = all
-      query = with_includes(query)
+      query = with_includes_and_joins(query)
       query = with_role(query, params[:role])
       query = with_product_id(query, params[:product_id])
       query = with_skill_id(query, params[:skill_id])
@@ -94,17 +107,20 @@ module LooseEndsSearchable
 
     private
 
-    def with_includes(query)
-      return query if _search_query_includes.blank?
+    def with_includes_and_joins(query)
+      return query if _search_query_includes.blank? && _search_query_joins.blank?
 
-      query.includes(_search_query_includes)
+      result = query
+      result = result.includes(_search_query_includes) if _search_query_includes.present?
+      result = result.joins(_search_query_joins) if _search_query_joins.present?
+      result
     end
 
     def with_text_fields(query, search)
       return query if search.blank?
 
       where_clause = _text_fields.map { |field| "#{field} iLike :name" }.join(" OR ")
-      query.where([where_clause, { name: "#{search.strip}%" }])
+      query.where([where_clause, { name: "%#{search.strip}%" }])
     end
 
     def with_since(query, since)
