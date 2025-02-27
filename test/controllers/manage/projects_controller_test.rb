@@ -48,7 +48,6 @@ module Manage
       assert_select "h6", { text: @project.name, count: 0 }
     end
 
-<<<<<<< HEAD
     test "index default sorts by created_at" do
       sign_in @user
       get "/manage/projects"
@@ -63,8 +62,6 @@ module Manage
       assert (projects[0].created_at < projects[1].created_at)
     end
 
-=======
->>>>>>> 7cf1e8e (Add ability to filter projects by last updated (#101))
     test "new project page loads" do
       sign_in @user
       get "/manage/projects/new"
