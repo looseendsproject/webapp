@@ -113,9 +113,11 @@ CSV.foreach(Rails.root.join("db/seed_data/finishers.csv"), headers: true) do |ro
       has_smoke_in_home: row["has_smoke_in_home"],
       terms_of_use: row["terms_of_use"],
       has_workplace_match: row["has_workplace_match"],
+      has_volunteer_time_off: row["has_volunteer_time_off"],
       workplace_name: row["workplace_name"],
       in_home_pets: eval(row["in_home_pets"]),
-      has_taken_ownership_of_profile: true
+      has_taken_ownership_of_profile: true,
+      unavailable: row["unavailable"]
     )
     created_finishers << finisher
     Rails.logger.debug { "Created finisher: #{finisher.chosen_name}" }
