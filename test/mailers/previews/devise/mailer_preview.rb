@@ -1,6 +1,5 @@
 module Devise
   class MailerPreview < ActionMailer::Preview
-
     include Rails.application.routes.url_helpers
     include Rails.application.routes.mounted_helpers
     include ActionMailer::Previews

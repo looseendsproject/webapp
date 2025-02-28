@@ -88,12 +88,7 @@ Rails.application.configure do
   }
 
   # Show previews in prod
-  # config.action_mailer.preview_path ||= defined?(Rails.root) ? "#{Rails.root}/test/mailers/previews" : nil
-  # config.autoload_paths += [config.action_mailer.preview_path]
   config.action_mailer.show_previews = true
-
-  # To inject inline attachments into previews
-  # config.action_mailer.preview_interceptors = :setup_preview
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
