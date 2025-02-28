@@ -70,4 +70,21 @@ Rails.application.routes.draw do
       get :assume_identity, on: :member
     end
   end
+
+  namespace :rails do
+    namespace :mailers do
+      devise_for :users
+
+      namespace :devise do
+        namespace :mailer do
+          get "confirmation_instructions"
+          get "reset_password_instructions"
+        end
+      end
+
+      get "finisher_mailer/welcome"
+      get "finisher/profile_complete"
+    end
+  end
+
 end

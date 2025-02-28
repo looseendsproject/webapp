@@ -87,6 +87,12 @@ Rails.application.configure do
     read_timeout: 5
   }
 
+  # Show previews in prod
+  config.action_mailer.show_previews = true
+
+  # To inject inline attachments into previews
+  config.action_mailer.preview_interceptors = :setup_preview
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
