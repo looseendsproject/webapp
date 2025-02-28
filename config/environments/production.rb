@@ -88,6 +88,8 @@ Rails.application.configure do
   }
 
   # Show previews in prod
+  config.action_mailer.preview_path ||= defined?(Rails.root) ? "#{Rails.root}/test/mailers/previews" : nil
+  config.autoload_paths += [config.action_mailer.preview_path]
   config.action_mailer.show_previews = true
 
   # To inject inline attachments into previews
