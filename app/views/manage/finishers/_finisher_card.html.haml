@@ -3,6 +3,9 @@
   - if finisher.unavailable
     .unavailable
       Unavailable
+  - elsif finisher.has_volunteer_time_off?
+    .bg-success.px-2.text-white.font-weight-bold.mb-0.text-center 
+      VTO
   .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
     = finisher.dominant_hand&.first
   - if finisher.picture.representable?
@@ -34,8 +37,5 @@
             = fa_icon('comment')
       = finisher.products.map{|fav| fav.name}.join(', ')
 
-
-  - if finisher.has_volunteer_time_off?
-    %p.bg-success.px-2.text-white.font-weight-bold.mb-0.text-center VTO
   .card-footer
     #{finisher.city}, #{finisher.state}
