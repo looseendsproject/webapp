@@ -29,7 +29,17 @@
 
 	// Uncomment the next line to run commands after the container is created.
 	// "postCreateCommand": "cat /etc/os-release",
-	"postCreateCommand": "bundle install && overcommit"
+	"postCreateCommand": "bundle install && overcommit",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.vscode-pylance",
+				"donjayamanne.python-extension-pack",
+				"ms-python.black-formatter",
+				"nguyenngoclong.asdf"
+			]
+		}
+	}
 
 	// Configure tool-specific properties.
 	// "customizations": {},
