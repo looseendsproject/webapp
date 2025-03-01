@@ -63,3 +63,11 @@ bin/dev
 
 ## Tests
 In progress with GitHub actions requiring tests to pass
+
+
+## Heroku
+Heroku CLI is installed as part of the docker image. Make sure to log-in via `heroku login` to activate the CLI.
+
+To copy and download the QA Database:
+- `heroku pg:backup:capture --app looseends-staging`
+- `heroku pg:backup:download --app looseends-staging`
