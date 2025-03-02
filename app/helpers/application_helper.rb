@@ -6,7 +6,8 @@ module ApplicationHelper
   end
 
   # For prepending DEVELOPMENT, TEST, or STAGING to page.title & elsewhere
+  # (remember:  staging environment is RAILS_ENV=production)
   def display_env
-    Rails.env.production? ? "" : "#{Rails.env.upcase} "
+    ENV['RAILS_ENV_DISPLAY'] == 'production' ? "" : "#{ENV['RAILS_ENV_DISPLAY'].upcase} "
   end
 end
