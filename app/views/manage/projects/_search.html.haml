@@ -1,6 +1,12 @@
 = form_tag [:manage, :projects ], :method => :get do
   .row
     .col
+      Search
+  .row.mb-2
+    .col
+      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
+  .row
+    .col
       Sort:
     .col
       Status:
@@ -8,45 +14,29 @@
       Assigned:
     .col
       Manager:
+  .row.mb-2
     .col
-      Attributes:
+      = select_tag :sort, options_for_select([['Created (Newest First)', 'created_at desc'], ['Created (Oldest First)', 'created_at asc'], ['Updated (Newest First)', 'updated_at desc'], ['Updated (Oldest First)', 'updated_at asc']], params[:sort]), class: 'form-select'
     .col
-  .row.mb-4
-    .col
-      = select_tag :sort, options_for_select([['Created (Newest First)', 'created desc'], ['Created (Oldest First)', 'created asc'], ['Updated (Newest First)', 'updated desc'], ['Updated (Oldest First)', 'updated asc']], params[:sort]), class: 'form-select'
-    .col
-      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{Project.has_status(status).any? ? " (#{Project.has_status(status).count})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
+      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
-      = select_tag :project_manager, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:project_manager]), include_blank: true, class: 'form-select'
-    .col
-      .form-check.mb-2
-        = check_box_tag :joann_helped, 'true', params[:joann_helped] == 'true', class: 'form-check-input'
-        = label_tag :joann_helped, 'Joann Helped', class: 'form-check-label'
-      .form-check.mb-2
-        = check_box_tag :urgent, 'true', params[:urgent] == 'true', class: 'form-check-input'
-        = label_tag :urgent, 'Urgent', class: 'form-check-label'
-      .form-check.mb-2
-        = check_box_tag :influencer, 'true', params[:influencer] == 'true', class: 'form-check-input'
-        = label_tag :influencer, 'Influencer', class: 'form-check-label'
-      .form-check.mb-2
-        = check_box_tag :group_project, 'true', params[:group_project] == 'true', class: 'form-check-input'
-        = label_tag :group_project, 'Group Project', class: 'form-check-label'
-      .form-check.mb-2
-        = check_box_tag :press, 'true', params[:press] == 'true', class: 'form-check-input'
-        = label_tag :press, 'Press', class: 'form-check-label'
-      .form-check
-        = check_box_tag :privacy_needed, 'true', params[:privacy_needed] == 'true', class: 'form-check-input'
-        = label_tag :privacy_needed, 'Privacy Needed', class: 'form-check-label'
-    .col
+      = select_tag :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), include_blank: true, class: 'form-select'
+  .row
+    .col-auto
+      - Project::BOOLEAN_ATTRIBUTES.each do |attr|
+        .form-check.me-2.d-inline-block
+          = check_box_tag attr, 'true', params[attr] == 'true', class: 'form-check-input'
+          = label_tag attr, attr.to_s.titleize, class: 'form-check-label'
+    .col.ms-2
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
-  .row.mb-4#ready-status-row{ style: "display: none;" }
+  .row#ready-status-row{ style: "display: none;" }
     .col-4
       = label_tag :ready_status, 'Ready to Match Status:', class: 'form-label'
-      = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{Project.has_ready_status(status).any? ? " (#{Project.has_ready_status(status).count})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
-  .row.mb-4#in-process-status-row{ style: "display: none;" }
+      = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
+  .row#in-process-status-row{ style: "display: none;" }
     .col-4
       = label_tag :in_process_status, 'In Process Status:', class: 'form-label'
-      = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{Project.has_in_process_status(status).any? ? " (#{Project.has_in_process_status(status).count})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
+      = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
