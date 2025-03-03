@@ -7,7 +7,7 @@
         = (assignment.status || 'Unknown').titleize
     - else
       = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
-    - if assignment.updated_at > 5.seconds.ago
+    - if assignment.saved_change_to_status?
       %span.update-flash.visible SAVED
 
 

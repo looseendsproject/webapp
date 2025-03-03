@@ -13,13 +13,13 @@
     = link_to 'Edit', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
 
 .row
-  .col-3
+  .col-4
     %h3 Owner
     - if @project.user.blank?
       %p System
     - else
       %p= "#{@project.user.name}, #{@project.user.email}"
-  .col-6
+  .col-5
     %h3 Manager
     - if @project.manager.blank?
       %p None
@@ -67,7 +67,7 @@
       %p No special attributes set
 
 .row.d-flex
-  .col-3
+  .col-4
     %h3 Description
     = @project.description
 
@@ -96,7 +96,7 @@
         #{@project.city}, #{@project.state} #{@project.postal_code}
       .country
         = ISO3166::Country[@project.country]&.iso_short_name
-  .col-6
+  .col-5
     - if @project.no_smoke || @project.no_cats || @project.no_dogs
       .page-section.mb-3
         %h4 Sensitivities

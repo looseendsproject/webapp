@@ -5,7 +5,7 @@ Geocoder.configure(
   lookup: :google,
 
   # to use an API key:
-  api_key: Rails.application.credentials.dig(:google, :maps_api_key),
+  api_key: ENV['GOOGLE_MAPS_API_KEY'],
   use_https: true,
 
   # geocoding service request timeout, in seconds (default 3):

@@ -1,4 +1,4 @@
-%h1.page-title
+%h1.page-title{ :class => ("assigned" if @finisher.active_assignments.any?) }
   = @finisher.name
 
   - if @finisher.approved

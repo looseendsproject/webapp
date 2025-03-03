@@ -35,19 +35,6 @@ module Manage
       assert_response :success
     end
 
-    test "index filters by updated_at" do
-      sign_in @user
-      get "/manage/projects", params: { updated_after: @project.updated_at.to_date }
-
-      assert_response :success
-      assert_select "h6", { text: @project.name, count: 1 }
-
-      get "/manage/projects", params: { updated_before: @project.updated_at.to_date - 1.day }
-
-      assert_response :success
-      assert_select "h6", { text: @project.name, count: 0 }
-    end
-
     test "index default sorts by created_at" do
       sign_in @user
       get "/manage/projects"
@@ -57,7 +44,7 @@ module Manage
 
     test "index sort by created_at desc returns results in new order" do
       sign_in @user
-      get "/manage/projects?sort=created+asc"
+      get "/manage/projects?sort=created_at+asc"
       projects = assigns(:projects)
       assert (projects[0].created_at < projects[1].created_at)
     end

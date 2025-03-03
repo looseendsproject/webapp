@@ -18,6 +18,9 @@
     .col
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
+%strong Matches
+%span= number_with_delimiter(@users.count)
+
 %table.table
   %tr
     %th ID

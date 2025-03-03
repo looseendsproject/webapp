@@ -22,3 +22,8 @@ crochet:
 weave:
   name: weave
   description: Basic weaving. Can warp and weft.
+
+quilting:
+  id: 1
+  name: quilting
+  description: Quilting.  Like it says
