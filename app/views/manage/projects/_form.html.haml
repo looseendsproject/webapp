@@ -2,7 +2,7 @@
   = render "error_messages", resource: @project
   .row.mb-4
     .col-6
-      = form.label 'Give this project a name', class: 'form-label required'
+      = form.label 'Project name', class: 'form-label required'
       = form.text_field :name, class: 'form-control'
     .col-2
       = form.label :status, class: 'form-label'
@@ -27,13 +27,11 @@
       = form.text_field :phone_number, class: 'form-control'
   .row.mb-4
     .col-6
-      = form.label 'What type of craft is this?', class: 'form-label required'
-      .form-info Knit, Crochet, Quilt. Do you know what it is?
+      = form.label 'Craft Kind', class: 'form-label required'
       = form.text_field :craft_type, class: 'form-control'
   .row.mb-4
     .col-6
       = form.label 'What was being made?', class: 'form-label required'
-      .form-info (for instance, sweater, socks, blanket, hat...)
       = form.text_area :description, size: "60x5", class: 'form-control'
   .row.mb-4
     .col-4
@@ -46,13 +44,13 @@
 
   .my-4
     %h5 Mailing Address
-    .form-info After it's finished, we'll send it back here
+    .form-info Where to send it when it's done
     = render :partial => 'layouts/address_form', :locals => { form: form }
 
 
   .row.mb-3
     .col-12
-      = form.label "Tell us about the crafter's home", class: 'form-label optional'
+      = form.label "About the crafter", class: 'form-label optional'
     .col-6.col-sm-5.col-md-4
       .form-info Were there pets in the home?
       = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other', 'other'] ], :last, :first) do |b|
@@ -63,7 +61,7 @@
 
   .row
     .col-xl-8.col-md-10
-      .form-info Has this project been exposed to cigarette smoke?
+      .form-info Was the project exposed to cigarette smoke?
       = form.label 'has_smoke_in_home', class: 'form-label' do
         = form.check_box :has_smoke_in_home
         Yes, this project has been exposed to cigarette smoke.
@@ -71,7 +69,6 @@
   .row.g-1.g-sm-4.mb-3
     .col-12
       = form.label 'Sensitivities', class: 'form-label optional'
-      .form-info If we find a finisher who has smoke or pets in their home, do you want to avoid this finisher?
       .row
         %label.form-label
           = form.check_box :no_smoke
@@ -90,12 +87,12 @@
     .row.mb-2
       .col-6
         = form.label 'What kind of yarn / material is used?', class: 'form-label required'
-        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc). If you do not know, say "I don't know."
+        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc).
         = form.text_field :material_type, class: 'form-control'
     .row.mb-2
       .col-4
         = form.label 'Material Images', class: 'form-label'
-        .form-info Please upload a photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
+        .form-info Photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
         = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
         - form.object.material_images.each do |image|
           = image_tag image.representation( resize_to_limit: [100, 100])
@@ -103,7 +100,7 @@
     %h5 Pattern
     .row.mb-2
       .col-2
-        = form.label 'Is there a pattern', class: 'form-label required'
+        = form.label 'Is there a pattern?', class: 'form-label required'
         = form.select :has_pattern, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-select' }
     .row.mb-2
       .col-4
@@ -169,23 +166,6 @@
 
   .form-actions
     = form.submit 'Submit Project', class: "btn btn-primary"
-
-.page-section
-  %h5 Related Content
-  %h6 Assignment Statuses
-  - if @project.assignments.exists?
-    = render @project.assignments
-  - else
-    None
-
-- unless @project.new_record?
-  %hr
-  .page-section
-    %h5 Danger Zone
-    %p Actions in this area are permanent.
-    .form-danger
-      = button_to "Delete Project", manage_project_path(@project), method: :delete, :onclick => "return confirm('Are you sure you want to delete this Project?')", class: 'btn btn-danger'
-
 
 :javascript
   const addRevealHandler = (parent, child) => {
