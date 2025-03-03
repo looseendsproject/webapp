@@ -71,3 +71,6 @@ Heroku CLI is installed as part of the docker image. Make sure to log-in via `he
 To copy and download the QA Database:
 - `heroku pg:backup:capture --app looseends-staging`
 - `heroku pg:backup:download --app looseends-staging`
+- `pg_restore --verbose --clean --no-acl --no-owner -h db -U postgres -d looseends_development latest.dump`
+
+Make sure to run `bin/rake db:migrate` after for the latest changes.
