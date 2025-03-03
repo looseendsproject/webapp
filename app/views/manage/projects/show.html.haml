@@ -14,7 +14,7 @@
 
 .row
   .col-4
-    %h3 Owner
+    %h4 Project Owner
     - if @project.user.blank?
       %p System
     - else
@@ -133,7 +133,6 @@
       .row
         .col-9
           Pattern Details
-
     %p
       Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
@@ -162,16 +161,15 @@
     %h4 Recipient
     = @project.recipient_name
 
-
   .col-3
-    %h3
-      Assignees
+    %h4
+      Assigned Finishers
       .float-end
         = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
         - if @project.state.present? && @project.country.present?
           = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
     = render @project.assignments
-    %h3.mt-4 Notes
+    %h4.mt-4 Notes
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
