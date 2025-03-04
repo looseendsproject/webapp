@@ -168,6 +168,10 @@ class Project < ApplicationRecord
     finishers.first
   end
 
+  def finisher_name
+    finisher&.name
+  end
+
   def self.proposed
     where({ status: "proposed" })
   end

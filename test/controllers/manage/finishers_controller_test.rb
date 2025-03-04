@@ -67,5 +67,23 @@ module Manage
       assert_empty(response.parsed_body)
       assert_predicate(Finisher.count, :positive?)
     end
+
+    test "CSV export metadata" do
+      sign_in @user
+      get :index, format: :csv
+
+      assert_response :success
+      assert_equal("text/csv", response.content_type)
+      assert_predicate(response.headers["Content-Disposition"], :present?)
+    end
+
+    test "CSV export content" do
+      sign_in @user
+      get :index, format: :csv
+
+      ["ID", "First Name", "Last Name", "Email", "Match", "Country"].each do |header|
+        assert_includes(response.body, header)
+      end
+    end
   end
 end

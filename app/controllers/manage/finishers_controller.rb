@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require "csv"
+
 module Manage
   class FinishersController < Manage::ManageController
     before_action :get_project, only: %i[index map card]
-    require "csv"
+
     def index
       respond_to do |format|
         skill = Skill.find(params[:skill_id]) if params[:skill_id].present?

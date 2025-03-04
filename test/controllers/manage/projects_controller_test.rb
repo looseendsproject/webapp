@@ -49,6 +49,29 @@ module Manage
       assert (projects[0].created_at < projects[1].created_at)
     end
 
+    test "CSV export metadata" do
+      sign_in @user
+
+      get "/manage/projects.csv"
+
+      assert_response :success
+      assert_equal("text/csv", response.media_type)
+      assert_predicate(response.headers["Content-Disposition"], :present?)
+      puts response.body
+    end
+
+    test "CSV export contents" do
+      sign_in @user
+
+      get "/manage/projects.csv"
+
+      assert_response :success
+      assert_predicate(response.body, :present?)
+      %w[Id Name].each do |header|
+        assert_includes(response.body, header)
+      end
+    end
+
     test "new project page loads" do
       sign_in @user
       get "/manage/projects/new"
