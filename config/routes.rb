@@ -70,5 +70,4 @@ Rails.application.routes.draw do
       get :assume_identity, on: :member
     end
   end
-
 end

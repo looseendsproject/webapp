@@ -57,7 +57,6 @@ module Manage
       assert_response :success
       assert_equal("text/csv", response.media_type)
       assert_predicate(response.headers["Content-Disposition"], :present?)
-      puts response.body
     end
 
     test "CSV export contents" do
