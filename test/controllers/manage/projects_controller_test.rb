@@ -39,14 +39,16 @@ module Manage
       sign_in @user
       get "/manage/projects"
       projects = assigns(:projects)
-      assert (projects[0].created_at > projects[1].created_at)
+
+      assert(projects[0].created_at > projects[1].created_at)
     end
 
     test "index sort by created_at desc returns results in new order" do
       sign_in @user
       get "/manage/projects?sort=created_at+asc"
       projects = assigns(:projects)
-      assert (projects[0].created_at < projects[1].created_at)
+
+      assert(projects[0].created_at < projects[1].created_at)
     end
 
     test "new project page loads" do
@@ -105,7 +107,97 @@ module Manage
       assert_not(Project.exists?(@project.id))
     end
 
+    test "search by text" do # rubocop:disable Minitest/MultipleAssertions
+      result = create_search_project
+
+      assert_search_results([result], search: "Search Project")
+      assert_search_results([result], search: '"Search Project"')
+      assert_search_results([result], search: '"Specific Description"')
+      assert_search_results([result], search: "knitting")
+      assert_search_results([result], search: "yak")
+      assert_search_results([result], search: "Anytown")
+      assert_search_results([result], search: "WA")
+
+      assert_search_no_results(search: "NOT_A_MATCHING_STRING")
+    end
+
+    test "search by project boolean attributes" do
+      result = create_search_project
+      # Required for some attributes
+      result.update!(group_manager: Finisher.first, press_outlet: "TCM", press_region: "US")
+
+      Project::BOOLEAN_ATTRIBUTES.each do |attribute|
+        result.update!(attribute => true)
+
+        assert_search_results([result], attribute => "true")
+        assert_search_no_results(attribute => "false")
+        # Reset the attribute for the next iteration
+        result.update!(attribute => false)
+      end
+    end
+
+    test "search by manager_id" do
+      result = create_search_project
+      result.update!(manager: @user)
+
+      assert_search_results([result], manager_id: @user.id)
+      assert_search_no_results(manager_id: "0")
+    end
+
+    test "search by status" do
+      result = create_search_project
+      result.update!(status: "proposed")
+
+      assert_search_results([result], status: "proposed")
+      assert_search_no_results(status: "drafted")
+    end
+
+    test "search by assigned" do
+      result = create_search_project
+      result.assignments.create!(user: @user, finisher: Finisher.first)
+
+      assert_search_results([result], assigned: nil)
+      assert_search_results([result], assigned: "true")
+      assert_search_no_results(assigned: "false")
+    end
+
     private
+
+    def create_search_project # rubocop:disable Metrics/MethodLength
+      Project.create!(
+        name: "Search Project",
+        description: "Search Project Specific Description",
+        craft_type: "knitting I think",
+        material_type: "yak wool",
+        street: "123 Main St",
+        street_2: "",
+        city: "Anytown",
+        state: "WA",
+        postal_code: "12345",
+        country: "US",
+        phone_number: "555-555-5555",
+        project_images: [fixture_file_upload("test.jpg")],
+        user: @user
+      )
+    end
+
+    def assert_search_results(projects, params)
+      sign_in @user
+      get "/manage/projects", params: params
+
+      assert_response :success
+      projects.each do |project|
+        assert_select "a[href=?]", manage_project_path(project)
+      end
+    end
+
+    def assert_search_no_results(params)
+      sign_in @user
+      get "/manage/projects", params: params
+
+      assert_response :success
+      assert_select "a[href=?]", %r[/manage/projects/\d+], count: 0
+    end
 
     def new_project_params
       project_params = @project.attributes.dup
