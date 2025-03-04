@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "csv"
+
 module Manage
   class ProjectsController < Manage::ManageController
     def index
@@ -8,6 +10,11 @@ module Manage
       @status_counts = Project.group(:status).count
       @status_counts.merge!(Project.group(:ready_status).count)
       @status_counts.merge!(Project.group(:in_process_status).count)
+
+      respond_to do |format|
+        format.csv { add_csv_headers }
+        format.html
+      end
     end
 
     def show
@@ -51,6 +58,12 @@ module Manage
     end
 
     protected
+
+    def add_csv_headers
+      response.headers["Content-Type"] = "text/csv"
+      response.headers["Content-Disposition"] =
+          "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+    end
 
     def project_params
       params.require(:project).permit(
