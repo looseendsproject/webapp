@@ -10,7 +10,7 @@ Ruby on Rails 7 running with Postgres DB
 ## Install
 
 Copy [database.yml.example](config/database.yml.example) to `config/database.yml`
-
+Copy [.env.sample](.env.sample) to `.env`
 
 ### DevContainer Install
 Download [VsCode](https://code.visualstudio.com/download)
