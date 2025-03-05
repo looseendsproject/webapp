@@ -51,10 +51,10 @@
       .country
         = ISO3166::Country[@finisher.country]&.iso_short_name
     .page-section.mb-4
-      %b Workplace Match?
+      %b Workplace Match Donations?
       = @finisher.has_workplace_match == nil ? "I don't know" : @finisher.has_workplace_match ? "Yes" : "No"
     .page-section.mb-4
-      %b Volunteer Time Off?
+      %b Workplace Match Volunteer Hours?
       = @finisher.has_volunteer_time_off? ? "Yes" : "No"
     .page-section.mb-4
       %b Workplace:
