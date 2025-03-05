@@ -139,11 +139,14 @@
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-    %h4 Crafter Details
-    = @project.crafter_name
-    = @project.crafter_description
-    - @project.crafter_images.each do |image|
-      = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+    %h4 Original Crafter Details
+    - if @project.crafter_name? || @project.crafter_description? || @project.crafter_images.any?
+      = @project.crafter_name
+      = @project.crafter_description
+      - @project.crafter_images.each do |image|
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+    - else
+      .text-muted Not Provided
 
     %p= @project.crafter_dominant_hand
 
@@ -157,9 +160,14 @@
             %li No Cats Please
           - if @project.no_dogs
             %li No Dogs Please
+    - else
+      .text-muted Not Provided
 
     %h4 Recipient
-    = @project.recipient_name
+    - if @project.recipient_name?
+      = @project.recipient_name
+    - else
+      .text-muted Not Provided
 
   .col-3
     %h4
