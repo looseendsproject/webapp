@@ -89,26 +89,6 @@ class User < ApplicationRecord
     self.role ||= "user"
   end
 
-  def self.search(params)
-    @results = includes(:projects, :finisher)
-    if params[:search].present?
-      @results = @results.where(
-        "users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" }
-      )
-    end
-    @results = @results.where(users: { role: params[:role] }) if params[:role].present?
-    @results = if params[:sort].present?
-                 if params[:sort] == "name"
-                   @results.order(:last_name)
-                 else
-                   @results.order(:created_at)
-                 end
-               else
-                 @results.order(:last_name)
-               end
-    @results
-  end
-
   # For use in mailer previews so as to not expose any personal info
   def self.fake
     new({
