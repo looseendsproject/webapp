@@ -1,5 +1,24 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: assignments
+#
+#  id          :bigint           not null, primary key
+#  ended_at    :datetime
+#  started_at  :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  finisher_id :bigint
+#  project_id  :bigint
+#  user_id     :bigint
+#
+# Indexes
+#
+#  index_assignments_on_finisher_id  (finisher_id)
+#  index_assignments_on_project_id   (project_id)
+#  index_assignments_on_user_id      (user_id)
+#
 class Assignment < ApplicationRecord
   belongs_to :project
   belongs_to :finisher
