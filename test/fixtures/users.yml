@@ -63,3 +63,10 @@ project_owner:
   last_name: Moore
   email: peter@gmail.com
   heard_about_us: 'Local Yarn Store'
+
+new:
+  id: 6
+  first_name: Jello
+  last_name: Biafra
+  email: jello@example.com
+

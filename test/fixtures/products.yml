@@ -1,0 +1,7 @@
+sweaters:
+  id: 1
+  name: Sweaters
+
+accessories:
+  id: 3
+  name: Accessories
