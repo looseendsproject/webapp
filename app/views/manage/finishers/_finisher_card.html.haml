@@ -1,5 +1,5 @@
 - classes ||= []
-%div{:class => classes.append('card')}
+%div{:class => [:card, finisher.active_assignments.any? && :assigned ]}
   - if finisher.unavailable
     .unavailable
       Unavailable
