@@ -27,7 +27,7 @@
       %p None
     - else
       %p= @project.manager.name
-  .col-6
+  .col-3
     %h3 Project Attributes
     - if @project.joann_helped || @project.urgent || @project.influencer || @project.group_project || @project.press || @project.privacy_needed
       %ul.list-unstyled
@@ -68,7 +68,7 @@
     - else
       %p No special attributes set
 
-.row
+.row.d-flex
   .col-3
     %h3 Description
     = @project.description
@@ -98,7 +98,7 @@
         #{@project.city}, #{@project.state} #{@project.postal_code}
       .country
         = ISO3166::Country[@project.country]&.iso_short_name
-  .col-9
+  .col-6
     - if @project.no_smoke || @project.no_cats || @project.no_dogs
       .page-section.mb-3
         %h4 Sensitivities
@@ -121,10 +121,6 @@
     - if @project.no_smoke || @project.no_cats || @project.no_dogs || @project.in_home_pets.select(&:present?).any? || @project.has_smoke_in_home
       %hr/
     %h4 Material Details
-    - if !@project.material_type.present? || @project.material_images.present?
-      %p.text-danger
-        (Required)
-
     = @project.material_type
     - @project.material_images.each do |image|
       .removeable_image
@@ -135,17 +131,35 @@
         .col-9
           Pattern Details
 
-    - if !@project.has_pattern.present?
-      %p.text-danger
-        (Required)
-    - else
-      %p
-        Is there a pattern? #{@project.has_pattern}
+    %p
+      Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-    %hr/
+    %h4 Crafter Details
+    = @project.crafter_name
+    = @project.crafter_description
+    - @project.crafter_images.each do |image|
+      = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+
+    %p= @project.crafter_dominant_hand
+
+    %h4 Sensitivities
+    - if @project.no_smoke || @project.no_cats || @project.no_dogs
+      .page-section
+        %ul
+          - if @project.no_smoke
+            %li No Smoke Please
+          - if @project.no_cats
+            %li No Cats Please
+          - if @project.no_dogs
+            %li No Dogs Please
+
+    = @project.recipient_name
+
+
+  .col-3
     %h3
       Assignees
       .float-end
