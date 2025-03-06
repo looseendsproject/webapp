@@ -6,4 +6,7 @@ release: rake db:migrate
 
 # What is run on each web Dyno.
 web: bundle exec puma -C config/puma.rb
+
+# Pre-Puma version (before we used Procfile). Kept for easy rollback if
+# there are scaling issues.
 #web: bin/rails server -p ${PORT:-5000} -e $RAILS_ENV
