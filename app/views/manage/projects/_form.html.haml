@@ -50,7 +50,7 @@
 
   .row.mb-3
     .col-12
-      = form.label "About the crafter", class: 'form-label optional'
+      = form.label "About the original crafter", class: 'form-label optional'
     .col-6.col-sm-5.col-md-4
       .form-info Were there pets in the home?
       = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other', 'other'] ], :last, :first) do |b|
