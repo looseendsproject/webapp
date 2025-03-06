@@ -69,6 +69,11 @@ class User < ApplicationRecord
   search_sort_name_field :last_name
   search_default_sort "name asc"
 
+  HEARD_ABOUT_US_OPTIONS = [
+    'Facebook', 'Instagram', 'Newspaper', 'Radio', 'TV', 'AARP Magazine',
+    'Other Magazine', 'Friend', 'Local Yarn Store', 'Saw a Flyer', 'Other'
+  ].freeze
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
