@@ -36,32 +36,6 @@
 class User < ApplicationRecord
   ROLES = %w[user manager admin].freeze
 
-  class HeardAboutUs
-    HEARD_ABOUT_US_OPTIONS = {
-      'Facebook' => {  additional: false },
-      'Instagram' => {  additional: false },
-      'Newspaper' => {  additional: true },
-      'Radio' => {  additional: true },
-      'TV' => {  additional: true },
-      'AARP Magazine' => {  additional: false },
-      'Other Magazine' => {  additional: true },
-      'Friend' => {  additional: false },
-      'Local Yarn Store' => {  additional: false },
-      'Saw a Flyer' => {  additional: false },
-      'Other' => {  additional: true }
-    }.freeze
-
-    def self.options_for_select
-      HEARD_ABOUT_US_OPTIONS.keys
-    end
-
-    def self.options_for_additional
-      results = []
-      HEARD_ABOUT_US_OPTIONS.map { |k,v| results << k if v[:additional] }
-      results
-    end
-  end
-
   include LooseEndsSearchable
 
   search_query_includes :projects, :finisher
