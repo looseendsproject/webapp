@@ -23,5 +23,8 @@ class Assessment < ApplicationRecord
 
   validates :skill, uniqueness: { scope: :finisher }
 
+  # 1 == Beginner
+  # 2 == Intermediate
+  # 3 == Expert
   validates :rating, numericality: { min: 1, max: 3 }
 end
