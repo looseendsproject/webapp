@@ -62,6 +62,13 @@ class User < ApplicationRecord
     end
   end
 
+  include LooseEndsSearchable
+
+  search_query_includes :projects, :finisher
+  search_text_fields :first_name, :last_name, :email
+  search_sort_name_field :last_name
+  search_default_sort "name asc"
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -80,26 +87,6 @@ class User < ApplicationRecord
   def set_default_role
     self.role = "admin" if User.count < 3
     self.role ||= "user"
-  end
-
-  def self.search(params)
-    @results = includes(:projects, :finisher)
-    if params[:search].present?
-      @results = @results.where(
-        "users.first_name iLike :name OR users.last_name iLike :name OR users.email iLike :name", { name: "#{params[:search]}%" }
-      )
-    end
-    @results = @results.where(users: { role: params[:role] }) if params[:role].present?
-    @results = if params[:sort].present?
-                 if params[:sort] == "name"
-                   @results.order(:last_name)
-                 else
-                   @results.order(:created_at)
-                 end
-               else
-                 @results.order(:last_name)
-               end
-    @results
   end
 
   def name
