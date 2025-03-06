@@ -18,8 +18,10 @@
     - if @project.user.blank?
       %p System
     - else
-      %p= "#{@project.user.name}, #{@project.user.email}"
-  .col-5
+      %div= "#{@project.user.name}, #{@project.user.email}"
+      %div= "Heard about us: #{@project.user.heard_about_us}"
+    %p: &nbsp;
+  .col-3
     %h3 Manager
     - if @project.manager.blank?
       %p None

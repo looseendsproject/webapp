@@ -1,0 +1,13 @@
+%h3= params[:action]
+%div.mb-2.pt-3= @description
+%table.table.table-striped
+  %thead
+    %tr
+      - @columns.each do |f|
+        %th= f
+  %tbody
+    - @results.each do |r|
+      %tr
+        - r.each do |value|
+          %td= value
+

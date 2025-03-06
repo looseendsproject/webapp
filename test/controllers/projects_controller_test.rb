@@ -84,3 +84,4 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select "h5", { text: "Terms of Service", count: 0 }
   end
 end
+
