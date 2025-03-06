@@ -75,6 +75,15 @@ class User < ApplicationRecord
     @results
   end
 
+  # For use in mailer previews so as to not expose any personal info
+  def self.fake
+    new({
+      first_name: "Fake",
+      last_name: "User",
+      email: "fake_user@example.com"
+    })
+  end
+
   def name
     "#{first_name} #{last_name}"
   end
