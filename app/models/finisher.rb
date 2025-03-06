@@ -129,6 +129,81 @@ class Finisher < ApplicationRecord
     description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments? || missing_favorites?
   end
 
+  # For use in mailer previews
+  def self.fake
+    new({ user: User.fake })
+  end
+
+  def self.get_sql(search_string)
+    attributes = ["users.first_name", "users.last_name", "users.email", "finishers.state", "finishers.city",
+                  "finishers.chosen_name"]
+    description = "finishers.description"
+    keywords = search_string.strip.split(/\s+/)
+    conditions = []
+    match_strings = []
+    keywords.each do |keyword|
+      phrase = []
+      attributes.each do |attr|
+        phrase << "#{attr} iLIKE ?"
+        match_strings << "%#{keyword}%"
+      end
+      conditions << ("(#{phrase.join(" OR ")})")
+    end
+    str = conditions.join(" AND ") + " OR #{description} ~* ?"
+    match_strings << "\\y#{search_string}\\y"
+    [str, match_strings].flatten
+  end
+
+  def self.search(params)
+    @results = joins(:user)
+    if params[:search].present?
+      @results = if params[:search].match(/^[0-9]+$/)
+                   @results.where("finishers.postal_code iLIKE :zip", { zip: "#{params[:search]}%" })
+                 else
+                   @results.where(get_sql(params[:search]))
+                 end
+    end
+    if params[:since].present?
+      since_date = Date.parse(params[:since])
+      @results = @results.where(joined_on: since_date..)
+    end
+    if params[:product_id].present?
+      @results = @results.joins(:favorites).where(favorites: { product_id: params[:product_id] })
+    end
+    if params[:available].present?
+      if params[:available] == "yes"
+        @results = @results.where.not(unavailable: true)
+      elsif params[:available] == "no"
+        @results = @results.where(unavailable: true)
+      end
+    end
+    if params[:skill_id].present?
+      @results = @results.joins(:assessments).where(assessments: { skill_id: params[:skill_id], rating: 1.. })
+    end
+    @results = @results.where(state: params[:state]) if params[:state].present?
+    @results = if params[:sort].present?
+                 case params[:sort]
+                 when "name asc"
+                   @results.order("LOWER(finishers.chosen_name) ASC")
+                 when "name desc"
+                   @results.order("LOWER(finishers.chosen_name) DESC")
+                 when "date asc"
+                   @results.order(joined_on: :asc)
+                 when "date desc"
+                   @results.order(joined_on: :desc)
+                 else
+                   @results.order(:joined_on)
+                 end
+               else
+                 @results.order(:joined_on)
+               end
+    @results = @results.where(country: params[:country]) if params[:country].present?
+    if params[:has_workplace_match].present? && params[:has_workplace_match] == "1"
+      @results = @results.where(has_workplace_match: true)
+    end
+    @results
+  end
+
   def missing_address_information?
     street.blank? ||
       city.blank? ||
