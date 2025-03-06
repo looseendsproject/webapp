@@ -21,6 +21,7 @@
 #  has_completed_profile          :boolean          default(FALSE)
 #  has_smoke_in_home              :boolean          default(FALSE)
 #  has_taken_ownership_of_profile :boolean          default(FALSE)
+#  has_volunteer_time_off         :boolean
 #  has_workplace_match            :boolean
 #  in_home_pets                   :string
 #  joined_on                      :date

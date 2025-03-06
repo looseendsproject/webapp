@@ -111,6 +111,7 @@ module Manage
                                        :country,
                                        :postal_code,
                                        :has_workplace_match,
+                                       :has_volunteer_time_off,
                                        :emergency_contact_name,
                                        :emergency_contact_relation,
                                        :emergency_contact_phone_number,
