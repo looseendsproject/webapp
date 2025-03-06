@@ -28,3 +28,20 @@
     .col-2
       %h3 Reports
       = link_to 'Heard About Us', 'reports/heard_about_us'
+    .col-6
+      %hr
+      %h3 Email Template Previews
+      %p See examples of automated emails users will receive.
+      %ul
+        %li
+          %a(href="/rails/mailers/devise/mailer/confirmation_instructions") Email confirmation instructions
+          %span [to any user after account registration.  User will not receive additional emails until this is confirmed.]
+        %li
+          %a(href="/rails/mailers/devise/mailer/reset_password_instructions") Reset password instructions
+          %span [to any user after clicking "Forgot Password"]
+        %li
+          %a(href="/rails/mailers/finisher_mailer/welcome") Finisher welcome
+          %span [to Finisher after initial registration]
+        %li
+          %a(href="/rails/mailers/finisher_mailer/profile_complete") Finisher profile complete
+          %span [to Finisher after completing profile]

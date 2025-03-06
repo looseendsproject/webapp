@@ -5,11 +5,8 @@ module ApplicationHelper
     content_tag(:i, nil, options.merge(class: "fa fa-#{icon_name}"))
   end
 
-  # Prepends DEVELOPMENT, TEST, or STAGING to page.title
-  # null RAILS_DISPLAY_ENV or 'production' does not change title
+  # For prepending DEVELOPMENT, TEST, or STAGING to page.title & elsewhere
   def display_env
-    return "#{ENV["RAILS_DISPLAY_ENV"].upcase} " unless ENV["RAILS_DISPLAY_ENV"].blank? || Rails.env.production?
-
-    ""
+    Rails.env.production? ? "" : "#{Rails.env.upcase} "
   end
 end
