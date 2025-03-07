@@ -6,11 +6,11 @@ module Devise
     register_preview_interceptor :setup_preview
 
     def confirmation_instructions
-      Devise::Mailer.confirmation_instructions(User.first, "faketoken")
+      Devise::Mailer.confirmation_instructions(User.fake, "faketoken")
     end
 
     def reset_password_instructions
-      Devise::Mailer.reset_password_instructions(User.first, "faketoken")
+      Devise::Mailer.reset_password_instructions(User.fake, "faketoken")
     end
 
   end
