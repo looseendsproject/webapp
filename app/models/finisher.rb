@@ -129,6 +129,11 @@ class Finisher < ApplicationRecord
     description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments? || missing_favorites?
   end
 
+  # For use in mailer previews
+  def self.fake
+    new({ user: User.fake })
+  end
+
   def missing_address_information?
     street.blank? ||
       city.blank? ||
