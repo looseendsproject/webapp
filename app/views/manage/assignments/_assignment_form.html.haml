@@ -1,7 +1,7 @@
 = form_for [:manage, assignment] do |form|
   .pb-2 Assigned to #{link_to(assignment.finisher.user.name, [ :manage, assignment.finisher ], data: { turbo_frame: :_top })} on #{assignment.created_at.to_formatted_s(:short)}
   .d-inline
-    = form.label 'Current Status', class: 'form-label'
+    = form.label 'Finisher Status', class: 'form-label'
     - if local_assigns[:readonly]
       %strong
         = (assignment.status || 'Unknown').titleize

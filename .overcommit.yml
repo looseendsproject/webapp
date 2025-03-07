@@ -45,3 +45,4 @@ PrePush:
     enabled: true
   RSpec:
     enabled: false
+

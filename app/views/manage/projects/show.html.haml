@@ -14,12 +14,14 @@
 
 .row
   .col-4
-    %h3 Owner
+    %h4 Project Owner
     - if @project.user.blank?
       %p System
     - else
-      %p= "#{@project.user.name}, #{@project.user.email}"
-  .col-5
+      %div= "#{@project.user.name}, #{@project.user.email}"
+      %div= "Heard about us: #{@project.user.heard_about_us}"
+    %p: &nbsp;
+  .col-3
     %h3 Manager
     - if @project.manager.blank?
       %p None
@@ -131,18 +133,20 @@
       .row
         .col-9
           Pattern Details
-
     %p
       Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-    %h4 Crafter Details
-    = @project.crafter_name
-    = @project.crafter_description
-    - @project.crafter_images.each do |image|
-      = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+    %h4 Original Crafter Details
+    - if @project.crafter_name? || @project.crafter_description? || @project.crafter_images.any?
+      = @project.crafter_name
+      = @project.crafter_description
+      - @project.crafter_images.each do |image|
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+    - else
+      .text-muted Not Provided
 
     %p= @project.crafter_dominant_hand
 
@@ -156,20 +160,24 @@
             %li No Cats Please
           - if @project.no_dogs
             %li No Dogs Please
+    - else
+      .text-muted Not Provided
 
     %h4 Recipient
-    = @project.recipient_name
-
+    - if @project.recipient_name?
+      = @project.recipient_name
+    - else
+      .text-muted Not Provided
 
   .col-3
-    %h3
-      Assignees
+    %h4
+      Assigned Finishers
       .float-end
         = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
         - if @project.state.present? && @project.country.present?
           = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
     = render @project.assignments
-    %h3.mt-4 Notes
+    %h4.mt-4 Notes
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form

@@ -21,8 +21,16 @@
       = f.email_field :email, autocomplete: "email", class: 'form-control'
   .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
-      = f.label 'Where did you hear about us?', class: 'col-form-label optional'
-      = f.text_area :heard_about_us, size: "60x4", class: 'form-control'
+      = f.text_field :heard_about_us, class: 'hidden', id: 'heard-about-us'
+      = f.label 'Where did you hear about us?', class: 'col-form-label required'
+      = f.select :heard_about_us, User::HeardAboutUs.options_for_select,
+        { :include_blank => true }, { class: 'form-select',
+          id: 'heard-about-us-select', name: 'heard-about-us-select' }
+  .row.g-1.g-sm-4.hidden#heard-container
+    .col-12.col-sm-10.col-md-8
+      = f.label 'Please provide additional details on how you heard about us',
+          class: 'col-form-label optional'
+      = f.text_field :heard_about_us, class: 'form-control', id: 'heard-about-us-additional', name: 'heard-about-us-additional'
   .row.g-1.g-sm-4
     .col-12.col-sm-10.col-md-8
       = f.label :password, class: 'col-form-label required'
@@ -33,9 +41,30 @@
   .row.g-1.g-sm-4.mb-4
     .col-12.col-sm-10.col-md-8
       = f.label :password_confirmation, class: 'col-form-label required'
-      = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control w-2/3 md:w-1/2'
-
+      = f.password_field :password_confirmation, autocomplete: "new-password",
+          class: 'form-control w-2/3 md:w-1/2'
 
   = f.submit "Sign up", class: "btn btn-primary me-3"
   = link_to "Sign in", new_user_session_path
 
+:javascript
+  const options_for_additional = #{User::HeardAboutUs.options_for_additional}
+  const heardAboutUsSelect = document.getElementById('heard-about-us-select')
+  const heardAboutUsAdditional = document.getElementById('heard-about-us-additional')
+  const heardContainer = document.getElementById('heard-container')
+  const heardAboutUsInput = document.getElementById('heard-about-us')
+
+  heardAboutUsSelect.addEventListener('change', function(){
+    const val = heardAboutUsSelect.value
+    if (options_for_additional.includes(val)) {
+      heardAboutUsInput.value = ""
+      heardContainer.classList.remove('hidden')
+    } else {
+      heardContainer.classList.add('hidden')
+      heardAboutUsInput.value = heardAboutUsSelect.value
+    }
+  });
+
+  heardAboutUsAdditional.addEventListener('change', function(){
+    heardAboutUsInput.value = `${heardAboutUsSelect.value}: ${heardAboutUsAdditional.value}`
+  });
