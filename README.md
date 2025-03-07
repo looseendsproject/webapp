@@ -57,7 +57,7 @@ Data can be pulled from Heroku.
 Get the google api key from another developer to render maps and geocode objects.
 
 ## Starting the App
-```
+```bash
 bin/dev
 ```
 
@@ -69,8 +69,8 @@ In progress with GitHub actions requiring tests to pass
 Heroku CLI is installed as part of the docker image. Make sure to log-in via `heroku login` to activate the CLI.
 
 To copy and download the QA Database:
-- `heroku pg:backup:capture --app looseends-staging`
-- `heroku pg:backup:download --app looseends-staging`
+- `heroku pg:backups:capture --app looseends-staging`
+- `heroku pg:backups:download --app looseends-staging`
 - `pg_restore --verbose --clean --no-acl --no-owner -h db -U postgres -d looseends_development latest.dump`
 
 Make sure to run `bin/rake db:migrate` after for the latest changes.
