@@ -3,7 +3,7 @@
 @import "@fortawesome/fontawesome-free/scss/fontawesome"
 @import "@fortawesome/fontawesome-free/scss/solid"
 @import "@fortawesome/fontawesome-free/scss/brands"
-
+@import "tom-select/dist/scss/tom-select.bootstrap5"
 
 // Finishers
 
@@ -95,6 +95,11 @@ h1.assigned
     visibility: hidden
     opacity: 0
     transition: visibility 0s 2s, opacity 2s linear
+
+.ts-wrapper.multi
+  .ts-control
+    div.item
+      background-color: $blue-200
 
 // Breadcrumbs
 
