@@ -1,4 +1,7 @@
-- fields = %w[id name created_at status description finisher_name city state country]
-= CSV.generate_line(fields.map(&:titleize), row_sep: nil)
+- simple_fields = %i[id name created_at status description finisher_name city state country]
+- complex_fields = { owner_name: Proc.new {|project| project.user.name }, owner_email: Proc.new {|project| project.user.email } }
+= CSV.generate_line((simple_fields + complex_fields.keys).map(&:to_s).map(&:titleize), row_sep: nil)
 - @projects.includes(finishers: :user).find_each do |project|
-  = CSV.generate_line(fields.map{|attr| project.send(attr.to_sym) }, row_sep: nil)
+  - field_values = simple_fields.map{|attr| project.send(attr) }
+  - other_values = complex_fields.values.map{|proc| proc.call(project) }
+  != CSV.generate_line(field_values + other_values, row_sep: nil)
