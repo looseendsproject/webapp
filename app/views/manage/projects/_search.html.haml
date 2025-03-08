@@ -62,6 +62,7 @@
   }
 
   new TomSelect("#status-dropdown", {
+    create: true,
     allowEmptyOption: true,
     maxItems: 100,
     plugins: {
@@ -72,5 +73,10 @@
     },
     onChange: (selected) => {
       updateStatus(selected)
+    },
+    onInitialize: () => {
+      const selectedOptions = document.querySelectorAll('#status-dropdown option[selected="selected"]')
+      const selectedValues = Array.from(selectedOptions).map((e) => e.value)
+      updateStatus(selectedValues)
     }
   });
