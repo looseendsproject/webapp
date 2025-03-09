@@ -45,7 +45,7 @@ Rails.application.configure do
   # Where to store uploaded files.  Remember:  both production and staging environments
   # have RAILS_ENV=production, so use RAILS_ENV_DISPLAY to determine which storage
   # service to use here.
-  config.active_storage.service = :amazon
+  config.active_storage.service = :aws_s3
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
