@@ -3,6 +3,9 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Prepare the ingress controller used to receive mail
+  # config.action_mailbox.ingress = :relay
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -89,6 +92,9 @@ Rails.application.configure do
 
   # Show previews in prod
   config.action_mailer.show_previews = true
+
+  # Receive inbound mail from SendGrid
+  config.action_mailbox.ingress = :sendgrid
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
