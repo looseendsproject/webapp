@@ -6,11 +6,9 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Based on ENV['RAILS_ENV_DISPLAY'] because of staging requirement
-# to use RAILS_ENV=production
-amazon:
+aws_s3:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: us-west-2
-  bucket: looseends-<%= ENV['RAILS_ENV_DISPLAY'] %>
+  region: us-east-2
+  bucket: looseendsproject-<%= ENV['RAILS_ENV_DISPLAY'] %>
