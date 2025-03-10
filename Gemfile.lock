@@ -406,6 +406,10 @@ GEM
     rubocop-minitest (0.36.0)
       rubocop (>= 1.61, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-performance (1.24.0)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
     rubocop-rails (2.30.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
@@ -526,6 +530,7 @@ DEPENDENCIES
   rubocop (~> 1.69)
   rubocop-capybara (~> 2.21)
   rubocop-minitest (~> 0.36.0)
+  rubocop-performance (~> 1.24)
   rubocop-rails (~> 2.29)
   sassc-rails
   selenium-webdriver

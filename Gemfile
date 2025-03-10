@@ -115,16 +115,18 @@ group :development do
   gem "bullet", "~> 8.0"
   gem "overcommit", "~> 0.64.0"
   gem "reek", "~> 6.4"
+
   gem "rubocop", "~> 1.69"
   gem "rubocop-capybara", "~> 2.21"
   gem "rubocop-minitest", "~> 0.36.0"
+  gem "rubocop-performance", "~> 1.24"
   gem "rubocop-rails", "~> 2.29"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem "rails-controller-testing"
   gem "selenium-webdriver"
   gem "webdrivers"
-  gem 'rails-controller-testing'
 end
