@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require "csv"
+
 module Manage
   class FinishersController < Manage::ManageController
     before_action :get_project, only: %i[index map card]
-    require "csv"
+
     def index
       respond_to do |format|
         skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
@@ -46,12 +48,22 @@ module Manage
       results = Geocoder.search(params[:near])
       return unless results.first
 
-      @finishers = Finisher.geocoded.near(results.first.coordinates, params[:radius])
+      @finishers = Finisher.geocoded.near(results.first.coordinates, params[:radius]).includes(:rated_assessments, :user)
       if params[:skill_id].present?
         @finishers = @finishers.joins(:assessments).where(assessments: { skill_id: params[:skill_id], rating: 1.. })
         @skill_id = params[:skill_id]
       end
       @center = results.first.coordinates
+
+      respond_to do |format|
+        format.csv do
+          response.headers["Content-Type"] = "text/csv"
+          response.headers["Content-Disposition"] =
+            "attachment; filename=finishers-map-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+          render :index and return
+        end
+        format.html
+      end
     end
 
     def show

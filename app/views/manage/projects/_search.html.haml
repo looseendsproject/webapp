@@ -1,4 +1,4 @@
-= form_tag [:manage, :projects ], :method => :get do
+= form_tag [:manage, :projects], :method => :get do
   .row
     .col
       Search
@@ -31,6 +31,9 @@
           = label_tag attr, attr.to_s.titleize, class: 'form-check-label'
     .col.ms-2
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
+      = button_tag(formaction: manage_projects_path(format: 'csv'), class: 'btn btn-sm btn-light ms-2') do
+        %span export csv
+        = fa_icon('file-export')
 
   .row#ready-status-row{ style: "display: none;" }
     .col-4
