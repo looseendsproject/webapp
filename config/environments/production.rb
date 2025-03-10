@@ -42,9 +42,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Where to store uploaded files.  Remember:  both production and staging environments
-  # have RAILS_ENV=production, so use RAILS_ENV_DISPLAY to determine which storage
-  # service to use here.
+  # Where to store new uploaded files.
   config.active_storage.service = :aws_s3
 
   # Mount Action Cable outside main process or domain.

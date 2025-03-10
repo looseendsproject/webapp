@@ -6,7 +6,7 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# LEP account
+# LEP account.  Bucket name resolves to production or staging
 aws_s3:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
