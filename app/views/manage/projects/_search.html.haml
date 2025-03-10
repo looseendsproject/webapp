@@ -1,48 +1,40 @@
 = form_tag [:manage, :projects], :method => :get do
-  .row
-    .col
-      Search
+  .col.mb-2
+    = label_tag :search
+    = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
   .row.mb-2
-    .col
-      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
-  .row
-    .col
-      Sort:
-    .col
-      Status:
-    .col
-      Assigned:
-    .col
-      Manager:
-  .row.mb-2
-    .col
+    .col-md-3
+      = label_tag :sort
       = select_tag :sort, options_for_select([['Created (Newest First)', 'created_at desc'], ['Created (Oldest First)', 'created_at asc'], ['Updated (Newest First)', 'updated_at desc'], ['Updated (Oldest First)', 'updated_at asc']], params[:sort]), class: 'form-select'
-    .col
+    .col-md-3
+      = label_tag :status
       = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select', multiple: true, autocomplete: false
-    .col
+    .col-md-3
+      = label_tag :assigned
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
-    .col
+    .col-md-3
+      = label_tag :manager_id, 'Manager'
       = select_tag :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), include_blank: true, class: 'form-select'
-  .row
-    .col-auto
+  .row.mb-2
+    .col
       - Project::BOOLEAN_ATTRIBUTES.each do |attr|
-        .form-check.me-2.d-inline-block
+        .form-check.form-check-inline
           = check_box_tag attr, 'true', params[attr] == 'true', class: 'form-check-input'
           = label_tag attr, attr.to_s.titleize, class: 'form-check-label'
-    .col.ms-2
+  .row
+    .col#ready-status-row{ style: "display: none;" }
+      = label_tag :ready_status, 'Ready to Match Status:', class: 'form-label'
+      = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
+    .col#in-process-status-row{ style: "display: none;" }
+      = label_tag :in_process_status, 'In Process Status:', class: 'form-label'
+      = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
+    .col
+    .col-auto.d-flex.align-items-end
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
       = button_tag(formaction: manage_projects_path(format: 'csv'), class: 'btn btn-sm btn-light ms-2') do
         %span export csv
         = fa_icon('file-export')
 
-  .row#ready-status-row{ style: "display: none;" }
-    .col-4
-      = label_tag :ready_status, 'Ready to Match Status:', class: 'form-label'
-      = select_tag :ready_status, options_for_select(Project::READY_TO_MATCH_STATUSES.map { |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
-  .row#in-process-status-row{ style: "display: none;" }
-    .col-4
-      = label_tag :in_process_status, 'In Process Status:', class: 'form-label'
-      = select_tag :in_process_status, options_for_select(Project::IN_PROCESS_STATUSES.map { |status| ["#{status.humanize.gsub(/\bpo\b/i, 'PO')}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status] }, params[:ready_status]), include_blank: true, class: 'form-select'
 
 :javascript
   var updateStatus = (selected) => {
