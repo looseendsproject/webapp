@@ -4,20 +4,20 @@
     .card.h-100
       .row.g-0.h-100
         .col-4.overflow-hidden.d-md-none.d-lg-block
-          = image_tag('hero_finisher.png', class: 'object-fit-contain rounded-start h-100')
+          = image_tag('hero_finisher.jpg', class: 'object-fit-contain rounded-start h-100')
         .col-8.col-md-12.col-lg-8
           .card-body.h-100.d-flex.flex-column
-            .row.flex-grow-1
+            .row.flex-grow-0.flex-start
               %h4 Become a Finisher
               %p Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
-              %p Or, it can be finished as intended and given back to be cherished.
+              %p Knitters - Crochet - Weaving - Others Apply!
 
-            .row-auto.flex-grow-0
+            .row-auto.flex-grow-1.align-content-end
               - if current_user
                 - if !current_user.finisher?
-                  = link_to 'Create Your Finisher Profile', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn'
+                  = link_to 'Create Your Profile', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn'
                 - else
-                  = link_to current_user.finisher.has_completed_profile ? 'View Your Profile' : 'Complete Your Finisher Profile', :finisher, class: 'btn-primary btn'
+                  = link_to current_user.finisher.has_completed_profile ? 'View Your Profile' : 'Complete Your Profile', :finisher, class: 'btn-primary btn'
               - else
                 = link_to 'Sign Up', new_registration_path('user'), class: 'btn-primary btn'
 
@@ -25,19 +25,19 @@
     .card.h-100
       .row.g-0.h-100
         .col-4.overflow-hidden.d-md-none.d-lg-block
-          = image_tag('hero_project.png', class: 'object-fit-contain rounded-start h-100')
+          = image_tag('hero_project.jpg', class: 'object-fit-contain rounded-start h-100')
         .col-8.col-md-12.col-lg-8
           .card-body.h-100.d-flex.flex-column
-            .row.flex-grow-1
+            .row.flex-grow-0
               %h4 Submit a Project
               %p Once Loose Ends receives your project submission, we will look through our database of finishers to find a good match. With considerations to geography, craft, skill level, and preferences, we will identify a good fit based on the information volunteer finishers submitted in their profiles.
               %p After we identify a good finisher for you, we will offer them details about your project and wait for their reply. Once they agree to the job, we will introduce you in an email. Thanks for trusting Loose Ends with your precious handwork. We'll be in touch soon.
 
-            .row-auto.flex-grow-0
+            .row-auto.flex-grow-1.align-content-end
               - if current_user
-                = link_to "Submit your project", [:new, :project], class: 'btn-primary btn'
+                = link_to 'Submit', [:new, :project], class: 'btn-primary btn'
               - else
-                = link_to 'Create an account', new_registration_path('user'), class: 'btn-primary btn'
+                = link_to 'Get Started', new_registration_path('user'), class: 'btn-primary btn'
 
   - if current_user && current_user.projects.any?
     #projects.col-12.col-md-6.col-lg-4.col-xl-3
