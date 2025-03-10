@@ -1,8 +1,8 @@
 require:
-  - rubocop-capybara
   - rubocop-minitest
 
 plugins:
+  - rubocop-capybara
   - rubocop-rails
   - rubocop-performance
 

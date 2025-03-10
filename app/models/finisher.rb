@@ -69,7 +69,9 @@ class Finisher < ApplicationRecord
 
   has_many_attached :finished_projects
 
-  has_many :active_assignments, lambda { where(status: ['invited', 'accepted', 'unresponsive'])}, class_name: 'Assignment'
+  has_many :active_assignments, lambda {
+    where(status: %w[invited accepted unresponsive])
+  }, class_name: "Assignment"
 
   has_many :assignments, dependent: :destroy
   has_many :projects, through: :assignments
@@ -93,7 +95,7 @@ class Finisher < ApplicationRecord
                                 size: { greater_than_or_equal_to: 5.kilobytes }
   validates :picture, content_type: %i[png jpg jpeg webp gif], size: { greater_than_or_equal_to: 5.kilobytes }
 
-  serialize :in_home_pets, Array
+  serialize :in_home_pets
 
   before_create do
     self.joined_on = Time.zone.today if joined_on.blank?
@@ -143,7 +145,7 @@ class Finisher < ApplicationRecord
   end
 
   def missing_assessments?
-    assessments.all? { |a| (a[:rating]).zero? }
+    assessments.all? { |a| a[:rating].zero? }
   end
 
   def missing_favorites?
@@ -159,7 +161,7 @@ class Finisher < ApplicationRecord
   end
 
   def assigned?
-    self.active_assignments.size > 0
+    active_assignments.size > 0
   end
 
   def name
