@@ -6,9 +6,18 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+# LEP account
 aws_s3:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-east-2
   bucket: looseendsproject-<%= ENV['RAILS_ENV_DISPLAY'] %>
+
+# Mark's account
+amazon:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID_MARK'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY_MARK'] %>
+  region: us-west-2
+  bucket: looseends-production
