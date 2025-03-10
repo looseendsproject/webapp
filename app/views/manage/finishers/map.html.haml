@@ -3,7 +3,7 @@
 = form_tag [:map, :manage, @project, :finishers], :method => :get do
   .row.mb-0
     .col-7
-      = label_tag :near, "#{@finishers&.size} Finishers Near", class: 'label'
+      = label_tag :near, "#{pluralize(@finishers&.size, 'Finisher')} Near", class: 'label mb-2'
     .col-2
       = label_tag :search, "Radius", class: 'label'
     .col-2
@@ -18,10 +18,13 @@
     .col-1
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
 
-.row.map-container{ style: "display: flex; margin-bottom:20px"}
-  .col#map{ style: "height:500px; flex: 1"}
+.row.map-container.d-flex.mb-4
+  .col#map.d-flex{ style: "height:500px;" }
 
 - if @finishers
+  = link_to(request.params.merge(format: "csv"), class: 'btn btn-sm btn-outline-secondary') do
+    %span download as csv
+    = fa_icon(:download)
   %table.table
     %thead
       %tr
