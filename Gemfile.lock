@@ -129,7 +129,7 @@ GEM
     countries (7.1.1)
       unaccent (~> 0.3)
     crass (1.0.6)
-    cssbundling-rails (1.4.1)
+    cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
     csv (3.3.2)
     date (3.4.1)
