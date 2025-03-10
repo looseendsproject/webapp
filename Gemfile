@@ -112,6 +112,9 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
+  # Faster ruby conventions
+  gem "fasterer", "~> 0.11.0"
+
   gem "bullet", "~> 8.0"
   gem "overcommit", "~> 0.64.0"
   gem "reek", "~> 6.4"
