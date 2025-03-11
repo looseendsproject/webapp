@@ -4,8 +4,7 @@
 = render 'search'
 
 .row
-  //.col= pluralize @finishers.total_entries, 'finisher'
-  .col= pluralize @finishers_count, 'finisher'
+  .col= pluralize @finishers.total_entries, 'finisher'
 
 .row
   - if params[:view] == 'list'
