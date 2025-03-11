@@ -4,7 +4,7 @@
     .unavailable
       Unavailable
   - elsif finisher.has_volunteer_time_off?
-    .px-2.text-white.font-weight-bold.mb-0.text-center{style: 'background-color:#f437ac'}
+    .px-2.text-white.font-weight-bold.mb-0.text-center.has-vto
       VTO
   .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
     = finisher.dominant_hand&.first
