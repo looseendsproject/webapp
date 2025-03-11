@@ -25,10 +25,9 @@ module Manage
           last = Time.zone.today.beginning_of_month
           @months = (first.to_datetime..last.to_datetime).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
 
-          # Getting the list of finishers is VERY performance sensitive
-          @finishers = Finisher.search(params)
-          @finishers_count = @eligible_finishers.size # to avoid additional expensive query
-          @finishers = @finishers.paginate(page: params[:page]) # after count, paginate
+          # Getting the list of finishers is VERY performance sensitive.  Don't try to
+          # get all associated records here.  Let the partials do the queries.
+          @finishers = Finisher.search(params).paginate(page: params[:page])
 
           @states = if params[:country].present?
                       Finisher.where(country: params[:country]).distinct.pluck(:state).compact_blank.sort
