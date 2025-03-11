@@ -49,10 +49,35 @@ class HomeControllerTest < ActionController::TestCase
     assert_select "#projects a", { text: "Project Title One", count: 1 }
   end
 
-  test "should not show Projects if user has no projects" do
+  test "should show project prompt if user has projects" do
     sign_in users(:basic)
     get :show
 
+    assert_select "h4", { text: "Submit a Project" }
     assert_select "#projects", { count: 0 }
+  end
+
+  test "should show finisher prompt if the user has no finisher" do
+    sign_in users(:new)
+    get :show
+
+    assert_select "h4", { text: "Become a Finisher" }
+  end
+
+  test "should show finisher incomplete if the user has incomplete finisher" do
+    sign_in users(:basic)
+    get :show
+
+    assert_select "h4", { text: "Finisher" }
+  end
+
+  test "should show finisher congrats if the user has finisher" do
+    user = users(:finisher)
+    user.finisher.update_attribute(:has_completed_profile, true) # rubocop:disable Rails/SkipsModelValidations
+
+    sign_in user
+    get :show
+
+    assert_select "h4", { text: "You're a Finisher" }
   end
 end

@@ -1,0 +1,17 @@
+.col-lg-6.mb-4.mb-lg-0
+  .card.h-100
+    .row.g-0.h-100
+      .col-4.overflow-hidden
+        = image_tag('hero_finisher.jpg', class: 'object-fit-contain rounded-start h-100')
+      .col-8
+        .card-body.h-100.d-flex.flex-column
+          .row.flex-grow-0.flex-start
+            %h4 Become a Finisher
+            %p Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
+            %p Knitters - Crochet - Weaving - Others Apply!
+
+          .row-auto.flex-grow-1.align-content-end
+            - if current_user
+              = link_to 'Create Your Profile', new_finisher_path, class: 'btn-primary btn'
+            - else
+              = link_to 'Sign Up', new_registration_path('user'), class: 'btn-primary btn'

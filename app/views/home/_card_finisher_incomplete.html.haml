@@ -1,0 +1,14 @@
+.col-lg-6.mb-4.mb-lg-0
+  .card.h-100
+    .row.g-0.h-100
+      .col-4.overflow-hidden
+        = image_tag('hero_finisher.jpg', class: 'object-fit-contain rounded-start h-100')
+      .col-8
+        .card-body.h-100.d-flex.flex-column
+          .row.flex-grow-0.flex-start
+            %h4 Finisher
+            %p It looks like we're <strong>missing a little information</strong>. As projects are submitted we match the project to the best possible finisher using the information in your profile.
+            %p There are many more finisher volunteers than projects. Depending on your skills and location it can take some time for a matching project to come up. In order to match you with a project we need a little more information. Update your profile so we can find you when a new project comes in.
+
+          .row-auto.flex-grow-1.align-content-end
+            = link_to 'Complete Your Profile', :finisher, class: 'btn-primary btn'
