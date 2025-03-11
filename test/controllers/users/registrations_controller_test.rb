@@ -22,7 +22,7 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
     @params[:user][:heard_about_us] = ''
     post :create, params: @params
     assert_response :success
-    assert @response.parsed_body.include? "1 error prohibited this user from being saved"
+    assert_match(/Heard about us can&#39;t be blank/, @response.body)
   end
 
   test "new user validates" do
