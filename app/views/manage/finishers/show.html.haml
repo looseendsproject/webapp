@@ -55,7 +55,7 @@
       = @finisher.has_workplace_match == nil ? "I don't know" : @finisher.has_workplace_match ? "Yes" : "No"
     .page-section.mb-4
       %b Workplace Match Volunteer Hours?
-      = @finisher.has_volunteer_time_off? ? "Yes" : "No"
+      = @finisher.has_volunteer_time_off == nil ? "I don't know" : @finisher.has_workplace_match ? "Yes" : "No"
     .page-section.mb-4
       %b Workplace:
       = @finisher.workplace_name
