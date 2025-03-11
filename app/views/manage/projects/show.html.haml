@@ -110,7 +110,7 @@
             %li No Cats Please
           - if @project.no_dogs
             %li No Dogs Please
-      - if @project.in_home_pets.select(&:present?).any?
+      - if @project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?
         .page-section.mb-3
           %h4 Pets in Home
           = @project.in_home_pets.select(&:present?).map{|p| p.capitalize}.join(', ')
@@ -119,7 +119,7 @@
         .page-section.mb-3
           %h4 Smoking in Home
           Has Smoke In Home
-    - if @project.no_smoke || @project.no_cats || @project.no_dogs || @project.in_home_pets.select(&:present?).any? || @project.has_smoke_in_home
+    - if @project.no_smoke || @project.no_cats || @project.no_dogs || (@project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?) || @project.has_smoke_in_home
       %hr/
     %h4 Material Details
     .row
