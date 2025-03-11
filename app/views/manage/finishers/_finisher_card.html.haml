@@ -1,8 +1,11 @@
 - classes ||= []
-%div{:class => [:card, finisher.active_assignments.any? && :assigned ]}
+%div{:class => [:card, finisher.active_assignments.any? && :assigned ].concat(classes)}
   - if finisher.unavailable
     .unavailable
       Unavailable
+  - elsif finisher.has_volunteer_time_off?
+    .px-2.text-white.font-weight-bold.mb-0.text-center.has-vto
+      VTO
   .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
     = finisher.dominant_hand&.first
   - if finisher.picture.representable?
@@ -33,8 +36,6 @@
           %button.btn.btn-link.p-0{"data-bs-target" => "##{dom_id(finisher)}", "data-bs-toggle" => "modal", type: "button"}
             = fa_icon('comment')
       = finisher.products.map{|fav| fav.name}.join(', ')
-
-
 
   .card-footer
     #{finisher.city}, #{finisher.state}

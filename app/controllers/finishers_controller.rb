@@ -98,6 +98,7 @@ class FinishersController < AuthenticatedController
       :has_smoke_in_home,
       :terms_of_use,
       :has_workplace_match,
+      :has_volunteer_time_off,
       :workplace_name,
       :emergency_contact_name,
       :emergency_contact_relation,
