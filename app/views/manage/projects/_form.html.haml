@@ -92,12 +92,11 @@
         = form.label 'What kind of yarn / material is used?', class: 'form-label required'
         .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc).
         = form.text_field :material_type, class: 'form-control'
-    - if current_user.can_manage?
-      .row
-        .col-md-6
-          = form.label 'What brand is the material?', class: 'form-label manager-only'
-          .form-info Berocco, Lion, etc.
-          = form.text_field :material_brand, class: 'form-control'
+    .row
+      .col-md-6
+        = form.label 'What brand is the material?', class: 'form-label'
+        .form-info Berocco, Lion, etc.
+        = form.text_field :material_brand, class: 'form-control'
     .row.mb-2
       .col-md-4
         = form.label 'Material Images', class: 'form-label'

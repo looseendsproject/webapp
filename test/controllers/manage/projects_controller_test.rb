@@ -40,7 +40,7 @@ module Manage
       get "/manage/projects"
       projects = assigns(:projects)
 
-      assert(projects[0].created_at > projects[1].created_at)
+      assert_operator(projects[0].created_at, :>, projects[1].created_at)
     end
 
     test "index sort by created_at desc returns results in new order" do
@@ -48,7 +48,7 @@ module Manage
       get "/manage/projects?sort=created_at+asc"
       projects = assigns(:projects)
 
-      assert(projects[0].created_at < projects[1].created_at)
+      assert_operator(projects[0].created_at, :<, projects[1].created_at)
     end
 
     test "CSV export metadata" do
@@ -87,6 +87,16 @@ module Manage
       assert_response :success
     end
 
+    test "show includes material brand" do
+      sign_in @user
+      @project.update!(material_brand: "brandname")
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "div", text: "brandname"
+    end
+
     test "edit loads" do
       sign_in @user
       get "/manage/projects/#{@project.id}/edit"
@@ -102,6 +112,14 @@ module Manage
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("New Name", @project.reload.name)
+    end
+
+    test "update updates material brand" do
+      sign_in @user
+      patch "/manage/projects/#{@project.id}", params: { project: { material_brand: "brandname" } }
+
+      assert_redirected_to manage_project_path(@project)
+      assert_equal("brandname", @project.reload.material_brand)
     end
 
     test "create with incomplete params renders page" do
@@ -218,7 +236,7 @@ module Manage
       get "/manage/projects", params: params
 
       assert_response :success
-      assert_select "a[href=?]", %r[/manage/projects/\d+], count: 0
+      assert_select "a[href=?]", %r{/manage/projects/\d+}, count: 0
     end
 
     def new_project_params

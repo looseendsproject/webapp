@@ -123,11 +123,13 @@
       %hr/
     %h4 Material Details
     .row
-      %b Type:
-      = @project.material_type
+      %b.col-auto Type:
+      .col
+        = @project.material_type
     .row
-      %b Brand:
-      = @project.material_brand
+      %b.col-auto Brand:
+      .col
+        = @project.material_brand
     .row
       - @project.material_images.each do |image|
         .removeable_image
