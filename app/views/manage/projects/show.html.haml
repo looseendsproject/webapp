@@ -126,6 +126,9 @@
       %b Type:
       = @project.material_type
     .row
+      %b Brand:
+      = @project.material_brand
+    .row
       - @project.material_images.each do |image|
         .removeable_image
           = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
