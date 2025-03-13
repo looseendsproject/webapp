@@ -6,8 +6,20 @@
   = render 'search'
 
 .row
-  = render @projects
-  = will_paginate @projects
+  - if params[:view] == 'list'
+    %table.table
+      %thead
+        %tr
+          %th Name
+          %th Status
+          %th Location
+          %th Finisher Name
+          %th Last Contact
+      %tbody
+        = render partial: 'project_row', collection: @projects, as: :project
+  - else
+    = render @projects
+    = will_paginate @projects
 
 :javascript
   var updateStatus = (newStatus) => {

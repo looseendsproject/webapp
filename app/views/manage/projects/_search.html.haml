@@ -29,7 +29,10 @@
         .form-check.me-2.d-inline-block
           = check_box_tag attr, 'true', params[attr] == 'true', class: 'form-check-input'
           = label_tag attr, attr.to_s.titleize, class: 'form-check-label'
-    .col.ms-2
+    .col.text-end
+      .form-check.me-2.d-inline-block
+        = check_box_tag :view, 'list', params[:view] == 'list', class: 'form-check-input'
+        = label_tag :view, 'view as list', class: 'form-check-label'
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
       = button_tag(formaction: manage_projects_path(format: 'csv'), class: 'btn btn-sm btn-light ms-2') do
         %span export csv
