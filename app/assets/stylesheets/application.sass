@@ -148,6 +148,15 @@ footer
   border-radius: .8em
   border: solid 1px #CCC
 
+.project-card-body
+  i.fa
+    color: $secondary
+  .assignment-status
+    background: $secondary
+    color: color-contrast($secondary)
+    &.status-accepted, &.status-completed
+      background: $primary
+      color: color-contrast($primary)
 
 // pagination
 .pagination a, .pagination span, .pagination em
