@@ -3,8 +3,8 @@
 %p= @finisher.pronouns
 
 - if @finisher.missing_information?
-  .alert.alert-danger
-    Before we can connect you with projects, we need a little more information.  See the messages below.
+  .alert.alert-warning
+    ="Welcome to Loose Ends, " + @finisher.chosen_name + "! Before we can connect you with projects, we need a little more information.  See the messages below."
 
 
 .row
@@ -78,7 +78,7 @@
         %p= @finisher.dominant_hand
 
       - if @finisher.missing_assessments?
-        %p.text-danger Please enter assessments
+        %p.text-danger Please let us know what crafts you do and your level of skill
       - else
         %ul
           - @finisher.rated_assessments.each do |assessment|
