@@ -6,7 +6,7 @@ module Manage
   class ProjectsController < Manage::ManageController
     def index
       @title = "Loose Ends - Manage - Projects"
-      @projects = Project.search(params).paginate(page: params[:page])
+      @projects = Project.search(params).includes(:finishers).paginate(page: params[:page])
 
       respond_to do |format|
         format.csv { add_csv_headers }
@@ -59,7 +59,7 @@ module Manage
     def add_csv_headers
       response.headers["Content-Type"] = "text/csv"
       response.headers["Content-Disposition"] =
-          "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+        "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
     end
 
     def status_counts
