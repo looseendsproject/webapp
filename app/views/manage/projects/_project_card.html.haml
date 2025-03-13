@@ -10,10 +10,6 @@
       %li
         = fa_icon("pen-to-square", title: 'Last Updated')
         = time_tag(project.updated_at, "Updated #{time_ago_in_words(project.updated_at)} ago", title: project.updated_at)
-      - if last_contact = project.assignments.maximum('updated_at')
-        %li
-          = fa_icon("envelope", title: 'Last Contact')
-          = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
       %li
         = fa_icon("flag", title: 'Status')
         %span= project.status.titleize
@@ -21,12 +17,20 @@
         %li
           = fa_icon("location-dot", title: 'Location')
           %span #{project.city.titleize}, #{project.state}
-      - if project.assignments.any?
-        %li.border-top.mt-1
-          %strong Finishers
-        - project.assignments.each do |assignment|
+      - if project.active_finisher.present?
+        %li.highlighted
+          = fa_icon("user", title: 'Active Finisher')
+          %span #{project.active_finisher.name}
+        - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('updated_at')
           %li
-            = fa_icon("user", title: 'Finisher')
-            %span #{assignment.finisher.name}
-            - if assignment.status
-              %span{ class: "badge rounded-pill assignment-status status-#{assignment.status}" }= assignment.status
+            = fa_icon("envelope", title: 'Last Contact')
+            = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
+      - elsif project.assignments.any?
+        %li
+          = fa_icon("user-group", title: 'Inactive Finishers')
+          - if project.assignments.count == 1 && project.assignments.first.status.present?
+            1
+            %mark= project.assignments.first.status
+            finisher
+          - else
+            %span #{project.assignments.count} inactive finishers
