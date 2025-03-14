@@ -87,6 +87,16 @@ module Manage
       assert_response :success
     end
 
+    test "show includes material brand" do
+      sign_in @user
+      @project.update!(material_brand: "brandname")
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "div", text: "brandname"
+    end
+
     test "edit loads" do
       sign_in @user
       get "/manage/projects/#{@project.id}/edit"
@@ -102,6 +112,14 @@ module Manage
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("New Name", @project.reload.name)
+    end
+
+    test "update updates material brand" do
+      sign_in @user
+      patch "/manage/projects/#{@project.id}", params: { project: { material_brand: "brandname" } }
+
+      assert_redirected_to manage_project_path(@project)
+      assert_equal("brandname", @project.reload.material_brand)
     end
 
     test "create with incomplete params renders page" do

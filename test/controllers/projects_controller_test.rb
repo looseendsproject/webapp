@@ -69,6 +69,15 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal "Updated Name", @project.reload.name
   end
 
+  test "should not include the manager-only material_brand field" do
+    @project.update!(material_brand: "brandname")
+
+    sign_in @project.user
+    get :show, params: { id: @project }
+
+    assert_no_match(/brandname/, response.body)
+  end
+
   test "should show terms of service" do
     sign_in users(:project_owner)
     get :new
@@ -84,4 +93,3 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_select "h5", { text: "Terms of Service", count: 0 }
   end
 end
-

@@ -90,6 +90,7 @@ module Manage
         :craft_type,
         :has_pattern,
         :material_type,
+        :material_brand,
         :crafter_name,
         :crafter_description,
         :crafter_dominant_hand,
