@@ -59,7 +59,7 @@ module Manage
     def add_csv_headers
       response.headers["Content-Type"] = "text/csv"
       response.headers["Content-Disposition"] =
-          "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+        "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
     end
 
     def status_counts
@@ -87,6 +87,7 @@ module Manage
         :craft_type,
         :has_pattern,
         :material_type,
+        :material_brand,
         :crafter_name,
         :crafter_description,
         :crafter_dominant_hand,
