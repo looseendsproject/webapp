@@ -10,13 +10,16 @@
     %table.table
       %thead
         %tr
-          %th Name
+          %th Project Name
+          %th Description
           %th Status
+          %th Last Updated
+          %th Last Contacted
           %th Location
-          %th Finisher Name
-          %th Last Contact
+          %th Finisher
       %tbody
         = render partial: 'project_row', collection: @projects, as: :project
+    = will_paginate @projects
   - else
     = render @projects
     = will_paginate @projects

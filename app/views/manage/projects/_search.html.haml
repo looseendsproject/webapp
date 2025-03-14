@@ -4,7 +4,7 @@
       Search
   .row.mb-2
     .col
-      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: false, placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
+      = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
   .row
     .col
       Sort:
@@ -14,6 +14,8 @@
       Assigned:
     .col
       Manager:
+    .col
+      Per Page:
   .row.mb-2
     .col
       = select_tag :sort, options_for_select([['Created (Newest First)', 'created_at desc'], ['Created (Oldest First)', 'created_at asc'], ['Updated (Newest First)', 'updated_at desc'], ['Updated (Oldest First)', 'updated_at asc']], params[:sort]), class: 'form-select'
@@ -23,6 +25,8 @@
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
       = select_tag :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), include_blank: true, class: 'form-select'
+    .col
+      = select_tag :per_page, options_for_select(%w[10 20 50 100], params[:per_page] || 20), class: 'form-select', autocomplete: "off"
   .row
     .col-auto
       - Project::BOOLEAN_ATTRIBUTES.each do |attr|
@@ -31,7 +35,7 @@
           = label_tag attr, attr.to_s.titleize, class: 'form-check-label'
     .col.text-end
       .form-check.me-2.d-inline-block
-        = check_box_tag :view, 'list', params[:view] == 'list', class: 'form-check-input'
+        = check_box_tag :view, 'list', params[:view] == 'list', class: 'form-check-input', autocomplete: "off"
         = label_tag :view, 'view as list', class: 'form-check-label'
       = submit_tag "Search", name: nil, class: 'btn btn-primary'
       = button_tag(formaction: manage_projects_path(format: 'csv'), class: 'btn btn-sm btn-light ms-2') do

@@ -6,7 +6,7 @@ module Manage
   class ProjectsController < Manage::ManageController
     def index
       @title = "Loose Ends - Manage - Projects"
-      @projects = Project.search(params).includes(:finishers).paginate(page: params[:page])
+      @projects = Project.search(params).includes(:finishers).paginate(page: params[:page], per_page: params[:per_page])
 
       respond_to do |format|
         format.csv { add_csv_headers }
