@@ -201,6 +201,27 @@ module Manage
       assert_search_no_results(assigned: "false")
     end
 
+    test "search is paginated" do
+      11.times do
+        create_search_project
+      end
+
+      sign_in @user
+      get "/manage/projects", params: { page: 1, per_page: 10 }
+
+      assert_response :success
+      assert_select "div.pagination"
+    end
+
+    test "search view=list returns list view" do
+      create_search_project
+      sign_in @user
+      get "/manage/projects", params: { view: "list" }
+
+      assert_response :success
+      assert_select "table.project-table"
+    end
+
     private
 
     def create_search_project # rubocop:disable Metrics/MethodLength

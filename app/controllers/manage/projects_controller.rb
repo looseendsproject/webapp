@@ -6,11 +6,14 @@ module Manage
   class ProjectsController < Manage::ManageController
     def index
       @title = "Loose Ends - Manage - Projects"
-      @projects = Project.search(params).paginate(page: params[:page])
+      @projects = Project.search(params).includes(:finishers)
 
       respond_to do |format|
         format.csv { add_csv_headers }
-        format.html { @status_counts = status_counts }
+        format.html do
+          @projects = @projects.paginate(page: params[:page], per_page: params[:per_page])
+          @status_counts = status_counts
+        end
       end
     end
 

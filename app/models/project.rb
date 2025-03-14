@@ -174,6 +174,10 @@ class Project < ApplicationRecord
     finisher&.name
   end
 
+  def active_finisher
+    assignments.find_by(status: "accepted")&.finisher
+  end
+
   def self.proposed
     where({ status: "proposed" })
   end
