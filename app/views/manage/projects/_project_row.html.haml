@@ -1,6 +1,5 @@
 %tr
   %td.text-nowrap= link_to project.name.truncate(40), [:manage, project]
-  %td.text-nowrap= project.description.truncate(25)
   %td.text-nowrap= project.status.titleize
   %td.text-nowrap= time_tag(project.updated_at, "#{time_ago_in_words(project.updated_at)} ago", title: project.updated_at)
   %td.text-nowrap

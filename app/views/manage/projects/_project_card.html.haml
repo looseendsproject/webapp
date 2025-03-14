@@ -1,7 +1,7 @@
 - classes ||= []
 %div{:class => classes.append('card')}
   - if project.project_images.first&.representable?
-    = image_tag(project.project_images.first.representation( resize_to_limit: [300, 300]), class: 'card-img-top object-fit-cover', style: 'height:8vw;', alt: "Sample project image")
+    = image_tag(project.project_images.first.representation( resize_to_limit: [300, 300]), class: 'card-img-top', style: 'height:8vw;object-fit:cover;', alt: "Sample project image")
 
   .card-body.project-card-body
     %h6.card-title
