@@ -14,6 +14,7 @@ class Users::ConfirmationsControllerTest < ActionController::TestCase
     post :create, params: { user: { email: users(:admin).email }}
     assert_redirected_to new_user_session_url
     message = ActionMailer::Base.deliveries.last
-    assert_match "http://example.com/users/confirmation?confirmation_token=", ActionMailer::Base.deliveries.last.body.encoded
+    assert_match "http://example.com/users/confirmation?confirmation_token=",
+      ActionMailer::Base.deliveries.last.body.encoded
   end
 end
