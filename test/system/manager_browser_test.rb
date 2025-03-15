@@ -11,11 +11,17 @@ class ManagerBrowserTest < ApplicationSystemTestCase
     assert_text "Dashboard"
   end
 
+  def teardown
+    click_link "Sign Out"
+  end
+
   test 'browse projects' do
-    click_link "Finishers"
-    # TODO
+    click_link "Projects"
+    assert_text "Projects"
   end
 
   test 'browse finishers' do
+    click_link "Finishers"
+    assert_text "Finishers"
   end
 end

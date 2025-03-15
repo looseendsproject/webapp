@@ -17,8 +17,4 @@ class FinisherBrowserTest < ApplicationSystemTestCase
     click_button name: 'commit'
     assert_text "Welcome! You have signed up successfully."
   end
-
-  test 'complete finisher profile' do
-    # TODO
-  end
 end
