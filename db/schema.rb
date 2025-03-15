@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_12_164001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
     t.string "message_checksum", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+    t.index %w[message_id message_checksum], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -31,7 +31,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
     t.bigint "record_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+    t.index %w[record_type record_id name], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -41,7 +41,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index %w[record_type record_id name blob_id], name: "index_active_storage_attachments_uniqueness",
+                                                    unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -59,7 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index %w[blob_id variation_digest], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "assessments", force: :cascade do |t|
@@ -146,6 +147,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
     t.string "emergency_contact_phone_number"
     t.string "emergency_contact_email"
     t.string "emergency_contact_relation"
+    t.boolean "has_volunteer_time_off"
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"
     t.index ["longitude"], name: "index_finishers_on_longitude"
@@ -214,6 +216,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_08_235102) do
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
     t.boolean "can_share_crafter_details", default: false
+    t.text "material_brand"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["latitude"], name: "index_projects_on_latitude"
     t.index ["longitude"], name: "index_projects_on_longitude"
