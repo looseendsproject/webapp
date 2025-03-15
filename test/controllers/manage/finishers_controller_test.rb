@@ -117,6 +117,27 @@ module Manage
         assert_includes(response.body, header)
       end
     end
+
+    test "can update if the finisher has volunteer time off" do
+      sign_in @user
+
+      finisher = finishers(:crocheter)
+      params = {
+        id: finisher.id,
+        finisher: finisher.attributes.merge(
+          "street" => "123 Main St",
+          "city" => "Anytown",
+          "state" => "WA",
+          "postal_code" => "12345",
+          "country" => "US",
+          "has_volunteer_time_off" => true
+        )
+      }
+      patch :update, params: params
+
+      finisher.reload
+
+      assert(finisher.has_volunteer_time_off)
+    end
   end
 end
-
