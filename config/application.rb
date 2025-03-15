@@ -23,5 +23,8 @@ module Looseends
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Opt in to Rails 8.1 to_time default behavior
+    config.active_support.to_time_preserves_timezone = :zone
   end
 end

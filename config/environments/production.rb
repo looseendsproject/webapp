@@ -104,7 +104,4 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-
-  # Opt in to Rails 8.1 to_time default behavior
-  config.active_support.to_time_preserves_timezone = :zone
 end
