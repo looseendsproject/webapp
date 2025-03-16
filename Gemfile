@@ -83,6 +83,9 @@ gem "geocoder", "~> 1.8"
 # Annotated source code for Models
 gem "annotaterb", "~> 4.13"
 
+# UI for ActiveJob
+gem "mission_control-jobs"
+
 # Gems being moved out of core ruby
 gem "csv", "~> 3.3"
 gem "drb", "~> 2.2"
@@ -133,3 +136,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "solid_queue", "~> 1.1"
