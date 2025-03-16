@@ -5,8 +5,8 @@ class ProjectsController < AuthenticatedController
 
   before_action :get_project, only: %i[
     show
+    edit_project
     edit_address
-    edit_basics
     edit_crafter
     update
     destroy
@@ -16,7 +16,7 @@ class ProjectsController < AuthenticatedController
 
   def edit_address; end
 
-  def edit_basics; end
+  def edit_project; end
 
   def edit_crafter; end
 
@@ -41,7 +41,7 @@ class ProjectsController < AuthenticatedController
     elsif project_params[:phone_number]
       render "edit_address"
     else
-      render "edit_basics"
+      render "edit_project"
     end
   end
 
