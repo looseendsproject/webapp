@@ -1,0 +1,26 @@
+.row.mb-4
+  .col-md-4
+    = form.label 'Give this project a name', class: 'form-label required'
+  .col-md-4
+    = form.text_field :name, class: 'form-control'
+.row.mb-4
+  .col-md-4
+    = form.label 'What was being made?', class: 'form-label required'
+  .col-md-4
+    = form.text_area :description, size: "60x5", class: 'form-control'
+    .form-info (for instance, sweater, socks, blanket, hat...)
+.row.mb-4
+  .col-md-4
+    = form.label 'What type of craft?', class: 'form-label required'
+  .col-md-4
+    = form.text_field :craft_type, class: 'form-control'
+    .form-info Knit, Crochet, Quilt. If you do not know, say "I don't know."
+.row.mb-4
+  .col-md-4
+    = form.label 'Project Images', class: 'form-label required'
+  .col-md-4
+    = form.file_field :append_project_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
+    - form.object.project_images.each do |image|
+      = image_tag image.representation( resize_to_limit: [100, 100])
+    .form-info Please upload photos of the unfinished project.
+  
