@@ -2,27 +2,6 @@
 
 Rails.application.routes.draw do
 
-  # Working around an intermittent test bug
-  # devise_for :users, skip: :all
-  # as :user do
-  #   get "/users/sign_up", to: "users/registrations#new", as: "new_user_registration"
-  #   post "/users/sign_up", to: "users/registrations#create", as: "user_registration"
-  #   get "/users/edit", to: "users/registrations#edit", as: "edit_user_registration"
-
-  #   get "/users/sign_in", to: "users/sessions#new", as: "new_user_session"
-  #   post "/users/sign_in", to: "users/sessions#create", as: "user_session"
-  #   get "/users/sign_out", to: "users/sessions#destroy", as: "destroy_user_session"
-
-  #   get "/users/password/new", to: "users/passwords#new", as: "new_user_password"
-  #   post "/users/password/edit", to: "users/passwords#create", as: "edit_user_password"
-  #   get "/users/password/edit", to: "users/passwords#edit", as: "user_password"
-  #   put "/users/password/edit", to: "users/passwords#update"
-
-  #   get "/users/confirmations", to: "users/confirmations#show"
-  #   get "/users/confirmations/new", to: "users/confirmations#new", as: "confirmation"
-  #   post "/users/confirmations", to: "users/confirmations#create"
-  # end
-
   devise_for :users, controllers: {
     confirmations: "users/confirmations",
     passwords: "users/passwords",
