@@ -1,0 +1,10 @@
+.row
+  .col-md-8
+    %p
+      Sharing images of projects helps others understand what it's like to be a part of Loose Ends. May we have your permission to post photos of your project online, including on our social media? Your personal information will be kept confidential.
+    = form.label 'can_publicize', class: 'form-label my-2' do
+      = form.check_box :can_publicize
+      Loose Ends Project has permission to post about my project online, including on social media.
+    = form.label 'can_use_first_name', class: 'form-label mt-2 mb-4' do
+      = form.check_box :can_use_first_name
+      Loose Ends Project has permission to use my first name in posts online.
