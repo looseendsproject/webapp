@@ -3,7 +3,7 @@ class TestJob < ApplicationJob
 
   def perform(*args)
     output = "TestJob:  #{Time.now}  #{self.serialize}"
-    puts output
+    puts output unless Rails.env.test?
     output
   end
 end
