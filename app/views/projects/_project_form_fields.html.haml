@@ -24,4 +24,18 @@
       - if image.id.present? # Rails bug https://github.com/rails/rails/issues/50234
         = image_tag image.representation(resize_to_limit: [100, 100])
     .form-info Please upload photos of the unfinished project.
+.row.mb-4
+  .col-md-4
+    = form.label :material_type, 'What kind of yarn / material is used?', class: 'form-label required'
+  .col-md-4
+    = form.text_field :material_type, class: 'form-control', required: true
+    .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc).
+.row.mb-4
+  .col-md-4
+    = form.label :append_material_images, 'Material Images', class: 'form-label'
+  .col-md-4
+    = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
+    - form.object.material_images.each do |image|
+      = image_tag image.representation( resize_to_limit: [100, 100])
+    .form-info Photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
   
