@@ -58,17 +58,15 @@
     %h4
       .row
         .col-9
-          Phone Number
+          Your Details
         .col-3.fs-6.text-end
-          = link_to 'Edit', [:edit_project, :project], class: 'btn btn-link float-end btn-sm'
+          = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
     .row
       .col-12= @project.phone_number
     %h4.mt-4
       .row
         .col-9
           Mailing Address
-        .col-3
-          = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
 
     - if @project.missing_address_information?
       %p.text-danger Please enter your mailing address.
