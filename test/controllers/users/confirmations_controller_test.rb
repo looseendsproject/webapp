@@ -1,17 +1,13 @@
 require 'test_helper'
 
-class Users::ConfirmationsControllerTest < ActionController::TestCase
-  def setup
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-  end
-
+class Users::ConfirmationsControllerTest < ActionDispatch::IntegrationTest
   test '#new loads page with form' do
-    get :new
+    get '/users/confirmation/new'
     assert_match /Resend confirmation instructions/, @response.body
   end
 
   test '#create sends email with correct link' do
-    post :create, params: { user: { email: users(:admin).email }}
+    post '/users/confirmation', params: { user: { email: users(:admin).email }}
     assert_redirected_to new_user_session_url
     message = ActionMailer::Base.deliveries.last
     assert_match "http://example.com/users/confirmation?confirmation_token=",
