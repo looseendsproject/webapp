@@ -8,7 +8,6 @@ class ProjectsController < AuthenticatedController
     edit_address
     edit_basics
     edit_crafter
-    edit_project
     update
     destroy
   ]
@@ -20,8 +19,6 @@ class ProjectsController < AuthenticatedController
   def edit_basics; end
 
   def edit_crafter; end
-
-  def edit_project; end
 
   def new
     @project = Project.new
