@@ -22,7 +22,7 @@
           .row.mb-2
             .col-8
               = form.label 'terms_of_use', class: 'form-label required' do
-                = form.check_box :terms_of_use
+                = form.check_box :terms_of_use, required: true
                 I agree.
   .form-actions
     = form.submit 'Submit', class: "btn btn-primary"
