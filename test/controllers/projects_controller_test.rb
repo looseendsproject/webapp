@@ -88,8 +88,17 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should not show terms of service" do
     @project_owner = users(:project_owner)
     sign_in @project_owner
-    get :edit_basics, params: { id: @project_owner.projects.first.to_param }
+    get :edit_project, params: { id: @project_owner.projects.first.to_param }
 
     assert_select "h5", { text: "Terms of Service", count: 0 }
+  end
+
+  test "should allow editing of submitter details" do
+    @project_owner = users(:project_owner)
+    sign_in @project_owner
+    get :edit_address, params: { id: @project_owner.projects.first.to_param }
+
+    assert_select "h1", { text: "Your Details", count: 1 }
+    assert_select "input", { name: :phone_number }
   end
 end

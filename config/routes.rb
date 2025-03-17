@@ -18,7 +18,6 @@ Rails.application.routes.draw do
 
   resources :projects, except: :edit do
     member do
-      get "edit_basics"
       get "edit_project"
       get "edit_address"
       get "edit_crafter"
@@ -60,7 +59,7 @@ Rails.application.routes.draw do
       end
       get "card", on: :member
     end
-    get 'reports/heard_about_us', to: 'reports#heard_about_us'
+    get "reports/heard_about_us", to: "reports#heard_about_us"
   end
 
   namespace :admin do

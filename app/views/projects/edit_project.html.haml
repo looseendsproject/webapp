@@ -1,2 +1,4 @@
-= render 'title', title: 'Pattern and Material'
-= render 'project_form'
+= render 'title', title: 'Project Details'
+= form_with model: @project, html: { class: 'form', data: { turbo: false } } do |form|
+  = render "error_messages", resource: @project
+  = render 'project_form_fields', form: form
