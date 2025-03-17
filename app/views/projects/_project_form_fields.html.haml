@@ -36,7 +36,8 @@
   .col-md-4
     = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
     - form.object.material_images.each do |image|
-      = image_tag image.representation( resize_to_limit: [100, 100])
+      - if image.id.present? # Rails bug https://github.com/rails/rails/issues/50234
+        = image_tag image.representation(resize_to_limit: [100, 100])
     .form-info Photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
 .row.mb-4
   .col-md-4
