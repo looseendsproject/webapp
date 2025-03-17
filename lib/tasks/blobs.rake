@@ -12,7 +12,7 @@ namespace :blobs do
     record_count = all_blobs.count
     total_passes = (record_count / CHUNK_SIZE).ceil
 
-    puts "Enqueueing #{record_count} blobs.  #{total_passes} passes required."
+    puts "Enqueuing #{record_count} blobs.  #{total_passes} passes required."
 
     passes_complete = 0
     while passes_complete < total_passes do
@@ -27,7 +27,7 @@ namespace :blobs do
       puts "pass #{passes_complete} complete"
     end
 
-    puts "Done enqueueing blobs"
+    puts "Done enqueuing blobs"
   end
 
   desc "copy one blob for testing"
