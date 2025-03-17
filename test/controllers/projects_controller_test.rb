@@ -82,7 +82,7 @@ class ProjectsControllerTest < ActionController::TestCase
     sign_in users(:project_owner)
     get :new
 
-    assert_select "h5", { text: "Terms of Service" }
+    assert_select "h2", { text: "Terms of Service" }
   end
 
   test "should not show terms of service" do
