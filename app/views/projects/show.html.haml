@@ -20,53 +20,16 @@
           .col-9
             About the Project
           .col-3
-            = link_to 'Edit', [:edit_basics, :project], class: 'btn btn-link float-end btn-sm'
+            = link_to 'Edit', [:edit_project, :project], class: 'btn btn-link float-end btn-sm'
       - if @project.description.blank?
         %p.text-danger Please give more information about yourself
       - else
         %p= @project.description
-        %hr/
         %p= @project.more_details
-  .col-8
-    %h4
-      .row
-        .col-9
-          Phone Number
-        .col-3.fs-6.text-end
-          = link_to 'Edit', [:edit_basics, :project], class: 'btn btn-link float-end btn-sm'
-    .row
-      .col-12= @project.phone_number
     %h4.mt-4
       .row
         .col-9
-          Mailing Address
-        .col-3
-          = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
-
-    - if @project.missing_address_information?
-      %p.text-danger Please enter your mailing address.
-    - if @project.street.present?
-      .row
-        .col-12= @project.street
-    - if @project.street_2.present?
-      .row
-        .col= @project.street_2
-
-    - if @project.city.present?
-      .row
-        .col
-          #{@project.city}, #{@project.state} #{@project.postal_code}
-    - if @project.state.present? && @project.country.present?
-      .row
-        .col= @project.country
-    %hr/
-
-    %h4
-      .row
-        .col-9
           Material Details
-        .col-3
-          = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
     - if !@project.material_type.present? || @project.material_images.present?
       %p.text-danger
         Tell us about the material.
@@ -91,7 +54,38 @@
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+  .col-8
+    %h4
+      .row
+        .col-9
+          Your Details
+        .col-3.fs-6.text-end
+          = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
+    .row
+      .col-12= @project.phone_number
+    %h4.mt-4
+      .row
+        .col-9
+          Mailing Address
+
+    - if @project.missing_address_information?
+      %p.text-danger Please enter your mailing address.
+    - if @project.street.present?
+      .row
+        .col-12= @project.street
+    - if @project.street_2.present?
+      .row
+        .col= @project.street_2
+
+    - if @project.city.present?
+      .row
+        .col
+          #{@project.city}, #{@project.state} #{@project.postal_code}
+    - if @project.state.present? && @project.country.present?
+      .row
+        .col= @project.country
     %hr/
+
     %h4
       .row
         .col-9
@@ -128,6 +122,6 @@
         .col-9
           Permissions
         .col-3
-          = link_to 'Edit', [:edit_basics, @project, anchor: 'permissions'], class: 'btn btn-link float-end btn-sm'
+          = link_to 'Edit', [:edit_project, @project, anchor: 'permissions'], class: 'btn btn-link float-end btn-sm'
     %p Loose Ends Project has permission to post about my project online, including on social media. #{@project.can_publicize ? fa_icon(:check) : 'No'}
     %p Loose Ends Project has permission to use my first name in posts online. #{@project.can_use_first_name ? fa_icon(:check) : 'No'}

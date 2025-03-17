@@ -6,6 +6,7 @@ release: rake db:migrate
 
 # What is run on each web Dyno.
 web: bundle exec puma -C config/puma.rb
+worker: bin/rails solid_queue:start
 
 # Pre-Puma version (before we used Procfile). Kept for easy rollback if
 # there are scaling issues.

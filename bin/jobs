@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+# MacOS do `export PGGSSENCMODE="disable"`
+# see https://github.com/rails/solid_queue/issues/145#issuecomment-1954024164
+
+require_relative "../config/environment"
+require "solid_queue/cli"
+
+SolidQueue::Cli.start(ARGV)
