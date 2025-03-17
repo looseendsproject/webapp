@@ -148,6 +148,23 @@ footer
   border-radius: .8em
   border: solid 1px #CCC
 
+// Project management
+
+.project-table
+  .sortable
+    cursor: pointer
+    &:after
+      font-family: "Font Awesome 6 Free"
+      content: "\f0dc"
+      padding-left: 0.5rem
+      display: inline-block
+    &.sort-up:after
+      content: "\f0de"
+    &.sort-down:after
+      content: "\f0dd"
+  &.disabled
+    opacity: 0.3
+
 .project-card-body
   i.fa
     color: $secondary
