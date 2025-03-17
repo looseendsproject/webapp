@@ -60,6 +60,7 @@ admin:
   email: anne@gmail.com
   role: 'admin'
   heard_about_us: 'TV: PBS Maine'
+  encrypted_password: '$2a$12$z56Jo3iL8y6McrSE5T6RYO2kxUCW6FewzRlYn1asq4weSR.Zm7Roi'
 
 project_owner:
   id: 5

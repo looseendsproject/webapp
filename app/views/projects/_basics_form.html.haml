@@ -27,7 +27,8 @@
         .form-info Please upload photos of the unfinished project.
         = form.file_field :append_project_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
         - form.object.project_images.each do |image|
-          = image_tag image.representation( resize_to_limit: [100, 100])
+          - if image.id.present? # Rails bug https://github.com/rails/rails/issues/50234
+            = image_tag image.representation(resize_to_limit: [100, 100])
   .row.mb-2
     .col-8
       .page-section#permissions

@@ -145,7 +145,7 @@ class Project < ApplicationRecord
   validates :press_region, presence: true, if: :press?
   validates :press_outlet, presence: true, if: :press?
 
-  serialize :in_home_pets, Array
+  serialize :in_home_pets
   geocoded_by :full_address
   after_validation :geocode, if: lambda { |obj|
     obj.full_address.present? && obj.full_address_has_changed?
