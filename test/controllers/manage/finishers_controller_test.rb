@@ -10,6 +10,13 @@ module Manage
       assert_predicate(@user, :can_manage?)
     end
 
+    test "can render #show" do
+      sign_in @user
+      get :show, params: { id: 1 }
+
+      assert_response :success
+    end
+
     test "search requires login" do
       get :search
 
