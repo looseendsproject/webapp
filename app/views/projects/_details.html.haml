@@ -38,7 +38,7 @@
         .col-9
           Material Details
         .col-3
-          = link_to 'Edit', [:edit_basics, @project], class: 'btn btn-link float-end btn-sm'
+          = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
     = @project.material_type
     - @project.material_images.each do |image|
       .removeable_image
@@ -50,7 +50,7 @@
         .col-9
           Pattern Details
         .col-3
-          = link_to 'Edit', [:edit_basics, @project], class: 'btn btn-link float-end btn-sm'
+          = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
     %p
       Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
