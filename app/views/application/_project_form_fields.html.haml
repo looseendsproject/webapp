@@ -30,6 +30,13 @@
   .col-md-4
     = form.text_field :material_type, class: 'form-control', required: true
     .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc).
+- if current_user.can_manage?
+  .row.mb-4
+    .col-md-4
+      = form.label :material_brand, 'What brand is the material?', class: 'form-label'
+    .col-md-4
+      = form.text_field :material_brand, class: 'form-control'
+      .form-info Berocco, Lion, etc.
 .row.mb-4
   .col-md-4
     = form.label :append_material_images, 'Material Images', class: 'form-label'
