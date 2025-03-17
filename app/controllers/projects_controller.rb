@@ -5,9 +5,9 @@ class ProjectsController < AuthenticatedController
 
   before_action :get_project, only: %i[
     show
-    edit_project
     edit_address
     edit_crafter
+    edit_project
     update
     destroy
   ]
@@ -16,9 +16,9 @@ class ProjectsController < AuthenticatedController
 
   def edit_address; end
 
-  def edit_project; end
-
   def edit_crafter; end
+
+  def edit_project; end
 
   def new
     @project = Project.new
