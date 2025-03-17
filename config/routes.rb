@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   end
 
   namespace :manage do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
+
     root to: "dashboards#show"
     resource :dashboard
     resources :assignments, only: %i[index edit update show destroy] do
