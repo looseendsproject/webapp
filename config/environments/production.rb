@@ -58,8 +58,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :primary } }
   config.solid_queue.logger = ActiveSupport::Logger.new(STDOUT)
-  config.mission_control.jobs.base_controller_class = "Manage::ManageController"
-  config.mission_control.jobs.http_basic_auth_enabled = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

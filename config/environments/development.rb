@@ -19,8 +19,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :primary } }
   config.solid_queue.logger = ActiveSupport::Logger.new(STDOUT)
-  config.mission_control.jobs.base_controller_class = "Manage::ManageController"
-  config.mission_control.jobs.http_basic_auth_enabled = false
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
