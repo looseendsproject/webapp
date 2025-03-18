@@ -24,6 +24,7 @@
 #  joann_helped              :boolean          default(FALSE)
 #  latitude                  :float
 #  longitude                 :float
+#  material_brand            :text
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null

@@ -21,7 +21,7 @@ class FinisherMailerTest < ActionMailer::TestCase
   test "welcome mail should include profile link" do
     mail = FinisherMailer.welcome(@finisher).deliver_now
 
-    assert_match "http://localhost:3000/finisher", mail.body.encoded
+    assert_match "http://example.com/finisher", mail.body.encoded
   end
 
   ## Profile Complete Mail

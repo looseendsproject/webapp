@@ -1,8 +1,7 @@
 require 'test_helper'
 
-class Users::RegistrationsControllerTest < ActionController::TestCase
+class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @request.env["devise.mapping"] = Devise.mappings[:user]
     @params = { user: {
       first_name: 'Testy',
       last_name: 'Test',
@@ -14,25 +13,25 @@ class Users::RegistrationsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get '/users/sign_up'
     assert_response :success
   end
 
   test "nil heard_about_us does not validate" do
     @params[:user][:heard_about_us] = ''
-    post :create, params: @params
+    post '/users', params: @params
     assert_response :success
-    assert @response.parsed_body.include? "1 error prohibited this user from being saved"
+    assert_match(/Heard about us can&#39;t be blank/, @response.body)
   end
 
   test "new user validates" do
-    post :create, params: @params
+    post '/users', params: @params
     assert_redirected_to :root
     assert User.last.first_name == 'Testy'
   end
 
   test 'new registration sends confirmation instructions email' do
-    post :create, params: { user: {
+    post '/users', params: { user: {
       first_name: 'First',
       last_name: 'Last',
       email: 'me@example.com',

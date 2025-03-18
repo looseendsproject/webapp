@@ -24,6 +24,7 @@
 #  joann_helped              :boolean          default(FALSE)
 #  latitude                  :float
 #  longitude                 :float
+#  material_brand            :text
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
@@ -106,7 +107,8 @@ class Project < ApplicationRecord
   search_query_joins :user
   search_sort_name_field :name
   search_text_fields :"projects.name", :"projects.description", :"projects.craft_type", :"projects.material_type",
-                     :"projects.city", :"projects.state", :"users.first_name", :"users.last_name", :"users.email"
+                     :"projects.material_brand", :"projects.city", :"projects.state", :"users.first_name",
+                     :"users.last_name", :"users.email"
   search_default_sort "date desc"
 
   belongs_to :manager, optional: true, class_name: "User"
@@ -143,7 +145,7 @@ class Project < ApplicationRecord
   validates :press_region, presence: true, if: :press?
   validates :press_outlet, presence: true, if: :press?
 
-  serialize :in_home_pets, Array
+  serialize :in_home_pets
   geocoded_by :full_address
   after_validation :geocode, if: lambda { |obj|
     obj.full_address.present? && obj.full_address_has_changed?
@@ -170,6 +172,10 @@ class Project < ApplicationRecord
 
   def finisher_name
     finisher&.name
+  end
+
+  def active_finisher
+    assignments.find_by(status: "accepted")&.finisher
   end
 
   def self.proposed

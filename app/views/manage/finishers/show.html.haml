@@ -95,7 +95,7 @@
             %li No Cats Please
           - if @finisher.no_dogs
             %li No Dogs Please
-    - if @finisher.in_home_pets.select(&:present?).any?
+    - if @finisher.in_home_pets.present? && @finisher.in_home_pets.select(&:present?)
       .page-section.mb-3
         %h4 Pets in Home
         = @finisher.in_home_pets.select(&:present?).map{|p| p.capitalize}.join(', ')
@@ -104,7 +104,7 @@
       .page-section.mb-3
         %h4 Smoking in Home
         Has Smoke In Home
-    - if @finisher.no_smoke || @finisher.no_cats || @finisher.no_dogs || @finisher.in_home_pets.select(&:present?).any? || @finisher.has_smoke_in_home
+    - if @finisher.no_smoke || @finisher.no_cats || @finisher.no_dogs || (@finisher.in_home_pets.present? && @finisher.in_home_pets.select(&:present?)) || @finisher.has_smoke_in_home
       %hr/
     .page-section
       %h4 About Me

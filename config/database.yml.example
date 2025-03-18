@@ -25,8 +25,9 @@ default: &default
   password: postgres
 
 development:
-  <<: *default
-  database: looseends_development
+  primary:
+    <<: *default
+    database: looseends_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -83,7 +84,8 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: looseends_production
-  username: looseends
-  password: <%= ENV["LOOSEENDS_DATABASE_PASSWORD"] %>
+  primary:
+    <<: *default
+    database: looseends_production
+    username: looseends
+    password: <%= ENV["LOOSEENDS_DATABASE_PASSWORD"] %>
