@@ -1,0 +1,580 @@
+X-Original-To: inbound@parse-staging.example.com
+Received: from mail-ed1-f65.google.com (mxd [209.85.208.65]) by mx.sendgrid.net with ESMTP id W30ARTB-T0iXaaC_iKYiug for <inbound@parse-staging.example.com>; Sun, 09 Mar 2025 19:59:27.987 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-5e61375c108so2410771a12.1
+        for <inbound@parse-staging.example.com>; Sun, 09 Mar 2025 12:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=example.com; s=google; t=1741550366; x=1742155166; darn=parse-staging.example.com;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LuQKcmI0/9+cqQo6yIqJqGUtBCo517PfyKwnm8wWXks=;
+        b=X+R4X8PCLSts5x91CGBZXp7qvigN5GSGNQ/dkq6j25BJZaHtq+gcz4/Q3Gk1HCv408
+         pZrdsI9EXXq+i5QnNXeiqogh3jiFRDg77yXLPGlV6CQXeC+zZdkHeGi/jhMh1+kdZcG8
+         d7ZljqTupznZYST4BCP7euwT79YDb09iPVOKY8+ztEAULmL2tntXf3/A3SmMd6Ol+Hr1
+         dn3gOklD3cIXVgPbWaDMSexV6GFfQodwOKWQoF9Ut2cKsIs4lZsrCFuRldD6C1TxV9Pv
+         Yarzp+jQXH8zjF1dLCXf4AWs4FzP041EtcQpC9qXHiagVF4WnetPydnrOkHQUNea2v7L
+         DnjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741550366; x=1742155166;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LuQKcmI0/9+cqQo6yIqJqGUtBCo517PfyKwnm8wWXks=;
+        b=FQlhBcEpLDRAb3hgXpkXBYwekRgISJPXNP49IDZV9jDfFQX/3CNdWWpd9psuzoqy8T
+         o1Wj0n9Lv0F10DW8hl4uGNM0umS9mT1EjcvK/Dt5dGSCBMKJlMcGj114VeCufxgyQ2LR
+         TlId6u8eqe3DpJ5gaLBPJfZYGrL10Fflbt3P1iHlGOm+mt3uL7PAFXiSfWwevScF+Q6t
+         y3XoAZrYMdn8UcVi+QoldEbryLIWkGvVJoMm/WQH6CMJ7DEPMPcKxA7R3+dy9K6DVYhb
+         hRNPwRQwvTeMbYpHApCUF9BoMU0CP+qQUK3eWpaSqSZigDAjHQvHep6ZnzOAb9ojXf67
+         IcXw==
+X-Gm-Message-State: AOJu0YxnBvRvl2blueaAs9JGMjdSf5Mukm9t1IUYVgybPhVqYDVZzbk/
+	44F4GupwPnMztryBHtTTCxZsjQNMqOoXkcaKjDb5mNoOGyd4qQszub6IzeThKP8+FYhX2cetYC1
+	MpxbE9bbfuctYcmblHLWbeKbOuCYISH486KNPSUW1Egvnebji4mUyDmQ7ryE=
+X-Gm-Gg: ASbGncvvkOHMMdsCtZUvX6/pCOkjF4FBUZHg+PgFzBoC48NlhPN31tvn6b9slTx98dP
+	ovjJBQVd05KIYOu1dsUwrIEXUyZpzVYR/j7AEgnrCt8/tBIszpalcXXoXSFWIs9Sy9r8DjjUoB+
+	WUlyPMeCJjQncBITY7K8LH8TA=
+X-Google-Smtp-Source: AGHT+IEqsdK9YgTs7wEo2iKSa/B/Wc8Ik1V87lAYs2Xd2LvTnepRK8FLfi0y5261xw8FqUPdjf+LnPoH7Uu4pPpYmQk=
+X-Received: by 2002:a05:6402:d09:b0:5e4:bea3:a74d with SMTP id
+ 4fb4d7f45d1cf-5e5e24d5d1bmr12595505a12.30.1741550366176; Sun, 09 Mar 2025
+ 12:59:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000@email.amazonses.com>
+In-Reply-To: <010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000@email.amazonses.com>
+From: No Body <no-reply@example.com>
+Date: Sun, 9 Mar 2025 15:59:15 -0400
+X-Gm-Features: AQ5f1JpQ0Itr62zXd-J4pGso7A5GHq1riMONkoIbcqL4QJyYfSfM5yS0grBoJds
+Message-ID: <CAGSLCDW=LbnFWMd1WVZ2cwUsT5jC6M017rWVEe6Wr15XGvZybQ@mail.gmail.com>
+Subject: Fwd: Getting started with AWS Cost Anomaly Detection - Loose Ends
+ Project (999999999999)
+To: inbound@parse-staging.example.com
+Content-Type: multipart/alternative; boundary="000000000000ef5134062fee4ac7"
+
+--000000000000ef5134062fee4ac7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: <test@example.com>
+Date: Sun, Mar 9, 2025 at 8:39=E2=80=AFAM
+Subject: Getting started with AWS Cost Anomaly Detection - Loose Ends
+Project (999999999999)
+To: <example@example.com>
+
+
+[image: Description: awslogo]
+
+
+AWS Account: Loose Ends Project (12345)
+
+Hello,
+As part of your enablement of AWS Cost Explorer, we have configured AWS
+Cost Anomaly Detection for your account. Cost Anomaly Detection is a cost
+management service that helps you reduce cost surprises and enhance control
+without slowing innovation. It uses advanced machine learning models to
+detect and alert on anomalous spend patterns across your deployed AWS
+services. The cost monitor and daily email alert subscription we set up for
+you are free. You can change the default configuration via our console or
+API to customize the alerts you receive. You can also configure immediate
+alerts via SNS, though additional charges for using SNS may apply.
+To get you started with AWS Cost Anomaly Detection, we pre-configured your
+account with an AWS Services monitor
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon=
+.com%2Fcostmanagement%2Fhome%23%2Fanomaly-detection%2Fmonitors%2Fbbd4b424-a=
+80f-4cf3-acfb-f87af7497acb/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fe=
+c9699c9-000000/PXmG2c5q-tAKid7mGA-AipBYmtg=3D416>
+and a daily summary alerting subscription
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon=
+.com%2Fcostmanagement%2Fhome%23%2Fanomaly-detection%2Fsubscriptions%2F05488=
+d3e-c5be-4050-81ac-ae10abd6c1ac/1/010001957aea8bb5-a293348b-fc81-429a-946a-=
+367fec9699c9-000000/il7Q-sEiOFH7TqcGxreGQcJs2ME=3D416>.
+With this setup, you will be alerted about anomalous spend that exceeds
+$100 and 40% of your expected spend across the majority of your AWS
+services in your accounts. See limitations here
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Fcost-management%2Flatest%2Fuserguide%2Fmanagement-limits.html%23limits-=
+ad/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/uOucGkcJh=
+ZnWnPFs97f47udb6PQ=3D416>.
+If you want to modify your monitor or alert subscription setting, you can
+visit the Cost Anomaly Detection console
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon=
+.com%2Fcostmanagement%2Fhome%23%2Fanomaly-detection%2Foverview/1/010001957a=
+ea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/Wip4T3rorzpACEe8GVLnWEMa=
+cIc=3D416>
+or the public API
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Faws-cost-management%2Flatest%2FAPIReference%2FWelcome.html/1/010001957a=
+ea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/Lp44MNdRGIz6yD1K-JT2VESP=
+pLk=3D416>
+to configure your cost monitors and alerting subscriptions to your specific
+needs. You can read more about how to use the service in our announcement
+blog
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fb=
+logs%2Faws-cloud-financial-management%2Fnew-aws-cost-explorer-users-can-now=
+-automatically-detect-cost-anomalies/1/010001957aea8bb5-a293348b-fc81-429a-=
+946a-367fec9699c9-000000/46LfZs95EgOipdBMiL41cClMa7c=3D416>,
+on our product page
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fa=
+ws-cost-management%2Faws-cost-anomaly-detection/1/010001957aea8bb5-a293348b=
+-fc81-429a-946a-367fec9699c9-000000/LgmKtK6X32nuY_4hlDBobfJ3Xe4=3D416>,
+and in our documentation
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Fcost-management%2Flatest%2Fuserguide%2Fgetting-started-ad.html/1/010001=
+957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/evrlshPL363Sq_Dz9U_a=
+f7jTbuI=3D416>.
+
+
+FAQ:
+Q: Why am I receiving this email?
+In an effort to help our customers detect unintended spend, we are enabling
+Cost Anomaly Detection for all our new AWS Cost Explorer customers. This
+email is associated with your AWS account. If you are not interested in
+this service, you can opt-out
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Fcost-management%2Flatest%2Fuserguide%2Fopting-out-cad.html/1/010001957a=
+ea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/kFBo4Lt3kD77fHzObU0TFRUI=
+lgw=3D416>
+by deleting your monitor and subscription in the console
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon=
+.com%2Fcostmanagement%2Fhome%23%2Fanomaly-detection/1/010001957aea8bb5-a293=
+348b-fc81-429a-946a-367fec9699c9-000000/2bGy9smgwN4Ep02sI9c0bS7WTSQ=3D416>
+or via the API
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Faws-cost-management%2Flatest%2FAPIReference%2FAPI_DeleteAnomalyMonitor.=
+html/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/95p5Qh_=
+1yhAj4jdPs8fI934aVog=3D416>
+Q: What is Cost Anomaly Detection?
+Cost Anomaly Detection is an AWS cost management service that monitors
+customers=E2=80=99 spend continuously, uses machine learning to detect anom=
+alies,
+and generates alerts with root cause analysis of what caused the anomaly.
+With the service, you can reduce unplanned spend and minimize time and
+resources in triaging root causes. You can read more about the service on
+our product page
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fa=
+ws-cost-management%2Faws-cost-anomaly-detection/2/010001957aea8bb5-a293348b=
+-fc81-429a-946a-367fec9699c9-000000/Q_99V_Tn6levS4touiWvBJMtM3U=3D416>
+and in our documentation
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Fcost-management%2Flatest%2Fuserguide%2Fgetting-started-ad.html/2/010001=
+957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/uUBYJJksN7RRlsvAn4zO=
+b6mVHDk=3D416>.
+
+Q: What is the pricing of Cost Anomaly Detection?
+There is no charge for Cost Anomaly Detection. The cost monitor and daily
+email alert subscription we set up for you are free. You can change the
+default configuration via our console or API to customize the alerts you
+receive. You can also configure immediate alerts via SNS, though additional
+charges for using SNS may apply.
+Q: What type of anomalies will Cost Anomaly Detection detect?
+With the default setup, Cost Anomaly Detection will monitor costs on the
+majority of your AWS services in your accounts. See limitations here
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Fcost-management%2Flatest%2Fuserguide%2Fmanagement-limits.html%23limits-=
+ad/2/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/HIrgnVQAy=
+OAeVwbf9kKXvAzLpKc=3D416>.
+
+Q: How will I be alerted about anomalies?
+Any anomalous spend related to your account(s) will show up in the Cost
+Anomaly Detection console and via the API. In addition, if the anomaly is
+above $100 and exceeds 40% of expected spend, you will receive a daily
+summary email to the primary email associated with your account, detailing
+the cost impact, account name, the name of the monitor, the start and end
+dates, and the service where it was observed. The email will also include
+potential root causes for the anomaly.
+Q: How do I opt out?
+If you are not interested in this service, you can opt-out by deleting your
+monitor(s) and subscription(s) in the console
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon=
+.com%2Fcostmanagement%2Fhome%23%2Fanomaly-detection/2/010001957aea8bb5-a293=
+348b-fc81-429a-946a-367fec9699c9-000000/QQ3AVjzlB8OVHefm0S7XBxBgnz8=3D416>
+or via the API
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Faws-cost-management%2Flatest%2FAPIReference%2FAPI_DeleteAnomalyMonitor.=
+html/2/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/dtQ91Hg=
+viCZaqAF2N4QewTHs-zo=3D416>.
+Read more in our documentation
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.co=
+m%2Fcost-management%2Flatest%2Fuserguide%2Fopting-out-cad.html/2/010001957a=
+ea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/7htPLr_SxCVSBzqrg5MUA76Y=
+1dc=3D416>.
+
+Q: What happens if I opt out? Can I still enable Cost Anomaly Detection at
+a later date?
+Yes, if you decide to opt out now, you will still be able to enable Cost
+Anomaly Detection at a later time. When you opt out, you will still be able
+to use Cost Explorer without Cost Anomaly Detection.
+
+Questions?
+If you have any questions regarding the information in this email or if you
+need additional assistance, please visit our FAQ
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fa=
+ws-cost-management%2Faws-cost-anomaly-detection%2Ffaqs/1/010001957aea8bb5-a=
+293348b-fc81-429a-946a-367fec9699c9-000000/P1wqaURUshkekqgwwOMdmLCK7i8=3D41=
+6>
+or contact us at https://aws.amazon.com/support
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fs=
+upport/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/ZzF1U=
+ibM4GkQDbLagDNdjoAmedQ=3D416>
+
+Sincerely,
+AWS Cost Management Team
+------------------------------
+
+This is an automatically generated email. Please do not reply to this email
+as the email address is not monitored. If you wish to stop receiving email
+notifications and anomaly alerts from AWS Cost Anomaly Detection, please
+click here
+<https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws-cost-managemen=
+t-alerts.com%3Ftoken=3DAQICAHgV0gdMKaioqoPY2850YskTh1g2iu4%252BzcPqGUZeb2D%=
+252B1QHIe4m5boxtLQrgbTEDdi7TAAAA6jCB5wYJKoZIhvcNAQcGoIHZMIHWAgEAMIHQBgkqhki=
+G9w0BBwEwHgYJYIZIAWUDBAEuMBEEDHuNRMUCAP5SXQEfRwIBEICBooMiJtZfQXQLTsgWvqNU%2=
+52B3snbx7IFeGr0kXRVG1WTrWr3d7wIopgXkbNFi0pD26dYNMVv4axsoO3Cktp7tnyY%252BQqH=
+0lRKdBdVRilXVdMTWm6O%252B9T3ER2w2tfenr7MbW6UpDmI%252FqyZCjy%252FAjZghtxaHOF=
+ODYiY0RTCCYjH%252BTHdwJm3h3GrLWMlPe4OPGin8Xi%252BVhi3aGNKeLFwnaX6DKSlWfLnQ%=
+253D%253D/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/ei=
+tlLeBOQ_WuJ0mkqCXvfSm5Xo8=3D416>
+.
+
+--000000000000ef5134062fee4ac7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote gmail_quote_container"><=
+div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ---------=
+<br>From: <span dir=3D"auto">&lt;<a href=3D"mailto:anomalydetection@costale=
+rts.amazonaws.com">anomalydetection@costalerts.amazonaws.com</a>&gt;</span>=
+<br>Date: Sun, Mar 9, 2025 at 8:39=E2=80=AFAM<br>Subject: Getting started w=
+ith AWS Cost Anomaly Detection - Loose Ends Project (999999999999)<br>To:  =
+&lt;<a href=3D"mailto:no-reply@example.com">no-reply@example.com</a=
+>&gt;<br></div><br><br>
+<div>
+<table style=3D"width:100%;font-family:Helvetica,Arial,sans-serif">
+    <tbody><tr><td><div align=3D"right" style=3D"margin:12px">
+        <img style=3D"display:block" height=3D"35" align=3D"middle" hspace=
+=3D"6" vspace=3D"6" alt=3D"Description: awslogo" title=3D"Description: awsl=
+ogo">
+       =20
+    </div>
+    <div>
+        <p style=3D"margin-bottom:6px;margin-top:0px;border-top:7px solid #=
+ffc000;text-align:center;font-size:1px">=C2=A0</p>
+    </div>
+    <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:14px=
+">
+        <tbody><tr>
+            <td style=3D"font-weight:bold">
+                AWS Account: Loose Ends Project (999999999999)
+            </td>
+        </tr>
+    </tbody></table>
+    <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:14px=
+">
+
+        <tbody><tr><td><br>
+
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f">
+                    Hello,
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f">
+                    As part of your enablement of AWS Cost Explorer, we hav=
+e configured AWS Cost Anomaly Detection for your account. Cost Anomaly Dete=
+ction is a cost management service that helps you reduce cost surprises and=
+ enhance control without slowing innovation. It uses advanced machine learn=
+ing models to detect and alert on anomalous spend patterns across your depl=
+oyed AWS services. The cost monitor and daily email alert subscription we s=
+et up for you are free. You can change the default configuration via our co=
+nsole or API to customize the alerts you receive. You can also configure im=
+mediate alerts via SNS, though additional charges for using SNS may apply.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f">
+                    To get you started with AWS Cost Anomaly Detection, we =
+pre-configured your account with an <a href=3D"https://1hglkcb3.r.us-east-1=
+.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon.com%2Fcostmanagement%2Fhome%=
+23%2Fanomaly-detection%2Fmonitors%2Fbbd4b424-a80f-4cf3-acfb-f87af7497acb/1/=
+010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/PXmG2c5q-tAKid=
+7mGA-AipBYmtg=3D416" target=3D"_blank">AWS Services monitor</a> and a <a hr=
+ef=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.a=
+mazon.com%2Fcostmanagement%2Fhome%23%2Fanomaly-detection%2Fsubscriptions%2F=
+05488d3e-c5be-4050-81ac-ae10abd6c1ac/1/010001957aea8bb5-a293348b-fc81-429a-=
+946a-367fec9699c9-000000/il7Q-sEiOFH7TqcGxreGQcJs2ME=3D416" target=3D"_blan=
+k">daily summary alerting subscription</a>. With this setup, you will be al=
+erted about anomalous spend that exceeds $100 and 40% of your expected spen=
+d across the majority of your AWS services in your accounts. See limitation=
+s <a href=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.a=
+ws.amazon.com%2Fcost-management%2Flatest%2Fuserguide%2Fmanagement-limits.ht=
+ml%23limits-ad/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-0000=
+00/uOucGkcJhZnWnPFs97f47udb6PQ=3D416" target=3D"_blank">here</a>. If you wa=
+nt to modify your monitor or alert subscription setting, you can visit the =
+Cost Anomaly Detection <a href=3D"https://1hglkcb3.r.us-east-1.awstrack.me/=
+L0/https:%2F%2Fconsole.aws.amazon.com%2Fcostmanagement%2Fhome%23%2Fanomaly-=
+detection%2Foverview/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c=
+9-000000/Wip4T3rorzpACEe8GVLnWEMacIc=3D416" target=3D"_blank">console</a> o=
+r the <a href=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdo=
+cs.aws.amazon.com%2Faws-cost-management%2Flatest%2FAPIReference%2FWelcome.h=
+tml/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/Lp44MNdR=
+GIz6yD1K-JT2VESPpLk=3D416" target=3D"_blank">public API</a> to configure yo=
+ur cost monitors and alerting subscriptions to your specific needs. You can=
+ read more about how to use the service in our <a href=3D"https://1hglkcb3.=
+r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fblogs%2Faws-cloud-f=
+inancial-management%2Fnew-aws-cost-explorer-users-can-now-automatically-det=
+ect-cost-anomalies/1/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-=
+000000/46LfZs95EgOipdBMiL41cClMa7c=3D416" target=3D"_blank">announcement bl=
+og</a>, on our <a href=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https=
+:%2F%2Faws.amazon.com%2Faws-cost-management%2Faws-cost-anomaly-detection/1/=
+010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/LgmKtK6X32nuY_=
+4hlDBobfJ3Xe4=3D416" target=3D"_blank">product page</a>, and in <a href=3D"=
+https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.com=
+%2Fcost-management%2Flatest%2Fuserguide%2Fgetting-started-ad.html/1/0100019=
+57aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/evrlshPL363Sq_Dz9U_af=
+7jTbuI=3D416" target=3D"_blank">our documentation</a>.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    FAQ:
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: Why am I receiving this email?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    In an effort to help our customers detect unintended sp=
+end, we are enabling Cost Anomaly Detection for all our new AWS Cost Explor=
+er customers. This email is associated with your AWS account. If you are no=
+t interested in this service, you can <a href=3D"https://1hglkcb3.r.us-east=
+-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.com%2Fcost-management%2Flates=
+t%2Fuserguide%2Fopting-out-cad.html/1/010001957aea8bb5-a293348b-fc81-429a-9=
+46a-367fec9699c9-000000/kFBo4Lt3kD77fHzObU0TFRUIlgw=3D416" target=3D"_blank=
+">opt-out</a> by deleting your monitor and subscription in the <a href=3D"h=
+ttps://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon.c=
+om%2Fcostmanagement%2Fhome%23%2Fanomaly-detection/1/010001957aea8bb5-a29334=
+8b-fc81-429a-946a-367fec9699c9-000000/2bGy9smgwN4Ep02sI9c0bS7WTSQ=3D416" ta=
+rget=3D"_blank">console</a> or via the <a href=3D"https://1hglkcb3.r.us-eas=
+t-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.com%2Faws-cost-management%2F=
+latest%2FAPIReference%2FAPI_DeleteAnomalyMonitor.html/1/010001957aea8bb5-a2=
+93348b-fc81-429a-946a-367fec9699c9-000000/95p5Qh_1yhAj4jdPs8fI934aVog=3D416=
+" target=3D"_blank">API<u></u>
+            </a></td></tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: What is Cost Anomaly Detection?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    Cost Anomaly Detection is an AWS cost management servic=
+e that monitors customers=E2=80=99 spend continuously, uses machine learnin=
+g to detect anomalies, and generates alerts with root cause analysis of wha=
+t caused the anomaly. With the service, you can reduce unplanned spend and =
+minimize time and resources in triaging root causes. You can read more abou=
+t the service on our <a href=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0=
+/https:%2F%2Faws.amazon.com%2Faws-cost-management%2Faws-cost-anomaly-detect=
+ion/2/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/Q_99V_Tn=
+6levS4touiWvBJMtM3U=3D416" target=3D"_blank">product page</a> and in <a hre=
+f=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazo=
+n.com%2Fcost-management%2Flatest%2Fuserguide%2Fgetting-started-ad.html/2/01=
+0001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/uUBYJJksN7RRlsvA=
+n4zOb6mVHDk=3D416" target=3D"_blank">our documentation</a>.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: What is the pricing of Cost Anomaly Detection?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    There is no charge for Cost Anomaly Detection. The cost=
+ monitor and daily email alert subscription we set up for you are free. You=
+ can change the default configuration via our console or API to customize t=
+he alerts you receive. You can also configure immediate alerts via SNS, tho=
+ugh additional charges for using SNS may apply.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: What type of anomalies will Cost Anomaly Detection d=
+etect?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    With the default setup, Cost Anomaly Detection will mon=
+itor costs on the majority of your AWS services in your accounts. See limit=
+ations <a href=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fd=
+ocs.aws.amazon.com%2Fcost-management%2Flatest%2Fuserguide%2Fmanagement-limi=
+ts.html%23limits-ad/2/010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9=
+-000000/HIrgnVQAyOAeVwbf9kKXvAzLpKc=3D416" target=3D"_blank">here</a>.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: How will I be alerted about anomalies?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    Any anomalous spend related to your account(s) will sho=
+w up in the Cost Anomaly Detection console and via the API. In addition, if=
+ the anomaly is above $100 and exceeds 40% of expected spend, you will rece=
+ive a daily summary email to the primary email associated with your account=
+, detailing the cost impact, account name, the name of the monitor, the sta=
+rt and end dates, and the service where it was observed. The email will als=
+o include potential root causes for the anomaly.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: How do I opt out?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    If you are not interested in this service, you can opt-=
+out by deleting your monitor(s) and subscription(s) in the <a href=3D"https=
+://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Fconsole.aws.amazon.com%2=
+Fcostmanagement%2Fhome%23%2Fanomaly-detection/2/010001957aea8bb5-a293348b-f=
+c81-429a-946a-367fec9699c9-000000/QQ3AVjzlB8OVHefm0S7XBxBgnz8=3D416" target=
+=3D"_blank">console</a> or via the <a href=3D"https://1hglkcb3.r.us-east-1.=
+awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.com%2Faws-cost-management%2Flate=
+st%2FAPIReference%2FAPI_DeleteAnomalyMonitor.html/2/010001957aea8bb5-a29334=
+8b-fc81-429a-946a-367fec9699c9-000000/dtQ91HgviCZaqAF2N4QewTHs-zo=3D416" ta=
+rget=3D"_blank">API</a>. Read more in <a href=3D"https://1hglkcb3.r.us-east=
+-1.awstrack.me/L0/https:%2F%2Fdocs.aws.amazon.com%2Fcost-management%2Flates=
+t%2Fuserguide%2Fopting-out-cad.html/2/010001957aea8bb5-a293348b-fc81-429a-9=
+46a-367fec9699c9-000000/7htPLr_SxCVSBzqrg5MUA76Y1dc=3D416" target=3D"_blank=
+">our documentation</a>.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Q: What happens if I opt out? Can I still enable Cost A=
+nomaly Detection at a later date?
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    Yes, if you decide to opt out now, you will still be ab=
+le to enable Cost Anomaly Detection at a later time. When you opt out, you =
+will still be able to use Cost Explorer without Cost Anomaly Detection.
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f;font-weight:Bold">
+                    Questions?
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f">
+                    If you have any questions regarding the information in =
+this email or if you need additional assistance, please visit our <a href=
+=3D"https://1hglkcb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%=
+2Faws-cost-management%2Faws-cost-anomaly-detection%2Ffaqs/1/010001957aea8bb=
+5-a293348b-fc81-429a-946a-367fec9699c9-000000/P1wqaURUshkekqgwwOMdmLCK7i8=
+=3D416" target=3D"_blank">FAQ</a> or contact us at <a href=3D"https://1hglk=
+cb3.r.us-east-1.awstrack.me/L0/https:%2F%2Faws.amazon.com%2Fsupport/1/01000=
+1957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/ZzF1UibM4GkQDbLagDN=
+djoAmedQ=3D416" target=3D"_blank">https://aws.amazon.com/support</a>
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+        <br>
+        <table style=3D"width:100%;font-family:Helvetica,Regular;font-size:=
+14px">
+            <tbody><tr>
+                <td style=3D"color:#16191f">
+                    Sincerely,
+                </td>
+            </tr>
+            <tr>
+                <td style=3D"color:#16191f">
+                    AWS Cost Management Team
+                </td>
+            </tr>
+        </tbody></table>
+        <br>
+    </td></tr></tbody></table>
+<img alt=3D"" src=3D"https://1hglkcb3.r.us-east-1.awstrack.me/I0/010001957a=
+ea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000/L8SkMUbCZ6_jBBjJXXQtf3DF=
+Fcw=3D416" style=3D"display:none;width:1px;height:1px">
+</td></tr></tbody></table></div>
+
+<hr>
+
+    <p style=3D"font-family:Helvetica,Arial,sans-serif;line-height:18px;fon=
+t-size:12px;font-style:italic">This is an automatically generated email. Pl=
+ease do not reply to this email as the email address is not monitored. If y=
+ou wish to stop receiving email notifications and anomaly alerts from AWS C=
+ost Anomaly Detection, please click <a href=3D"https://1hglkcb3.r.us-east-1=
+.awstrack.me/L0/https:%2F%2Faws-cost-management-alerts.com%3Ftoken=3DAQICAH=
+gV0gdMKaioqoPY2850YskTh1g2iu4%252BzcPqGUZeb2D%252B1QHIe4m5boxtLQrgbTEDdi7TA=
+AAA6jCB5wYJKoZIhvcNAQcGoIHZMIHWAgEAMIHQBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEE=
+DHuNRMUCAP5SXQEfRwIBEICBooMiJtZfQXQLTsgWvqNU%252B3snbx7IFeGr0kXRVG1WTrWr3d7=
+wIopgXkbNFi0pD26dYNMVv4axsoO3Cktp7tnyY%252BQqH0lRKdBdVRilXVdMTWm6O%252B9T3E=
+R2w2tfenr7MbW6UpDmI%252FqyZCjy%252FAjZghtxaHOFODYiY0RTCCYjH%252BTHdwJm3h3Gr=
+LWMlPe4OPGin8Xi%252BVhi3aGNKeLFwnaX6DKSlWfLnQ%253D%253D/1/010001957aea8bb5-=
+a293348b-fc81-429a-946a-367fec9699c9-000000/eitlLeBOQ_WuJ0mkqCXvfSm5Xo8=3D4=
+16" target=3D"_blank"> here</a>.</p>
+
+
+</div></div>
+
+--000000000000ef5134062fee4ac7--
