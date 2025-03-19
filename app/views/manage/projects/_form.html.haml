@@ -42,7 +42,8 @@
       .form-info Please upload photos of the unfinished project.
       = form.file_field :append_project_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
       - form.object.project_images.each do |image|
-        = image_tag image.representation( resize_to_limit: [100, 100])
+        - if image.representable?
+          = image_tag image.representation( resize_to_limit: [100, 100])
 
 
   .my-4
@@ -103,7 +104,8 @@
         .form-info Photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
         = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
         - form.object.material_images.each do |image|
-          = image_tag image.representation( resize_to_limit: [100, 100])
+          - if image.representable?
+            = image_tag image.representation( resize_to_limit: [100, 100])
   .page-section
     %h5 Pattern
     .row.mb-2
