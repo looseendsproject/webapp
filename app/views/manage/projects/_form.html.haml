@@ -1,176 +1,83 @@
 = form_with model: [:manage, @project], html: { class: 'form', data: { turbo: false } } do |form|
   = render "error_messages", resource: @project
-  .row.mb-4
-    .col-6
-      = form.label 'Project name', class: 'form-label required'
-      = form.text_field :name, class: 'form-control'
-    .col-2
-      = form.label :status, class: 'form-label'
-      = form.select :status, Project::STATUSES.map { |status| [status.humanize, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
-    .col-2
-      = form.label :manager_id, class: 'form-label'
-      = form.select :manager_id, User.project_managers.map { |a| [a.name, a.id] }, { include_blank: true }, { class: 'form-select' }
-    .col-2
-      - if current_user.admin?
-        = link_to 'Cancel', [:manage, @project], class: 'btn btn-danger float-end'
 
-  -# This section will be toggled based on the selected status
-  .row.mb-4#ready-status-row{ style: (@project.status == 'ready to match' ? '' : 'display: none;') }
-    .col-4
-      = form.label :ready_status, 'Ready to Match Status', class: 'form-label'
-      = form.select :ready_status, Project::READY_TO_MATCH_STATUSES.map { |status| [status.humanize, status] }, { include_blank: true }, { class: 'form-select' }
-  .row.mb-4#in-process-status-row{ style: (@project.status == 'in process' ? '' : 'display: none;') }
-    .col-4
-      = form.label :in_process_status, 'In Process Status', class: 'form-label'
-      = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize.gsub(/\bpo\b/i, 'PO'), status] }, { include_blank: true }, { class: 'form-select' }
+  .row.justify-content-between.align-items-center
+    %h2.col-6 Project Details
+    .col-6.row
+      .d-flex.align-items-end
+        .col-5.me-2
+          = form.label :status, class: 'form-label'
+          = form.select :status, Project::STATUSES.map { |status| [status.humanize, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
+        .col-5.me-2
+          = form.label :manager_id, class: 'form-label'
+          = form.select :manager_id, User.project_managers.map { |a| [a.name, a.id] }, { include_blank: true }, { class: 'form-select' }
+        .col-2
+          - if current_user.admin?
+            = link_to 'Cancel', [:manage, @project], class: 'btn btn-danger float-end'
+          -# This section will be toggled based on the selected status
+      .mt-2#ready-status-row{ class: [@project.status == 'ready to match' ? 'd-flex' : 'd-none'] }
+        .col-5.me-2
+          = form.label :ready_status, 'Ready to Match Status', class: 'form-label'
+          = form.select :ready_status, Project::READY_TO_MATCH_STATUSES.map { |status| [status.humanize, status] }, { include_blank: true }, { class: 'form-select' }
+      .mt-2#in-process-status-row{ class:[@project.status == 'in process' ? 'd-flex' : 'd-none'] }
+        .col-5.me-2
+          = form.label :in_process_status, 'In Process Status', class: 'form-label'
+          = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize.gsub(/\bpo\b/i, 'PO'), status] }, { include_blank: true }, { class: 'form-select' }
 
-  .row.mb-4
-    .col-md-6
-      = form.label 'Phone Number', class: 'form-label required'
-      = form.text_field :phone_number, class: 'form-control'
-  .row.mb-4
-    .col-md-6
-      = form.label 'Craft Kind', class: 'form-label required'
-      = form.text_field :craft_type, class: 'form-control'
-  .row.mb-4
-    .col-md-6
-      = form.label 'What was being made?', class: 'form-label required'
-      = form.text_area :description, size: "60x5", class: 'form-control'
-  .row.mb-4
-    .col-md-4
-      = form.label 'Project Images', class: 'form-label required'
-      .form-info Please upload photos of the unfinished project.
-      = form.file_field :append_project_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
-      - form.object.project_images.each do |image|
-        = image_tag image.representation( resize_to_limit: [100, 100])
+  %hr
+  = render "project_form_fields", form: form
 
-
+  %h2 Submitter Details
+  %hr
+  = render "submitter_form_fields", form: form
   .my-4
     %h5 Mailing Address
     .form-info Where to send it when it's done
     = render :partial => 'layouts/address_form', :locals => { form: form }
 
+  %h2 Original Crafter Details
+  %hr
+  = render "crafter_form_fields", form: form
 
-  .row.mb-3
-    .col-12
-      = form.label "About the original crafter", class: 'form-label optional'
-    .col-6.col-sm-5.col-md-4
-      .form-info Were there pets in the home?
-      = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other', 'other'] ], :last, :first) do |b|
-        .row
-          %label.form-label
-            = b.check_box
-            = b.label
+  %h2 Other Project Attributes
+  .row.mb-4
+    .col-md-8
+      .row.flex-nowrap
+        %label.form-label.flex-shrink-1
+          = form.check_box :joann_helped
+          Joann helped
+        %label.form-label.flex-shrink-1
+          = form.check_box :urgent
+          Urgent
+      .row.flex-nowrap
+        %label.form-label.flex-shrink-1
+          = form.check_box :influencer
+          Influencer
+        %label.form-label.flex-shrink-1
+          = form.check_box :group_project
+          Group project
+      .row.mb-3#group-manager-row{ style: (@project.group_project ? '' : 'display: none;') }
+        .col-6
+          = form.label :group_manager_id, 'Group Manager', class: 'form-label'
+          .autocomplete#group-manager-autocomplete{ data: { controller: 'autocomplete', autocomplete_url: finishers_search_manage_projects_path() } }
+            = text_field_tag :group_manager_name, @project.group_manager&.name, class: 'form-control', data: { autocomplete_target: 'input', action: 'input->autocomplete#fetch' }
+            = form.hidden_field :group_manager_id, value: @project.group_manager_id, data: { autocomplete_target: 'hidden' }
 
-  .row
-    .col-xl-8.col-md-10
-      .form-info Was the project exposed to cigarette smoke?
-      = form.label 'has_smoke_in_home', class: 'form-label' do
-        = form.check_box :has_smoke_in_home
-        Yes, this project has been exposed to cigarette smoke.
+      .row.flex-nowrap
+        %label.form-label.flex-shrink-1
+          = form.check_box :press
+          Press
+        %label.form-label.flex-shrink-1
+          = form.check_box :privacy_needed
+          Privacy needed
 
-  .row.g-1.g-sm-4.mb-3
-    .col-12
-      = form.label 'Sensitivities', class: 'form-label optional'
-      .row
-        %label.form-label
-          = form.check_box :no_smoke
-          No smoke, please.
-      .row
-        %label.form-label
-          = form.check_box :no_cats
-          No cats, please.
-      .row
-        %label.form-label
-          = form.check_box :no_dogs
-          No dogs, please.
-
-  .page-section
-    %h5 Material
-    .row.mb-2
-      .col-md-6
-        = form.label 'What kind of yarn / material is used?', class: 'form-label required'
-        .form-info Wool, Cotton, Linen, Synthetic (Nylon, Polyester, Acrylic, etc).
-        = form.text_field :material_type, class: 'form-control'
-    .row
-      .col-md-6
-        = form.label 'What brand is the material?', class: 'form-label'
-        .form-info Berocco, Lion, etc.
-        = form.text_field :material_brand, class: 'form-control'
-    .row.mb-2
-      .col-md-4
-        = form.label 'Material Images', class: 'form-label'
-        .form-info Photo of the materials (yarn, fabric) used. Please be sure to include any labels and branding, if possible.
-        = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
-        - form.object.material_images.each do |image|
-          = image_tag image.representation( resize_to_limit: [100, 100])
-  .page-section
-    %h5 Pattern
-    .row.mb-2
-      .col-md-2
-        = form.label 'Is there a pattern?', class: 'form-label required'
-        = form.select :has_pattern, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-select' }
-    .row.mb-2
-      .col-md-4
-        = form.label 'Pattern Files', class: 'form-label'
-        .form-info Please upload images or PDFs of the pattern, if you have them.
-        = form.file_field :append_pattern_files, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp,application/pdf", :multiple => true
-        - form.object.pattern_files.each do |file|
-          - if file.representable?
-            = link_to file.blob.filename, url_for(file)
-
-  .page-section
-    %h5 Project Attributes
-    .row.mb-3
-      .col-12
-        .row
-          %label.form-label
-            = form.check_box :joann_helped
-            Joann helped
-        .row
-          %label.form-label
-            = form.check_box :urgent
-            Urgent
-        .row
-          %label.form-label
-            = form.check_box :influencer
-            Influencer
-        .row
-          %label.form-label
-            = form.check_box :group_project
-            Group project
-        .row.mb-3#group-manager-row{ style: (@project.group_project ? '' : 'display: none;') }
-          .col-6
-            = form.label :group_manager_id, 'Group Manager', class: 'form-label'
-            .autocomplete#group-manager-autocomplete{ data: { controller: 'autocomplete', autocomplete_url: finishers_search_manage_projects_path() } }
-              = text_field_tag :group_manager_name, @project.group_manager&.name, class: 'form-control', data: { autocomplete_target: 'input', action: 'input->autocomplete#fetch' }
-              = form.hidden_field :group_manager_id, value: @project.group_manager_id, data: { autocomplete_target: 'hidden' }
-        .row
-          .col-12
-            .row
-              %label.form-label
-                = form.check_box :press
-                Press
-        .row.mb-3#press-fields{ style: (@project.press ? '' : 'display: none;') }
-          .col-6
-            = form.label :press_region, 'Region', class: 'form-label'
-            = form.text_field :press_region, class: 'form-control'
-          .col-6
-            = form.label :press_outlet, 'Outlet', class: 'form-label'
-            = form.text_field :press_outlet, class: 'form-control'
-        .row.mb-3
-          .col-12
-            .row
-              %label.form-label
-                = form.check_box :privacy_needed
-                Privacy needed
-
-  .page-section
-    %h5 Other Details
-    .row.mb-2
-      .col-md-6
-        = form.label 'Are there any other details you can offer, or anything else we should know about finishing this project?', class: 'form-label'
-        = form.text_area :more_details, size: "60x5", class: 'form-control'
+      .row.mb-3#press-fields{ style: (@project.press ? '' : 'display: none;') }
+        .col-6
+          = form.label :press_region, 'Region', class: 'form-label'
+          = form.text_field :press_region, class: 'form-control'
+        .col-6
+          = form.label :press_outlet, 'Outlet', class: 'form-label'
+          = form.text_field :press_outlet, class: 'form-control'
 
   .page-section
     .form-actions

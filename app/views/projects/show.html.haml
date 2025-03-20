@@ -9,9 +9,10 @@
 .row
   .col-4.mr-6.row
     - @project.project_images.each do |image|
-      .removeable_image
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-        = button_to fa_icon("trash"), project_path(@project, { project_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: ''
+      - if image.representable?
+        .removeable_image
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+          = button_to fa_icon("trash"), project_path(@project, { project_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: ''
 
     .page-section
 
@@ -36,9 +37,10 @@
 
     = @project.material_type
     - @project.material_images.each do |image|
-      .removeable_image
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-        = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+      - if image.representable?
+        .removeable_image
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+          = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %h4.mt-4
       .row
         .col-9
