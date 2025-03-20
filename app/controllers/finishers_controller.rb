@@ -7,6 +7,7 @@ class FinishersController < AuthenticatedController
   def show
     @title = "Loose Ends - Finisher Profile"
     @finisher = current_user.finisher
+    raise ActiveRecord::RecordNotFound unless @finisher
   end
 
   def new

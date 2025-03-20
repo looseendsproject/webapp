@@ -25,7 +25,8 @@
         .row.g-1.g-sm-4
           .col-6
             .form-image
-              = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
+              - if @finisher.picture.representable?
+                = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
       .row.g-1.g-sm-4.mb-4
         .col-12
           = form.label 'A Photo of you', class: 'form-label optional'
