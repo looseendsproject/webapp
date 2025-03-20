@@ -192,7 +192,7 @@
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
-      = render partial: 'manage/project_notes/form', locals: { project: @project}
+      = render partial: 'manage/project_notes/form', locals: { project: @project }
 
 :javascript
   var updateProjectTimestamp = () => {
