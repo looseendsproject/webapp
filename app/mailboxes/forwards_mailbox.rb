@@ -1,22 +1,16 @@
 class ForwardsMailbox < ApplicationMailbox
-  before_processing :find_project
+  before_processing :require_resource
 
   def process
-    # TODO
+    puts resource
   end
 
   private
 
-  def find_original_sender
-    # find original from in forwarded body
-    # find user
+  def require_resource
   end
 
-  def find_project
-    # user/finisher/project
-  end
-
-  def record_forward
-    # create ProjectNote record
+  def resource
+    @resource ||= User.find_by(email_address: mail.from)
   end
 end
