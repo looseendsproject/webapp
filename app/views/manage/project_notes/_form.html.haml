@@ -5,9 +5,10 @@
   .row.my-2
     .col
       = check_box_tag :finisher_contact, '1', false, class: 'form-check-input', autocomplete: 'off'
-      = label_tag :finisher_contact, "Finisher contact?", class: 'd-inline form-control-sm form-check-label'
-    .col-auto
-      = f.submit 'Submit', { id: 'project_note_form_submit_button', disabled: 'true', class: "btn btn-primary" }
+      = label_tag :finisher_contact, "Contact from Finisher?", class: 'd-inline form-control-sm form-check-label'
+  .row.my-2
+    .col.clearfix
+      = f.submit 'Submit', { id: 'project_note_form_submit_button', disabled: 'true', class: "btn btn-primary float-end" }
 
 :javascript
   document.getElementById('project_note_description').addEventListener('input', () => {
