@@ -61,7 +61,7 @@ class HomeControllerTest < ActionController::TestCase
     sign_in users(:new)
     get :show
 
-    assert_select "h4", { text: "Become a Finisher" }
+    assert_select "h4", { text: "Volunteer as a Finisher" }
   end
 
   test "should show finisher incomplete if the user has incomplete finisher" do
