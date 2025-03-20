@@ -4,7 +4,7 @@ class FinisherBrowserTest < ApplicationSystemTestCase
   test "register as finisher" do
     visit root_path
 
-    assert_text "Become a Finisher"
+    assert_text "Volunteer as a Finisher"
 
     first(:link, "Sign Up").click
 
