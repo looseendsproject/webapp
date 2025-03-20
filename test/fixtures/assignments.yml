@@ -2,15 +2,16 @@
 #
 # Table name: assignments
 #
-#  id          :bigint           not null, primary key
-#  ended_at    :datetime
-#  started_at  :datetime
-#  status      :text
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  finisher_id :bigint
-#  project_id  :bigint
-#  user_id     :bigint
+#  id                :bigint           not null, primary key
+#  ended_at          :datetime
+#  last_contacted_at :datetime
+#  started_at        :datetime
+#  status            :text
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  finisher_id       :bigint
+#  project_id        :bigint
+#  user_id           :bigint
 #
 # Indexes
 #
