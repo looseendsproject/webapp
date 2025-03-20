@@ -24,6 +24,7 @@ knit_active:
   finisher_id: 2
   user_id: 3
   started_at: 2024-01-01
+  status: accepted
 
 knit_inactive:
   project_id: 2
