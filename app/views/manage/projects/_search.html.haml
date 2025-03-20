@@ -1,4 +1,5 @@
-= form_tag [:manage, :projects], :method => :get do
+= form_tag [:manage, :projects], :method => :get, data: { turbo: false } do
+  = hidden_field_tag :sort, params[:sort]
   .row
     .col
       Search
@@ -6,8 +7,6 @@
     .col
       = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
   .row
-    .col
-      Sort:
     .col
       Status:
     .col
@@ -17,8 +16,6 @@
     .col
       Per Page:
   .row.mb-2
-    .col
-      = select_tag :sort, options_for_select([['Created (Newest First)', 'created_at desc'], ['Created (Oldest First)', 'created_at asc'], ['Updated (Newest First)', 'updated_at desc'], ['Updated (Oldest First)', 'updated_at asc']], params[:sort]), class: 'form-select'
     .col
       = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status.humanize}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
     .col
