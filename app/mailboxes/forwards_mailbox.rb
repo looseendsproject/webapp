@@ -1,16 +1,19 @@
 class ForwardsMailbox < ApplicationMailbox
-  before_processing :require_resource
 
   def process
-    puts resource
+    project = User.find_by(email: original_sender)&.finisher&.projects&.first
+
+    if project.present?
+      # GOOD!
+    else
+      raise ActiveRecord::RecordNotFound
+    end
   end
 
   private
 
-  def require_resource
-  end
-
-  def resource
-    @resource ||= User.find_by(email_address: mail.from)
+  def original_sender
+    senders = mail.raw_source.scan(/^From: (.+)$/)
+    /<(\S+)>/.match(senders.last[0]).captures
   end
 end
