@@ -42,4 +42,11 @@ class ManagerAccessTest < ActionDispatch::IntegrationTest
 
     assert_match /Mission control - Queues/, @response.body
   end
+
+  test "/finisher returns 404" do
+    sign_in users(:admin)
+    get "/finisher"
+
+    assert_response :not_found
+  end
 end

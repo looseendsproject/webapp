@@ -23,7 +23,7 @@
         .col-5.me-2
           = form.label :in_process_status, 'In Process Status', class: 'form-label'
           = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize.gsub(/\bpo\b/i, 'PO'), status] }, { include_blank: true }, { class: 'form-select' }
-  
+
   %hr
   = render "project_form_fields", form: form
 
@@ -38,7 +38,7 @@
   %h2 Original Crafter Details
   %hr
   = render "crafter_form_fields", form: form
-  
+
   %h2 Other Project Attributes
   .row.mb-4
     .col-md-8
@@ -62,7 +62,7 @@
           .autocomplete#group-manager-autocomplete{ data: { controller: 'autocomplete', autocomplete_url: finishers_search_manage_projects_path() } }
             = text_field_tag :group_manager_name, @project.group_manager&.name, class: 'form-control', data: { autocomplete_target: 'input', action: 'input->autocomplete#fetch' }
             = form.hidden_field :group_manager_id, value: @project.group_manager_id, data: { autocomplete_target: 'hidden' }
-      
+
       .row.flex-nowrap
         %label.form-label.flex-shrink-1
           = form.check_box :press
@@ -70,7 +70,7 @@
         %label.form-label.flex-shrink-1
           = form.check_box :privacy_needed
           Privacy needed
-      
+
       .row.mb-3#press-fields{ style: (@project.press ? '' : 'display: none;') }
         .col-6
           = form.label :press_region, 'Region', class: 'form-label'
@@ -78,7 +78,7 @@
         .col-6
           = form.label :press_outlet, 'Outlet', class: 'form-label'
           = form.text_field :press_outlet, class: 'form-control'
-      
+
   .page-section
     .form-actions
       = form.submit current_user.admin? ? 'Save' : 'Submit Project', class: "btn btn-primary"
