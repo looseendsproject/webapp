@@ -168,4 +168,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert_not_equal(original_updated_at, @project.updated_at)
   end
+
+  test "has messages" do
+    assert_nothing_raised { @project.messages }
+  end
 end
