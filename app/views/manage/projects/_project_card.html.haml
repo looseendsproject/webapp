@@ -25,7 +25,7 @@
         %li.highlighted
           = fa_icon("user", title: 'Active Finisher')
           %span #{project.active_finisher.name}
-        - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('updated_at')
+        - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('last_contacted_at')
           %li
             = fa_icon("envelope", title: 'Last Contact')
             = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
