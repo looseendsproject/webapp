@@ -1,49 +1,14 @@
-= render 'title', title: 'Loose Ends Project'
-%h2.page-subtitle.mb-3 Why it’s important to finish a handmade project
+%h2.mb-3.align-center Get Involved
 .row
-  .col-12.col-md-6.col-lg-8.col-xl-9
-    .page-section
-      %h4 Become a Finisher
-      %p Handmade items are gestures of love. The time, expense, and skill that go into making them are impossible to quantify. When you wear something made special for you, it feels good — you were thoughtfully considered with each stitch. When a maker dies mid-project, this tangible, handmade expression of love could get lost, donated away, or thrown out.
-      %p Or, it can be finished as intended and given back to be cherished.
-
-      - if current_user
-        .page-section
-        - if !current_user.finisher?
-
-          %h4 Start your finisher profile!
-          %ul.list-unstyled.row
-            %li.col-6.col-lg-4
-              = link_to 'Fill out your Finisher Profile', current_user&.finisher? ? edit_finisher_path : new_finisher_path, class: 'btn-primary btn w-100'
-        - else
-          %b
-            - if !current_user.finisher.has_completed_profile
-              Complete your finisher profile!
-            - else
-              Finisher Profile Complete!
-          %ul.list-unstyled.row
-            %li.col-6.col-lg-4
-              = link_to 'View your Profile', :finisher, class: 'btn-primary btn w-100'
-      - else
-        .page-section
-          %ul.list-unstyled.row
-            %li.col-6.col-lg-4
-              = link_to 'Sign Up', new_registration_path('user'), class: 'btn-primary btn w-100'
-
-
-      %h4.mt-5 Submit a Project
-      %p Once Loose Ends receives your project submission, we will look through our database of finishers to find a good match. With considerations to geography, craft, skill level, and preferences, we will identify a good fit based on the information volunteer finishers submitted in their profiles.
-      %p After we identify a good finisher for you, we will offer them details about your project and wait for their reply. Once they agree to the job, we will introduce you in an email. Thanks for trusting Loose Ends with your precious handwork. We'll be in touch soon.
-      %ul.list-unstyled.row
-        %li.col-6.col-lg-4
-          - if current_user
-            = link_to "Submit your project", [:new, :project], class: 'btn-primary btn w-100'
-          - else
-            = link_to 'Create an account', new_registration_path('user'), class: 'btn-primary btn w-100'
+  - if current_user && current_user.finisher?
+    - if current_user.finisher.has_completed_profile
+      = render 'card_finisher'
+    - else
+      = render 'card_finisher_incomplete'
+  - else
+    = render 'card_finisher_prompt'
 
   - if current_user && current_user.projects.any?
-    #projects.col-12.col-md-6.col-lg-4.col-xl-3
-      .rounded-3.p-3{ style: 'background: #EEE'}
-        %h4 Projects
-        %ul.list-unstyled
-          = render current_user.projects
+    = render 'card_project'
+  - else
+    = render 'card_project_prompt'

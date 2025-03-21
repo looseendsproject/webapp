@@ -1,0 +1,13 @@
+.col-lg-6.mb-4.mb-lg-0
+  .card.h-100
+    .row.g-0.h-100
+      .col-4.overflow-hidden
+        = image_tag('hero_finisher.jpg', class: 'rounded-start h-100')
+      .col-8
+        .card-body.h-100.d-flex.flex-column
+          .row.flex-grow-0.flex-start
+            %h4 Finisher
+            %p Thanks for your interest in becoming a Loose Ends finisher! We are missing a few important details. Please fill in the mandatory fields using the button below. Once your profile is complete we’ll be able to find you when there’s a project for you to consider.
+
+          .row-auto.flex-grow-1.align-content-end
+            = link_to 'Complete Your Profile', :finisher, class: 'btn-primary btn'
