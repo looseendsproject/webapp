@@ -20,6 +20,7 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
     # Test was throwing a pg transaction error, but this works...
     ActiveRecord::Base.transaction do
       @inbound.route
+      # TODO make sure Message was persisted
     end
   end
 

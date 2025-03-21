@@ -4,7 +4,7 @@ class ForwardsMailbox < ApplicationMailbox
     project = User.find_by(email: original_sender)&.finisher&.projects&.first
 
     if project.present?
-      # GOOD!
+      # project.emails.attach(mail.body) # NO use actiontext
     else
       raise ActiveRecord::RecordNotFound
     end
