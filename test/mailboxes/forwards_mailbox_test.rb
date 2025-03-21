@@ -20,7 +20,8 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
     # Test was throwing a pg transaction error, but this works...
     ActiveRecord::Base.transaction do
       @inbound.route
-      # TODO make sure Message was persisted
+      assert_match /Subject: Getting started with ActiveMailbox/,
+        Project.find(1).messages.last.content.body.to_s
     end
   end
 

@@ -85,6 +85,7 @@ class Finisher < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :products, through: :favorites
+  has_many :messages, as: :messageable
 
   accepts_nested_attributes_for :assessments
 
