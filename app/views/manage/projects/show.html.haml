@@ -194,6 +194,11 @@
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project}
 
+    - if @project.messages.any?
+      %h4.mt-4 Messages
+      #messages.d-flex.flex-column
+        = render @project.messages
+
 :javascript
   var updateProjectTimestamp = () => {
     const timestamp = document.getElementById('updated_at_utc');
