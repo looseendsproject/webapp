@@ -15,7 +15,7 @@ class ForwardsMailbox < ApplicationMailbox
   private
 
   def original_sender
-    senders = mail.raw_source.scan(/^From: (.+)$/)
-    /<(\S+)>/.match(senders.last[0]).captures
+    senders = mail.raw_source.scan(/^From: (.+)\r$/)
+    senders.last[0]
   end
 end

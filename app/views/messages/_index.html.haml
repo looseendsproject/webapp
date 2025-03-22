@@ -1,0 +1,17 @@
+%table
+  %thead
+    %tr
+      %th Sent
+      %th Recorded
+      %th From
+      %th Subject
+      %th &nbsp;
+  %tbody
+    - messages.each do |message|
+      %tr
+        %td= message.email.date.to_s
+        %td= message.created_at.to_s
+        %td= message.email.from
+        %td= link_to message.email.subject, message
+        %td
+          // TODO action buttons (view, delete)

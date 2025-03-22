@@ -7,10 +7,12 @@
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo-rails": "^7.3.0",
     "@popperjs/core": "^2.11.7",
+    "@rails/actiontext": "^8.0.200",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "esbuild": "^0.17.18",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "trix": "^2.1.13"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",

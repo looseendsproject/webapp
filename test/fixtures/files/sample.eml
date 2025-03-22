@@ -37,7 +37,7 @@ X-Received: by 2002:a05:6402:d09:b0:5e4:bea3:a74d with SMTP id
 MIME-Version: 1.0
 References: <010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000@email.amazonses.com>
 In-Reply-To: <010001957aea8bb5-a293348b-fc81-429a-946a-367fec9699c9-000000@email.amazonses.com>
-From: For Warder <forwarder@example.com>
+From: forwarder@example.com
 Date: Sun, 9 Mar 2025 15:59:15 -0400
 X-Gm-Features: AQ5f1JpQ0Itr62zXd-J4pGso7A5GHq1riMONkoIbcqL4QJyYfSfM5yS0grBoJds
 Message-ID: <CAGSLCDW=LbnFWMd1WVZ2cwUsT5jC6M017rWVEe6Wr15XGvZybQ@mail.gmail.com>
@@ -50,11 +50,10 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 ---------- Forwarded message ---------
-From: <fred@gmail.com>
+From: fred@gmail.com
 Date: Sun, Mar 9, 2025 at 8:39=E2=80=AFAM
-Subject: Getting started with ActiveMailbox
-Project (999999999999)
-To: <example@example.com>
+Subject: Getting started with ActiveMailbox, Project (999999999999)
+To: example@example.com
 
 
 [image: Description: awslogo]
