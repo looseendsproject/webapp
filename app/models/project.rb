@@ -20,6 +20,7 @@
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
 #  in_process_status         :string
+#  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
 #  latitude                  :float
@@ -53,11 +54,12 @@
 #
 # Indexes
 #
-#  index_projects_on_group_manager_id  (group_manager_id)
-#  index_projects_on_latitude          (latitude)
-#  index_projects_on_longitude         (longitude)
-#  index_projects_on_manager_id        (manager_id)
-#  index_projects_on_user_id           (user_id)
+#  index_projects_on_group_manager_id       (group_manager_id)
+#  index_projects_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_projects_on_latitude               (latitude)
+#  index_projects_on_longitude              (longitude)
+#  index_projects_on_manager_id             (manager_id)
+#  index_projects_on_user_id                (user_id)
 #
 # Foreign Keys
 #
@@ -103,6 +105,7 @@ class Project < ApplicationRecord
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
   include LooseEndsSearchable
+  include EmailAddressable
 
   search_query_joins :user
   search_sort_name_field :name

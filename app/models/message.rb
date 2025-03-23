@@ -20,5 +20,8 @@
 class Message < ApplicationRecord
   belongs_to :messageable, polymorphic: true
   has_rich_text :content
-end
 
+  def email
+    Mail.from_source content.to_plain_text
+  end
+end

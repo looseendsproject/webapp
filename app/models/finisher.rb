@@ -24,6 +24,7 @@
 #  has_volunteer_time_off         :boolean
 #  has_workplace_match            :boolean
 #  in_home_pets                   :string
+#  inbound_email_address          :string
 #  joined_on                      :date
 #  latitude                       :float
 #  longitude                      :float
@@ -48,13 +49,15 @@
 #
 # Indexes
 #
-#  index_finishers_on_joined_on  (joined_on)
-#  index_finishers_on_latitude   (latitude)
-#  index_finishers_on_longitude  (longitude)
-#  index_finishers_on_user_id    (user_id)
+#  index_finishers_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_finishers_on_joined_on              (joined_on)
+#  index_finishers_on_latitude               (latitude)
+#  index_finishers_on_longitude              (longitude)
+#  index_finishers_on_user_id                (user_id)
 #
 class Finisher < ApplicationRecord
   include LooseEndsSearchable
+  include EmailAddressable
 
   search_query_joins :user
   search_text_fields :"finishers.description", :"finishers.chosen_name", :"finishers.city", :"finishers.state",

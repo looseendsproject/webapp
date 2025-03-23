@@ -24,6 +24,7 @@
 #  has_volunteer_time_off         :boolean
 #  has_workplace_match            :boolean
 #  in_home_pets                   :string
+#  inbound_email_address          :string
 #  joined_on                      :date
 #  latitude                       :float
 #  longitude                      :float
@@ -48,10 +49,11 @@
 #
 # Indexes
 #
-#  index_finishers_on_joined_on  (joined_on)
-#  index_finishers_on_latitude   (latitude)
-#  index_finishers_on_longitude  (longitude)
-#  index_finishers_on_user_id    (user_id)
+#  index_finishers_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_finishers_on_joined_on              (joined_on)
+#  index_finishers_on_latitude               (latitude)
+#  index_finishers_on_longitude              (longitude)
+#  index_finishers_on_user_id                (user_id)
 #
 require "test_helper"
 
@@ -71,6 +73,14 @@ class FinisherTest < ActiveSupport::TestCase
   end
 
   test "has messages" do
-    assert_nothing_raised { finishers(:crocheter).messages }
+    setup_message!
+    assert_equal 'finisher/2025032345337', finishers(:crocheter).messages.first.description
+  end
+
+  test "inbound_email_address assignment" do
+    f = Finisher.new
+    refute f.inbound_email_address
+    f.valid?
+    assert_match /Finisher-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/, f.inbound_email_address
   end
 end

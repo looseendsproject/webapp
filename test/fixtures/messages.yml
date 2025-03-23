@@ -17,8 +17,13 @@
 #  index_messages_on_messageable                          (messageable_type,messageable_id)
 #  index_messages_on_messageable_type_and_messageable_id  (messageable_type,messageable_id)
 #
-email:
+project:
   messageable_type: 'Project'
   messageable_id: 1
   description: "email/2025032104553"
   last_edited_by: 3
+
+finisher:
+  messageable_type: 'Finisher'
+  messageable_id: 1
+  description: "finisher/2025032345337"
