@@ -117,6 +117,7 @@ class Project < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :finishers, through: :assignments
   has_many :project_notes, dependent: :destroy
+  has_many :messages, as: :messageable
 
   has_many_attached :crafter_images
   has_many_attached :project_images
