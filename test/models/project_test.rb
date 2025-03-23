@@ -20,6 +20,7 @@
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
 #  in_process_status         :string
+#  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
 #  latitude                  :float
@@ -53,11 +54,12 @@
 #
 # Indexes
 #
-#  index_projects_on_group_manager_id  (group_manager_id)
-#  index_projects_on_latitude          (latitude)
-#  index_projects_on_longitude         (longitude)
-#  index_projects_on_manager_id        (manager_id)
-#  index_projects_on_user_id           (user_id)
+#  index_projects_on_group_manager_id       (group_manager_id)
+#  index_projects_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_projects_on_latitude               (latitude)
+#  index_projects_on_longitude              (longitude)
+#  index_projects_on_manager_id             (manager_id)
+#  index_projects_on_user_id                (user_id)
 #
 # Foreign Keys
 #
@@ -76,6 +78,13 @@ class ProjectTest < ActiveSupport::TestCase
       project.save
       assert_predicate(project, :valid?, "Project fixture is invalid. Errors: #{project.errors.inspect}")
     end
+  end
+
+  test "inbound_email_address assignment" do
+    p = Project.new
+    refute p.inbound_email_address
+    p.valid?
+    assert_match /^Project-\w{#{EmailAddressable::LENGTH}}@example.com/, p.inbound_email_address
   end
 
   test "Name update" do
@@ -171,5 +180,10 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "has messages" do
     assert_nothing_raised { @project.messages }
+  end
+
+  test "acts as EmailAddressable" do
+    assert Project.method_defined? :inbound_email_address
+    assert @project.inbound_email_address
   end
 end

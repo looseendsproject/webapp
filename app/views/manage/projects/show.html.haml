@@ -194,13 +194,7 @@
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project }
 
-- if @project.messages.any?
-  .row.mt-4
-    %hr
-    .col
-      %h4 Messages
-      #messages.d-flex.flex-column
-        = render partial: 'messages/index', locals: { messages: @project.messages }
+= render partial: 'messages/index', locals: { resource: @project }
 
 :javascript
   var updateProjectTimestamp = () => {

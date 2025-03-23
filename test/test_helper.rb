@@ -53,5 +53,5 @@ end
 
 def setup_message!
   content = File.read(Rails.root.join('test', 'fixtures', 'files', 'sample_2.eml'))
-  Message.first.update!(content: content)
+  Message.all.map { |m| m.update!(content: content) }
 end
