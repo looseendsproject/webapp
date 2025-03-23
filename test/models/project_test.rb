@@ -84,7 +84,8 @@ class ProjectTest < ActiveSupport::TestCase
     p = Project.new
     refute p.inbound_email_address
     p.valid?
-    assert_match /^Project-\w{#{EmailAddressable::LENGTH}}@example.com/, p.inbound_email_address
+    assert_match /^Project-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/,
+      p.inbound_email_address
   end
 
   test "Name update" do

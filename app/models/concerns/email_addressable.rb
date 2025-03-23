@@ -7,6 +7,7 @@ module EmailAddressable
   extend ActiveSupport::Concern
 
   LENGTH = 8
+  DESTINATION_HOST = ENV['INBOUND_MAIL_HOST'] || 'localhost'
 
   included do |base|
     before_validation :ensure_inbound_email_address
@@ -22,7 +23,7 @@ module EmailAddressable
   def unique_address
     loop do
       str = SecureRandom.alphanumeric LENGTH
-      uniq = "#{self.class.to_s}-#{str}@" + Rails.configuration.action_mailer.default_url_options[:host]
+      uniq = "#{self.class.to_s}-#{str}@" + DESTINATION_HOST
       return uniq unless self.class.where(inbound_email_address: uniq).exists?
     end
   end
