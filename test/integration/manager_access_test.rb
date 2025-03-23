@@ -31,4 +31,22 @@ class ManagerAccessTest < ActionDispatch::IntegrationTest
 
     assert_response :success
   end
+
+  test "MissionControl UI is behind auth" do
+    get "/manage/jobs"
+
+    assert_redirected_to "/users/sign_up"
+
+    sign_in users(:admin)
+    get "/manage/jobs"
+
+    assert_match /Mission control - Queues/, @response.body
+  end
+
+  test "/finisher returns 404" do
+    sign_in users(:admin)
+    get "/finisher"
+
+    assert_response :not_found
+  end
 end

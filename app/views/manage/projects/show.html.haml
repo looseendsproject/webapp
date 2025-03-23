@@ -81,8 +81,9 @@
         (Required)
     %hr
     - @project.project_images.each do |image|
-      = link_to image_tag(image.representation( resize_to_limit: [100, 100])), |
-        url_for(image.variant(format: :jpg)), target: "_blank"
+      - if image.representable?
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100])), |
+          url_for(image.variant(format: :jpg)), target: "_blank"
     - if @project.more_details.present?
       .page-section
         %h5 More Details
@@ -132,10 +133,11 @@
         = @project.material_brand
     .row
       - @project.material_images.each do |image|
-        .removeable_image
-          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
-          url_for(image.variant(format: :jpg)), target: "_blank"
-          = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+        - if image.representable?
+          .removeable_image
+            = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
+            url_for(image.variant(format: :jpg)), target: "_blank"
+            = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %h4.mt-4
       .row
         .col-9
@@ -152,7 +154,8 @@
       = @project.crafter_name
       = @project.crafter_description
       - @project.crafter_images.each do |image|
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        - if image.representable?
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
     - else
       .text-muted Not Provided
 
@@ -189,7 +192,12 @@
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
-      = render partial: 'manage/project_notes/form', locals: { project: @project}
+      = render partial: 'manage/project_notes/form', locals: { project: @project }
+
+    - if @project.messages.any?
+      %h4.mt-4 Messages
+      #messages.d-flex.flex-column
+        = render @project.messages
 
 :javascript
   var updateProjectTimestamp = () => {

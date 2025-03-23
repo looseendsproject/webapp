@@ -26,5 +26,9 @@ module Looseends
 
     # Opt in to Rails 8.1 to_time default behavior
     config.active_support.to_time_preserves_timezone = :zone
+
+    # MissionControl is the UI for managing ActiveJob queues
+    config.mission_control.jobs.base_controller_class = "Manage::ManageController"
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end

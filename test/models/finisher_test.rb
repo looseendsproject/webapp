@@ -69,4 +69,8 @@ class FinisherTest < ActiveSupport::TestCase
     assert_equal 2, finisher.skills.count
     assert_equal [2, nil], finisher.skills.map(&:position)
   end
+
+  test "has messages" do
+    assert_nothing_raised { finishers(:crocheter).messages }
+  end
 end
