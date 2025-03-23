@@ -68,6 +68,11 @@ module Manage
 
     def show
       @finisher = Finisher.find(params[:id])
+      unless @finisher.inbound_email_address.present? # assign inbound_email_address on action
+        @finisher.valid?
+        @finisher.save!
+        @finisher.reload
+      end
       @title = "Loose Ends - Manage - Finishers - #{@finisher.chosen_name}"
     end
 

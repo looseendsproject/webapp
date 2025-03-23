@@ -1,0 +1,15 @@
+.col-lg-6
+  .card.h-100
+    .row.g-0.h-100
+      .col-4.overflow-hidden
+        = image_tag('hero_project.jpg', class: 'rounded-start h-100')
+      .col-8
+        .card-body.h-100.d-flex.flex-column
+          .row.flex-grow-0
+            %h4 Your Submitted Projects
+            %p You've submitted #{pluralize(current_user.projects.count, 'project')} already. You can view the status below and submit more projects.
+            %ul#projects.list-unstyled
+              = render current_user.projects
+
+          .row-auto.flex-grow-1.align-content-end
+            = link_to 'Submit Another', [:new, :project], class: 'btn-primary btn'

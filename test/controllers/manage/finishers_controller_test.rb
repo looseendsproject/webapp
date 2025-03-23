@@ -17,6 +17,14 @@ module Manage
       assert_response :success
     end
 
+    test "assigns inbound_email_address" do
+      refute Finisher.find(2).inbound_email_address
+
+      sign_in @user
+      get :show, params: { id: 2 }
+      assert_match /Finisher-\w{8}@localhost/, response.body
+    end
+
     test "search requires login" do
       get :search
 

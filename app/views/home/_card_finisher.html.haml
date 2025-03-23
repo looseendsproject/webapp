@@ -1,0 +1,18 @@
+.col-lg-6.mb-4.mb-lg-0
+  .card.h-100
+    .row.g-0.h-100
+      .col-4.overflow-hidden
+        = image_tag('hero_finisher.jpg', class: 'rounded-start h-100')
+      .col-8
+        .card-body.h-100.d-flex.flex-column
+          .row.flex-grow-0.flex-start
+            %h4 You're a Finisher
+            %p YOU DID IT! You signed up to be a finisher. What happens now?
+            %p We match projects as they come in, in the area where they come in, based on finishers’ preferred crafts, preferences, and skill levels. We will be in touch as soon as we have a project for you to consider. While you are waiting here are three things you can do:
+            %ul.ms-2
+              %li.pb-1 Make sure your email system doesn't flag @looseendsproject.org emails as spam.
+              %li.pb-1 Download #{link_to('our flyer', 'https://www.looseendsproject.org/flyers')} and share it with your community. This will increase your chances of getting a project sooner!
+              %li Are you on Facebook? Join our #{link_to('private Facebook group for Loose Ends finishers', 'https://www.facebook.com/groups/3157638207882312')} (it's lots of fun). Also make sure you're following us #{link_to('Facebook', 'https://www.facebook.com/looseendsproject')}, #{link_to('Instagram', 'https://www.instagram.com/thelooseendsproject')} & #{link_to('Ravelry', 'https://www.ravelry.com/groups/loose-ends-4')}
+
+          .row-auto.flex-grow-1.align-content-end
+            = link_to 'View Your Profile', :finisher, class: 'btn-primary btn'

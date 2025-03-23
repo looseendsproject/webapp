@@ -1,5 +1,23 @@
 class ForwardsMailbox < ApplicationMailbox
+
   def process
-    # TODO
+    m = resource.messages.new
+    m.description = "email/#{Time.now.iso8601}"
+    m.content = mail.raw_source
+    m.save!
+  end
+
+  private
+
+  def resource
+    matches = /^(\w+)-\w{#{EmailAddressable::LENGTH}}@/.match(mail.to.first)
+    if matches.present?
+      klass = matches[1].constantize
+      record = klass.find_by(inbound_email_address: mail.to.first)
+    end
+
+    # Exception will kick InboundEmail into "failed" status until incinerated
+    raise ActiveRecord::RecordNotFound unless record.present?
+    record
   end
 end
