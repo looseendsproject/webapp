@@ -59,7 +59,7 @@ crocheter:
   chosen_name: Bobby
   description: I love to crochet.
   phone_number: 1234567890
-  inbound_email_address: 9876@localhost
+  inbound_email_address: Finisher-AskQeXbS@localhost
 
 knitter:
   id: 2
@@ -67,5 +67,5 @@ knitter:
   chosen_name: Franny
   description: I love to knit.
   phone_number: 1234567890
-  inbound_email_address: 8765@localhost
+  inbound_email_address: Finisher-RZ7cjKDM@localhost
 

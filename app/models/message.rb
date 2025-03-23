@@ -25,4 +25,3 @@ class Message < ApplicationRecord
     Mail.from_source content.to_plain_text
   end
 end
-

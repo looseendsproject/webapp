@@ -79,7 +79,7 @@ one:
   state: WA
   postal_code: 12345
   country: USA
-  inbound_email_address: 12345@localhost
+  inbound_email_address: Project-7A37voRf@localhost
   created_at: <%= 8.days.ago %>
   updated_at: <%= 7.days.ago %>
 
@@ -91,6 +91,6 @@ two:
   status: ready to match
   phone_number: 1234567890
   craft_type: knitting
-  inbound_email_address: 23456@localhost
+  inbound_email_address: Project-t4Tzy9NI@localhost
   created_at: <%= 3.days.ago %>
   updated_at: <%= 2.days.ago %>
