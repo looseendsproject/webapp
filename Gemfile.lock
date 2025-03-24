@@ -413,7 +413,7 @@ GEM
     rainbow (3.1.1)
     rake (13.2.1)
     rbtree3 (0.7.1)
-    rdoc (6.12.0)
+    rdoc (6.13.0)
       psych (>= 4.0.0)
     reek (6.4.0)
       dry-schema (~> 1.13.0)
