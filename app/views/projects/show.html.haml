@@ -7,7 +7,7 @@
   .alert.alert-danger
     Before we can match this project, we need a little more information.  See the messages below.
 .row
-  .col-4.mr-6.row
+  .col-6.mr-6.row
     - @project.project_images.each do |image|
       - if image.representable?
         .removeable_image
@@ -35,7 +35,8 @@
       %p.text-danger
         Tell us about the material.
 
-    = @project.material_type
+    %p 
+      = @project.material_type
     - @project.material_images.each do |image|
       - if image.representable?
         .removeable_image
@@ -56,7 +57,14 @@
       .removeable_file
         = link_to file.blob.filename, url_for(file), { download: true }
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-  .col-8
+    %h4.mt-4
+      .row
+        .col-9
+          Permissions
+    %p Loose Ends Project has permission to post about my project online, including on social media. #{@project.can_publicize ? fa_icon(:check) : 'No'}
+    %p Loose Ends Project has permission to use my first name in posts online. #{@project.can_use_first_name ? fa_icon(:check) : 'No'}
+
+  .col-6
     %h4
       .row
         .col-9
@@ -65,7 +73,7 @@
           = link_to 'Edit', [:edit_address, :project], class: 'btn btn-link float-end btn-sm'
     .row
       .col-12= @project.phone_number
-    %h4.mt-4
+    %h5.mt-4
       .row
         .col-9
           Mailing Address
@@ -88,7 +96,7 @@
         .col= @project.country
     %hr/
 
-    %h4
+    %h4.mt-4
       .row
         .col-9
           Original Crafter Details
@@ -118,12 +126,4 @@
             %li No Dogs Please
 
     = @project.recipient_name
-    %hr/
-    %h4
-      .row
-        .col-9
-          Permissions
-        .col-3
-          = link_to 'Edit', [:edit_project, @project, anchor: 'permissions'], class: 'btn btn-link float-end btn-sm'
-    %p Loose Ends Project has permission to post about my project online, including on social media. #{@project.can_publicize ? fa_icon(:check) : 'No'}
-    %p Loose Ends Project has permission to use my first name in posts online. #{@project.can_use_first_name ? fa_icon(:check) : 'No'}
+    
