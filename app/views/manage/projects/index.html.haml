@@ -14,7 +14,7 @@
           %th.sortable{ data: { sort: "status asc", reverse: "status desc" } } Status
           %th.sortable{ data: { sort: "updated_at asc", reverse: "updated_at desc" } } Last Updated
           %th Last Contacted
-          %th.sortable{ data: { sort: "users.last_name asc", reverse: "users.last_name desc" } } Owner
+          %th.sortable{ data: { sort: "users.last_name asc", reverse: "users.last_name desc" } } Project Owner
           %th.sortable{ data: { sort: "finishers.chosen_name asc nulls last", reverse: "finishers.chosen_name desc nulls last" } } Finisher
       %tbody
         = render partial: 'project_row', collection: @projects, as: :project
