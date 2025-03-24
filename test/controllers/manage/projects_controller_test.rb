@@ -68,7 +68,7 @@ module Manage
 
       assert_response :success
       assert_predicate(response.body, :present?)
-      %w[Id Name].each do |header|
+      ["Id", "Name", "Owner Email", "Owner Phone"].each do |header|
         assert_includes(response.body, header)
       end
     end
