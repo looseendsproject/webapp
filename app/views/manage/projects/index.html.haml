@@ -10,13 +10,13 @@
     %table.table.project-table
       %thead
         %tr
-          %th Project Name
-          %th Status
-          %th Last Updated
+          %th.sortable{ data: { sort: "name asc", reverse: "name desc" } } Project Name
+          %th.sortable{ data: { sort: "status asc", reverse: "status desc" } } Status
+          %th.sortable{ data: { sort: "updated_at asc", reverse: "updated_at desc" } } Last Updated
           %th Last Contacted
           %th Location
-          %th Owner
-          %th Finisher
+          %th.sortable{ data: { sort: "users.last_name asc", reverse: "users.last_name desc" } } Owner
+          %th.sortable{ data: { sort: "finishers.chosen_name asc nulls last", reverse: "finishers.chosen_name desc nulls last" } } Finisher
       %tbody
         = render partial: 'project_row', collection: @projects, as: :project
     = will_paginate @projects
@@ -25,6 +25,27 @@
     = will_paginate @projects
 
 :javascript
+  var handleSortClick = (element) => {
+    const sortFormElem = document.getElementById('sort')
+    const oldSortValue = sortFormElem.value
+    const newSortValue = element.dataset.sort
+    const newReverseValue = element.dataset.reverse
+    if (!newSortValue) {
+      return
+    }
+
+    console.log(oldSortValue, newSortValue, newReverseValue)
+    if (newSortValue == oldSortValue) {
+      sortFormElem.value = newReverseValue
+    } else {
+      sortFormElem.value = newSortValue
+    }
+
+    const tableElem = document.getElementsByClassName('project-table')[0]
+    tableElem.classList.add('disabled')
+    sortFormElem.form.requestSubmit()
+  };
+
   var updateStatus = (newStatus) => {
     const readyStatusRow = document.getElementById('ready-status-row');
     const inProcessStatusRow = document.getElementById('in-process-status-row');
@@ -55,5 +76,28 @@
     });
   };
 
-  window.addEventListener('load', setupStatusDropdown);
-  document.addEventListener('turbo:load', setupStatusDropdown);
+  var setupSortHeaders = () => {
+    const currentSort = document.getElementById('sort').value
+    const sortableHeaders = document.getElementsByClassName('sortable')
+
+    for (var i=0; i < sortableHeaders.length; i++) {
+      let header = sortableHeaders[i]
+      if (!header.dataset.clickable) {
+        header.addEventListener('click', (event) => { handleSortClick(event.target) })
+        header.dataset.clickable  = true
+        if (header.dataset.sort == currentSort) {
+          header.classList.add('sort-up')
+        } else if (header.dataset.reverse == currentSort) {
+          header.classList.add('sort-down')
+        }
+      }
+    }
+  };
+
+  var setupDomListeners = () => {
+    setupStatusDropdown()
+    setupSortHeaders()
+  };
+
+  window.addEventListener('load', setupDomListeners);
+  document.addEventListener('turbo:load', setupDomListeners);

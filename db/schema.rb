@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_20_170812) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_201703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -147,10 +147,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_170812) do
     t.string "emergency_contact_email"
     t.string "emergency_contact_relation"
     t.boolean "has_volunteer_time_off"
+    t.string "inbound_email_address"
+    t.index ["inbound_email_address"], name: "index_finishers_on_inbound_email_address", unique: true
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"
     t.index ["longitude"], name: "index_finishers_on_longitude"
     t.index ["user_id"], name: "index_finishers_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "description"
+    t.string "messageable_type"
+    t.bigint "messageable_id"
+    t.integer "last_edited_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
+    t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable_type_and_messageable_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -216,7 +229,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_20_170812) do
     t.boolean "can_use_first_name", default: false
     t.boolean "can_share_crafter_details", default: false
     t.text "material_brand"
+    t.string "inbound_email_address"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
+    t.index ["inbound_email_address"], name: "index_projects_on_inbound_email_address", unique: true
     t.index ["latitude"], name: "index_projects_on_latitude"
     t.index ["longitude"], name: "index_projects_on_longitude"
     t.index ["manager_id"], name: "index_projects_on_manager_id"
