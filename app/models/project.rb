@@ -178,8 +178,12 @@ class Project < ApplicationRecord
     finisher&.name
   end
 
+  def active_assignment
+    assignments.find_by(status: "accepted")
+  end
+
   def active_finisher
-    assignments.find_by(status: "accepted")&.finisher
+    active_assignment&.finisher
   end
 
   def self.proposed

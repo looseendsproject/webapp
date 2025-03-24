@@ -34,17 +34,30 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "Finisher content", Finisher.first.messages.last.content.body.to_plain_text
   end
 
-  test "parses email source into Mail object" do
-    m = Project.first.messages.new
-    m.content = File.read(Rails.root.join('test', 'fixtures', 'files', 'sample_2.eml'))
+  test "Updates assignment last_contacted_at for Project" do
+    project = Project.first
+    assignment = project.active_assignment
+
+    assert(assignment)
+    assert_nil(assignment.last_contacted_at)
+
+    m = project.messages.new
+    m.content = "Primo content"
     m.save!
 
-    assert m.email.multipart?
+    assert_not_nil(assignment.reload.last_contacted_at)
+  end
+
+  test "parses email source into Mail object" do
+    m = Project.first.messages.new
+    m.content = File.read(Rails.root.join("test/fixtures/files/sample_2.eml"))
+    m.save!
+
+    assert_predicate m.email, :multipart?
     assert_equal ["inbound@example.com"], m.email.to
-    # TODO assert_equal 'forwarder@example.com', m.email.from
-    assert_equal 'Fwd: Test inbound from Gmail', m.email.subject
-    assert_equal '2025-03-22T12:25:35-04:00', m.email.date.to_s
-    assert_match /How does this look\?/, m.email.text_part.body.decoded
+    # TODO: assert_equal 'forwarder@example.com', m.email.from
+    assert_equal "Fwd: Test inbound from Gmail", m.email.subject
+    assert_equal "2025-03-22T12:25:35-04:00", m.email.date.to_s
+    assert_match(/How does this look\?/, m.email.text_part.body.decoded)
   end
 end
-

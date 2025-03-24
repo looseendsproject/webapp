@@ -21,7 +21,21 @@ class Message < ApplicationRecord
   belongs_to :messageable, polymorphic: true
   has_rich_text :content
 
+  after_create :update_last_contacted_at
+
   def email
     Mail.from_source content.to_plain_text
+  end
+
+  private
+
+  def update_last_contacted_at
+    return unless messageable_type == "Project"
+
+    # TODO: Find assignment by specific email user. For now use active assignment
+    assignment = messageable.active_assignment
+    return unless assignment
+
+    assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 end
