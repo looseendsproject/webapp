@@ -1,2 +1,7 @@
 %button.btn.btn-primary.mb-4(onclick="history.back()") Back
-%pre= @message.email.text_part.body.decoded
+%pre= @message.email.text_part
+
+- @message.email.attachments.each do |attachment|
+  %div= "#{@message.email.class}/#{attachment.class}"
+  %div= attachment.filename
+  %div= attachment
