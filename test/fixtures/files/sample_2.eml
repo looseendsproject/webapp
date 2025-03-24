@@ -1,0 +1,44 @@
+MIME-Version: 1.0
+Date: Sat, 22 Mar 2025 12:25:35 -0400
+References: <CADAk+Y8+c+SaMJ3_58uuUkhzDUh27c0u0QT6pEHAKD72c2dhDA@mail.gmail.com>
+In-Reply-To: <CADAk+Y8+c+SaMJ3_58uuUkhzDUh27c0u0QT6pEHAKD72c2dhDA@mail.gmail.com>
+Message-ID: <CAGSLCDXrf3B_G_GZNfG6LLDU0JEYcurXCe8u4pN=6CNfVfAzag@mail.gmail.com>
+Subject: Fwd: Test inbound from Gmail
+From: Test Forwarder <test@example.com>
+To: inbound@example.com
+Content-Type: multipart/alternative; boundary="00000000000023f1e60630f0d254"
+
+--00000000000023f1e60630f0d254
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Original Sender <original@example.com>
+Date: Sat, Mar 22, 2025 at 12:25=E2=80=AFPM
+Subject: Test inbound from Gmail
+To: <test@example.com>
+
+
+How does this look?
+
+Test Forwarder
+test@example.com
+
+--00000000000023f1e60630f0d254
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote gmail_quote_container"><=
+div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ---------=
+<br>From: <b class=3D"gmail_sendername" dir=3D"auto">Test Forwarder</b> <span=
+ dir=3D"auto">&lt;<a href=3D"mailto:original@example.com">original@example.co=
+m</a>&gt;</span><br>Date: Sat, Mar 22, 2025 at 12:25=E2=80=AFPM<br>Subject:=
+ Test inbound from Gmail<br>To:  &lt;<a href=3D"mailto:test@example=
+.com">test@example.com</a>&gt;<br></div><br><br><div dir=3D"ltr"><d=
+iv>How does this look?</div><div><div dir=3D"ltr" class=3D"gmail_signature"=
+ data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">=
+<div><br></div><div>Test Forwarder<br>555-555-1212</div></div></div></div></d=
+iv></div></div>
+</div></div>
+
+--00000000000023f1e60630f0d254--

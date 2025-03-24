@@ -2,8 +2,9 @@
   .col-4.mr-6
     - @project.project_images.each do |image|
       .removeable_image
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-        = button_to fa_icon("trash"), project_path(@project, { project_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+        -if image.representable?
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+          = button_to fa_icon("trash"), project_path(@project, { project_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
 
     %p= @project.description
     %hr/
@@ -41,9 +42,10 @@
           = link_to 'Edit', [:edit_project, @project], class: 'btn btn-link float-end btn-sm'
     = @project.material_type
     - @project.material_images.each do |image|
-      .removeable_image
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-        = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+      - if image.representable?
+        .removeable_image
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+          = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %hr/
     %h4
       .row
@@ -68,9 +70,10 @@
     = @project.crafter_name
     = @project.crafter_description
     - @project.crafter_images.each do |image|
-      .removeable_image
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-        = button_to fa_icon("trash"), project_path(@project, { crafter_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+      - if image.representable?
+        .removeable_image
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+          = button_to fa_icon("trash"), project_path(@project, { crafter_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     = @project.recipient_name
     %hr/
     %h3.page_section More

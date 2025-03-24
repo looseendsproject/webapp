@@ -3,8 +3,8 @@
 %p= @finisher.pronouns
 
 - if @finisher.missing_information?
-  .alert.alert-danger
-    Before we can connect you with projects, we need a little more information.  See the messages below.
+  .alert.alert-warning
+    ="Welcome to Loose Ends, " + @finisher.chosen_name + "! Before we can connect you with projects, we need a little more information.  See the messages below."
 
 
 .row
@@ -78,7 +78,7 @@
         %p= @finisher.dominant_hand
 
       - if @finisher.missing_assessments?
-        %p.text-danger Please enter assessments
+        %p.text-danger Please let us know what crafts you do and your level of skill
       - else
         %ul
           - @finisher.rated_assessments.each do |assessment|
@@ -115,8 +115,9 @@
         %b Completed Projects
         - @finisher.finished_projects.each do |image|
           .removeable_image
-            = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg)), target: '_blank'
-            = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+            - if image.representable?
+              = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg)), target: '_blank'
+              = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
         - if @finisher.dislikes.present?
           .page-section
             %h4 Never Again!
