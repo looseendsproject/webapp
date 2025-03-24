@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :message, only: :show
+
   namespace :manage do
     mount MissionControl::Jobs::Engine, at: "/jobs"
 

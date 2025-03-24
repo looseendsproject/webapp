@@ -194,6 +194,8 @@
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project }
 
+= render partial: 'messages/index', locals: { resource: @project }
+
 :javascript
   var updateProjectTimestamp = () => {
     const timestamp = document.getElementById('updated_at_utc');
