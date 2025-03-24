@@ -5,9 +5,6 @@
   %td.text-nowrap
     - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('last_contacted_at')
       = time_tag(last_contact, "#{time_ago_in_words(last_contact)} ago", title: last_contact)
-  %td.text-nowrap
-    - if project.city.present? && project.state.present?
-      #{project.city.titleize}, #{project.state}
   %td.text-nowrap= link_to project.user.name, [:admin, project.user]
   %td.text-nowrap
     - if project.active_finisher.present? && assignment = project.assignments.where(finisher: project.active_finisher).first
