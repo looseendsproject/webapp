@@ -5,7 +5,7 @@ project_one_blob:
   metadata: '{"identified":true,"analyzed":true}'
   byte_size: 40000
   checksum: fdUivZUf74Y6pjAiemuvlg==
-  service_name: test_fixtures
+  service_name: test
 
 project_two_blob:
   key: omu2zdo8djxii40bds58qv9u7m3m
@@ -14,4 +14,4 @@ project_two_blob:
   metadata: '{"identified":true,"analyzed":true}'
   byte_size: 40000
   checksum: fdUivZUf74Y6pjAiemuvlg==
-  service_name: test_fixtures
+  service_name: test
