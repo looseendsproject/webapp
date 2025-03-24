@@ -1,23 +1,51 @@
 - classes ||= []
 %div{:class => classes.append('card')}
   - if project.project_images.first&.representable?
-    = image_tag(project.project_images.first.representation( resize_to_limit: [300, 300]), class: 'card-img-top', style: 'height:8vw; object-fit:cover;')
+    = image_tag(project.project_images.first.representation( resize_to_limit: [300, 300]), class: 'card-img-top', style: 'height:8vw;object-fit:cover;', alt: "Sample project image")
 
-  .card-body
-
+  .card-body.project-card-body
     %h6.card-title
-      = link_to project.name, [:manage, project]
-    .since
-      %b Since:
-      %span.since-date= l(project.created_at, format: :default)
-    .card-text
-      %b (#{project.status})
-
-      = project.description
-
-      = project.finisher&.name
-
-
-
-  .card-footer
-    #{project.city}, #{project.state}
+      = link_to project.name.truncate(40), [:manage, project]
+    %ul.list-unstyled
+      %li
+        = fa_icon("pen-to-square", title: 'Last Updated')
+        = time_tag(project.updated_at, "Updated #{time_ago_in_words(project.updated_at)} ago", title: project.updated_at)
+      %li
+        = fa_icon("flag", title: 'Status')
+        %span= project.status.titleize
+      - if project.missing_address_information?
+        %li.missing
+          = fa_icon("location-dot", title: 'Location')
+          %span Unknown
+      - else
+        %li
+          = fa_icon("location-dot", title: 'Location')
+          %span #{project.city.titleize}, #{project.state}
+      - if project.active_finisher.present?
+        %li.highlighted
+          = fa_icon("user", title: 'Active Finisher')
+          %span #{project.active_finisher.name}
+        - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('last_contacted_at')
+          %li
+            = fa_icon("envelope", title: 'Last Contact')
+            = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
+      - elsif project.assignments.any?
+        %li
+          = fa_icon("user-group", title: 'Inactive Finishers')
+          - if project.assignments.count == 1 && project.assignments.first.status.present?
+            1
+            %mark= project.assignments.first.status
+            finisher
+          - else
+            %span #{project.assignments.count} inactive finishers
+          %li
+            - last_contact = project.assignments.maximum(:updated_at)
+            = fa_icon("envelope", title: 'Last Contact')
+            = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
+      - else
+        %li.missing
+          = fa_icon("user", title: 'Finishers')
+          %span No Finishers
+        %li.missing
+          = fa_icon("envelope", title: 'Last Contact')
+          %span N/A

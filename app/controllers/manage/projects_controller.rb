@@ -1,13 +1,20 @@
 # frozen_string_literal: true
 
+require "csv"
+
 module Manage
   class ProjectsController < Manage::ManageController
     def index
       @title = "Loose Ends - Manage - Projects"
-      @projects = Project.search(params).paginate(page: params[:page])
-      @status_counts = Project.group(:status).count
-      @status_counts.merge!(Project.group(:ready_status).count)
-      @status_counts.merge!(Project.group(:in_process_status).count)
+      @projects = Project.search(params).includes(:finishers)
+
+      respond_to do |format|
+        format.csv { add_csv_headers }
+        format.html do
+          @projects = @projects.paginate(page: params[:page], per_page: params[:per_page])
+          @status_counts = status_counts
+        end
+      end
     end
 
     def show
@@ -52,6 +59,18 @@ module Manage
 
     protected
 
+    def add_csv_headers
+      response.headers["Content-Type"] = "text/csv"
+      response.headers["Content-Disposition"] =
+        "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+    end
+
+    def status_counts
+      status_counts = Project.group(:status).count
+      status_counts.merge!(Project.group(:ready_status).count)
+      status_counts.merge!(Project.group(:in_process_status).count)
+    end
+
     def project_params
       params.require(:project).permit(
         :manager_id,
@@ -71,6 +90,7 @@ module Manage
         :craft_type,
         :has_pattern,
         :material_type,
+        :material_brand,
         :crafter_name,
         :crafter_description,
         :crafter_dominant_hand,

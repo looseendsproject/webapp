@@ -18,8 +18,10 @@
     - if @project.user.blank?
       %p System
     - else
-      %p= "#{@project.user.name}, #{@project.user.email}"
-  .col-5
+      %div= "#{@project.user.name}, #{@project.user.email}"
+      %div= "Heard about us: #{@project.user.heard_about_us}"
+    %p: &nbsp;
+  .col-3
     %h3 Manager
     - if @project.manager.blank?
       %p None
@@ -79,7 +81,9 @@
         (Required)
     %hr
     - @project.project_images.each do |image|
-      = link_to image_tag(image.representation( resize_to_limit: [100, 100])), url_for(image.variant(format: :jpg))
+      - if image.representable?
+        = link_to image_tag(image.representation( resize_to_limit: [100, 100])), |
+          url_for(image.variant(format: :jpg)), target: "_blank"
     - if @project.more_details.present?
       .page-section
         %h5 More Details
@@ -107,7 +111,7 @@
             %li No Cats Please
           - if @project.no_dogs
             %li No Dogs Please
-      - if @project.in_home_pets.select(&:present?).any?
+      - if @project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?
         .page-section.mb-3
           %h4 Pets in Home
           = @project.in_home_pets.select(&:present?).map{|p| p.capitalize}.join(', ')
@@ -116,17 +120,24 @@
         .page-section.mb-3
           %h4 Smoking in Home
           Has Smoke In Home
-    - if @project.no_smoke || @project.no_cats || @project.no_dogs || @project.in_home_pets.select(&:present?).any? || @project.has_smoke_in_home
+    - if @project.no_smoke || @project.no_cats || @project.no_dogs || (@project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?) || @project.has_smoke_in_home
       %hr/
     %h4 Material Details
     .row
-      %b Type:
-      = @project.material_type
+      %b.col-auto Type:
+      .col
+        = @project.material_type
+    .row
+      %b.col-auto Brand:
+      .col
+        = @project.material_brand
     .row
       - @project.material_images.each do |image|
-        .removeable_image
-          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-          = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+        - if image.representable?
+          .removeable_image
+            = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
+            url_for(image.variant(format: :jpg)), target: "_blank"
+            = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %h4.mt-4
       .row
         .col-9
@@ -135,14 +146,16 @@
       Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
       .removeable_file
-        = link_to file.blob.filename, url_for(file), { download: true }
+        = link_to image_tag(file.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
+        url_for(file.variant(format: :jpg)), target: "_blank"
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %h4 Original Crafter Details
     - if @project.crafter_name? || @project.crafter_description? || @project.crafter_images.any?
       = @project.crafter_name
       = @project.crafter_description
       - @project.crafter_images.each do |image|
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
+        - if image.representable?
+          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
     - else
       .text-muted Not Provided
 
@@ -179,7 +192,9 @@
     #project_notes.d-flex.flex-column
       = render @project.project_notes
     #project_note_form
-      = render partial: 'manage/project_notes/form', locals: { project: @project}
+      = render partial: 'manage/project_notes/form', locals: { project: @project }
+
+= render partial: 'messages/index', locals: { resource: @project }
 
 :javascript
   var updateProjectTimestamp = () => {

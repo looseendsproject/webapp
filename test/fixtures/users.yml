@@ -36,12 +36,14 @@ basic:
   first_name: Bob
   last_name: Simmons
   email: bob@gmail.com
+  heard_about_us: Facebook
 
 finisher:
   id: 2
   first_name: Fran
   last_name: Fishman
   email: fred@gmail.com
+  heard_about_us: Instagram
 
 manager:
   id: 3
@@ -49,6 +51,7 @@ manager:
   last_name: Franks
   email: mick@gmail.com
   role: 'manager'
+  heard_about_us: 'Newspaper: Times Record'
 
 admin:
   id: 4
@@ -56,15 +59,27 @@ admin:
   last_name: Addaire
   email: anne@gmail.com
   role: 'admin'
+  heard_about_us: 'TV: PBS Maine'
+  encrypted_password: '$2a$12$z56Jo3iL8y6McrSE5T6RYO2kxUCW6FewzRlYn1asq4weSR.Zm7Roi'
 
 project_owner:
   id: 5
   first_name: Peter
   last_name: Moore
   email: peter@gmail.com
+  heard_about_us: 'Local Yarn Store'
 
 new:
   id: 6
   first_name: Jello
   last_name: Biafra
   email: jello@example.com
+  heard_about_us: 'TV: PBS Maine'
+
+project_owner:
+  id: 5
+  first_name: Peter
+  last_name: Moore
+  email: peter@gmail.com
+  heard_about_us: 'Local Yarn Store'
+

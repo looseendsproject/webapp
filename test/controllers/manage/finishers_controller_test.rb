@@ -10,6 +10,21 @@ module Manage
       assert_predicate(@user, :can_manage?)
     end
 
+    test "can render #show" do
+      sign_in @user
+      get :show, params: { id: 1 }
+
+      assert_response :success
+    end
+
+    test "assigns inbound_email_address" do
+      refute Finisher.find(2).inbound_email_address
+
+      sign_in @user
+      get :show, params: { id: 2 }
+      assert_match /Finisher-\w{8}@localhost/, response.body
+    end
+
     test "search requires login" do
       get :search
 
@@ -66,6 +81,71 @@ module Manage
       assert_response :success
       assert_empty(response.parsed_body)
       assert_predicate(Finisher.count, :positive?)
+    end
+
+    test "map action" do
+      sign_in @user
+      get :map
+
+      assert_response :success
+    end
+
+    test "map CSV export metadata" do
+      sign_in @user
+      get :map, format: :csv, params: { near: "123 Main St, , Anytown, WA, 12345" }
+
+      assert_response :success
+      assert_equal("text/csv", response.content_type)
+      assert_predicate(response.headers["Content-Disposition"], :present?)
+    end
+
+    test "map CSV export content" do
+      sign_in @user
+      get :map, format: :csv, params: { near: "123 Main St, , Anytown, WA, 12345" }
+
+      ["ID", "First Name", "Last Name", "Email", "Match", "Country"].each do |header|
+        assert_includes(response.body, header)
+      end
+    end
+
+    test "CSV export metadata" do
+      sign_in @user
+      get :index, format: :csv
+
+      assert_response :success
+      assert_equal("text/csv", response.content_type)
+      assert_predicate(response.headers["Content-Disposition"], :present?)
+    end
+
+    test "CSV export content" do
+      sign_in @user
+      get :index, format: :csv
+
+      ["ID", "First Name", "Last Name", "Email", "Match", "Country"].each do |header|
+        assert_includes(response.body, header)
+      end
+    end
+
+    test "can update if the finisher has volunteer time off" do
+      sign_in @user
+
+      finisher = finishers(:crocheter)
+      params = {
+        id: finisher.id,
+        finisher: finisher.attributes.merge(
+          "street" => "123 Main St",
+          "city" => "Anytown",
+          "state" => "WA",
+          "postal_code" => "12345",
+          "country" => "US",
+          "has_volunteer_time_off" => true
+        )
+      }
+      patch :update, params: params
+
+      finisher.reload
+
+      assert(finisher.has_volunteer_time_off)
     end
   end
 end

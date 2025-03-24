@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_201703) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+  end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -52,17 +61,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "agencies", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name", limit: 255
-    t.string "city", limit: 255
-    t.string "state", limit: 255
-    t.string "url", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "archived_at", precision: nil
-  end
-
   create_table "assessments", force: :cascade do |t|
     t.bigint "skill_id"
     t.bigint "finisher_id"
@@ -93,328 +91,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "status"
+    t.datetime "last_contacted_at"
     t.index ["finisher_id"], name: "index_assignments_on_finisher_id"
     t.index ["project_id"], name: "index_assignments_on_project_id"
     t.index ["user_id"], name: "index_assignments_on_user_id"
-  end
-
-  create_table "client_goal_responses", id: :serial, force: :cascade do |t|
-    t.integer "client_goal_id"
-    t.datetime "taken_at", precision: nil
-    t.integer "rating"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "client_goals", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.string "name", limit: 255
-    t.string "lookup_respondent_code", limit: 255
-    t.integer "position"
-    t.integer "rating_low"
-    t.integer "rating_high"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "client_measure_responses", id: :serial, force: :cascade do |t|
-    t.integer "client_measure_id"
-    t.integer "measure_question_id"
-    t.integer "measure_question_answer_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "entered_value"
-    t.index ["client_measure_id"], name: "index_client_measure_responses_on_client_measure_id"
-    t.index ["measure_question_answer_id"], name: "index_client_measure_responses_on_measure_question_answer_id"
-    t.index ["measure_question_id"], name: "index_client_measure_responses_on_measure_question_id"
-  end
-
-  create_table "client_measure_scales", id: :serial, force: :cascade do |t|
-    t.integer "measure_scale_id"
-    t.integer "measure_scale_range_id"
-    t.integer "client_measure_id"
-    t.float "score"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_measure_id"], name: "index_client_measure_scales_on_client_measure_id"
-    t.index ["measure_scale_id"], name: "index_client_measure_scales_on_measure_scale_id"
-    t.index ["measure_scale_range_id"], name: "index_client_measure_scales_on_measure_scale_range_id"
-  end
-
-  create_table "client_measures", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "measure_id"
-    t.string "lookup_respondent_code", limit: 255
-    t.datetime "taken_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "instance"
-    t.boolean "scores_only", default: false
-    t.index ["client_id"], name: "index_client_measures_on_client_id"
-    t.index ["measure_id"], name: "index_client_measures_on_measure_id"
-    t.index ["taken_at"], name: "index_client_measures_on_taken_at"
-  end
-
-  create_table "client_session_ebp_activities", id: :serial, force: :cascade do |t|
-    t.integer "client_session_id"
-    t.integer "ebp_session_activity_id"
-    t.datetime "supervised_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_session_id"], name: "index_client_session_ebp_activities_on_client_session_id"
-    t.index ["ebp_session_activity_id"], name: "index_client_session_ebp_activities_on_ebp_session_activity_id"
-  end
-
-  create_table "client_session_organization_activities", id: :serial, force: :cascade do |t|
-    t.integer "client_session_id"
-    t.integer "organization_session_activity_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_session_id"], name: "org_activity_session_index"
-    t.index ["organization_session_activity_id"], name: "org_activity_index"
-  end
-
-  create_table "client_session_respondents", id: :serial, force: :cascade do |t|
-    t.integer "client_session_id"
-    t.string "respondent_code", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_session_id"], name: "index_client_session_respondents_on_client_session_id"
-    t.index ["respondent_code"], name: "index_client_session_respondents_on_respondent_code"
-  end
-
-  create_table "client_sessions", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "ebp_id"
-    t.integer "membership_id"
-    t.date "treated_on"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "client_present", default: true, null: false
-    t.text "notes"
-    t.index ["client_id"], name: "index_client_sessions_on_client_id"
-    t.index ["ebp_id"], name: "index_client_sessions_on_ebp_id"
-    t.index ["membership_id"], name: "index_client_sessions_on_membership_id"
-  end
-
-  create_table "client_trainings", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "training_id"
-    t.date "started_on"
-    t.date "ended_on"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "client_views", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "user_id"
-    t.string "type", limit: 255
-    t.date "viewed_on"
-    t.datetime "created_at", precision: nil
-    t.integer "hits_count", default: 0
-  end
-
-  create_table "clients", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "membership_id"
-    t.integer "ebp_id"
-    t.string "lookup_diagnosis_code", limit: 255
-    t.string "lookup_clinical_target_code", limit: 255
-    t.string "lookup_client_status_code", limit: 255
-    t.string "identifier", limit: 255
-    t.string "slug", limit: 255
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "user_id"
-    t.index ["archived_at"], name: "index_clients_on_archived_at"
-    t.index ["ebp_id"], name: "index_clients_on_ebp_id"
-    t.index ["identifier"], name: "index_clients_on_identifier"
-    t.index ["membership_id"], name: "index_clients_on_membership_id"
-    t.index ["organization_id"], name: "index_clients_on_organization_id"
-  end
-
-  create_table "consultant_evaluation_answers", id: :serial, force: :cascade do |t|
-    t.integer "consultant_evaluation_question_id"
-    t.string "name", limit: 255
-    t.string "value", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["consultant_evaluation_question_id"], name: "index_consultant_evaluation_question_id"
-  end
-
-  create_table "consultant_evaluation_forms", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name", limit: 255
-    t.datetime "archived_at", precision: nil
-    t.text "description"
-    t.boolean "has_client", default: true, null: false
-    t.index ["organization_id"], name: "i_consultant_evaluation_form_organization"
-  end
-
-  create_table "consultant_evaluation_questions", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.text "description"
-    t.string "ui_type", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "display_if", limit: 255
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "data_type", limit: 255
-    t.boolean "required", default: false, null: false
-    t.boolean "listed", default: false, null: false
-    t.text "section_header"
-    t.integer "consultant_evaluation_form_id"
-    t.index ["consultant_evaluation_form_id"], name: "i_consultant_evaluation_question_form"
-    t.index ["organization_id"], name: "index_consultant_evaluation_questions_on_organization_id"
-  end
-
-  create_table "consultant_evaluation_responses", id: :serial, force: :cascade do |t|
-    t.integer "consultant_evaluation_id"
-    t.integer "consultant_evaluation_question_id"
-    t.integer "consultant_evaluation_answer_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "entered_value", limit: 255
-    t.index ["consultant_evaluation_answer_id"], name: "index_consultant_evaluation_response_answer_id"
-    t.index ["consultant_evaluation_id"], name: "index_consultant_evaluation_response_note_id"
-  end
-
-  create_table "consultant_evaluations", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "training_consultant_id"
-    t.integer "training_user_id"
-    t.datetime "consulted_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "consultant_evaluation_form_id"
-    t.index ["client_id"], name: "index_consultant_evaluations_on_client_id"
-    t.index ["consultant_evaluation_form_id"], name: "i_consultant_evaluation_form"
-    t.index ["training_consultant_id"], name: "index_consultant_evaluations_on_training_consultant_id"
-    t.index ["training_user_id"], name: "index_consultant_evaluations_on_training_user_id"
-  end
-
-  create_table "consultant_notes", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "training_consultant_id"
-    t.integer "training_user_id"
-    t.datetime "consulted_at", precision: nil
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_id"], name: "index_consultant_notes_on_client_id"
-    t.index ["training_consultant_id"], name: "index_consultant_notes_on_training_consultant_id"
-    t.index ["training_user_id"], name: "index_consultant_notes_on_training_user_id"
-  end
-
-  create_table "custom_field_answers", id: :serial, force: :cascade do |t|
-    t.integer "custom_field_id"
-    t.string "name", limit: 255
-    t.string "value", limit: 255
-    t.string "index", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "custom_field_responses", id: :serial, force: :cascade do |t|
-    t.integer "custom_field_id"
-    t.integer "client_id"
-    t.text "encrypted_value"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "value"
-  end
-
-  create_table "custom_fields", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.integer "position"
-    t.string "ui_type", limit: 255
-    t.string "data_type", limit: 255
-    t.boolean "required"
-    t.boolean "listed"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "display_if", limit: 255
-    t.string "code", limit: 255
-    t.datetime "archived_at", precision: nil
-    t.text "section_header"
-  end
-
-  create_table "delayed_jobs", id: :serial, force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at", precision: nil
-    t.datetime "locked_at", precision: nil
-    t.datetime "failed_at", precision: nil
-    t.string "locked_by", limit: 255
-    t.string "queue", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
-  create_table "ebp_documents", id: :serial, force: :cascade do |t|
-    t.integer "ebp_id"
-    t.integer "position"
-    t.boolean "restricted"
-    t.string "name", limit: 255
-    t.text "description"
-    t.index ["ebp_id"], name: "index_ebp_documents_on_ebp_id"
-  end
-
-  create_table "ebp_session_activities", id: :serial, force: :cascade do |t|
-    t.integer "ebp_id"
-    t.integer "parent_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.boolean "required_for_roster", default: false
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "primary", default: false, null: false
-    t.boolean "default_displayed", default: false, null: false
-    t.index ["ebp_id"], name: "index_ebp_session_activities_on_ebp_id"
-  end
-
-  create_table "ebp_users", id: :serial, force: :cascade do |t|
-    t.integer "ebp_id"
-    t.integer "user_id"
-    t.boolean "roster_agreement_completed_at"
-    t.boolean "roster_request_approved_at"
-    t.index ["ebp_id"], name: "index_ebp_users_on_ebp_id"
-    t.index ["user_id"], name: "index_ebp_users_on_user_id"
-  end
-
-  create_table "ebps", id: :serial, force: :cascade do |t|
-    t.string "lookup_ebp_type_code", limit: 255
-    t.string "name", limit: 255
-    t.string "code", limit: 255
-    t.text "description"
-    t.integer "min_sessions_per_case_count"
-    t.integer "min_cases_count"
-    t.text "roster_agreement"
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["archived_at"], name: "index_ebps_on_archived_at"
-  end
-
-  create_table "events", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "direct_object_id"
-    t.integer "indirect_object_id"
-    t.string "type", limit: 255
-    t.text "message"
-    t.datetime "created_at", precision: nil
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -466,277 +146,24 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.string "emergency_contact_phone_number"
     t.string "emergency_contact_email"
     t.string "emergency_contact_relation"
+    t.boolean "has_volunteer_time_off"
+    t.string "inbound_email_address"
+    t.index ["inbound_email_address"], name: "index_finishers_on_inbound_email_address", unique: true
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"
     t.index ["longitude"], name: "index_finishers_on_longitude"
     t.index ["user_id"], name: "index_finishers_on_user_id"
   end
 
-  create_table "group_memberships", id: :serial, force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "membership_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["group_id"], name: "index_group_memberships_on_group_id"
-    t.index ["membership_id"], name: "index_group_memberships_on_membership_id"
-  end
-
-  create_table "group_supervisors", id: :serial, force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "membership_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["group_id"], name: "index_group_supervisors_on_group_id"
-    t.index ["membership_id"], name: "index_group_supervisors_on_membership_id"
-  end
-
-  create_table "groups", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "membership_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["archived_at"], name: "index_groups_on_archived_at"
-    t.index ["membership_id"], name: "index_groups_on_membership_id"
-    t.index ["organization_id"], name: "index_groups_on_organization_id"
-  end
-
-  create_table "invoice_deliveries", id: :serial, force: :cascade do |t|
-    t.integer "invoice_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "invoices", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.date "invoiced_on"
-    t.integer "user_active_days_count"
-    t.decimal "user_cost_per_day", precision: 8, scale: 2
-    t.decimal "total_cost", precision: 8, scale: 2
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "users_count", default: 0
-  end
-
-  create_table "line_items", id: :serial, force: :cascade do |t|
-    t.integer "invoice_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.decimal "cost", precision: 8, scale: 2
-    t.integer "count", default: 1, null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "locations", id: :serial, force: :cascade do |t|
-    t.string "street_1", limit: 255
-    t.string "street_2", limit: 255
-    t.string "city", limit: 255
-    t.string "state", limit: 255
-    t.string "zip", limit: 255
-    t.string "lat", limit: 255
-    t.string "lon", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["lat", "lon"], name: "index_locations_on_lat_and_lon"
-  end
-
-  create_table "lookups", id: :serial, force: :cascade do |t|
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "type", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["code"], name: "index_lookups_on_code"
-    t.index ["type", "code"], name: "index_lookups_on_type_and_code"
-  end
-
-  create_table "measure_question_answers", id: :serial, force: :cascade do |t|
-    t.integer "measure_question_id"
-    t.text "name"
-    t.integer "value"
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["measure_question_id"], name: "index_measure_question_answers_on_measure_question_id"
-  end
-
-  create_table "measure_questions", id: :serial, force: :cascade do |t|
-    t.integer "measure_id"
-    t.text "description"
-    t.string "ui_type", limit: 255
-    t.string "display_if", limit: 255
-    t.string "code", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "section_header"
-    t.boolean "first_measure_only"
-    t.text "name"
-    t.string "data_type", limit: 255
-    t.boolean "required", default: false, null: false
-    t.boolean "listed", default: false, null: false
-    t.integer "default_value"
-    t.boolean "use_previous_value"
-    t.string "display_name", limit: 255
-    t.index ["measure_id"], name: "index_measure_questions_on_measure_id"
-  end
-
-  create_table "measure_scale_ranges", id: :serial, force: :cascade do |t|
-    t.integer "measure_scale_id"
-    t.string "name", limit: 255
-    t.float "high"
-    t.float "low"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["measure_scale_id"], name: "index_measure_scale_ranges_on_measure_scale_id"
-  end
-
-  create_table "measure_scales", id: :serial, force: :cascade do |t|
-    t.integer "measure_id"
-    t.string "name", limit: 255
-    t.string "algorithm", limit: 255
-    t.string "question_codes", limit: 255
-    t.integer "max"
-    t.float "clinical_threshold"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "primary", default: true, null: false
-    t.index ["measure_id"], name: "index_measure_scales_on_measure_id"
-  end
-
-  create_table "measures", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "code", limit: 255
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "has_respondent", default: false, null: false
-    t.integer "private_organization_id"
-    t.text "instructions"
-    t.boolean "numbered", default: false, null: false
-    t.boolean "display_answer_values", default: false, null: false
-    t.text "definitions"
-    t.index ["code"], name: "index_measures_on_code"
-  end
-
-  create_table "membership_requests", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "organization_id"
-    t.datetime "processed_at", precision: nil
-    t.string "membership_role", limit: 255
-  end
-
-  create_table "memberships", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "organization_id"
-    t.string "status", limit: 255
-    t.string "role", limit: 255
-    t.string "title", limit: 255
-    t.string "phone", limit: 255
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["archived_at"], name: "index_memberships_on_archived_at"
-    t.index ["organization_id"], name: "index_memberships_on_organization_id"
-    t.index ["user_id"], name: "index_memberships_on_user_id"
-  end
-
-  create_table "messages", id: :serial, force: :cascade do |t|
-    t.integer "targetable_id"
-    t.string "targetable_type", limit: 255
-    t.integer "user_id"
-    t.text "subject"
-    t.text "body"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["targetable_id", "targetable_type"], name: "index_messages_on_targetable_id_and_targetable_type"
-    t.index ["user_id"], name: "index_messages_on_user_id"
-  end
-
-  create_table "organization_ebp_documents", force: :cascade do |t|
-    t.bigint "organization_id"
-    t.bigint "ebp_document_id"
+  create_table "messages", force: :cascade do |t|
+    t.string "description"
+    t.string "messageable_type"
+    t.bigint "messageable_id"
+    t.integer "last_edited_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ebp_document_id"], name: "index_organization_ebp_documents_on_ebp_document_id"
-    t.index ["organization_id"], name: "index_organization_ebp_documents_on_organization_id"
-  end
-
-  create_table "organization_lookups", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "type", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["code"], name: "index_organization_lookups_on_code"
-    t.index ["type", "code"], name: "index_organization_lookups_on_type_and_code"
-  end
-
-  create_table "organization_measures", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "measure_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "client_measure_responses_report_generated_at", precision: nil
-  end
-
-  create_table "organization_report_rows", id: :serial, force: :cascade do |t|
-    t.integer "organization_report_id"
-    t.json "fields", default: [], null: false
-    t.datetime "created_at", precision: nil
-  end
-
-  create_table "organization_reports", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name"
-    t.string "slug"
-    t.string "status"
-    t.integer "duration"
-    t.datetime "last_build_at", precision: nil
-    t.json "fields", default: [], null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "organization_session_activities", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.boolean "required_for_roster", default: false
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["organization_id"], name: "index_organization_session_activities_on_organization_id"
-  end
-
-  create_table "organizations", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.text "description"
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "slug", limit: 255
-    t.string "encrypted_field_key", limit: 255
-    t.string "phone", limit: 255
-    t.string "street1", limit: 255
-    t.string "street2", limit: 255
-    t.string "city", limit: 255
-    t.string "state", limit: 255
-    t.string "zip", limit: 255
-    t.integer "user_id"
-    t.string "url", limit: 255
-    t.text "email"
-    t.boolean "display_session_activity_children", default: false, null: false
-    t.text "invoices_email"
-    t.text "invoices_address"
-    t.boolean "display_measure_instance", default: false, null: false
-    t.index ["archived_at"], name: "index_organizations_on_archived_at"
+    t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
+    t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable_type_and_messageable_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -801,46 +228,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
     t.boolean "can_share_crafter_details", default: false
+    t.text "material_brand"
+    t.string "inbound_email_address"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
+    t.index ["inbound_email_address"], name: "index_projects_on_inbound_email_address", unique: true
     t.index ["latitude"], name: "index_projects_on_latitude"
     t.index ["longitude"], name: "index_projects_on_longitude"
     t.index ["manager_id"], name: "index_projects_on_manager_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
-  end
-
-  create_table "roster_requests", id: :serial, force: :cascade do |t|
-    t.integer "ebp_id"
-    t.integer "user_id"
-    t.integer "supervisor_id"
-    t.integer "consultant_id"
-    t.datetime "supervisor_reviewed_at", precision: nil
-    t.datetime "consultant_reviewed_at", precision: nil
-    t.boolean "supervisor_approved", default: false
-    t.boolean "consultant_approved", default: false
-    t.index ["consultant_id"], name: "index_roster_requests_on_consultant_id"
-    t.index ["ebp_id"], name: "index_roster_requests_on_ebp_id"
-    t.index ["supervisor_id"], name: "index_roster_requests_on_supervisor_id"
-    t.index ["user_id"], name: "index_roster_requests_on_user_id"
-  end
-
-  create_table "sessions", id: :serial, force: :cascade do |t|
-    t.string "session_id", limit: 255, null: false
-    t.text "data"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
-  end
-
-  create_table "sites", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "location_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["location_id"], name: "index_sites_on_location_id"
-    t.index ["organization_id"], name: "index_sites_on_organization_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -851,278 +246,125 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
     t.integer "position"
   end
 
-  create_table "subscriptions", id: :serial, force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "organization_id"
-    t.datetime "end_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["organization_id"], name: "index_subscriptions_on_organization_id"
-    t.index ["product_id"], name: "index_subscriptions_on_product_id"
+  create_table "solid_queue_blocked_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.string "queue_name", null: false
+    t.integer "priority", default: 0, null: false
+    t.string "concurrency_key", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.index ["concurrency_key", "priority", "job_id"], name: "index_solid_queue_blocked_executions_for_release"
+    t.index ["expires_at", "concurrency_key"], name: "index_solid_queue_blocked_executions_for_maintenance"
+    t.index ["job_id"], name: "index_solid_queue_blocked_executions_on_job_id", unique: true
   end
 
-  create_table "suggested_organizations", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "name", limit: 255
-    t.string "url", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "membership_role", limit: 255
-    t.integer "organization_id"
-    t.string "city", limit: 255
-    t.string "state", limit: 255
+  create_table "solid_queue_claimed_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.bigint "process_id"
+    t.datetime "created_at", null: false
+    t.index ["job_id"], name: "index_solid_queue_claimed_executions_on_job_id", unique: true
+    t.index ["process_id", "job_id"], name: "index_solid_queue_claimed_executions_on_process_id_and_job_id"
   end
 
-  create_table "supervisor_evaluation_answers", id: :serial, force: :cascade do |t|
-    t.integer "supervisor_evaluation_question_id"
-    t.string "name", limit: 255
-    t.string "value", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["supervisor_evaluation_question_id"], name: "index_supervisor_evaluation_question_id"
+  create_table "solid_queue_failed_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.text "error"
+    t.datetime "created_at", null: false
+    t.index ["job_id"], name: "index_solid_queue_failed_executions_on_job_id", unique: true
   end
 
-  create_table "supervisor_evaluation_questions", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
+  create_table "solid_queue_jobs", force: :cascade do |t|
+    t.string "queue_name", null: false
+    t.string "class_name", null: false
+    t.text "arguments"
+    t.integer "priority", default: 0, null: false
+    t.string "active_job_id"
+    t.datetime "scheduled_at"
+    t.datetime "finished_at"
+    t.string "concurrency_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_job_id"], name: "index_solid_queue_jobs_on_active_job_id"
+    t.index ["class_name"], name: "index_solid_queue_jobs_on_class_name"
+    t.index ["finished_at"], name: "index_solid_queue_jobs_on_finished_at"
+    t.index ["queue_name", "finished_at"], name: "index_solid_queue_jobs_for_filtering"
+    t.index ["scheduled_at", "finished_at"], name: "index_solid_queue_jobs_for_alerting"
+  end
+
+  create_table "solid_queue_pauses", force: :cascade do |t|
+    t.string "queue_name", null: false
+    t.datetime "created_at", null: false
+    t.index ["queue_name"], name: "index_solid_queue_pauses_on_queue_name", unique: true
+  end
+
+  create_table "solid_queue_processes", force: :cascade do |t|
+    t.string "kind", null: false
+    t.datetime "last_heartbeat_at", null: false
+    t.bigint "supervisor_id"
+    t.integer "pid", null: false
+    t.string "hostname"
+    t.text "metadata"
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.index ["last_heartbeat_at"], name: "index_solid_queue_processes_on_last_heartbeat_at"
+    t.index ["name", "supervisor_id"], name: "index_solid_queue_processes_on_name_and_supervisor_id", unique: true
+    t.index ["supervisor_id"], name: "index_solid_queue_processes_on_supervisor_id"
+  end
+
+  create_table "solid_queue_ready_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.string "queue_name", null: false
+    t.integer "priority", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.index ["job_id"], name: "index_solid_queue_ready_executions_on_job_id", unique: true
+    t.index ["priority", "job_id"], name: "index_solid_queue_poll_all"
+    t.index ["queue_name", "priority", "job_id"], name: "index_solid_queue_poll_by_queue"
+  end
+
+  create_table "solid_queue_recurring_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.string "task_key", null: false
+    t.datetime "run_at", null: false
+    t.datetime "created_at", null: false
+    t.index ["job_id"], name: "index_solid_queue_recurring_executions_on_job_id", unique: true
+    t.index ["task_key", "run_at"], name: "index_solid_queue_recurring_executions_on_task_key_and_run_at", unique: true
+  end
+
+  create_table "solid_queue_recurring_tasks", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "schedule", null: false
+    t.string "command", limit: 2048
+    t.string "class_name"
+    t.text "arguments"
+    t.string "queue_name"
+    t.integer "priority", default: 0
+    t.boolean "static", default: true, null: false
     t.text "description"
-    t.string "ui_type", limit: 255
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "display_if", limit: 255
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "data_type", limit: 255
-    t.boolean "required", default: false, null: false
-    t.boolean "listed", default: false, null: false
-    t.text "section_header"
-    t.index ["organization_id"], name: "index_supervisor_evaluation_questions_on_organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_solid_queue_recurring_tasks_on_key", unique: true
+    t.index ["static"], name: "index_solid_queue_recurring_tasks_on_static"
   end
 
-  create_table "supervisor_evaluation_responses", id: :serial, force: :cascade do |t|
-    t.integer "supervisor_evaluation_id"
-    t.integer "supervisor_evaluation_question_id"
-    t.integer "supervisor_evaluation_answer_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "entered_value", limit: 255
-    t.index ["supervisor_evaluation_answer_id"], name: "index_supervisor_evaluation_response_answer_id"
-    t.index ["supervisor_evaluation_id"], name: "index_supervisor_evaluation_response_note_id"
+  create_table "solid_queue_scheduled_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.string "queue_name", null: false
+    t.integer "priority", default: 0, null: false
+    t.datetime "scheduled_at", null: false
+    t.datetime "created_at", null: false
+    t.index ["job_id"], name: "index_solid_queue_scheduled_executions_on_job_id", unique: true
+    t.index ["scheduled_at", "priority", "job_id"], name: "index_solid_queue_dispatch_all"
   end
 
-  create_table "supervisor_evaluations", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "supervisor_id"
-    t.integer "provider_id"
-    t.datetime "supervised_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_id"], name: "index_supervisor_evaluations_on_client_id"
-    t.index ["provider_id"], name: "index_supervisor_evaluations_on_provider_id"
-    t.index ["supervisor_id"], name: "index_supervisor_evaluations_on_supervisor_id"
-  end
-
-  create_table "supervisor_notes", id: :serial, force: :cascade do |t|
-    t.integer "client_id"
-    t.integer "supervisor_id"
-    t.integer "provider_id"
-    t.datetime "supervised_at", precision: nil
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["client_id"], name: "index_supervisor_notes_on_client_id"
-    t.index ["provider_id"], name: "index_supervisor_notes_on_provider_id"
-    t.index ["supervisor_id"], name: "index_supervisor_notes_on_supervisor_id"
-  end
-
-  create_table "training_admins", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.integer "user_id"
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "training_completion_requirements", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "training_consultants", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.integer "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "archived_at", precision: nil
-    t.index ["training_id"], name: "index_training_consultants_on_training_id"
-    t.index ["user_id"], name: "index_training_consultants_on_user_id"
-  end
-
-  create_table "training_ebp_session_activities", id: :serial, force: :cascade do |t|
-    t.integer "training_ebp_id"
-    t.integer "ebp_session_activity_id"
-    t.boolean "displayed", default: false, null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["ebp_session_activity_id"], name: "by_session_activity"
-    t.index ["training_ebp_id"], name: "by_training_ebp"
-  end
-
-  create_table "training_ebps", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.integer "ebp_id"
-    t.integer "min_sessions_per_case_count"
-    t.integer "min_cases_count"
-    t.index ["ebp_id"], name: "index_training_ebps_on_ebp_id"
-    t.index ["training_id"], name: "index_training_ebps_on_training_id"
-  end
-
-  create_table "training_group_call_users", id: :serial, force: :cascade do |t|
-    t.integer "training_group_call_id"
-    t.integer "client_id"
-    t.boolean "attended", default: false, null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "training_user_id"
-    t.datetime "reminder_sent_at", precision: nil
-    t.index ["training_user_id"], name: "index_training_group_call_users_on_training_user_id"
-  end
-
-  create_table "training_group_calls", id: :serial, force: :cascade do |t|
-    t.integer "training_group_id"
-    t.date "called_on"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "note"
-    t.text "description"
-  end
-
-  create_table "training_group_consultants", id: :serial, force: :cascade do |t|
-    t.integer "training_group_id"
-    t.integer "training_consultant_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "primary", default: false, null: false
-    t.index ["training_consultant_id"], name: "index_training_group_consultants_on_training_consultant_id"
-    t.index ["training_group_id"], name: "index_training_group_consultants_on_training_group_id"
-  end
-
-  create_table "training_group_users", id: :serial, force: :cascade do |t|
-    t.integer "training_group_id"
-    t.integer "training_user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["training_group_id"], name: "index_training_group_users_on_training_group_id"
-    t.index ["training_user_id"], name: "index_training_group_users_on_training_user_id"
-  end
-
-  create_table "training_groups", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["training_id"], name: "index_training_groups_on_training_id"
-  end
-
-  create_table "training_measures", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.integer "measure_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "training_requests", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.integer "user_id"
-    t.datetime "processed_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "role", limit: 255
-    t.index ["training_id"], name: "index_training_requests_on_training_id"
-    t.index ["user_id"], name: "index_training_requests_on_user_id"
-  end
-
-  create_table "training_user_accomplishments", id: :serial, force: :cascade do |t|
-    t.integer "training_completion_requirement_id"
-    t.integer "training_user_id"
-    t.date "accomplished_on"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "training_users", id: :serial, force: :cascade do |t|
-    t.integer "training_id"
-    t.integer "user_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "archived_at", precision: nil
-    t.date "completed_on"
-    t.string "supervisor_name", limit: 255
-    t.string "supervisor_email", limit: 255
-    t.string "archive_reason", limit: 255
-    t.string "participant_id", limit: 255
-    t.text "upload_url"
-    t.index ["training_id"], name: "index_training_users_on_training_id"
-    t.index ["user_id"], name: "index_training_users_on_user_id"
-  end
-
-  create_table "trainings", id: :serial, force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "location_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.datetime "start_at", precision: nil
-    t.datetime "end_at", precision: nil
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "participant_code", limit: 255
-    t.string "consultant_code", limit: 255
-    t.string "slug", limit: 255
-    t.boolean "display_session_activity_children", default: false, null: false
-    t.integer "consultant_evaluation_form_id"
-    t.boolean "send_reminders", default: false, null: false
-    t.integer "reminder_lead_days", default: 2
-    t.integer "min_calls_required", default: 9
-    t.text "instructions"
-    t.boolean "activate_client_goals", default: false, null: false
-    t.string "short_name", limit: 255
-    t.string "share_clients", limit: 255
-    t.boolean "published", default: true, null: false
-    t.integer "consultant_completion_form_id"
-    t.index ["archived_at"], name: "index_trainings_on_archived_at"
-    t.index ["consultant_completion_form_id"], name: "i_training_consultant_completion_form"
-    t.index ["consultant_evaluation_form_id"], name: "i_training_consultant_evaluation_form"
-    t.index ["location_id"], name: "index_trainings_on_location_id"
-    t.index ["organization_id"], name: "index_trainings_on_organization_id"
-  end
-
-  create_table "user_active_days", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "organization_id"
-    t.date "active_on"
-  end
-
-  create_table "user_messages", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "message_id"
-    t.datetime "read_at", precision: nil
-    t.datetime "archived_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["message_id"], name: "index_user_messages_on_message_id"
-    t.index ["user_id"], name: "index_user_messages_on_user_id"
-  end
-
-  create_table "user_questions", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "question", limit: 255
-    t.text "response"
+  create_table "solid_queue_semaphores", force: :cascade do |t|
+    t.string "key", null: false
+    t.integer "value", default: 1, null: false
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
+    t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
+    t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -1156,4 +398,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_12_195851) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "projects", "finishers", column: "group_manager_id"
   add_foreign_key "projects", "users", column: "manager_id"
+  add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
 end

@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.3.7"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.6", ">= 7.0.6"
+gem "rails", "~> 8.0"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -15,7 +15,7 @@ gem "sprockets-rails"
 gem "pg", "~> 1.5.3"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
+gem "puma", "~> 6.0"
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
@@ -39,7 +39,7 @@ gem "devise"
 gem "haml-rails"
 
 # Pagination
-gem "will_paginate", "~> 3.3"
+gem "will_paginate", "~> 4"
 
 gem "airbrake"
 
@@ -83,6 +83,9 @@ gem "geocoder", "~> 1.8"
 # Annotated source code for Models
 gem "annotaterb", "~> 4.13"
 
+# UI for ActiveJob
+gem "mission_control-jobs"
+
 # Gems being moved out of core ruby
 gem "csv", "~> 3.3"
 gem "drb", "~> 2.2"
@@ -112,19 +115,26 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
+  # Faster ruby conventions
+  gem "fasterer", "~> 0.11.0"
+
   gem "bullet", "~> 8.0"
   gem "overcommit", "~> 0.64.0"
   gem "reek", "~> 6.4"
+
   gem "rubocop", "~> 1.69"
-  gem "rubocop-capybara", "~> 2.21"
-  gem "rubocop-minitest", "~> 0.36.0"
+  gem "rubocop-capybara", "~> 2.22"
+  gem "rubocop-minitest", "~> 0.36"
+  gem "rubocop-performance", "~> 1.24"
   gem "rubocop-rails", "~> 2.29"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem "rails-controller-testing"
   gem "selenium-webdriver"
   gem "webdrivers"
-  gem 'rails-controller-testing'
 end
+
+gem "solid_queue", "~> 1.1"

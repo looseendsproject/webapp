@@ -25,7 +25,8 @@
         .row.g-1.g-sm-4
           .col-6
             .form-image
-              = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
+              - if @finisher.picture.representable?
+                = image_tag @finisher.picture.representation( resize_to_limit: [200, 200])
       .row.g-1.g-sm-4.mb-4
         .col-12
           = form.label 'A Photo of you', class: 'form-label optional'
@@ -37,8 +38,12 @@
           = form.text_area :social_media, size: "60x3", class: 'form-control'
       .row.g-1.g-sm-4.mb-4
         .col-12
-          = form.label 'Do you work for a company that matches charitable donations or volunteer hours?', class: 'form-label required'
+          = form.label :has_workplace_match, 'Do you work for a company that matches charitable donations?', class: 'form-label required'
           = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
+      .row.g-1.g-sm-4.mb-4
+        .col-12
+          = form.label :has_volunteer_time_off, 'Do you work for a company that matches volunteer hours?', class: 'form-label required'
+          = form.select :has_volunteer_time_off, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
       .row.g-1.g-sm-4.mb-4
         .col-12
           = form.label 'If you do work outside the home what company do you work for?', class: 'form-label optional'

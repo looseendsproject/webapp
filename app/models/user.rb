@@ -43,6 +43,32 @@ class User < ApplicationRecord
   search_sort_name_field :last_name
   search_default_sort "name asc"
 
+  class HeardAboutUs
+    HEARD_ABOUT_US_OPTIONS = {
+      'Facebook' => {  additional: false },
+      'Instagram' => {  additional: false },
+      'Newspaper' => {  additional: true },
+      'Radio' => {  additional: true },
+      'TV' => {  additional: true },
+      'AARP Magazine' => {  additional: false },
+      'Other Magazine' => {  additional: true },
+      'Friend' => {  additional: false },
+      'Local Yarn Store' => {  additional: false },
+      'Saw a Flyer' => {  additional: false },
+      'Other' => {  additional: true }
+    }.freeze
+
+    def self.options_for_select
+      HEARD_ABOUT_US_OPTIONS.keys
+    end
+
+    def self.options_for_additional
+      results = []
+      HEARD_ABOUT_US_OPTIONS.map { |k,v| results << k if v[:additional] }
+      results
+    end
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -56,10 +82,20 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :heard_about_us, presence: true
 
   def set_default_role
     self.role = "admin" if User.count < 3
     self.role ||= "user"
+  end
+
+  # For use in mailer previews so as to not expose any personal info
+  def self.fake
+    new({
+      first_name: "Fake",
+      last_name: "User",
+      email: "fake_user@example.com"
+    })
   end
 
   def name

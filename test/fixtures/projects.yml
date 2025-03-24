@@ -18,10 +18,12 @@
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
 #  in_process_status         :string
+#  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
 #  latitude                  :float
 #  longitude                 :float
+#  material_brand            :text
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
@@ -50,11 +52,12 @@
 #
 # Indexes
 #
-#  index_projects_on_group_manager_id  (group_manager_id)
-#  index_projects_on_latitude          (latitude)
-#  index_projects_on_longitude         (longitude)
-#  index_projects_on_manager_id        (manager_id)
-#  index_projects_on_user_id           (user_id)
+#  index_projects_on_group_manager_id       (group_manager_id)
+#  index_projects_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_projects_on_latitude               (latitude)
+#  index_projects_on_longitude              (longitude)
+#  index_projects_on_manager_id             (manager_id)
+#  index_projects_on_user_id                (user_id)
 #
 # Foreign Keys
 #
@@ -76,6 +79,7 @@ one:
   state: WA
   postal_code: 12345
   country: USA
+  inbound_email_address: Project-7A37voRf@localhost
   created_at: <%= 8.days.ago %>
   updated_at: <%= 7.days.ago %>
 
@@ -87,5 +91,6 @@ two:
   status: ready to match
   phone_number: 1234567890
   craft_type: knitting
+  inbound_email_address: Project-t4Tzy9NI@localhost
   created_at: <%= 3.days.ago %>
   updated_at: <%= 2.days.ago %>

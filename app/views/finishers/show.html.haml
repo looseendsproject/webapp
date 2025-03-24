@@ -115,8 +115,9 @@
         %b Completed Projects
         - @finisher.finished_projects.each do |image|
           .removeable_image
-            = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-            = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
+            - if image.representable?
+              = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg)), target: '_blank'
+              = button_to fa_icon("trash"), finisher_path({ finished_project_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
         - if @finisher.dislikes.present?
           .page-section
             %h4 Never Again!

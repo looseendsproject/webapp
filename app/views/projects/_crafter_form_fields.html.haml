@@ -1,0 +1,66 @@
+.row.mb-4
+  .col-md-4
+    = form.label :crafter_name, 'Name of deceased or compromised crafter', class: 'form-label required'
+  .col-md-4
+    = form.text_field :crafter_name, class: 'form-control', required: true
+.row.mb-4
+  .col-md-4
+    = form.label :crafter_description, 'Please share a little bit about about the crafter who started this project, and your relationship with the person and the things they made.', class: 'form-label required'
+  .col-md-4
+    = form.text_area :crafter_description, size: "60x5", class: 'form-control', required: true
+.row.mb-4
+  .col-md-4
+    = form.label 'Would you like to share a photo of the original crafter?', class: 'form-label'
+  .col-md-4
+    = form.file_field :append_crafter_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
+    - form.object.crafter_images.each do |image|
+      = image_tag image.representation( resize_to_limit: [100, 100])
+    .form-info Please upload photos of the crafter, if you have them.
+.row.mb-4
+  .col-md-4
+    = form.label 'recipient_name', class: 'form-label'
+  .col-md-4
+    = form.text_field :recipient_name, class: 'form-control'
+    .form-info Who was this being made for?
+.row.mb-4
+  .col-md-4
+    = form.label "Has the project been exposed to any of the following?", class: 'form-label'
+  .col-md-8
+    .row.flex-nowrap
+      = form.collection_check_boxes(:in_home_pets, [ ['Dog(s)', 'dogs'], ['Cat(s)', 'cats'], ['Other animals', 'other'], ['Not sure', 'unsure'] ], :last, :first) do |b|
+        .flex-shrink-1
+          %label.form-label
+            = b.check_box
+            = b.label
+
+.row.mb-4
+  .col-md-4
+    %p Has this project been exposed to cigarette smoke?
+  .col-md-8
+    = form.label 'has_smoke_in_home', class: 'form-label' do
+      = form.check_box :has_smoke_in_home
+      Yes, this project has been exposed to cigarette smoke.
+
+.row.mb-4
+  .col-md-4
+    %p If we find a finisher who has smoke or pets in their home, do you want to avoid this finisher?
+  .col-md-8
+    .row.flex-nowrap
+      %label.form-label.flex-shrink-1
+        = form.check_box :no_smoke
+        No smoke, please.
+      %label.form-label.flex-shrink-1
+        = form.check_box :no_cats
+        No cats, please.
+      %label.form-label.flex-shrink-1
+        = form.check_box :no_dogs
+        No dogs, please.
+
+
+.row.mb-4
+  .col-md-4
+    = form.label 'Is it OK to publicly share details about the crafter including images?', class: 'form-label'
+  .col-md-8
+    = form.label 'can_share_crafter_details', class: 'form-label' do
+      = form.check_box :can_share_crafter_details
+      Yes, it is OK to share details about the crafter online.

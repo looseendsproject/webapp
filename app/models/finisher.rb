@@ -21,8 +21,10 @@
 #  has_completed_profile          :boolean          default(FALSE)
 #  has_smoke_in_home              :boolean          default(FALSE)
 #  has_taken_ownership_of_profile :boolean          default(FALSE)
+#  has_volunteer_time_off         :boolean
 #  has_workplace_match            :boolean
 #  in_home_pets                   :string
+#  inbound_email_address          :string
 #  joined_on                      :date
 #  latitude                       :float
 #  longitude                      :float
@@ -47,13 +49,15 @@
 #
 # Indexes
 #
-#  index_finishers_on_joined_on  (joined_on)
-#  index_finishers_on_latitude   (latitude)
-#  index_finishers_on_longitude  (longitude)
-#  index_finishers_on_user_id    (user_id)
+#  index_finishers_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_finishers_on_joined_on              (joined_on)
+#  index_finishers_on_latitude               (latitude)
+#  index_finishers_on_longitude              (longitude)
+#  index_finishers_on_user_id                (user_id)
 #
 class Finisher < ApplicationRecord
   include LooseEndsSearchable
+  include EmailAddressable
 
   search_query_joins :user
   search_text_fields :"finishers.description", :"finishers.chosen_name", :"finishers.city", :"finishers.state",
@@ -69,7 +73,9 @@ class Finisher < ApplicationRecord
 
   has_many_attached :finished_projects
 
-  has_many :active_assignments, lambda { where(status: ['invited', 'accepted', 'unresponsive'])}, class_name: 'Assignment'
+  has_many :active_assignments, lambda {
+    where(status: %w[invited accepted unresponsive])
+  }, class_name: "Assignment"
 
   has_many :assignments, dependent: :destroy
   has_many :projects, through: :assignments
@@ -82,6 +88,7 @@ class Finisher < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :products, through: :favorites
+  has_many :messages, as: :messageable
 
   accepts_nested_attributes_for :assessments
 
@@ -93,7 +100,7 @@ class Finisher < ApplicationRecord
                                 size: { greater_than_or_equal_to: 5.kilobytes }
   validates :picture, content_type: %i[png jpg jpeg webp gif], size: { greater_than_or_equal_to: 5.kilobytes }
 
-  serialize :in_home_pets, Array
+  serialize :in_home_pets
 
   before_create do
     self.joined_on = Time.zone.today if joined_on.blank?
@@ -129,6 +136,11 @@ class Finisher < ApplicationRecord
     description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments? || missing_favorites?
   end
 
+  # For use in mailer previews
+  def self.fake
+    new({ user: User.fake })
+  end
+
   def missing_address_information?
     street.blank? ||
       city.blank? ||
@@ -138,7 +150,7 @@ class Finisher < ApplicationRecord
   end
 
   def missing_assessments?
-    assessments.all? { |a| (a[:rating]).zero? }
+    assessments.all? { |a| a[:rating].zero? }
   end
 
   def missing_favorites?
@@ -154,7 +166,7 @@ class Finisher < ApplicationRecord
   end
 
   def assigned?
-    self.active_assignments.size > 0
+    active_assignments.size > 0
   end
 
   def name

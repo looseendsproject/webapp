@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {
     confirmations: "users/confirmations",
     passwords: "users/passwords",
@@ -17,7 +18,6 @@ Rails.application.routes.draw do
 
   resources :projects, except: :edit do
     member do
-      get "edit_basics"
       get "edit_project"
       get "edit_address"
       get "edit_crafter"
@@ -33,7 +33,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :message, only: :show
+
   namespace :manage do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
+
     root to: "dashboards#show"
     resource :dashboard
     resources :assignments, only: %i[index edit update show destroy] do
@@ -59,6 +63,7 @@ Rails.application.routes.draw do
       end
       get "card", on: :member
     end
+    get "reports/heard_about_us", to: "reports#heard_about_us"
   end
 
   namespace :admin do
@@ -70,5 +75,4 @@ Rails.application.routes.draw do
       get :assume_identity, on: :member
     end
   end
-
 end

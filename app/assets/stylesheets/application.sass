@@ -48,6 +48,8 @@ h1.assigned
   &.E
     background-color: #27AB09
 
+.has-vto
+  background-color: #f437ac
 
 // Forms
 
@@ -55,7 +57,7 @@ h1.assigned
   margin-top: 1rem
 
 .form-info
-  font-size: 11px
+  font-size: .75rem
 
 
 .required:after
@@ -71,6 +73,15 @@ h1.assigned
   font-size: 1rem
   content: "(optional)"
   color: grey
+  position: relative
+  bottom: 0
+  left: 2px
+  line-height: 1.2
+
+.manager-only:after
+  font-size: 1rem
+  content: " (manager only)"
+  color: mediumseagreen
   position: relative
   bottom: 0
   left: 2px
@@ -146,6 +157,33 @@ footer
   border-radius: .8em
   border: solid 1px #CCC
 
+// Project management
+
+.project-table
+  .sortable
+    cursor: pointer
+    &:after
+      font-family: "Font Awesome 6 Free"
+      content: "\f0dc"
+      padding-left: 0.5rem
+      display: inline-block
+    &.sort-up:after
+      content: "\f0de"
+    &.sort-down:after
+      content: "\f0dd"
+  &.disabled
+    opacity: 0.3
+
+.project-card-body
+  i.fa
+    color: $secondary
+    width: 1.3rem
+  .highlighted i.fa
+    color: $primary
+  .missing
+    color: $secondary
+    i.fa
+      color: $gray-400
 
 // pagination
 .pagination a, .pagination span, .pagination em

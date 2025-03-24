@@ -1,0 +1,18 @@
+%tr
+  %td.text-nowrap= link_to project.name.truncate(40), [:manage, project]
+  %td.text-nowrap= project.status.titleize
+  %td.text-nowrap= time_tag(project.updated_at, "#{time_ago_in_words(project.updated_at)} ago", title: project.updated_at)
+  %td.text-nowrap
+    - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('last_contacted_at')
+      = time_tag(last_contact, "#{time_ago_in_words(last_contact)} ago", title: last_contact)
+  %td.text-nowrap
+    - if project.city.present? && project.state.present?
+      #{project.city.titleize}, #{project.state}
+  %td.text-nowrap= link_to project.user.name, [:admin, project.user]
+  %td.text-nowrap
+    - if project.active_finisher.present? && assignment = project.assignments.where(finisher: project.active_finisher).first
+      = link_to project.active_finisher&.name, [:manage, project.active_finisher]
+      %span.ms-1.badge.rounded-pill.text-bg-primary= assignment.status
+    - elsif project.finisher.present? && assignment = project.assignments.where(finisher: project.finisher).first
+      = link_to project.finisher&.name, [:manage, project.finisher]
+      %span.badge.rounded-pill.text-bg-secondary= assignment.status

@@ -20,10 +20,12 @@
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
 #  in_process_status         :string
+#  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
 #  latitude                  :float
 #  longitude                 :float
+#  material_brand            :text
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
@@ -52,11 +54,12 @@
 #
 # Indexes
 #
-#  index_projects_on_group_manager_id  (group_manager_id)
-#  index_projects_on_latitude          (latitude)
-#  index_projects_on_longitude         (longitude)
-#  index_projects_on_manager_id        (manager_id)
-#  index_projects_on_user_id           (user_id)
+#  index_projects_on_group_manager_id       (group_manager_id)
+#  index_projects_on_inbound_email_address  (inbound_email_address) UNIQUE
+#  index_projects_on_latitude               (latitude)
+#  index_projects_on_longitude              (longitude)
+#  index_projects_on_manager_id             (manager_id)
+#  index_projects_on_user_id                (user_id)
 #
 # Foreign Keys
 #
@@ -102,11 +105,13 @@ class Project < ApplicationRecord
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
   include LooseEndsSearchable
+  include EmailAddressable
 
   search_query_joins :user
   search_sort_name_field :name
   search_text_fields :"projects.name", :"projects.description", :"projects.craft_type", :"projects.material_type",
-                     :"projects.city", :"projects.state", :"users.first_name", :"users.last_name", :"users.email"
+                     :"projects.material_brand", :"projects.city", :"projects.state", :"users.first_name",
+                     :"users.last_name", :"users.email"
   search_default_sort "date desc"
 
   belongs_to :manager, optional: true, class_name: "User"
@@ -115,6 +120,7 @@ class Project < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :finishers, through: :assignments
   has_many :project_notes, dependent: :destroy
+  has_many :messages, as: :messageable
 
   has_many_attached :crafter_images
   has_many_attached :project_images
@@ -143,7 +149,7 @@ class Project < ApplicationRecord
   validates :press_region, presence: true, if: :press?
   validates :press_outlet, presence: true, if: :press?
 
-  serialize :in_home_pets, Array
+  serialize :in_home_pets
   geocoded_by :full_address
   after_validation :geocode, if: lambda { |obj|
     obj.full_address.present? && obj.full_address_has_changed?
@@ -166,6 +172,14 @@ class Project < ApplicationRecord
 
   def finisher
     finishers.first
+  end
+
+  def finisher_name
+    finisher&.name
+  end
+
+  def active_finisher
+    assignments.find_by(status: "accepted")&.finisher
   end
 
   def self.proposed

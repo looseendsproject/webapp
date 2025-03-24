@@ -7,6 +7,7 @@ class FinishersController < AuthenticatedController
   def show
     @title = "Loose Ends - Finisher Profile"
     @finisher = current_user.finisher
+    raise ActiveRecord::RecordNotFound unless @finisher
   end
 
   def new
@@ -98,6 +99,7 @@ class FinishersController < AuthenticatedController
       :has_smoke_in_home,
       :terms_of_use,
       :has_workplace_match,
+      :has_volunteer_time_off,
       :workplace_name,
       :emergency_contact_name,
       :emergency_contact_relation,

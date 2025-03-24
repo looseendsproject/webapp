@@ -8,6 +8,9 @@ module Manage
       @project_note = @project.project_notes.new(project_notes_params)
       @project_note.user = current_user
       @project_note.save
+
+      update_last_contacted! if params[:finisher_contact]
+
       respond_to do |format|
         format.turbo_stream {}
       end
@@ -29,6 +32,15 @@ module Manage
 
     def project_notes_params
       params.require(:project_note).permit([:description])
+    end
+
+    def update_last_contacted!
+      return if @project.active_finisher.blank?
+
+      assignment = @project.assignments.where(finisher: @project.active_finisher).first
+      return if assignment.blank?
+
+      assignment.update_attribute!(:last_contacted_at, Time.zone.now)
     end
   end
 end

@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require "csv"
+
 module Manage
   class FinishersController < Manage::ManageController
     before_action :get_project, only: %i[index map card]
-    require "csv"
+
     def index
       respond_to do |format|
         skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
@@ -22,11 +24,11 @@ module Manage
           first = first_finisher.joined_on&.beginning_of_month || first_finisher.created_at.beginning_of_month
           last = Time.zone.today.beginning_of_month
           @months = (first.to_datetime..last.to_datetime).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
-          @finishers = Finisher.includes(:products, :user, :active_assignments,
-                                         { rated_assessments: :skill })
-                               .with_attached_picture
-                               .search(params)
-                               .paginate(page: params[:page])
+
+          # Getting the list of finishers is VERY performance sensitive.  Don't try to
+          # get all associated records here.  Let the partials do the queries.
+          @finishers = Finisher.search(params).paginate(page: params[:page])
+
           @states = if params[:country].present?
                       Finisher.where(country: params[:country]).distinct.pluck(:state).compact_blank.sort
                     else
@@ -46,16 +48,31 @@ module Manage
       results = Geocoder.search(params[:near])
       return unless results.first
 
-      @finishers = Finisher.geocoded.near(results.first.coordinates, params[:radius])
+      @finishers = Finisher.geocoded.near(results.first.coordinates, params[:radius]).includes(:rated_assessments, :user)
       if params[:skill_id].present?
         @finishers = @finishers.joins(:assessments).where(assessments: { skill_id: params[:skill_id], rating: 1.. })
         @skill_id = params[:skill_id]
       end
       @center = results.first.coordinates
+
+      respond_to do |format|
+        format.csv do
+          response.headers["Content-Type"] = "text/csv"
+          response.headers["Content-Disposition"] =
+            "attachment; filename=finishers-map-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+          render :index and return
+        end
+        format.html
+      end
     end
 
     def show
       @finisher = Finisher.find(params[:id])
+      unless @finisher.inbound_email_address.present? # assign inbound_email_address on action
+        @finisher.valid?
+        @finisher.save!
+        @finisher.reload
+      end
       @title = "Loose Ends - Manage - Finishers - #{@finisher.chosen_name}"
     end
 
@@ -111,6 +128,7 @@ module Manage
                                        :country,
                                        :postal_code,
                                        :has_workplace_match,
+                                       :has_volunteer_time_off,
                                        :emergency_contact_name,
                                        :emergency_contact_relation,
                                        :emergency_contact_phone_number,

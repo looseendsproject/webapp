@@ -1,5 +1,5 @@
 !!!
-%html
+%html{xmlns: "http://www.w3.org/1999/xhtml", "xml:lang" => "en-US", lang: "en-US"}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title= display_env + (@title || "Loose Ends - Home")
@@ -9,6 +9,8 @@
     = favicon_link_tag asset_path('favicon.png')
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_tag '', src: "https://code.jquery.com/jquery-3.7.1.slim.min.js",
+        integrity: "sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=", crossorigin: 'anonymous'
   %body
     = render 'navigation'
     %main.container.mx-auto.mt-5.px-3.px-sm-5
