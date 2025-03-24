@@ -7,10 +7,6 @@
     .col-2
       = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
     .col-2
-    .col-3
-      = form.label :approved do
-        = form.check_box :approved
-        Approved
   .row.mb-2
     = form.label :chosen_name, class: 'col-2 col-form-label'
     .col-4
@@ -50,9 +46,13 @@
   .my-4
     %h5 Emergency Contact Information
     .row.mb-2
-      = form.label 'Name', class: 'form-label'
       .col-4
+        = form.label 'Name', class: 'form-label'
         = form.text_field :emergency_contact_name, class: 'form-control'
+      .col-4
+        = form.label :approved do
+          = form.check_box :approved
+          Accepted Terms and Conditions
 
       = form.label 'Relation', class: 'form-label'
       .col-4
