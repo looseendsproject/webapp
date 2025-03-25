@@ -23,6 +23,7 @@ class Message < ApplicationRecord
   belongs_to :messageable, polymorphic: true
   has_rich_text :content
 
+  validates_presence_of :messageable
   validates :channel, inclusion: { in: %w(inbound outbound),
       message: "%{value} is not a valid message channel" }
 
@@ -44,9 +45,15 @@ class Message < ApplicationRecord
     Mail.from_source content.to_plain_text
   end
 
+  def path_to_messageable
+    "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"
+  end
+
   private
 
+  # Messageable must respond to #name
   def set_defaults
     self.channel ||= 'inbound'
+    self.description ||= "#{messageable.class.to_s.downcase}/#{messageable.name}"
   end
 end

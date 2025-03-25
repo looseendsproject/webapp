@@ -3,11 +3,14 @@
     %tr
       %th Date
       %th From
+      %th Attached to
       %th Subject
   %tbody
     - messages.each do |m|
       %tr
         %td= m.email.date
         %td= m.email.from&.first
+        %td
+          %a(href="#{m.path_to_messageable}") #{m.description}
         %td
           %a(href="/message/#{m.id}") #{m.email.subject}

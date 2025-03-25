@@ -8,6 +8,7 @@
   .col
     %b Inbound
     .pt-1= render partial: 'messages/compact', locals: { messages: Message.inbound.since(since) }
+.row.pt-3
   .col
     %b Outbound
     .pt-1= render partial: 'messages/compact', locals: { messages: Message.outbound.since(since) }

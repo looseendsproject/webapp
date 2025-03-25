@@ -22,7 +22,10 @@ require "test_helper"
 class MessageTest < ActiveSupport::TestCase
 
   test "validations" do
-    refute Message.new(channel: 'wrong').valid?
+    m = Project.first.messages.new(channel: 'wrong')
+    # debugger
+    refute m.valid?
+    assert_match /Channel wrong is not a valid message channel/, m.errors.full_messages.to_s
   end
 
   test "persists to Project" do
