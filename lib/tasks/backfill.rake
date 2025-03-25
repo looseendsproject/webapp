@@ -8,4 +8,9 @@ namespace :backfill do
       p.save!(validate: false)
     end
   end
+
+  desc "Set message.channel"
+  task message_channel: [:environment] do |_t|
+    Message.where('channel IS NULL').update_all(channel: 'inbound')
+  end
 end

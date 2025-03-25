@@ -3,6 +3,7 @@
 # Table name: messages
 #
 #  id               :bigint           not null, primary key
+#  channel          :string
 #  description      :string
 #  last_edited_by   :integer
 #  messageable_type :string
@@ -12,12 +13,18 @@
 #
 # Indexes
 #
+#  index_messages_on_channel                              (channel)
 #  index_messages_on_messageable                          (messageable_type,messageable_id)
 #  index_messages_on_messageable_type_and_messageable_id  (messageable_type,messageable_id)
 #
 require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
+
+  test "validations" do
+    refute Message.new(channel: 'wrong').valid?
+  end
+
   test "persists to Project" do
     m = Project.first.messages.new
     m.content = "Primo content"
@@ -46,5 +53,10 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal '2025-03-22T12:25:35-04:00', m.email.date.to_s
     assert_match /How does this look\?/, m.email.text_part.body.decoded
   end
-end
 
+  test "since method" do
+    start = Time.now - 3.days
+    target = Message.where(created_at: (start..Time.now)).count
+    assert_equal target, Message.since(start).count
+  end
+end

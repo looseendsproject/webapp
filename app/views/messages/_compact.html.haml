@@ -1,0 +1,13 @@
+%table.table
+  %thead
+    %tr
+      %th Date
+      %th From
+      %th Subject
+  %tbody
+    - messages.each do |m|
+      %tr
+        %td= m.email.date
+        %td= m.email.from&.first
+        %td
+          %a(href="/message/#{m.id}") #{m.email.subject}
