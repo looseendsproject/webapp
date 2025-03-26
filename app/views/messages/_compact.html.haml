@@ -1,15 +1,17 @@
+- format ||= 'inbound'
+
 %table.table
   %thead
     %tr
       %th Date
-      %th From
+      %th #{ format == 'inbound' ? 'From' : 'To' }
       %th Attached to
       %th Subject
   %tbody
     - messages.each do |m|
       %tr
         %td= m.email.date
-        %td= m.email.from&.first
+        %td #{ format == 'inbound' ? m.email.from&.first : m.email.to&.first }
         %td
           %a(href="#{m.path_to_messageable}") #{m.description}
         %td
