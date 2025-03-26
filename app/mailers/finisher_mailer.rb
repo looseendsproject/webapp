@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class FinisherMailer < ApplicationMailer
-  layout "mailer"
+
+  after_deliver :record_delivery
 
   def welcome(finisher)
     @finisher = finisher
@@ -19,5 +20,11 @@ class FinisherMailer < ApplicationMailer
       to: finisher.user.email,
       subject: "Welcome, Loose Ends Finisher!"
     )
+  end
+
+  private
+
+  def record_delivery
+    @finisher.messages.create!(channel: 'outbound', content: message.to_s)
   end
 end

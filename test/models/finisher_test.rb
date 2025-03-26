@@ -73,7 +73,8 @@ class FinisherTest < ActiveSupport::TestCase
   end
 
   test "has messages" do
-    assert_equal 'finisher/2025032345337', finishers(:crocheter).messages.first.description
+    finisher = finishers(:crocheter)
+    assert_equal "finisher/#{finisher.name}", finisher.messages.first.description
   end
 
   test "inbound_email_address assignment" do
@@ -81,5 +82,12 @@ class FinisherTest < ActiveSupport::TestCase
     refute f.inbound_email_address
     f.valid?
     assert_match /Finisher-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/, f.inbound_email_address
+  end
+
+  test "send welcome records Message" do
+    finisher = finishers(:knitter)
+    finisher.send_welcome_message
+    assert_equal "Loose Ends Project Account Created - Next Steps...",
+      finisher.messages.last.email.subject
   end
 end

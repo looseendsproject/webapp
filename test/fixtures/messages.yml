@@ -22,12 +22,12 @@
 project:
   messageable_type: 'Project'
   messageable_id: 1
-  description: "email/2025032104553"
+  description: "project/Project Title One"
   last_edited_by: 3
   channel: inbound
 
 finisher:
   messageable_type: 'Finisher'
   messageable_id: 1
-  description: "finisher/2025032345337"
+  description: "finisher/Bobby (Bob Simmons)"
   channel: inbound
