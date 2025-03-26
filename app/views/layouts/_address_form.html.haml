@@ -1,48 +1,64 @@
-#country_ui.row
+.row.mb-4
   .col-md-4
-    = form.label 'Country', class: 'form-label required'
-    = form.select :country, options_for_select(ISO3166::Country.pluck(:iso_short_name, :alpha2).sort_by{|c| I18n.transliterate(c[0])}, form.object.country), { include_blank: true }, { class: 'form-select', onChange: "setStates(this.value)", id: 'country' }
-  .row.my-2
-    .col-12.col-md-10.col-lg-8
-      = form.label 'Street', class: 'form-label required'
-      = form.text_field :street, class: 'form-control'
-  .row.my-2
-    .col-12.col-md-10.col-lg-8
-      = form.label 'Line 2', class: 'form-label optional'
-      = form.text_field :street_2, class: 'form-control'
-  .row.my-2
-    .col-4.col-lg-3
-      = form.label 'City', class: 'form-label required'
-      = form.text_field :city, class: 'form-control'
-    #usState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'US') }
-      = form.label 'State', class: 'form-label required'
-      = form.select :state, US_STATES, { include_blank: true }, { class: 'form-select' }
-    #caState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'CA') }
-      = form.label 'Province', class: 'form-label required'
-      = form.select :state, CA_PROVINCES, { include_blank: true }, { class: 'form-select' }
-    #gbState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'GB') }
-      = form.label 'State', class: 'form-label required'
-      = form.select :state, GB_STATES, { include_blank: true }, { class: 'form-select' }
-    #auState.col-4.col-md-3{ class: ("hidden" unless form.object.country == 'AU') }
-      = form.label 'State', class: 'form-label required'
-      = form.select :state, AU_STATES, { include_blank: true }, { class: 'form-select' }
-    #otState.col-4.col-md-3{ class: ("hidden" if form.object.country.in?(['US', 'CA', 'AU', 'GB']) ) }
-      = form.label 'State/Province', class: 'form-label required'
-      = form.text_field :state, class: 'form-control', id: 'state_ot'
-    .col-4.col-sm-4.col-md-3.col-lg-2
-      = form.label "Postal code", class: 'form-label required'
-      = form.text_field :postal_code, class: 'form-control'
+    = form.label :country, 'Country', class: 'form-label required'
+  .col-md-4
+    = form.select :country, options_for_select(ISO3166::Country.pluck(:iso_short_name, :alpha2).sort_by{|c| I18n.transliterate(c[0])}, form.object.country), { include_blank: true }, { class: 'form-select', onChange: "setStates(this.value)", id: 'country', required: true }
+.row.mb-4
+  .col-md-4
+    = form.label :street, 'Street', class: 'form-label required'
+  .col-md-4
+    = form.text_field :street, class: 'form-control'
+.row.mb-4
+  .col-md-4
+    = form.label :street_2, 'Line 2', class: 'form-label optional'
+  .col-md-4
+    = form.text_field :street_2, class: 'form-control'
+.row.mb-4
+  .col-md-4
+    = form.label :city, 'City', class: 'form-label required'
+  .col-md-4
+    = form.text_field :city, class: 'form-control', required: true
+#usState.row.mb-4{ class: ("hidden" unless form.object.country == 'US') }
+  .col-md-4
+    = form.label 'State', class: 'form-label required'
+  .col-md-4
+    = form.select :state, US_STATES, { include_blank: true }, { class: 'form-select' }
+#caState.row.mb-4{ class: ("hidden" unless form.object.country == 'CA') }
+  .col-md-4
+    = form.label :state, 'Province', class: 'form-label required'
+  .col-md-4
+    = form.select :state, CA_PROVINCES, { include_blank: true }, { class: 'form-select' }
+#gbState.row.mb-4{ class: ("hidden" unless form.object.country == 'GB') }
+  .col-md-4
+    = form.label :state, 'State', class: 'form-label required'
+  .col-md-4
+    = form.select :state, GB_STATES, { include_blank: true }, { class: 'form-select' }
+#auState.row.mb-4{ class: ("hidden" unless form.object.country == 'AU') }
+  .col-md-4
+    = form.label :state, 'State', class: 'form-label required'
+  .col-md-4
+    = form.select :state, AU_STATES, { include_blank: true }, { class: 'form-select' }
+#otState.row.mb-4{ class: ("hidden" if form.object.country.in?(['US', 'CA', 'AU', 'GB'])) }
+  .col-md-4
+    = form.label :state, 'State/Province', class: 'form-label required'
+  .col-md-4
+    = form.text_field :state, class: 'form-control', id: 'state_ot'
+.row.mb-4
+  .col-md-4
+    = form.label :postal_code, "Postal code", class: 'form-label required'
+  .col-md-4
+    = form.text_field :postal_code, class: 'form-control', required: true
 
 :javascript
   const hideState = (stateCode) => {
     const state = document.querySelector('#' + stateCode + 'State')
-    state.style.display = "none"
+    state.classList.add("hidden")
     state.querySelector('select, input').disabled = true;
   }
 
   const showState = (stateCode) => {
     const state = document.querySelector('#' + stateCode + 'State')
-    state.style.display = "block"
+    state.classList.remove("hidden")
     state.querySelector('select, input').disabled = false;
   };
 
