@@ -7,11 +7,11 @@
   %b #{@message.email.subject}
 
 .pt-0 &nbsp;
-- if @message.email.text_part.present?
+- if @message.email.html_part.present?
+  %pt-0= @message.email.html_part.decoded
+- elsif @message.email.text_part.present?
   .pt-0
     %pre= @message.email.text_part.body.decoded
-- elsif @message.email.html_part.present?
-  .pt-0= @message.email.html_part.body.decoded.html_safe
 - else
   .pt-0 [no content]
 

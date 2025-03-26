@@ -84,7 +84,6 @@ class FinisherTest < ActiveSupport::TestCase
   test "has messages" do
     finisher = finishers(:crocheter)
     assert_equal "finisher/#{finisher.name}", finisher.messages.first.description
-    assert_equal 'email/2025032345337', finishers(:crocheter).messages.first.description
   end
 
   test "inbound_email_address assignment" do
