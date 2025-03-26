@@ -65,6 +65,15 @@ class FinisherTest < ActiveSupport::TestCase
     end
   end
 
+  test "phone number validation allows blanks (b/c some prod data is that way)" do
+    f = Finisher.first
+    assert f.valid?
+    f.phone_number = ''
+    assert f.valid?
+    f.phone_number = '12345678' # too short
+    refute f.valid?
+  end
+
   test "Has many skills, ordered by position" do
     finisher = finishers(:crocheter)
 
