@@ -41,7 +41,10 @@
           %li
             - last_contact = project.assignments.maximum(:updated_at)
             = fa_icon("envelope", title: 'Last Contact')
-            = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
+            - if last_contact.present?
+              = time_tag(last_contact, "Contact #{time_ago_in_words(last_contact)} ago", title: last_contact)
+            - else
+              N/A
       - else
         %li.missing
           = fa_icon("user", title: 'Finishers')
