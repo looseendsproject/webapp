@@ -20,6 +20,7 @@
 #  index_messages_on_messageable_type_and_messageable_id  (messageable_type,messageable_id)
 #
 project:
+  id: 1
   messageable_type: 'Project'
   messageable_id: 1
   description: "project/Project Title One"
@@ -27,7 +28,9 @@ project:
   channel: inbound
 
 finisher:
+  id: 2
   messageable_type: 'Finisher'
   messageable_id: 1
   description: "finisher/Bobby (Bob Simmons)"
   channel: inbound
+

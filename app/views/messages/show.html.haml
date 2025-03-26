@@ -14,3 +14,11 @@
   .pt-0= @message.email.html_part.body.decoded.html_safe
 - else
   .pt-0 [no content]
+
+%hr
+
+.row
+  - @message.email.attachments.each do |attachment|
+    .col-4
+      %img.img-fluid(src="data:#{attachment.content_type};base64,#{Base64.encode64(attachment.body.decoded).html_safe}")
+      %figcaption.figure-caption= attachment.content_type
