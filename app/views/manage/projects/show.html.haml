@@ -190,7 +190,7 @@
     = render @project.assignments
     %h4.mt-4 Notes
     #project_notes.d-flex.flex-column
-      = render @project.project_notes
+      = render @project.project_notes.order(created_at: :desc)
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project }
 
