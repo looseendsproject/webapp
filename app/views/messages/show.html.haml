@@ -1,2 +1,17 @@
 %button.btn.btn-primary.mb-4(onclick="history.back()") Back
-%pre= @message.email.text_part.body.decoded
+
+.row#text_part
+  .col
+    .pt-0= @message.email.date
+    .pt-0 From: #{@message.email.from.first}
+    .pt-0 To: "#{@message.email.to.first}
+    .pt-2 Subject: #{@message.email.subject}
+
+    .pt-3= @message.email.text_part.body
+%hr
+
+.row
+  - @message.email.attachments.each do |attachment|
+    .col-4
+      %img.img-fluid(src="data:#{attachment.content_type};base64,#{Base64.encode64(attachment.body.decoded).html_safe}")
+      %figcaption.figure-caption= attachment.content_type
