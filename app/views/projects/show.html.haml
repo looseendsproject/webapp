@@ -35,7 +35,7 @@
       %p.text-danger
         Tell us about the material.
 
-    %p 
+    %p
       = @project.material_type
     - @project.material_images.each do |image|
       - if image.representable?
@@ -126,4 +126,3 @@
             %li No Dogs Please
 
     = @project.recipient_name
-    
