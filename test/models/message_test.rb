@@ -46,5 +46,9 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal '2025-03-22T12:25:35-04:00', m.email.date.to_s
     assert_match /How does this look\?/, m.email.text_part.body.decoded
   end
+
+  test "has attachments" do
+    assert_equal 'planter.png', Project.first.messages.first.email.attachments.first.filename.to_s
+  end
 end
 
