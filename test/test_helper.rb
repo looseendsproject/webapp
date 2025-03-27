@@ -50,3 +50,8 @@ module ActionDispatch
     include Devise::Test::IntegrationHelpers
   end
 end
+
+def setup_message!
+  content = File.read(Rails.root.join('test', 'fixtures', 'files', 'sample_2.eml'))
+  Message.all.map { |m| m.update!(content: content) }
+end
