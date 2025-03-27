@@ -2,14 +2,7 @@
   = render "error_messages", resource: @project
   = render 'submitter_form_fields', form: form
 
-  -# The layout & styling is a bit wonky as we're moving to new designs
-  -# TODO: update the address layout with the new 2-col design
-
-  .my-4
-    %h5 Your Mailing Address
-    .form-info After it's finished, we'll send it back here
-    = render :partial => 'layouts/address_form', :locals => { form: form }
   .form-actions
-    = form.submit 'Submit Address', class: "btn btn-primary"
+    = form.submit 'Submit Your Details', class: "btn btn-primary"
     = link_to "Cancel", @project, class: "btn btn-link"
 
