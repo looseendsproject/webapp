@@ -189,10 +189,10 @@
           = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
     = render @project.assignments
     %h4.mt-4 Notes
-    #project_notes.d-flex.flex-column
-      = render @project.project_notes
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project }
+    #project_notes.d-flex.flex-column
+      = render @project.project_notes.order(created_at: :desc)
 
 = render partial: 'messages/index', locals: { resource: @project }
 
