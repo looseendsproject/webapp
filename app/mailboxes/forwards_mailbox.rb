@@ -2,8 +2,7 @@ class ForwardsMailbox < ApplicationMailbox
 
   def process
     m = resource.messages.new
-    m.description = "email/#{Time.now.iso8601}"
-    m.content = mail.raw_source
+    m.content = mail.raw_source # content is not a db column
     m.save!
   end
 

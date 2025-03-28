@@ -1,0 +1,16 @@
+- since = (Time.now - 3.days).beginning_of_day
+
+%hr
+%h3 Mail Traffic
+%pt-0 As of #{Time.now}.  Since #{since}
+
+.row.pt-3
+  .col
+    %b Inbound
+    .pt-1= render partial: 'messages/compact',
+      locals: { format: 'inbound', messages: Message.inbound.since(since) }
+.row.pt-3
+  .col
+    %b Outbound
+    .pt-1= render partial: 'messages/compact',
+      locals: { format: 'outbound', messages: Message.outbound.since(since) }

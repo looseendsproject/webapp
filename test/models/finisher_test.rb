@@ -65,6 +65,15 @@ class FinisherTest < ActiveSupport::TestCase
     end
   end
 
+  test "phone number validation allows blanks (b/c some prod data is that way)" do
+    f = Finisher.first
+    assert f.valid?
+    f.phone_number = ''
+    assert f.valid?
+    f.phone_number = '12345678' # too short
+    refute f.valid?
+  end
+
   test "Has many skills, ordered by position" do
     finisher = finishers(:crocheter)
 
@@ -73,7 +82,8 @@ class FinisherTest < ActiveSupport::TestCase
   end
 
   test "has messages" do
-    assert_equal 'email/2025032345337', finishers(:crocheter).messages.first.description
+    finisher = finishers(:crocheter)
+    assert_equal "finisher/#{finisher.name}", finisher.messages.first.description
   end
 
   test "inbound_email_address assignment" do
@@ -81,5 +91,12 @@ class FinisherTest < ActiveSupport::TestCase
     refute f.inbound_email_address
     f.valid?
     assert_match /Finisher-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/, f.inbound_email_address
+  end
+
+  test "send welcome records Message" do
+    finisher = finishers(:knitter)
+    finisher.send_welcome_message
+    assert_equal "Loose Ends Project Account Created - Next Steps...",
+      finisher.messages.last.email.subject
   end
 end
