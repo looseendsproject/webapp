@@ -177,7 +177,7 @@ class Project < ApplicationRecord
   def finisher_name
     finisher&.name
   end
-  
+
   def owner_email
     user&.email
   end
@@ -185,7 +185,7 @@ class Project < ApplicationRecord
   def owner_phone
     user&.phone
   end
-  
+
   def active_assignment
     assignments.find_by(status: "accepted")
   end
