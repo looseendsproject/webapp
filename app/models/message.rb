@@ -28,6 +28,7 @@ class Message < ApplicationRecord
       message: "%{value} is not a valid message channel" }
 
   before_validation :set_defaults
+  after_create :update_last_contacted_at
 
   def self.since(since)
     where(created_at: (since..Time.now)).order(created_at: :desc)
@@ -55,5 +56,15 @@ class Message < ApplicationRecord
   def set_defaults
     self.channel ||= 'inbound'
     self.description ||= "#{messageable.class.to_s.downcase}/#{messageable.name}"
+  end
+
+  def update_last_contacted_at
+    return unless messageable_type == "Project"
+
+    # TODO: Find assignment by specific email user. For now use active assignment
+    assignment = messageable.active_assignment
+    return unless assignment
+
+    assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 end
