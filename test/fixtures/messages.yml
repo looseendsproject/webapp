@@ -34,3 +34,9 @@ finisher:
   description: "finisher/Bobby (Bob Simmons)"
   channel: inbound
 
+user:
+  id: 3
+  messageable_type: 'User'
+  messageable_id: 1
+  description: "Devise mailer message record"
+  channel: outbound

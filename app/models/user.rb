@@ -35,6 +35,7 @@
 #
 class User < ApplicationRecord
   ROLES = %w[user manager admin].freeze
+  MAGIC_LINK_DEFAULT_DURATION = 48.hours
 
   include LooseEndsSearchable
 
@@ -79,6 +80,8 @@ class User < ApplicationRecord
 
   has_many :projects, dependent: :destroy
   has_one :finisher, dependent: :destroy
+
+  has_many :messages, as: :messageable
 
   validates :first_name, presence: true
   validates :last_name, presence: true

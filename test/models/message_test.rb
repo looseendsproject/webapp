@@ -58,6 +58,20 @@ class MessageTest < ActiveSupport::TestCase
     assert_not_nil(assignment.reload.last_contacted_at)
   end
 
+  test "persists to User" do
+    m = User.first.messages.new
+    m.content = "Something about the User..."
+    m.save!
+
+    assert_equal "Something about the User...", User.first.messages.last.content.body.to_plain_text
+  end
+
+  test "#user returns a User no matter the messageable_type" do
+    assert_equal User, Message.find(1).user.class # from Project (points to Project Owner)
+    assert_equal User, Message.find(2).user.class # from Finisher
+    assert_equal User, Message.find(3).user.class # from User directly
+  end
+
   test "parses email source into Mail object" do
     m = Project.first.messages.new
     m.content = File.read(Rails.root.join("test/fixtures/files/sample_2.eml"))

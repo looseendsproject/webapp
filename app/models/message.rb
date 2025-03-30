@@ -42,6 +42,11 @@ class Message < ApplicationRecord
     where(channel: 'outbound')
   end
 
+  def user
+    return messageable if self.messageable.is_a?(User)
+    self.messageable.user
+  end
+
   def email
     Mail.from_source content.to_plain_text
   end
