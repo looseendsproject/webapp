@@ -6,6 +6,7 @@ class FinisherMailer < ApplicationMailer
 
   def welcome(finisher)
     @finisher = finisher
+    @method = "welcome"
     mail(
       from: "info@looseendsproject.org",
       to: finisher.user.email,
@@ -15,6 +16,7 @@ class FinisherMailer < ApplicationMailer
 
   def profile_complete(finisher)
     @finisher = finisher
+    @method = "profile_complete"
     mail(
       from: "info@looseendsproject.org",
       to: finisher.user.email,
@@ -25,6 +27,7 @@ class FinisherMailer < ApplicationMailer
   private
 
   def record_delivery
-    @finisher.messages.create!(channel: 'outbound', content: message.to_s)
+    @finisher.messages.create!(channel: 'outbound',
+      content: message.to_s, description: "#{mail.delivery_handler}.#{@method}")
   end
 end

@@ -52,6 +52,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_nil(assignment.last_contacted_at)
 
     m = project.messages.new
+    m.channel = "inbound"
     m.content = "Primo content"
     m.save!
 

@@ -19,16 +19,16 @@ module Users
     #   super
     # end
 
-    # GET /magic_link?path=/some/path&sgid=LONGSGID&message_id=5
+    # GET /magic_link?sgid=LONGSGID&purpose=<url encoded purpose string>
     def magic_link
       begin
-        params.require([:sgid, :path, :message_id])
+        params.require([:sgid, :purpose])
       rescue ActionController::ParameterMissing
         redirect_to '/users/sign_in', flash: { error: "Bad link. Please sign in to proceed." }
         return
       end
 
-      sgid = Looseends::SignedGlobalID.new(params[:sgid])
+      sgid = Looseends::SignedGlobalID.new(params)
 
       message = GlobalID::Locator.locate_signed(params[:sgid], for: sgid.purpose)
       if message.present? && message.user.is_a?(User)
@@ -37,14 +37,14 @@ module Users
       end
 
       begin
-        SignedGlobalID.verifier.verify(params[:sgid], purpose: params[:path])
+        SignedGlobalID.verifier.verify(params[:sgid], purpose: params[:purpose])
       rescue ActiveSupport::MessageVerifier::InvalidSignature => e
         error = e.to_s
       end
 
       if error == "expired"
         @error = "Link expired.  Send new link below."
-        @resend_action = Looseends::SignedGlobalID.pick_resend_action(params[:sgid])
+        @resend_action = Looseends::SignedGlobalID.get_resend_action(params[:sgid])
         render
       else
         raise ActiveRecord::RecordNotFound

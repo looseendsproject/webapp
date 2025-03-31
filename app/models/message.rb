@@ -64,7 +64,7 @@ class Message < ApplicationRecord
   end
 
   def update_last_contacted_at
-    return unless messageable_type == "Project"
+    return unless messageable_type == "Project" && channel == "inbound"
 
     # TODO: Find assignment by specific email user. For now use active assignment
     assignment = messageable.active_assignment

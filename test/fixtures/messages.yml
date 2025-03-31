@@ -38,5 +38,5 @@ user:
   id: 3
   messageable_type: 'User'
   messageable_id: 1
-  description: "Devise mailer message record"
+  description: "DeviseMailer.new_password"
   channel: outbound
