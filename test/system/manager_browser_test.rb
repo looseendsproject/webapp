@@ -9,6 +9,10 @@ class ManagerBrowserTest < ApplicationSystemTestCase
     assert_text "Signed in successfully."
     click_link "Manage"
     assert_text "Dashboard"
+    assert_text "Mail Traffic"
+    assert_text "Email Template Previews"
+    assert_text "Reports"
+    assert_text "Job Queues"
   end
 
   def teardown
