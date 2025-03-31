@@ -136,7 +136,7 @@
     %hr/
   .col-3
     %h4 Assignments
-    = render @finisher.assignments
+    = render partial: 'manage/assignments/assignment', collection: @finisher.assignments, as: :assignment, locals: { context: :finisher }
 
     .page-section
       %h4 Notes
