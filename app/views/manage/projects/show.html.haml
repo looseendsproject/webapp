@@ -190,7 +190,7 @@
         - else
           %h5.text-danger
             Incomplete Address Prevents Map Searching
-    = render @project.assignments
+    = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
     %h4.mt-4 Notes
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project }
