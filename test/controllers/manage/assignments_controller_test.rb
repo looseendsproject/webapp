@@ -31,7 +31,7 @@ module Manage
       patch :update, params: { id: assignment.id, assignment: { status: "invited" } }, format: :turbo_stream
 
       assert_response :success
-      assert_match(/SAVED/, response.body)
+      assert_select(".update-flash.visible", count: 1)
     end
 
     test "turbo stream update renders NO saved label if nothing changed" do
@@ -40,7 +40,7 @@ module Manage
       patch :update, params: { id: assignment.id, assignment: { status: "invited" } }, format: :turbo_stream
 
       assert_response :success
-      assert_no_match(/SAVED/, response.body)
+      assert_select(".update-flash.visible", count: 0)
     end
   end
 end
