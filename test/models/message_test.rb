@@ -44,6 +44,14 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "Finisher content", Finisher.first.messages.last.content.body.to_plain_text
   end
 
+  test "persists to User" do
+    m = User.first.messages.new
+    m.content = "Something about the User..."
+    m.save!
+
+    assert_equal "Something about the User...", User.first.messages.last.content.body.to_plain_text
+  end
+
   test "Updates assignment last_contacted_at for Project" do
     project = Project.first
     assignment = project.active_assignment
@@ -57,14 +65,6 @@ class MessageTest < ActiveSupport::TestCase
     m.save!
 
     assert_not_nil(assignment.reload.last_contacted_at)
-  end
-
-  test "persists to User" do
-    m = User.first.messages.new
-    m.content = "Something about the User..."
-    m.save!
-
-    assert_equal "Something about the User...", User.first.messages.last.content.body.to_plain_text
   end
 
   test "#user returns a User no matter the messageable_type" do
