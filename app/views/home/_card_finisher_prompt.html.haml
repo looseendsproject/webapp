@@ -13,4 +13,4 @@
             - if current_user
               = link_to 'Create Your Profile', new_finisher_path, class: 'btn-primary btn'
             - else
-              = link_to 'Sign Up', new_registration_path('user'), class: 'btn-primary btn'
+              = link_to 'Sign Up', new_registration_path('user', source: 'finisher'), class: 'btn-primary btn'
