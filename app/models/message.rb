@@ -6,9 +6,15 @@
 #
 #  id               :bigint           not null, primary key
 #  channel          :string
+#  click_count      :integer          default(0), not null
 #  description      :string
+#  expires_at       :datetime
 #  last_edited_by   :integer
+#  link_action      :string
+#  mailer           :string
 #  messageable_type :string
+#  sgid             :string
+#  single_use       :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  messageable_id   :bigint
@@ -18,6 +24,7 @@
 #  index_messages_on_channel                              (channel)
 #  index_messages_on_messageable                          (messageable_type,messageable_id)
 #  index_messages_on_messageable_type_and_messageable_id  (messageable_type,messageable_id)
+#  index_messages_on_sgid                                 (sgid)
 #
 class Message < ApplicationRecord
   belongs_to :messageable, polymorphic: true
@@ -53,6 +60,14 @@ class Message < ApplicationRecord
 
   def path_to_messageable
     "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"
+  end
+
+  # SGIDs are only valid on outbound w/ sgid and can expire or get used up (if single_use)
+  def valid_sgid?
+    return true unless channel == 'outbound' && sgid.present?
+    return false if single_use && click_count > 0
+    return false if expires_at&.past? # nil does not expire
+    true
   end
 
   private

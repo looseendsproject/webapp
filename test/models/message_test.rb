@@ -4,9 +4,15 @@
 #
 #  id               :bigint           not null, primary key
 #  channel          :string
+#  click_count      :integer          default(0), not null
 #  description      :string
+#  expires_at       :datetime
 #  last_edited_by   :integer
+#  link_action      :string
+#  mailer           :string
 #  messageable_type :string
+#  sgid             :string
+#  single_use       :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  messageable_id   :bigint
@@ -16,6 +22,7 @@
 #  index_messages_on_channel                              (channel)
 #  index_messages_on_messageable                          (messageable_type,messageable_id)
 #  index_messages_on_messageable_type_and_messageable_id  (messageable_type,messageable_id)
+#  index_messages_on_sgid                                 (sgid)
 #
 require "test_helper"
 
@@ -90,5 +97,26 @@ class MessageTest < ActiveSupport::TestCase
     start = Time.now - 3.days
     target = Message.where(created_at: (start..Time.now)).count
     assert_equal target, Message.since(start).count
+  end
+
+  test "valid_sgid? under all scenarios" do
+    # valid
+    m = Message.find(4)
+    travel_to m.expires_at - 1.day
+    assert m.valid_sgid?
+
+    # expired
+    travel_to m.expires_at + 1.day
+    refute m.valid_sgid?
+    travel_back
+
+    # used up
+    travel_to m.expires_at - 1.day
+    m.single_use = true
+    m.click_count = 1
+    refute m.valid_sgid?
+
+    # not applicable
+    assert Message.find(1).valid_sgid?
   end
 end
