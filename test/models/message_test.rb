@@ -124,6 +124,12 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "/finisher/new", Message.find(4).send_link_action!
   end
 
+  test "bare path redirects" do
+    m = Message.find(4)
+    m.link_action = "/finisher/new"
+    assert_equal "/finisher/new", m.send_link_action!
+  end
+
   test "send_link_action w/ only path string" do
     m = Message.find(4)
     m.link_action = JSON.generate("/finisher/new")

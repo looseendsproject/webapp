@@ -79,6 +79,7 @@ class Message < ApplicationRecord
   #
   # Special case 1: redirect_to.  Most common action.
   # Store only the JSON-escaped path string in link_action like "\"/finisher/new\""
+  # or the plain string "/finisher/new"
   #
   # Special case 2: nil link_action redirects to "/"
   #
@@ -87,7 +88,13 @@ class Message < ApplicationRecord
   #
   def send_link_action!(request_params = [])
     return "/" if link_action.blank?
-    parsed_action = JSON.parse(link_action)
+
+    begin
+      parsed_action = JSON.parse(link_action)
+    rescue JSON::ParserError
+      parsed_action = link_action
+    end
+
     return parsed_action if parsed_action.is_a?(String) && request_params.blank?
     send_params = parsed_action + request_params
     Looseends::MagicLinkAction.send(*send_params)
