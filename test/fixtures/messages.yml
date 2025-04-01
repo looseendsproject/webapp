@@ -57,4 +57,4 @@ sgid:
   sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaDVuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTOHlCam9HUlZRPSIsImV4cCI6IjIwMjUtMDQtMzBUMjA6MjA6MzQuMjc0WiIsInB1ciI6ImRlZmF1bHQifX0=--f62dd02c9ac00e4f56340bc6058532c8c1673e9e
   expires_at: 2025-04-30 20:20:34.274693000 UTC +00:00
   mailer: "FinisherMailer.welcome"
-  link_action: ":redirect_to, '/finisher/new'"
+  link_action: "[\"redirect_to\",\"/finisher/new\"]"
