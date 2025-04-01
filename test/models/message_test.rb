@@ -120,7 +120,19 @@ class MessageTest < ActiveSupport::TestCase
     assert Message.find(1).valid_sgid?
   end
 
-  test "send_link_action" do
+  test "send_link_action full params" do
     assert_equal "/finisher/new", Message.find(4).send_link_action!
+  end
+
+  test "send_link_action w/ only path string" do
+    m = Message.find(4)
+    m.link_action = JSON.generate("/finisher/new")
+    assert_equal "/finisher/new", m.send_link_action!
+  end
+
+  test "send_link_action w/ nil link_action" do
+    m = Message.find(4)
+    m.link_action = nil
+    assert_equal "/", m.send_link_action!
   end
 end

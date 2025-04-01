@@ -19,12 +19,18 @@ module Looseends
 
     class << self
 
-      # 'redirect_to', '/finisher/new'
+      # ['reflect', 'param1', 'param2', 'user_input'...]
+      # used for testing
+      def reflect(*args)
+        args
+      end
+
+      # ['redirect_to', '/finisher/new']
       def redirect_to(path)
         path
       end
 
-      # 'update_project_status', 'bad'
+      # ['update_project_status', 'bad']
       def update_project_status(status)
         raise ToDo
       end
