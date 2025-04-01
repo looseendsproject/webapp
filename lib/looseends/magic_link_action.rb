@@ -26,12 +26,16 @@ module Looseends
       end
 
       # ['redirect_to', '/finisher/new']
+      # (if this is all you want to do, just persist "/finisher/new" --
+      #   see message.rb)
       def redirect_to(path)
         path
       end
 
       # ['update_project_status', 'bad']
       def update_project_status(status)
+        # add ProjectNote & update last_contacted_at
+        # send path for post-click
         raise ToDo
       end
 

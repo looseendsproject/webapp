@@ -92,10 +92,13 @@ class Message < ApplicationRecord
     begin
       parsed_action = JSON.parse(link_action)
     rescue JSON::ParserError
-      parsed_action = link_action
+      parsed_action = link_action # allow unescaped path string
     end
 
+    # Simple redirect action
     return parsed_action if parsed_action.is_a?(String) && request_params.blank?
+
+    # Combine stored & request params and send
     send_params = parsed_action + request_params
     Looseends::MagicLinkAction.send(*send_params)
   end
