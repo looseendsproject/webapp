@@ -70,6 +70,12 @@ class Message < ApplicationRecord
     true
   end
 
+  # sends link_action to Looseends::MagicLinkAction
+  def send_link_action!
+    params = JSON.parse(link_action)
+    Looseends::MagicLinkAction.send(*params)
+  end
+
   private
 
   # Messageable must respond to #name

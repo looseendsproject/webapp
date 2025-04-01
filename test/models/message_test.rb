@@ -119,4 +119,8 @@ class MessageTest < ActiveSupport::TestCase
     # not applicable
     assert Message.find(1).valid_sgid?
   end
+
+  test "send_link_action" do
+    assert_equal "/finisher/new", Message.find(4).send_link_action!
+  end
 end
