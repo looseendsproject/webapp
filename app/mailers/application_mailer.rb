@@ -28,8 +28,11 @@ class ApplicationMailer < ActionMailer::Base
     # magic link. (TODO: We should catch mail errors and destroy orphan
     # Messages.)
     #
+    # Devise controllers do not pass params, so don't log those.  Also,
+    # don't log mail previews using User.fake (not persisted)
+    #
     def create_message_record
-      if params.present? # Devise controllers do not pass params
+      if params.present?
         @resource = params[:resource]
         @message = @resource.messages.create(channel: "outbound")
       end
