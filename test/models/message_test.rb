@@ -99,6 +99,21 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal target, Message.since(start).count
   end
 
+  test "set_sgid" do
+    m = Message.find(1)
+    refute m.sgid
+
+    # Default (bare) call
+    m.set_sgid!
+    assert m.sgid
+    refute m.link_action
+    assert m.expires_at > Time.zone.now
+    refute m.single_use
+
+    # Can't overwrite
+    assert_raises(Message::SGIDExistsError) { m.set_sgid!(single_use: true) }
+  end
+
   test "valid_sgid? under all scenarios" do
     # valid
     m = Message.find(4)

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+DEFAULT_MAGIC_LINK_DURATION = 7.days
+
 CA_PROVINCES = [
   ["Alberta", "AB"],
   ["British Columbia", "BC"],

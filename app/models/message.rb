@@ -27,6 +27,8 @@
 #  index_messages_on_sgid                                 (sgid)
 #
 class Message < ApplicationRecord
+  class SGIDExistsError < StandardError; end
+
   belongs_to :messageable, polymorphic: true
   has_rich_text :content
 
@@ -60,6 +62,26 @@ class Message < ApplicationRecord
 
   def path_to_messageable
     "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"
+  end
+
+  # set_sgid! (bare) uses default duration and default link_action, not single iuse
+  #
+  def set_sgid!(expires_in: DEFAULT_MAGIC_LINK_DURATION, single_use: false,
+      link_action: nil, expires_at: nil)
+
+    raise SGIDExistsError if sgid.present? # don't overwrite an existing sgid
+
+    if expires_at.present? # takes precedence
+      sgid = self.to_sgid(expires_at: expires_at)
+    else
+      sgid = self.to_sgid(expires_in: expires_in)
+    end
+
+    self.expires_at = sgid.expires_at
+    self.sgid = sgid.to_s
+    self.single_use = single_use
+    self.link_action = link_action
+    save!
   end
 
   # SGIDs are only valid on outbound w/ sgid and can expire or get used up (if single_use)

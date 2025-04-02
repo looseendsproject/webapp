@@ -2,32 +2,19 @@
 
 class FinisherMailer < ApplicationMailer
 
-  after_deliver :record_delivery
-
-  def welcome(finisher)
-    @finisher = finisher
-    @method = "welcome"
+  def welcome
+    @message.set_sgid!(link_action: "/finisher/new")
     mail(
-      from: "info@looseendsproject.org",
-      to: finisher.user.email,
+      to: @resource.user.email,
       subject: "Loose Ends Project Account Created - Next Steps..."
     )
   end
 
-  def profile_complete(finisher)
-    @finisher = finisher
-    @method = "profile_complete"
+  def profile_complete
+    @message.set_sgid!
     mail(
-      from: "info@looseendsproject.org",
-      to: finisher.user.email,
+      to: @resource.user.email,
       subject: "Welcome, Loose Ends Finisher!"
     )
-  end
-
-  private
-
-  def record_delivery
-    @finisher.messages.create!(channel: 'outbound',
-      content: message.to_s, description: "#{mail.delivery_handler}.#{@method}")
   end
 end

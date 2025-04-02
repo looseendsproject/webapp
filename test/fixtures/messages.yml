@@ -1,5 +1,3 @@
-
-
 # == Schema Information
 #
 # Table name: messages
@@ -54,7 +52,7 @@ sgid:
   messageable_id: 1
   description: "FinisherMailer.welcome [Bobby (Bob Simmons)]"
   channel: outbound
-  sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaDVuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTOHlCam9HUlZRPSIsImV4cCI6IjIwMjUtMDQtMzBUMjA6MjA6MzQuMjc0WiIsInB1ciI6ImRlZmF1bHQifX0=--f62dd02c9ac00e4f56340bc6058532c8c1673e9e
-  expires_at: 2025-04-30 20:20:34.274693000 UTC +00:00
+  sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJakJuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTODBQMlY0Y0dseVpYTmZhVzQ5TmpBME9EQXdCam9HUlZRPSIsImV4cCI6IjIwMjUtMDUtMDZUMjA6MjA6MzQuMDAwWiIsInB1ciI6ImRlZmF1bHQifX0=--e06d2cf24589ba6cf086ba9c512211cbfccaafcc
+  expires_at: 2025-05-06 20:20:34.000000000 UTC +00:00
   mailer: "FinisherMailer.welcome"
-  link_action: "[\"redirect_to\",\"/finisher/new\"]"
+  link_action: "/finisher/new"

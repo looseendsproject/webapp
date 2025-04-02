@@ -4,47 +4,28 @@
 
 require "test_helper"
 
-DURATION = 48.hours
-
 class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
 
-  def magic_link_params
-    @user = Finisher.first.user
-    @path = '/finisher/new'
-    { path: @path, sgid: @user.to_sgid(expires_in: DURATION, for: @path).to_s }
+  def setup
+    @message = Message.find(4)
   end
 
   test 'good magic link does the necessary' do
-    get "/magic_link", params: magic_link_params
-    assert_redirected_to @path
+    travel_to @message.expires_at - 1.day
+    get "/magic_link", params: { sgid: @message.sgid }
+    assert_redirected_to @message.link_action
   end
 
-  # Spoofed SGID might oughta redirect to sign_in (and tell somebody...)
   test 'fake SGID throws 404' do
-    params = magic_link_params
-    params[:sgid] = "IAMABADGUYSPOOFINGSGIDS"
-    get "/magic_link", params: params
+    get "/magic_link", params: { sgid:"IAMABADGUYSPOOFINGSGIDS" }
     assert_response :not_found
   end
 
   test 'expired link renders resend' do
-    params = magic_link_params # get the sgid before time traveling
-    get "/magic_link", params: params
-    assert_redirected_to params[:path]
-
-    travel 49.hours
-    get "/magic_link", params: params
+    travel_to @message.expires_at + 1.day
+    get "/magic_link", params: { sgid: @message.sgid }
     assert_response :success
     assert_match /Expired link.  Click below to re-send/, response.body
-    travel_back
-  end
-
-  # Somebody's trying to use a link to go to a different path
-  test 'valid link disallows out of scope requests' do
-    params = magic_link_params
-    params[:path] = '/different/path'
-    get "/magic_link", params: params
-    assert_response :not_found
   end
 
   test 'missing params redirects with flash error' do

@@ -1,0 +1,8 @@
+%h1 TEST ApplicationMailer
+
+= link_to "Sign In", magic_link_url(sgid: @message.sgid)
+
+- if @message.expires_at.present?
+  %div Link is valid until #{@message.expires_at}
+- else
+  %div This link does not expire.
