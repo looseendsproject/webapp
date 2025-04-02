@@ -29,6 +29,8 @@
 class Message < ApplicationRecord
   class SGIDExistsError < StandardError; end
 
+  DEFAULT_MAGIC_LINK_DURATION = 7.days
+
   belongs_to :messageable, polymorphic: true
   has_rich_text :content
 
