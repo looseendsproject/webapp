@@ -1,14 +1,34 @@
 = form_for [:manage, assignment] do |form|
-  .pb-2 Assigned to #{link_to(assignment.finisher.user.name, [ :manage, assignment.finisher ], data: { turbo_frame: :_top })} on #{assignment.created_at.to_formatted_s(:short)}
-  .d-inline
-    = form.label 'Finisher Status', class: 'form-label'
-    - if local_assigns[:readonly]
-      %strong
-        = (assignment.status || 'Unknown').titleize
-    - else
-      = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
-    - if assignment.saved_change_to_status?
-      %span.update-flash.visible SAVED
+  %ul.list-unstyled.assignment-card
+    - if local_assigns[:context] != :project
+      %li
+        = fa_icon("diagram-project", title: 'Assigned To')
+        %span= link_to(assignment.project.name.truncate(25), [ :manage, assignment.project ], data: { turbo_frame: :_top })
+    - if local_assigns[:context] != :finisher
+      %li
+        = fa_icon("user", title: 'Assigned To')
+        %span= link_to(assignment.finisher.user.name.truncate(25), [ :manage, assignment.finisher ], data: { turbo_frame: :_top })
+      %li
+        = fa_icon("envelope", title: 'Email Address')
+        %span= assignment.finisher.user.email.truncate(25)
+    %li
+      = fa_icon("calendar", title: 'Assigned')
+      %span= time_tag(assignment.created_at, "Assigned #{assignment.created_at.to_formatted_s(:short)}", title: assignment.created_at)
+    - if assignment.created_at != assignment.updated_at
+      %li
+        = fa_icon("calendar-check", title: 'Updated')
+        %span= time_tag(assignment.updated_at, "Updated #{assignment.updated_at.to_formatted_s(:short)}", title: assignment.updated_at)
+    %li
+      = fa_icon("flag", title: 'Status')
+      - if local_assigns[:readonly]
+        %strong
+          = (assignment.status || 'Unknown').titleize
+      - else
+        = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'd-inline form-select form-select-sm w-auto', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
+      - if assignment.saved_change_to_status?
+        %span.update-flash.visible SAVED
+      - else
+        %span.update-flash.opacity-0 SAVED
 
 
 :javascript
@@ -16,6 +36,6 @@
     let visibleFlashSelector = document.querySelector('.update-flash.visible');
     if (visibleFlashSelector) {
       visibleFlashSelector.classList.remove('visible')
-      visibleFlashSelector.classList.add('hidden')
+      visibleFlashSelector.classList.add('opacity-0')
     }
   }, 1000)
