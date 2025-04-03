@@ -16,6 +16,7 @@ module Users
       #
       message = GlobalID::Locator.locate_signed(params[:sgid])
       if message.present? && message.user.is_a?(User)
+        message.increment!(:click_count)
         sign_in(message.user)
         redirect_to message.send_link_action! and return
       end

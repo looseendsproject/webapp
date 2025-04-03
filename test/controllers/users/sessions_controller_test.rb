@@ -14,6 +14,7 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
     travel_to @message.expires_at - 1.day
     get "/magic_link", params: { sgid: @message.sgid }
     assert_redirected_to @message.link_action
+    assert_equal 1, @message.reload.click_count
   end
 
   test 'fake SGID throws 404' do
