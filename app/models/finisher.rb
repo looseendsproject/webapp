@@ -93,7 +93,9 @@ class Finisher < ApplicationRecord
   accepts_nested_attributes_for :assessments
 
   validates :chosen_name, presence: true
-  validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." }
+  validates :phone_number, length:
+    { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." },
+    allow_blank: true
 
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: %i[png jpg jpeg webp gif],

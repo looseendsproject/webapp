@@ -83,7 +83,8 @@ class Project < ApplicationRecord
     "on hold",
     "will not do",
     "waiting for return to rematch",
-    "weird circumstance"
+    "weird circumstance",
+    "test"
   ].freeze
 
   READY_TO_MATCH_STATUSES = [
@@ -155,6 +156,8 @@ class Project < ApplicationRecord
     obj.full_address.present? && obj.full_address_has_changed?
   }
 
+  scope :ignore_tests, -> { where.not(status: "test") }
+
   before_save :clear_ready_status_unless_ready_to_match
   before_save :clear_in_process_status_unless_in_process
 
@@ -186,8 +189,12 @@ class Project < ApplicationRecord
     user&.phone
   end
 
+  def active_assignment
+    assignments.find_by(status: "accepted")
+  end
+
   def active_finisher
-    assignments.find_by(status: "accepted")&.finisher
+    active_assignment&.finisher
   end
 
   def self.proposed

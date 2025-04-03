@@ -8,7 +8,7 @@ class FinisherBrowserTest < ApplicationSystemTestCase
 
     first(:link, "Sign Up").click
 
-    assert_text "If you are already a finisher, do this..."
+    assert_text "Already a finisher?"
 
     fill_in id: "user_first_name", with: "Test"
     fill_in id: "user_last_name", with: "User"

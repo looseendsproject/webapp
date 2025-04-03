@@ -107,8 +107,7 @@ module LooseEndsSearchable
       query = with_skill_id(query, params[:skill_id])
       query = with_state(query, params[:state])
       query = with_country(query, params[:country])
-      query = with_text_fields(query, params[:search])
-      query
+      with_text_fields(query, params[:search])
     end
 
     def with_user_fields(query, params)
@@ -118,16 +117,14 @@ module LooseEndsSearchable
     def with_finisher_fields(query, params)
       query = with_product_id(query, params[:product_id])
       query = with_workplace_match(query, params[:has_workplace_match])
-      query = with_available(query, params[:available])
-      query
+      with_available(query, params[:available])
     end
 
     def with_project_fields(query, params)
       query = with_assigned(query, params[:assigned])
       query = with_statuses(query, params)
       query = with_manager_id(query, params[:manager_id])
-      query = with_project_boolean_attributes(query, params)
-      query
+      with_project_boolean_attributes(query, params)
     end
 
     def with_includes_and_joins(query)
@@ -162,7 +159,7 @@ module LooseEndsSearchable
     #    'john doe knit' => ["john", "doe", "knit"]
     #    '"jane doe" knit' => ["jane doe", "knit"]
     def extract_tokens(search)
-      search.scan(/(?:\w|"[^"]*")+/).map{ |token| token.gsub(/"/, "") }
+      search.scan(/(?:\w|"[^"]*")+/).map { |token| token.delete('"') }
     end
 
     def with_since(query, since)
@@ -228,10 +225,18 @@ module LooseEndsSearchable
 
     def with_statuses(query, params)
       result = query
-      result = with_field_value(result, :status, params[:status])
-      result = with_field_value(result, :ready_status, params[:ready_status]) if params[:status] == "ready to match"
-      result = with_field_value(result, :in_process_status, params[:in_process_status]) if params[:status] == "in process"
+      result = if params[:status].blank?
+                 result.ignore_tests
+               else
+                 with_field_value(result, :status, params[:status])
+               end
+      result = with_sub_status(result, :ready_status) if params[:status] == "ready to match"
+      result = with_sub_status(result, :in_process_status) if params[:status] == "in process"
       result
+    end
+
+    def with_sub_status(query, field)
+      with_field_value(query, field, params[field])
     end
 
     def with_manager_id(query, manager_id)

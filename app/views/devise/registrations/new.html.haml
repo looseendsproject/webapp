@@ -1,10 +1,14 @@
 %h1.page-title Sign up
 .row.mb-4
   .col-sm-8.my-auto
-    %h3 If you are already a finisher, do this...
-    %p
-      If you have already signed up as a finisher and you don't know your password, you may have your password sent to you.
-      = link_to "Send reset password instructions", new_password_path(resource_name)
+    - if params[:source] == 'project'
+      %p After you sign up for an account you will be able to provide all of the project details.
+    - else
+      .alert.alert-secondary{ role: 'alert' }
+        %h4.alert-heading Already a finisher?
+        %p
+          If you have already signed up as a finisher and you don't know your password, you may have your password sent to you.
+          = link_to "Send reset password instructions", new_password_path(resource_name)
 = form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo_method: :post, turbo: false }) do |f|
   = render "error_messages", resource: resource
 
