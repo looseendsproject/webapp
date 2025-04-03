@@ -14,4 +14,4 @@
             - if current_user
               = link_to 'Submit', [:new, :project], class: 'btn-primary btn'
             - else
-              = link_to 'Get Started', new_registration_path('user'), class: 'btn-primary btn'
+              = link_to 'Get Started', new_registration_path('user', source: 'project'), class: 'btn-primary btn'

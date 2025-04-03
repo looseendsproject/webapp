@@ -1,13 +1,20 @@
 %button.btn.btn-primary.mb-4(onclick="history.back()") Back
 
-.row#text_part
-  .col
-    .pt-0= @message.email.date
-    .pt-0 From: #{@message.email.from.first}
-    .pt-0 To: "#{@message.email.to.first}
-    .pt-2 Subject: #{@message.email.subject}
+.pt-3= @message.email.date
+.pt-0 To: #{@message.email.to.join(', ')}
+.pt-0 From: #{@message.email.from.first}
+.pt-2
+  %b #{@message.email.subject}
 
-    .pt-3= @message.email.text_part.body
+.pt-0 &nbsp;
+- if @message.email.html_part.present?
+  %pt-0= @message.email.html_part.decoded
+- elsif @message.email.text_part.present?
+  .pt-0
+    %pre= @message.email.text_part.body.decoded
+- else
+  .pt-0 [no content]
+
 %hr
 
 .row
