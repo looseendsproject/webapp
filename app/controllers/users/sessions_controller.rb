@@ -22,23 +22,15 @@ module Users
 
       # Locator returned nil. Figure out if it's expired or malformed
       #
-      begin
-        SignedGlobalID.verifier.verify(params[:sgid])
-      rescue ActiveSupport::MessageVerifier::InvalidSignature => e
-        error = e.to_s
-      end
+      message = Message.find_by(sgid: params[:sgid])
 
-      if error == "expired"
-        @resend_action = # TODO
+      if message.present? && message.expired?
+        @replacement = message.send_replacement!
         render
       else
         raise ActiveRecord::RecordNotFound
       end
     end
 
-    # POST /magic_link?path=some/path&sgid=LONGSGID
-    def resend_link
-      # mailer action
-    end
   end
 end

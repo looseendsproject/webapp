@@ -6,7 +6,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
 
   test "test for Project" do
     project = Project.first
-    mail_message = ApplicationMailer.with(resource: project).test.deliver_now
+    mail_message = ApplicationMailer.with(resource: project, expires_in: nil).test.deliver_now
 
     assert_match "http://example.com/magic_link?sgid=", mail_message.text_part.body.raw_source
     assert_match "This link does not expire", mail_message.text_part.body.raw_source

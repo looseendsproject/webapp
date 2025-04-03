@@ -114,6 +114,14 @@ class MessageTest < ActiveSupport::TestCase
     assert_raises(Message::SGIDExistsError) { m.set_sgid!(single_use: true) }
   end
 
+  test "expired?" do
+    m = Message.find(4)
+    travel_to m.expires_at - 1.day
+    refute m.expired?
+    travel_to m.expires_at + 1.day
+    assert m.expired?
+  end
+
   test "valid_sgid? under all scenarios" do
     # valid
     m = Message.find(4)
@@ -155,5 +163,13 @@ class MessageTest < ActiveSupport::TestCase
     m = Message.find(4)
     m.link_action = nil
     assert_equal "/", m.send_link_action!
+  end
+
+  test "send_replacement!" do
+    expired = Message.find(5)
+    expired.send_replacement!
+    assert_match "Loose Ends Project Account Created - Next Steps...",
+      ActionMailer::Base.deliveries.last.subject
+    assert expired.messageable.messages.last.valid_sgid?
   end
 end

@@ -61,12 +61,14 @@ class Message < ApplicationRecord
   def email
     Mail.from_source content.to_plain_text
   end
+  alias_method :mail, :email
 
   def path_to_messageable
     "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"
   end
 
-  # set_sgid! (bare) uses default duration and default link_action, not single iuse
+  # set_sgid! (bare) uses default duration and default link_action, not single use
+  # expires_at takes precedence over expires_in
   #
   def set_sgid!(expires_in: DEFAULT_MAGIC_LINK_DURATION, single_use: false,
       link_action: nil, expires_at: nil)
@@ -92,6 +94,10 @@ class Message < ApplicationRecord
     return false if single_use && click_count > 0
     return false if expires_at&.past? # nil does not expire
     true
+  end
+
+  def expired?
+    expires_at&.past? # nil does not expire
   end
 
   # Sends link_action to Looseends::MagicLinkAction.
@@ -125,6 +131,17 @@ class Message < ApplicationRecord
     # Combine stored & request params and send
     send_params = parsed_action + request_params
     Looseends::MagicLinkAction.send(*send_params)
+  end
+
+  # Sends replacement email with fresh sgid
+  #
+  # NOTE: Probably don't need this.  If anyone with the link can
+  # self-reissue a new one, it's functionally the same as a
+  # never-expiring link.
+  #
+  def send_replacement!
+    klass, action = mailer.split(".")
+    klass.constantize.with(resource: messageable).send(action).deliver_now
   end
 
   private

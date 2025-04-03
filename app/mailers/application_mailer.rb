@@ -9,10 +9,11 @@ class ApplicationMailer < ActionMailer::Base
 
   # Any actions in any mailers that inherit from self
   # must call "@message.set_sgid!" if they want a
-  # magic link.
+  # magic link. Pass `expires_in: 1.second` to get an
+  # expired link
   #
   def test
-    @message.set_sgid!(expires_in: nil)
+    @message.set_sgid!(expires_in: params[:expires_in], single_use: false)
     mail(to: @resource.user.email, subject: "Looseends ApplicationMailer.test")
   end
 

@@ -6,7 +6,7 @@
 
 %p= link_to "Complete Your Profile", magic_link_url(sgid: @message.sgid), class: 'email-button'
 
-%p Once you've answered the questions, your profile will be complete, and you'll be on our list to contact when a project becomes available near you. When you're done, you'll receive an email confirming your status as an official finisher.
+%p Once you've answered the questions, your profile will be complete, and you'll be on our list to contact when a project becomes available near you. When you're done, you'll receive an email confirming your status as an official finisher.  This link is valid until #{@message.expires_at.to_formatted_s(:human)}.
 
 %p
   Thank you for being part of this with us,
