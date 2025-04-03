@@ -3,7 +3,6 @@ plugins:
   - rubocop-minitest
   - rubocop-performance
   - rubocop-rails
-  - rubocop-rails
 
 AllCops:
   Exclude:
