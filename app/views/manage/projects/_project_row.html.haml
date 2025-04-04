@@ -1,7 +1,6 @@
 %tr
   %td.text-nowrap= link_to project.name.truncate(40), [:manage, project]
   %td.text-nowrap= project.status.titleize
-  %td.text-nowrap= time_tag(project.updated_at, "#{time_ago_in_words(project.updated_at)} ago", title: project.updated_at)
   %td.text-nowrap
     - if last_contact = project.assignments.where(finisher: project.active_finisher).maximum('last_contacted_at')
       = time_tag(last_contact, "#{time_ago_in_words(last_contact)} ago", title: last_contact)

@@ -187,7 +187,10 @@
         = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
         - if @project.state.present? && @project.country.present?
           = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
-    = render @project.assignments
+        - else
+          %h5.text-danger
+            Incomplete Address Prevents Map Searching
+    = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
     %h4.mt-4 Notes
     #project_note_form
       = render partial: 'manage/project_notes/form', locals: { project: @project }
