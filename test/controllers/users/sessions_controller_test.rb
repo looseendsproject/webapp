@@ -22,17 +22,16 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test 'expired link renders resend' do
+  test 'expired link redirects to sign in' do
     travel_to @message.expires_at + 1.day
     get "/magic_link", params: { sgid: @message.sgid }
-    assert_response :success
-    assert_match "Your original link expired.  A new link was automatically sent to you.",
-      response.body
+    assert_redirected_to "/users/sign_in"
+    assert_match "Expired link. Please contact support.", flash[:error]
   end
 
   test 'missing params redirects with flash error' do
     get "/magic_link", params: {}
     assert_redirected_to '/users/sign_in'
-    assert_equal "Bad link. Please sign in to proceed.", flash[:error]
+    assert_equal "Bad link. Please contact support.", flash[:error]
   end
 end

@@ -17,7 +17,7 @@ module Users
         begin
           params.require(:sgid)
         rescue ActionController::ParameterMissing
-          redirect_to '/users/sign_in', flash: { error: "Bad link. Please sign in to proceed." }
+          redirect_to '/users/sign_in', flash: { error: "Bad link. Please contact support." }
           return
         end
       end
@@ -32,7 +32,8 @@ module Users
 
           yield if block_given?
 
-          redirect_to(message.redirect_to || "/") and return true
+          redirect_to(message.redirect_to || "/")
+          return true
         end
       end
 
@@ -42,7 +43,8 @@ module Users
         message = Message.find_by(sgid: params[:sgid])
 
         if message.present? && message.expired?
-          render
+          redirect_to "/users/sign_in", flash: { error: "Expired link. Please contact support." }
+          return true
         else
           raise ActiveRecord::RecordNotFound
         end
