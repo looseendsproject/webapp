@@ -45,16 +45,15 @@ class User < ApplicationRecord
 
   class HeardAboutUs
     HEARD_ABOUT_US_OPTIONS = {
-      'Facebook' => {  additional: false },
-      'Instagram' => {  additional: false },
-      'Newspaper' => {  additional: true },
-      'Radio' => {  additional: true },
-      'TV' => {  additional: true },
-      'AARP Magazine' => {  additional: false },
-      'Other Magazine' => {  additional: true },
+      'Social Media' => {  additional: false },
+      'TV' => {  additional: false },
+      'Radio' => {  additional: false },
+      'Podcast' => {  additional: false },
+      'Magazine' => {  additional: false },
+      'Newspaper' => {  additional: false },
+      'Craft Store' => {  additional: false },
+      'Flyer' => {  additional: false },
       'Friend' => {  additional: false },
-      'Local Yarn Store' => {  additional: false },
-      'Saw a Flyer' => {  additional: false },
       'Other' => {  additional: true }
     }.freeze
 
