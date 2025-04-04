@@ -192,6 +192,14 @@ module Manage
       assert_search_no_results(status: "drafted")
     end
 
+    test "search without status ignores status=test" do
+      result = create_search_project
+      result.update!(status: "test")
+
+      assert_search_no_results({})
+      assert_search_results([result], status: "test")
+    end
+
     test "search by assigned" do
       result = create_search_project
       result.assignments.create!(user: @user, finisher: Finisher.first)

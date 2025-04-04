@@ -9,11 +9,10 @@
   - if params[:view] == 'list'
     %table.table.project-table
       %thead
-        %tr
+        %tr.small
           %th.sortable{ data: { sort: "name asc", reverse: "name desc" } } Project Name
           %th.sortable{ data: { sort: "status asc", reverse: "status desc" } } Status
-          %th.sortable{ data: { sort: "updated_at asc", reverse: "updated_at desc" } } Last Updated
-          %th Last Contacted
+          %th.text-nowrap Last Finisher Response
           %th.sortable{ data: { sort: "users.email asc", reverse: "users.email desc" } } Project Owner
           %th.sortable{ data: { sort: "finishers.chosen_name asc nulls last", reverse: "finishers.chosen_name desc nulls last" } } Finisher
       %tbody
