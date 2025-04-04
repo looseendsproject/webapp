@@ -10,9 +10,8 @@
 #  description      :string
 #  expires_at       :datetime
 #  last_edited_by   :integer
-#  link_action      :string
-#  mailer           :string
 #  messageable_type :string
+#  redirect_to      :string
 #  sgid             :string
 #  single_use       :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
@@ -67,11 +66,11 @@ class Message < ApplicationRecord
     "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"
   end
 
-  # set_sgid! (bare) uses default duration and default link_action, not single use
+  # set_sgid! (bare) uses default duration and default redirect_to, not single use
   # expires_at takes precedence over expires_in
   #
   def set_sgid!(expires_in: DEFAULT_MAGIC_LINK_DURATION, single_use: false,
-      link_action: nil, expires_at: nil)
+      redirect_to: nil, expires_at: nil)
 
     raise SGIDExistsError if sgid.present? # don't overwrite an existing sgid
 
@@ -84,7 +83,7 @@ class Message < ApplicationRecord
     self.expires_at = sgid.expires_at
     self.sgid = sgid.to_s
     self.single_use = single_use
-    self.link_action = link_action
+    self.redirect_to = redirect_to
     save!
   end
 
@@ -98,39 +97,6 @@ class Message < ApplicationRecord
 
   def expired?
     expires_at&.past? # nil does not expire
-  end
-
-  # Sends link_action to Looseends::MagicLinkAction.
-  # Controller adds request_params if necessary.
-  # Serialize array as JSON to persist
-  #
-  # message.link_action = JSON.generate(['method_name', 'param1', 'param2'])
-  # message.link_action returns "[\"method_name\",\"param1\",\"param2\"]"
-  #
-  # Special case 1: redirect_to.  Most common action.
-  # Store only the JSON-escaped path string in link_action like "\"/finisher/new\""
-  # or the plain string "/finisher/new"
-  #
-  # Special case 2: nil link_action redirects to "/"
-  #
-  # Returns path for redirect.  Conrtroller calls send_link_action
-  # via `redirect_to message.send_link_action!(request_params)`
-  #
-  def send_link_action!(request_params = [])
-    return "/" if link_action.blank?
-
-    begin
-      parsed_action = JSON.parse(link_action)
-    rescue JSON::ParserError
-      parsed_action = link_action # allow unescaped path string
-    end
-
-    # Simple redirect action
-    return parsed_action if parsed_action.is_a?(String) && request_params.blank?
-
-    # Combine stored & request params and send
-    send_params = parsed_action + request_params
-    Looseends::MagicLinkAction.send(*send_params)
   end
 
   # Sends replacement email with fresh sgid

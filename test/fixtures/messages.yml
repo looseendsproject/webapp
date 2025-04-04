@@ -8,9 +8,8 @@
 #  description      :string
 #  expires_at       :datetime
 #  last_edited_by   :integer
-#  link_action      :string
-#  mailer           :string
 #  messageable_type :string
+#  redirect_to      :string
 #  sgid             :string
 #  single_use       :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
@@ -55,8 +54,7 @@ valid_for_now_sgid:
   channel: outbound
   sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJakJuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTODBQMlY0Y0dseVpYTmZhVzQ5TmpBME9EQXdCam9HUlZRPSIsImV4cCI6IjIwMjUtMDUtMDZUMjA6MjA6MzQuMDAwWiIsInB1ciI6ImRlZmF1bHQifX0=--e06d2cf24589ba6cf086ba9c512211cbfccaafcc
   expires_at: 2025-05-06 20:20:34.000000000 UTC +00:00
-  mailer: "FinisherMailer.welcome"
-  link_action: "/finisher/new"
+  redirect_to: "/finisher/new"
 
 expired_sgid:
   id: 5
@@ -66,5 +64,4 @@ expired_sgid:
   channel: outbound
   sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJakJuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTODBQMlY0Y0dseVpYTmZhVzQ5TmpBME9EQXdCam9HUlZRPSIsImV4cCI6IjIwMjUtMDMtMzBUMjE6MTE6NTYuMDAwWiIsInB1ciI6ImRlZmF1bHQifX0=--ccbe19051f53dde57848d697e8864a24c4eddc8a
   expires_at: 2025-03-30 21:11:56.000000000 UTC +00:00
-  mailer: "FinisherMailer.welcome"
-  link_action: "/finisher/new"
+  redirect_to: "/finisher/new"

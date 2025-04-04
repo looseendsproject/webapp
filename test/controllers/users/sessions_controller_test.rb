@@ -13,7 +13,7 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
   test 'good magic link does the necessary' do
     travel_to @message.expires_at - 1.day
     get "/magic_link", params: { sgid: @message.sgid }
-    assert_redirected_to @message.link_action
+    assert_redirected_to @message.redirect_to
     assert_equal 1, @message.reload.click_count
   end
 

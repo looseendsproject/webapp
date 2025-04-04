@@ -46,7 +46,6 @@ class ApplicationMailer < ActionMailer::Base
     def update_message_record
       return unless @message # skip Devise mail
       @message.content = message.to_s
-      @message.mailer = "#{self.class.name}.#{action_name}"
       @message.save!
     end
 end

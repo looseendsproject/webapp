@@ -18,9 +18,8 @@ class FinisherMailerTest < ActionMailer::TestCase
     assert_equal "Loose Ends Project Account Created - Next Steps...", mail.subject
 
     m = @finisher.messages.last
-    assert_equal "/finisher/new", m.link_action
+    assert_equal "/finisher/new", m.redirect_to
     refute m.single_use
-    assert_equal "FinisherMailer.welcome", m.mailer
     assert_not_nil m.sgid
   end
 
@@ -41,9 +40,8 @@ class FinisherMailerTest < ActionMailer::TestCase
     assert_equal "Welcome, Loose Ends Finisher!", mail.subject
 
     m = @finisher.messages.last
-    refute m.link_action
+    refute m.redirect_to
     refute m.single_use
-    assert_equal "FinisherMailer.profile_complete", m.mailer
     assert_not_nil m.sgid
   end
 

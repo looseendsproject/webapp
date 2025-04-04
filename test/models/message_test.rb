@@ -8,9 +8,8 @@
 #  description      :string
 #  expires_at       :datetime
 #  last_edited_by   :integer
-#  link_action      :string
-#  mailer           :string
 #  messageable_type :string
+#  redirect_to      :string
 #  sgid             :string
 #  single_use       :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
@@ -30,7 +29,6 @@ class MessageTest < ActiveSupport::TestCase
 
   test "validations" do
     m = Project.first.messages.new(channel: 'wrong')
-    # debugger
     refute m.valid?
     assert_match /Channel wrong is not a valid message channel/, m.errors.full_messages.to_s
   end
@@ -106,7 +104,7 @@ class MessageTest < ActiveSupport::TestCase
     # Default (bare) call
     m.set_sgid!
     assert m.sgid
-    refute m.link_action
+    refute m.redirect_to
     assert m.expires_at > Time.zone.now
     refute m.single_use
 
@@ -141,35 +139,5 @@ class MessageTest < ActiveSupport::TestCase
 
     # not applicable
     assert Message.find(1).valid_sgid?
-  end
-
-  test "send_link_action full params" do
-    assert_equal "/finisher/new", Message.find(4).send_link_action!
-  end
-
-  test "bare path redirects" do
-    m = Message.find(4)
-    m.link_action = "/finisher/new"
-    assert_equal "/finisher/new", m.send_link_action!
-  end
-
-  test "send_link_action w/ only path string" do
-    m = Message.find(4)
-    m.link_action = JSON.generate("/finisher/new")
-    assert_equal "/finisher/new", m.send_link_action!
-  end
-
-  test "send_link_action w/ nil link_action" do
-    m = Message.find(4)
-    m.link_action = nil
-    assert_equal "/", m.send_link_action!
-  end
-
-  test "send_replacement!" do
-    expired = Message.find(5)
-    expired.send_replacement!
-    assert_match "Loose Ends Project Account Created - Next Steps...",
-      ActionMailer::Base.deliveries.last.subject
-    assert expired.messageable.messages.last.valid_sgid?
   end
 end

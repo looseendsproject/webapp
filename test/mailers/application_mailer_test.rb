@@ -13,11 +13,10 @@ class ApplicationMailerTest < ActionMailer::TestCase
     m = project.messages.last
     assert_equal "project/Project Title One", m.description
     assert_equal "outbound", m.channel
-    refute m.link_action
+    refute m.redirect_to
     assert m.sgid
     assert_nil m.expires_at
     refute m.single_use
-    assert_equal "ApplicationMailer.test", m.mailer
     assert_equal 0, m.click_count
   end
 

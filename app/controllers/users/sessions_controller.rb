@@ -32,7 +32,7 @@ module Users
 
           yield if block_given?
 
-          redirect_to message.send_link_action! and return true
+          redirect_to(message.redirect_to || "/") and return true
         end
       end
 

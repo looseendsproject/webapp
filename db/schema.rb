@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_31_135601) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_04_193324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -164,10 +164,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_31_135601) do
     t.datetime "updated_at", null: false
     t.string "channel"
     t.string "sgid"
-    t.string "link_action"
+    t.string "redirect_to"
     t.integer "click_count", default: 0, null: false
     t.boolean "single_use", default: false, null: false
-    t.string "mailer"
     t.datetime "expires_at"
     t.index ["channel"], name: "index_messages_on_channel"
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
