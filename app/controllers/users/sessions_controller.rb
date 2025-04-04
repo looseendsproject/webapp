@@ -35,6 +35,7 @@ module Users
           redirect_to(message.redirect_to || "/")
           return true
         end
+        false
       end
 
       # Locator returned nil. Figure out if it's expired or malformed
