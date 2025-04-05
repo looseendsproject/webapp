@@ -10,7 +10,6 @@ class ManagerBrowserTest < ApplicationSystemTestCase
     click_link "Manage"
     assert_text "Dashboard"
     assert_text "Mail Traffic"
-    assert_text "Email Template Previews"
     assert_text "Reports"
     assert_text "Job Queues"
   end

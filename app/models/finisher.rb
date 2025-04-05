@@ -184,11 +184,11 @@ class Finisher < ApplicationRecord
   end
 
   def send_welcome_message
-    FinisherMailer.welcome(self).deliver_now
+    FinisherMailer.with(resource: self).welcome.deliver_now
   end
 
   def send_profile_complete_message
-    FinisherMailer.profile_complete(self).deliver_now
+    FinisherMailer.with(resource: self).profile_complete.deliver_now
   end
 
   # method for combining all available address attributes for geocoding

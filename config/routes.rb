@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     unlocks: "users/unlocks"
   }
+  devise_scope :user do
+    get "magic_link", to: "users/sessions#magic_link", as: :magic_link
+    post "resend_link", to: "users/sessions#resend_link"
+  end
 
   root to: "home#show"
 

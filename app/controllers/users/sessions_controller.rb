@@ -2,29 +2,54 @@
 
 module Users
   class SessionsController < Devise::SessionsController
-    # before_action :configure_sign_in_params, only: [:create]
+    before_action :ensure_params, only: [:magic_link]
 
-    # GET /resource/sign_in
-    # def new
-    #   super
-    # end
-
-    # POST /resource/sign_in
-    # def create
-    #   super
-    # end
-
-    # DELETE /resource/sign_out
-    # def destroy
-    #   super
-    # end
-
-    # protected
-
-    # If you have extra params to permit, append them to the sanitizer.
-    # def configure_sign_in_params
-    #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-    # end
+    # Sign in user and redirect
+    # GET /magic_link?sgid=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaDVuYVdRNkx5OXN...
     #
+    def magic_link
+      attempt_locate || handle_not_located
+    end
+
+    private
+
+      def ensure_params
+        begin
+          params.require(:sgid)
+        rescue ActionController::ParameterMissing
+          redirect_to '/users/sign_in', flash: { error: "Bad link. Please contact support." }
+          return
+        end
+      end
+
+      # If the action needs to do anything before redirect
+      #
+      def attempt_locate(&block)
+        message = GlobalID::Locator.locate_signed(params[:sgid])
+        if message.present? && message.user.is_a?(User)
+          message.increment!(:click_count)
+          sign_in(message.user)
+
+          yield if block_given?
+
+          redirect_to(message.redirect_to || "/")
+          return true
+        end
+        false
+      end
+
+      # Locator returned nil. Figure out if it's expired or malformed
+      #
+      def handle_not_located
+        message = Message.find_by(sgid: params[:sgid])
+
+        if message.present? && message.expired?
+          redirect_to "/users/sign_in", flash: { error: "Expired link. Please contact support." }
+          return true
+        else
+          raise ActiveRecord::RecordNotFound
+        end
+      end
+
   end
 end

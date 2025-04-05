@@ -1,8 +1,12 @@
-%p Thanks for creating an account with Loose Ends Project, the first step toward becoming a volunteer finisher.
+%p.headline Welcome #{@message.user.name}!
 
-%p ONE MORE STEP TO GO: Please finish setting up #{link_to "your profile", finisher_url()}.
+%p Thanks for creating an account with Loose Ends Project and verifying your email.  These are the first steps toward becoming a volunteer finisher.
 
-%p Once you've answered all of the questions, your profile will be complete, and you'll be on our list to contact when a project becomes available near you. When you're done, you'll receive an email confirming your status as an official finisher.
+%p There is one more step to go.  We need to know what types of projects you might be eligible to complete.
+
+%p= link_to "Complete Your Profile", magic_link_url(sgid: @message.sgid), class: 'email-button'
+
+%p Once you've answered the questions, your profile will be complete, and you'll be on our list to contact when a project becomes available near you. When you're done, you'll receive an email confirming your status as an official finisher.  This link is valid until #{@message.expires_at.to_formatted_s(:human)}.
 
 %p
   Thank you for being part of this with us,
