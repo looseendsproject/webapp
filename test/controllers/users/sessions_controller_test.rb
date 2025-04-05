@@ -8,6 +8,9 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
     @message = Message.find(4)
+    @message.sgid = nil
+    @message.expires_at = nil
+    @message.set_sgid!(redirect_to: "/finisher/new")
   end
 
   test 'good magic link does the necessary' do
