@@ -10,10 +10,6 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
     @message = Message.find(4)
   end
 
-  def teardown
-    travel_back
-  end
-
   test 'good magic link does the necessary' do
     travel_to @message.expires_at - 1.day
     get "/magic_link", params: { sgid: @message.sgid }
