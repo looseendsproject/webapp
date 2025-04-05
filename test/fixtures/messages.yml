@@ -45,8 +45,7 @@ user:
   description: "DeviseMailer.new_password"
   channel: outbound
 
-# If you need a valid sgid, null out sgid and call set_sgid! again
-valid_for_now_sgid:
+sgid:
   id: 4
   messageable_type: 'Finisher'
   messageable_id: 1
