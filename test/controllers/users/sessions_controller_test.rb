@@ -8,6 +8,10 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
     @message = Message.find(4)
+
+    # SGIDs stored in fixtures will fail CI (and tests by other devs)
+    # Recreate the SGID at runtime to get the right SECRET_KEY_BASE
+    #
     @message.sgid = nil
     @message.expires_at = nil
     @message.set_sgid!(redirect_to: "/finisher/new")
