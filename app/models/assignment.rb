@@ -28,7 +28,7 @@ class Assignment < ApplicationRecord
   belongs_to :finisher
   belongs_to :user
 
-  has_many :assignment_updates, dependent: :destroy
+  has_many :notes, as: :notable
 
   validates :finisher_id, uniqueness: { scope: :project_id }
   validates :status, inclusion: { in: STATUS, allow_blank: true }
