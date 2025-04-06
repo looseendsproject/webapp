@@ -20,7 +20,7 @@
 #  index_notes_on_user_id  (user_id)
 #
 class Note < ApplicationRecord
-  belongs_to :notable, polymorphic: true
+  belongs_to :notable, polymorphic: true, touch: true
   belongs_to :user
 
   before_create :set_visibility

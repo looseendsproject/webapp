@@ -151,15 +151,15 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "updated_at timestamp updated when a project note is added" do
     original_updated_at = @project.updated_at
-    @project.project_notes.create(user: User.new, description: "here's a new note")
+    @project.notes.create(user: User.new, text: "here's a new note")
 
     assert_not_equal(original_updated_at, @project.updated_at)
   end
 
   test "updated_at timestamp updated when a project note is updated" do
-    note = @project.project_notes.create(user: User.new, description: "here's a new note")
+    note = @project.notes.create(user: User.new, text: "here's a new note")
     original_updated_at = @project.updated_at
-    note.update(description: "updated note description")
+    note.update(text: "updated note description")
 
     assert_not_equal(original_updated_at, @project.updated_at)
   end
