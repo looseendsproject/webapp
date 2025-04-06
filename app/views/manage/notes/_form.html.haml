@@ -1,0 +1,21 @@
+= form_for [:manage, project, project.notes.new] do |f|
+  .row.my-2
+    .col
+      = f.text_area :text, size: "60x4", class: 'form-control'
+  .row.my-2
+    .col
+      = check_box_tag :finisher_contact, '1', false, class: 'form-check-input', autocomplete: 'off'
+      = label_tag :finisher_contact, "Contact from Finisher?", class: 'd-inline form-control-sm form-check-label'
+  .row.my-2
+    .col.clearfix
+      = f.submit 'Submit', { id: 'note_form_submit_button', disabled: 'true', class: "btn btn-primary float-end" }
+
+:javascript
+  document.getElementById('note_text').addEventListener('input', () => {
+    const submitButton = document.getElementById('note_form_submit_button');
+    if (document.getElementById('note_text').value.length === 0) {
+      submitButton.setAttribute('disabled', '');
+    } else {
+      submitButton.removeAttribute("disabled")
+    }
+  });

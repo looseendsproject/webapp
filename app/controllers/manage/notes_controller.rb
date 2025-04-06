@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+# ProjectNote was deprecated in favor of Note (polymorphic)
+#
 module Manage
-  class ProjectNotesController < Manage::ManageController
+  class NotesController < Manage::ManageController
     before_action :get_project
 
     def create
-      @project_note = @project.project_notes.new(project_notes_params)
-      @project_note.user = current_user
-      @project_note.save
+      @note = @project.notes.new(notes_params)
+      @note.user = current_user
+      @note.save
 
       update_last_contacted! if params[:finisher_contact]
 
@@ -17,10 +19,10 @@ module Manage
     end
 
     def destroy
-      @project_note = @project.project_notes.find(params[:id])
-      @project_note.destroy
+      @note = @project.notes.find(params[:id])
+      @note.destroy
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.remove(@project_note) }
+        format.turbo_stream { render turbo_stream: turbo_stream.remove(@note) }
       end
     end
 
@@ -30,8 +32,8 @@ module Manage
       @project = Project.find(params[:project_id])
     end
 
-    def project_notes_params
-      params.require(:project_note).permit([:description])
+    def notes_params
+      params.require(:note).permit([:text])
     end
 
     def update_last_contacted!
