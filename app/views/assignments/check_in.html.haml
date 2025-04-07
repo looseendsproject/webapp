@@ -1,0 +1,16 @@
+%h1 Check In
+
+%pre= @note.notable.project.name
+
+= form_with url: check_in_url(@note.notable), model: @note do |f|
+
+  .pt-4
+    - AssignmentsController::HEADLINE_OPTIONS.map do |opt|
+      = f.radio_button :headline, opt[:headline_value]
+      = f.label "headline_#{opt[:headline_value]}".to_sym, opt[:headline_value]
+
+  .pt-4
+    %div Whazzup?
+    = f.text_area :text
+
+  .pt-4= f.submit

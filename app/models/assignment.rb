@@ -29,6 +29,7 @@ class Assignment < ApplicationRecord
   belongs_to :user
 
   has_many :notes, as: :notable
+  has_many :messages, as: :messageable
 
   validates :finisher_id, uniqueness: { scope: :project_id }
   validates :status, inclusion: { in: STATUS, allow_blank: true }
@@ -37,6 +38,21 @@ class Assignment < ApplicationRecord
 
   def self.active
     where(ended_at: nil)
+  end
+
+  def name
+    project.description
+  end
+
+  # Messageable must respond to "user".  In this context,
+  # "user" is "finisher.user"...
+  def user
+    finisher.user
+  end
+
+  # ...and self.user is Manager
+  def manager
+    User.find(user_id)
   end
 
   private

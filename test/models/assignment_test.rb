@@ -26,6 +26,17 @@ class AssignmentTest < ActiveSupport::TestCase
     @assignment = assignments(:knit_active)
   end
 
+  # for :messageable
+  test "#user returns finisher.user" do
+    assert_equal @assignment.finisher.user, @assignment.user
+  end
+
+  # TODO this may be a vestige and should be dropped. Project also
+  # has manager_id and seems to be in use.
+  test "#manager returns User.find(user_id)" do
+    assert_equal User.find(@assignment.user_id), @assignment.manager
+  end
+
   test "all fixtures are valid by default" do
     Assignment.all.each do |assignment|
       assert_predicate(assignment, :valid?,

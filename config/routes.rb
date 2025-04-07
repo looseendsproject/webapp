@@ -37,6 +37,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/assignment/:id/check_in", to: "assignments#check_in", as: :check_in
+  post "/assignment/:id/check_in", to: "assignments#record_check_in"
+  get "/thank_you", to: "assignments#thank_you", as: :thank_you
+
   resources :message, only: :show
 
   namespace :manage do

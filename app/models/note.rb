@@ -5,8 +5,8 @@
 # Table name: notes
 #
 #  id           :bigint           not null, primary key
+#  headline     :string
 #  notable_type :string
-#  rating       :integer
 #  text         :text
 #  visibility   :string           default("manager"), not null
 #  created_at   :datetime         not null
