@@ -190,6 +190,21 @@ footer
     color: $secondary
     width: 1.3rem
 
+// Copy Helper
+
+.copy-supported
+  &:after
+    font-family: "Font Awesome 6 Free"
+    content: "\f328"
+    padding-left: 0.5rem
+    display: inline-block
+
+  &.copied
+    font-size: 0.8rem
+    background: $yellow-100
+    padding: 0.5rem
+    border-radius: 0.5rem
+
 // pagination
 .pagination a, .pagination span, .pagination em
   padding: 0.2em 0.5em
