@@ -7,8 +7,8 @@
   %td.text-nowrap= link_to project.user.email, [:admin, project.user]
   %td.text-nowrap
     - if project.active_finisher.present? && assignment = project.assignments.where(finisher: project.active_finisher).first
-      = link_to project.active_finisher&.name, [:manage, project.active_finisher]
+      = link_to project.active_finisher&.user&.email, [:manage, project.active_finisher]
       %span.ms-1.badge.rounded-pill.text-bg-primary= assignment.status
     - elsif project.finisher.present? && assignment = project.assignments.where(finisher: project.finisher).first
-      = link_to project.finisher&.name, [:manage, project.finisher]
+      = link_to project.finisher&.user&.email, [:manage, project.finisher]
       %span.badge.rounded-pill.text-bg-secondary= assignment.status
