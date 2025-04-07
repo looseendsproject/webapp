@@ -5,9 +5,8 @@
     .mb-3
       %span To attach an email to this #{resource.class}, send to
       %span
-        %b
+        %b{ data: { controller: 'clipboard' } }
           %a#email_address(href="mailto:#{resource.inbound_email_address}") #{resource.inbound_email_address}
-        %i(class="fa-regular fa-clipboard" data-toggle="tooltip" data-placement="top" title="Copy to clipboard"onclick="copyToClipboard()")
 
 - if resource.messages.any?
   .d-flex.flex-column
@@ -28,9 +27,3 @@
             %td= link_to message.email.subject, message
             %td
               // TODO action buttons (view, delete)
-
-:javascript
-  function copyToClipboard() {
-    var anchor = document.getElementById("email_address");
-    navigator.clipboard.writeText(anchor.text);
-  }
