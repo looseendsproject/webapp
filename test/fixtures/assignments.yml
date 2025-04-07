@@ -3,6 +3,7 @@
 # Table name: assignments
 #
 #  id                :bigint           not null, primary key
+#  created_by        :bigint
 #  ended_at          :datetime
 #  last_contacted_at :datetime
 #  started_at        :datetime
@@ -11,24 +12,23 @@
 #  updated_at        :datetime         not null
 #  finisher_id       :bigint
 #  project_id        :bigint
-#  user_id           :bigint
 #
 # Indexes
 #
+#  index_assignments_on_created_by   (created_by)
 #  index_assignments_on_finisher_id  (finisher_id)
 #  index_assignments_on_project_id   (project_id)
-#  index_assignments_on_user_id      (user_id)
 #
 knit_active:
   project_id: 1
   finisher_id: 2
-  user_id: 3
+  created_by: 3
   started_at: 2024-01-01
   status: accepted
 
 knit_inactive:
   project_id: 2
   finisher_id: 2
-  user_id: 3
+  created_by: 3
   started_at: 2024-01-01
   ended_at: 2024-12-31

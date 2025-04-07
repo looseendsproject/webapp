@@ -202,7 +202,7 @@ module Manage
 
     test "search by assigned" do
       result = create_search_project
-      result.assignments.create!(user: @user, finisher: Finisher.first)
+      result.assignments.create!(creator: @user, finisher: Finisher.first)
 
       assert_search_results([result], assigned: nil)
       assert_search_results([result], assigned: "true")

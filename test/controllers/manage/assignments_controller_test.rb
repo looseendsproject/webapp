@@ -9,6 +9,28 @@ module Manage
       sign_in @user
     end
 
+    test "create denormalizes manager_id" do
+      old_assignment = assignments(:knit_active)
+      refute old_assignment.project.manager_id
+
+      new_assignment = old_assignment.dup
+      old_assignment.destroy
+      assert_raises (ActiveRecord::RecordNotFound) {
+        Assignment.find(old_assignment.id).present?
+      }
+
+      new_assignment.save!
+      assert_equal new_assignment.created_by, new_assignment.project.manager_id
+    end
+
+    test "update denormalizes manager_id" do
+      assignment = assignments(:knit_active)
+      refute assignment.project.manager_id
+      assert_equal 3, assignment.created_by
+      assignment.update(started_at: Time.zone.now)
+      assert_equal assignment.created_by, assignment.project.manager_id
+    end
+
     test "update can set status" do
       assignment = assignments(:knit_active)
       patch :update, params: { id: assignment.id, assignment: { status: "invited" } }

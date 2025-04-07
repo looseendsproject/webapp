@@ -5,6 +5,7 @@
 # Table name: assignments
 #
 #  id                :bigint           not null, primary key
+#  created_by        :bigint
 #  ended_at          :datetime
 #  last_contacted_at :datetime
 #  started_at        :datetime
@@ -13,20 +14,19 @@
 #  updated_at        :datetime         not null
 #  finisher_id       :bigint
 #  project_id        :bigint
-#  user_id           :bigint
 #
 # Indexes
 #
+#  index_assignments_on_created_by   (created_by)
 #  index_assignments_on_finisher_id  (finisher_id)
 #  index_assignments_on_project_id   (project_id)
-#  index_assignments_on_user_id      (user_id)
 #
 class Assignment < ApplicationRecord
   STATUS = %w[potential invited accepted declined unresponsive completed].freeze
 
   belongs_to :project, touch: true
   belongs_to :finisher
-  belongs_to :user
+  belongs_to :creator, class_name: "User", foreign_key: :created_by
 
   has_many :notes, as: :notable
   has_many :messages, as: :messageable
@@ -35,6 +35,7 @@ class Assignment < ApplicationRecord
   validates :status, inclusion: { in: STATUS, allow_blank: true }
 
   before_save :sanitize_status
+  after_save :denormalize_created_by
 
   def self.active
     where(ended_at: nil)
@@ -50,14 +51,14 @@ class Assignment < ApplicationRecord
     finisher.user
   end
 
-  # ...and self.user is Manager
-  def manager
-    User.find(user_id)
-  end
-
   private
 
   def sanitize_status
     self.status = nil if status.blank?
+  end
+
+  def denormalize_created_by
+    self.project.update!(manager_id: created_by) \
+      unless self.project.manager_id.present?
   end
 end

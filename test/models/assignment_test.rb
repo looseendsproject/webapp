@@ -3,6 +3,7 @@
 # Table name: assignments
 #
 #  id                :bigint           not null, primary key
+#  created_by        :bigint
 #  ended_at          :datetime
 #  last_contacted_at :datetime
 #  started_at        :datetime
@@ -11,13 +12,12 @@
 #  updated_at        :datetime         not null
 #  finisher_id       :bigint
 #  project_id        :bigint
-#  user_id           :bigint
 #
 # Indexes
 #
+#  index_assignments_on_created_by   (created_by)
 #  index_assignments_on_finisher_id  (finisher_id)
 #  index_assignments_on_project_id   (project_id)
-#  index_assignments_on_user_id      (user_id)
 #
 require "test_helper"
 
@@ -31,17 +31,24 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal @assignment.finisher.user, @assignment.user
   end
 
-  # TODO this may be a vestige and should be dropped. Project also
-  # has manager_id and seems to be in use.
-  test "#manager returns User.find(user_id)" do
-    assert_equal User.find(@assignment.user_id), @assignment.manager
-  end
-
   test "all fixtures are valid by default" do
     Assignment.all.each do |assignment|
       assert_predicate(assignment, :valid?,
                        "Assignment fixture should be valid: #{assignment.errors.full_messages.to_sentence}")
     end
+  end
+
+  test "responds to #creator" do
+    assert_equal User.find(@assignment.created_by), @assignment.creator
+  end
+
+  test "denormalizes created_by unless project.manager_id.present?" do
+    refute @assignment.project.manager_id
+    @assignment.save!
+    assert_equal @assignment.created_by, @assignment.project.manager_id
+
+    @assignment.update(created_by: 1)
+    assert_not_equal @assignment.created_by, @assignment.project.manager_id
   end
 
   test "does not allow unknown status" do
