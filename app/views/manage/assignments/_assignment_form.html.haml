@@ -8,16 +8,16 @@
       %li
         = fa_icon("user", title: 'Assigned To')
         %span= link_to(assignment.finisher.user.name.truncate(25), [ :manage, assignment.finisher ], data: { turbo_frame: :_top })
-      %li
+      %li.text-nowrap
         = fa_icon("envelope", title: 'Email Address')
-        %span= assignment.finisher.user.email.truncate(25)
+        %span{ data: { controller: 'clipboard' } }= assignment.finisher.user.email
     %li
-      = fa_icon("calendar", title: 'Assigned')
-      %span= time_tag(assignment.created_at, "Assigned #{assignment.created_at.to_formatted_s(:short)}", title: assignment.created_at)
-    - if assignment.created_at != assignment.updated_at
+      = fa_icon("phone", title: 'Phone Number')
+      %span{ data: { controller: 'clipboard' } }= assignment.finisher.phone_number || assignment.finisher.user.phone
+    - if assignment.last_contacted_at.present?
       %li
-        = fa_icon("calendar-check", title: 'Updated')
-        %span= time_tag(assignment.updated_at, "Updated #{assignment.updated_at.to_formatted_s(:short)}", title: assignment.updated_at)
+        = fa_icon("calendar-check", title: 'Last Contact')
+        %span= time_tag(assignment.last_contacted_at, "Last Contact #{assignment.last_contacted_at.to_formatted_s(:short)}", title: assignment.last_contacted_at)
     %li
       = fa_icon("flag", title: 'Status')
       - if local_assigns[:readonly]

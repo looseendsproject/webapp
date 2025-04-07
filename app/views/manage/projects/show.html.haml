@@ -100,7 +100,7 @@
         #{@project.city}, #{@project.state} #{@project.postal_code}
       .country
         = ISO3166::Country[@project.country]&.iso_short_name
-  .col-5
+  .col-4
     - if @project.no_smoke || @project.no_cats || @project.no_dogs
       .page-section.mb-3
         %h4 Sensitivities
@@ -180,7 +180,7 @@
     - else
       .text-muted Not Provided
 
-  .col-3
+  .col-4
     %h4
       Assigned Finishers
       .float-end
