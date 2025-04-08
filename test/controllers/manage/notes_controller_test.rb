@@ -3,7 +3,7 @@
 require "test_helper"
 
 module Manage
-  class ProjectNotesControllerTest < ActionController::TestCase
+  class NotesControllerTest < ActionController::TestCase
     setup do
       @user = users(:admin)
 
@@ -13,12 +13,12 @@ module Manage
 
     test "can create a note with a description" do
       sign_in @user
-      post :create, params: { project_id: @project.id, project_note: { description: "This is a note" } },
+      post :create, params: { project_id: @project.id, note: { text: "This is a note" } },
                     format: :turbo_stream
 
       assert_response :success
-      assert_equal(1, @project.project_notes.count)
-      assert_equal("This is a note", @project.project_notes.first.description)
+      assert_equal(1, @project.notes.count)
+      assert_equal("This is a note", @project.notes.first.text)
     end
 
     test "can create a note and mark as a finisher contact" do
@@ -28,7 +28,7 @@ module Manage
       assert_predicate(assignment.last_contacted_at, :blank?)
 
       sign_in @user
-      post :create, params: { project_id: @project.id, project_note: { description: "This is a note" },
+      post :create, params: { project_id: @project.id, note: { text: "This is a note" },
                               finisher_contact: true }, format: :turbo_stream
 
       assert_response :success
@@ -37,14 +37,14 @@ module Manage
 
     test "can delete a note" do
       sign_in @user
-      note = @project.project_notes.create!(user: @user, description: "This is a note")
+      note = @project.notes.create!(user: @user, text: "This is a note")
 
-      assert_equal(1, @project.project_notes.count)
+      assert_equal(1, @project.notes.count)
 
       delete :destroy, params: { project_id: @project.id, id: note.id }, format: :turbo_stream
 
       assert_response :success
-      assert_equal(0, @project.project_notes.count)
+      assert_equal(0, @project.notes.count)
     end
   end
 end
