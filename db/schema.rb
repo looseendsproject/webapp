@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_04_193324) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -70,16 +70,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_04_193324) do
     t.datetime "updated_at", null: false
     t.index ["finisher_id"], name: "index_assessments_on_finisher_id"
     t.index ["skill_id"], name: "index_assessments_on_skill_id"
-  end
-
-  create_table "assignment_updates", force: :cascade do |t|
-    t.bigint "assignment_id"
-    t.bigint "user_id"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assignment_id"], name: "index_assignment_updates_on_assignment_id"
-    t.index ["user_id"], name: "index_assignment_updates_on_user_id"
   end
 
   create_table "assignments", force: :cascade do |t|
@@ -172,6 +162,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_04_193324) do
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable_type_and_messageable_id"
     t.index ["sgid"], name: "index_messages_on_sgid"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "notable_type"
+    t.bigint "notable_id"
+    t.text "text"
+    t.string "visibility", default: "manager", null: false
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|

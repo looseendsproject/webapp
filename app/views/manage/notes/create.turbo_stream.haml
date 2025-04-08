@@ -1,0 +1,5 @@
+= turbo_stream.prepend "notes" do
+  = render @note
+
+= turbo_stream.update "note_form" do
+  = render partial: 'manage/notes/form', locals: { project: @project}
