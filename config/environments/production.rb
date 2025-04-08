@@ -67,7 +67,7 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   #
-  host = ENV["RAILS_ENV_DISPLAY"] == "production" ? "app" : "app-staging"
+  host = ENV.fetch("RAILS_ENV_DISPLAY", "") == "production" ? "app" : "app-staging"
   config.action_mailer.default_url_options =
     { host: "#{host}.looseendsproject.org", protocol: "https" }
 
