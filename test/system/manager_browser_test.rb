@@ -7,15 +7,18 @@ class ManagerBrowserTest < ApplicationSystemTestCase
     fill_in id: 'user_password', with: 'badpassword'
     click_link_or_button 'Log in'
     assert_text "Signed in successfully."
-    click_link "Manage"
-    assert_text "Dashboard"
-    assert_text "New email"
-    assert_text "Reports"
-    assert_text "Job Queues"
+    visit "/manage"
   end
 
   def teardown
     click_link "Sign Out"
+  end
+
+  test "dashboard widgets" do
+    assert_text "Dashboard"
+    assert_text "New email"
+    assert_text "Reports"
+    assert_text "Job Queues"
   end
 
   test 'browse projects' do
