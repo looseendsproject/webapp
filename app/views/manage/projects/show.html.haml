@@ -122,7 +122,12 @@
           Has Smoke In Home
     - if @project.no_smoke || @project.no_cats || @project.no_dogs || (@project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?) || @project.has_smoke_in_home
       %hr/
-    %h4 Material Details
+
+    %h4 Craft Type
+    = @project.craft_type
+
+    %h4.mt-4
+      Material Details
     .row
       %b.col-auto Type:
       .col
