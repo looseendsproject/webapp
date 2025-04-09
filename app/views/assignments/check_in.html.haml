@@ -6,11 +6,10 @@
 
     = form_with url: check_in_path(@note.notable), model: @note do |f|
 
-      - AssignmentsController::Sentiment::SENTIMENT_OPTIONS.map do |opt|
+      - Note::SENTIMENTS.keys.map do |key|
         .pt-3.form-check.form-check-inline
-          = f.radio_button :sentiment, opt[:sentiment_value], class: "radio"
-          = f.label "headline_#{opt[:sentiment_value]}".to_sym,
-            opt[:sentiment_value].titleize
+          = f.radio_button :sentiment, key, class: "radio"
+          = f.label "headline_#{key}".to_sym, key.titleize
 
       .fw-bold Whazzup?
       = f.text_area :text, size: "50x4"

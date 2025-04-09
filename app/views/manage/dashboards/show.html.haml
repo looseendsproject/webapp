@@ -27,6 +27,10 @@
 
   .row.pt-3
     .col
+      = render partial: "recent_notes"
+
+  .row.pt-3
+    .col
       = render partial: 'mail_traffic_dashboard'
 
   - if Rails.env.development?

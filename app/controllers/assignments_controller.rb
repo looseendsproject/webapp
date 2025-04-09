@@ -4,39 +4,6 @@ class AssignmentsController < AuthenticatedController
   before_action :sanitize_params, only: :record_check_in
   after_action :alert_manager, only: [:record_check_in]
 
-  class Sentiment
-    # The values for sentiment radio buttons on check_in form
-    # require_text: true will make note.text required
-    # alert_manager: true will email the manager
-    #
-    SENTIMENT_OPTIONS = [
-      {
-        sentiment_value: "going_well",
-        textarea_label: "Great! Tell us more if you'd like",
-        require_text: false,
-        alert_manager: false
-      },
-      {
-        sentiment_value: "not_going_great",
-        textarea_label: "Sorry to hear that. Tell us more and your \
-          Project Manager will contact you.",
-        require_text: true,
-        alert_manager: true
-      },
-      {
-        sentiment_value: "no_progress",
-        textarea_label: "OK. We will check back later. Leave a note if you'd like.",
-        require_text: false,
-        alert_manager: true
-      }
-    ]
-
-    def self.alert?(value)
-      option = SENTIMENT_OPTIONS.select { |opt| opt[:sentiment_value] == value }
-      option.first[:alert_manager]
-    end
-  end
-
   # GET /assignment/:id/check_in
   def check_in
     @assignment = current_user.finisher.assignments.find(params[:id])
@@ -70,7 +37,7 @@ class AssignmentsController < AuthenticatedController
     end
 
     def alert_manager
-      return unless Sentiment.alert?(@note_params[:sentiment])
+      return unless Note::SENTIMENTS[@note_params[:sentiment]][:alert_manager]
       ProjectMailer.with(resource: @note.notable.project).alert_manager.deliver_now
     end
 end

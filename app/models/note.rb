@@ -20,6 +20,29 @@
 #  index_notes_on_user_id  (user_id)
 #
 class Note < ApplicationRecord
+
+  SENTIMENTS = {
+    "going_well" => {
+      textarea_label: "Great! Tell us more if you'd like",
+      require_text: false,
+      alert_manager: false,
+      table_class: "table-success"
+    },
+    "not_going_great" => {
+      textarea_label: "Sorry to hear that. Tell us more and your \
+        Project Manager will contact you.",
+      require_text: true,
+      alert_manager: true,
+      table_class: "table-danger"
+    },
+    "no_progress" => {
+      textarea_label: "OK. We will check back later. Leave a note if you'd like.",
+      require_text: false,
+      alert_manager: true,
+      table_class: "table-warning"
+    }
+  }
+
   belongs_to :notable, polymorphic: true, touch: true
   belongs_to :user
 
