@@ -23,8 +23,14 @@
         .col-5.me-2
           = form.label :in_process_status, 'In Process Status', class: 'form-label'
           = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize.gsub(/\bpo\b/i, 'PO'), status] }, { include_blank: true }, { class: 'form-select' }
-
   %hr
+
+  .page-section
+    .row-mb-4
+      .col-md-1.offset-md-11
+        .form-actions
+          = form.submit current_user.admin? ? 'Save' : 'Submit Project', class: "btn btn-primary"
+
   = render "project_form_fields", form: form
 
   %h2 Submitter Details
@@ -74,10 +80,6 @@
         .col-6
           = form.label :press_outlet, 'Outlet', class: 'form-label'
           = form.text_field :press_outlet, class: 'form-control'
-
-  .page-section
-    .form-actions
-      = form.submit current_user.admin? ? 'Save' : 'Submit Project', class: "btn btn-primary"
 
 :javascript
   const addRevealHandler = (parent, child) => {
