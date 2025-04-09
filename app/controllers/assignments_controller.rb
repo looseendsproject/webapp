@@ -4,22 +4,22 @@ class AssignmentsController < AuthenticatedController
   before_action :sanitize_params, only: :record_check_in
   after_action :alert_manager, only: [:record_check_in]
 
-  # The values for headline radio buttons on check_in form
+  # The values for sentiment radio buttons on check_in form
   # require_text: true will make note.text required
   #
-  HEADLINE_OPTIONS = [
+  SENTIMENT_OPTIONS = [
     {
-      headline_value: "well",
+      sentiment_value: "well",
       textarea_label: "Great! Tell us more if you'd like",
       require_text: false
     },
     {
-      headline_value: "not great",
+      sentiment_value: "not great",
       textarea_label: "Sorry to hear that. Tell us more and your Project Manager will contact you.",
       require_text: true
     },
     {
-      headline_value: "no progress",
+      sentiment_value: "no progress",
       textarea_label: "OK. We will check back later. Leave a note if you'd like.",
       require_text: false
     }
@@ -54,7 +54,7 @@ class AssignmentsController < AuthenticatedController
 
     def sanitize_params
       @assignment_id = params.expect(:id)
-      @note_params = params.expect(note: [:headline, :text])
+      @note_params = params.expect(note: [:sentiment, :text])
     end
 
     def alert_manager

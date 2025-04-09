@@ -5,9 +5,9 @@
 = form_with url: check_in_url(@note.notable), model: @note do |f|
 
   .pt-4
-    - AssignmentsController::HEADLINE_OPTIONS.map do |opt|
-      = f.radio_button :headline, opt[:headline_value]
-      = f.label "headline_#{opt[:headline_value]}".to_sym, opt[:headline_value]
+    - AssignmentsController::SENTIMENT_OPTIONS.map do |opt|
+      = f.radio_button :sentiment, opt[:sentiment_value]
+      = f.label "headline_#{opt[:sentiment_value]}".to_sym, opt[:sentiment_value]
 
   .pt-4
     %div Whazzup?
