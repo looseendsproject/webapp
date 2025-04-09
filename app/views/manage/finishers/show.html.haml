@@ -31,7 +31,7 @@
 
     .page-section.mb-2
       %b Email:
-      = @finisher.user.email
+      %span{ data: { controller: 'clipboard' } }= @finisher.user.email
     .page-section.mb-2
       %b Phone Number:
       = @finisher.phone_number
