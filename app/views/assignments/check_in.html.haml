@@ -1,16 +1,18 @@
-%h1 Check In
+.row
+  .col-6
+    %h3 Hello, #{@note.notable.finisher.name}
 
-%pre= @note.notable.project.name
+    .fw-bold How is the project "#{@note.notable.project.name}" going right now?
 
-= form_with url: check_in_url(@note.notable), model: @note do |f|
+    = form_with url: check_in_path(@note.notable), model: @note do |f|
 
-  .pt-4
-    - AssignmentsController::SENTIMENT_OPTIONS.map do |opt|
-      = f.radio_button :sentiment, opt[:sentiment_value]
-      = f.label "headline_#{opt[:sentiment_value]}".to_sym, opt[:sentiment_value]
+      - AssignmentsController::Sentiment::SENTIMENT_OPTIONS.map do |opt|
+        .pt-3.form-check.form-check-inline
+          = f.radio_button :sentiment, opt[:sentiment_value], class: "radio"
+          = f.label "headline_#{opt[:sentiment_value]}".to_sym,
+            opt[:sentiment_value].titleize
 
-  .pt-4
-    %div Whazzup?
-    = f.text_area :text
+      .fw-bold Whazzup?
+      = f.text_area :text, size: "50x4"
 
-  .pt-4= f.submit
+      = f.submit "Submit", class: "btn btn-primary"

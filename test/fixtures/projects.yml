@@ -79,6 +79,7 @@ one:
   state: WA
   postal_code: 12345
   country: USA
+  manager_id: 3
   inbound_email_address: Project-7A37voRf@localhost
   created_at: <%= 8.days.ago %>
   updated_at: <%= 7.days.ago %>

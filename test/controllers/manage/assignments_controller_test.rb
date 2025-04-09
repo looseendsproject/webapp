@@ -11,6 +11,7 @@ module Manage
 
     test "create denormalizes manager_id" do
       old_assignment = assignments(:knit_active)
+      old_assignment.project.manager_id = nil
       refute old_assignment.project.manager_id
 
       new_assignment = old_assignment.dup
@@ -25,6 +26,7 @@ module Manage
 
     test "update denormalizes manager_id" do
       assignment = assignments(:knit_active)
+      assignment.project.manager_id = nil
       refute assignment.project.manager_id
       assert_equal 3, assignment.created_by
       assignment.update(started_at: Time.zone.now)

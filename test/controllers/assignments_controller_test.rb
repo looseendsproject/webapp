@@ -16,10 +16,20 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "user can create note" do
     post "/assignment/#{@assignment.id}/check_in", params: { note: {
-      sentiment: "all good",
+      sentiment: "going_well",
       text: "here's a very nice note"
     }}
     assert_redirected_to "/thank_you"
+  end
+
+  test "negative sentiment sends manager email" do
+    post "/assignment/#{@assignment.id}/check_in", params: { note: {
+      sentiment: "not_going_great",
+      text: "this thing is a mess"
+    }}
+    assert_redirected_to "/thank_you"
+    assert_equal @assignment.project.manager.email,
+      ActionMailer::Base.deliveries.last.to.first
   end
 
   test "rando cannot create note" do

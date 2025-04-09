@@ -43,6 +43,7 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "denormalizes created_by unless project.manager_id.present?" do
+    @assignment.project.manager_id = nil
     refute @assignment.project.manager_id
     @assignment.save!
     assert_equal @assignment.created_by, @assignment.project.manager_id
