@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+
+  def test_flash_messages
+    flash.alert = "Careful here! (:alert)"
+    flash.notice = "Nice work! (:notice)"
+    redirect_to new_user_session_path
+  end
+
   def after_sign_out_path_for(_resource_or_scope)
     root_path
   end

@@ -43,7 +43,7 @@ class AssignmentsController < AuthenticatedController
       redirect_to thank_you_path
     else
       render :check_in, status: :unprocessable_entity,
-        flash: { error: "Something went wrong. Contact support." }
+        flash: { alert: "Something went wrong. Contact support." }
     end
   end
 

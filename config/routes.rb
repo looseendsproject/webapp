@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   root to: "home#show"
 
+  get "test_flash_messages", to: "application#test_flash_messages"
+
   get "about-us", to: "home#about-us"
 
   get "users", to: redirect("/users/sign_up")

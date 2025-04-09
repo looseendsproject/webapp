@@ -15,7 +15,7 @@ class ProjectAccessTest < ActionDispatch::IntegrationTest
   test "project page logged out" do
     get "/projects/1"
 
-    assert_redirected_to "/"
+    assert_redirected_to "/users/sign_in"
   end
 
   test "project page logged in as owner" do
@@ -29,6 +29,6 @@ class ProjectAccessTest < ActionDispatch::IntegrationTest
     sign_in @two.user
     get "/projects/1"
 
-    assert_redirected_to "/"
+    assert_response :not_found
   end
 end

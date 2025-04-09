@@ -25,6 +25,6 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
   test "rando cannot create note" do
     sign_out(@assignment.finisher.user)
     get "/assignment/#{@assignment.id}/check_in"
-    assert_redirected_to "/"
+    assert_redirected_to "/users/sign_in"
   end
 end
