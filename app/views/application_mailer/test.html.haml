@@ -1,0 +1,10 @@
+%p.headline TEST ApplicationMailer
+
+= link_to "Sign In", magic_link_url(sgid: @message.sgid), class: 'email-button'
+
+%p &nbsp;
+
+- if @message.expires_at.present?
+  %p Link is valid until #{@message.expires_at}
+- else
+  %p This link does not expire.

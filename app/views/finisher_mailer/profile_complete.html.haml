@@ -1,6 +1,10 @@
 
-%p Congrats, you are officially a Loose Ends Project Finisher! We are so happy to be able to add your talent to our pool of volunteers ready to complete craft projects.
-%p At any time if you need to update your contact info or your skills, simply #{ link_to 'log in to your account', 'http://app.looseendsproject.org/finisher' } and do so.
+%p.headline Congrats, #{@message.user.name}, you are officially a Loose Ends Project Finisher!
+
+%p We are so happy to be able to add your talent to our pool of volunteers ready to complete craft projects. If at any time you need to update your contact info or your skills, simply
+
+%p #{ link_to 'Log In to Your Account', new_user_session_url, class: 'email-button' }
+
 %p
   %b Three things to consider while you wait for a project to come your way:
 %ul
@@ -8,7 +12,7 @@
   %li We will be in touch as soon as we have a project for you to consider. In the meantime, please consider #{ link_to 'downloading our flyer here', 'https://www.looseendsproject.org/flyers' } and share it with your community. This will increase your chances of getting a project sooner!
   %li
     Are you on Facebook? #{ link_to 'Join our private Facebook group for Loose Ends finishers here', 'https://www.facebook.com/groups/3157638207882312' } (it's lots of fun).
-    Also make sure you're following us #{ link_to 'Facebook', 'https://www.facebook.com/looseendsproject' } #{ link_to 'Instagram', 'https://www.instagram.com/thelooseendsproject/' } & #{ link_to 'Ravelry', 'https://www.ravelry.com/groups/loose-ends-4?s=tab' }
+    Also make sure you're following us #{ link_to 'Facebook', 'https://www.facebook.com/looseendsproject' } #{ link_to 'Instagram', 'https://www.instagram.com/thelooseendsproject/' } & #{ link_to('Bluesky', 'https://bsky.app/profile/looseendsproject.bsky.social') }
 %p
   Thanks for being part of this with us,
   %br/

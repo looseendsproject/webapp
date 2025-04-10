@@ -100,7 +100,7 @@
         #{@project.city}, #{@project.state} #{@project.postal_code}
       .country
         = ISO3166::Country[@project.country]&.iso_short_name
-  .col-5
+  .col-4
     - if @project.no_smoke || @project.no_cats || @project.no_dogs
       .page-section.mb-3
         %h4 Sensitivities
@@ -122,7 +122,12 @@
           Has Smoke In Home
     - if @project.no_smoke || @project.no_cats || @project.no_dogs || (@project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?) || @project.has_smoke_in_home
       %hr/
-    %h4 Material Details
+
+    %h4 Craft Type
+    = @project.craft_type
+
+    %h4.mt-4
+      Material Details
     .row
       %b.col-auto Type:
       .col
@@ -180,7 +185,7 @@
     - else
       .text-muted Not Provided
 
-  .col-3
+  .col-4
     %h4
       Assigned Finishers
       .float-end
@@ -191,11 +196,13 @@
           %h5.text-danger
             Incomplete Address Prevents Map Searching
     = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
+
     %h4.mt-4 Notes
-    #project_note_form
-      = render partial: 'manage/project_notes/form', locals: { project: @project }
-    #project_notes.d-flex.flex-column
-      = render @project.project_notes.order(created_at: :desc)
+    #note_form
+      = render partial: 'manage/notes/form', locals: { project: @project }
+    #notes.d-flex.flex-column
+      - @notes = @project.notes.order(created_at: :desc)
+      = render @notes
 
 = render partial: 'messages/index', locals: { resource: @project }
 

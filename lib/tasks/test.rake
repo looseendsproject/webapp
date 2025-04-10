@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
-namespace :verify do
-  desc "Make sure solid_queue is working"
-  task solid_queue: [:environment] do |_t|
-    10.times do
-      TestJob.perform_later
-    end
-  end
+namespace :test do
 
   # Use mailcatcher in development https://mailcatcher.me/
   #
@@ -20,5 +14,14 @@ namespace :verify do
     ApplicationMailer.with(resource: Finisher.first).test.deliver_now
     FinisherMailer.with(resource: Finisher.first).welcome.deliver_now
     FinisherMailer.with(resource: Finisher.first).profile_complete.deliver_now
+  end
+
+  desc "Send an expired sgid for manual testing"
+  task expired_sgid: [:environment] do |_t|
+    raise "Does not work in production or if RAILS_ENV_DISPLAY.blank?!" \
+      if ENV["RAILS_ENV_DISPLAY"].blank?  || ENV["RAILS_ENV_DISPLAY"] == 'production'
+
+    FinisherMailer.with(resource: Finisher.first, expires_in: 1.second) \
+      .welcome.deliver_now
   end
 end

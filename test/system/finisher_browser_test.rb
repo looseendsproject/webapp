@@ -13,7 +13,7 @@ class FinisherBrowserTest < ApplicationSystemTestCase
     fill_in id: "user_first_name", with: "Test"
     fill_in id: "user_last_name", with: "User"
     fill_in id: "user_email", with: "testuser@example.com"
-    select "Instagram", from: "heard-about-us-select"
+    select "Social Media", from: "heard-about-us-select"
     fill_in id: "user_password", with: "notagoodpassword"
     fill_in id: "user_password_confirmation", with: "notagoodpassword"
     click_button name: "commit"
