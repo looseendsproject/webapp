@@ -4,6 +4,7 @@
       %th Created At
       %th Project Name
       %th Finisher
+      %th Manager
       %th Sentiment
   %tbody
     - notes.each do |n|
@@ -11,5 +12,6 @@
         %td= n.created_at.to_formatted_s(:human)
         %td= n.notable.name
         %td= n.notable.finisher.name
+        %td= n.notable.project.manager.name
         %td(class = "#{Note::SENTIMENTS[n.sentiment][:table_class]}")
           = n.sentiment.titleize

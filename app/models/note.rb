@@ -23,21 +23,17 @@ class Note < ApplicationRecord
 
   SENTIMENTS = {
     "going_well" => {
-      textarea_label: "Great! Tell us more if you'd like",
-      require_text: false,
+      classification: "positive",
       alert_manager: false,
       table_class: "table-success"
     },
-    "not_going_great" => {
-      textarea_label: "Sorry to hear that. Tell us more and your \
-        Project Manager will contact you.",
-      require_text: true,
+    "not_great" => {
+      classification: "negative",
       alert_manager: true,
       table_class: "table-danger"
     },
     "no_progress" => {
-      textarea_label: "OK. We will check back later. Leave a note if you'd like.",
-      require_text: false,
+      classificaton: "neutral",
       alert_manager: true,
       table_class: "table-warning"
     }
@@ -49,12 +45,17 @@ class Note < ApplicationRecord
   before_create :set_visibility
   after_create :flag_project
 
+  def negative?
+    return false unless sentiment.present? && SENTIMENTS[sentiment].present?
+    SENTIMENTS[sentiment][:classification] == "negative"
+  end
+
   private
 
     # Set project.needs_attention = true for negative sentiments
     #
     def flag_project
-      # TODO
+      # if notable is Assignment and sentiment is alert, set project.needs_attention
     end
 
     # TODO probably don't need this b/c visibility

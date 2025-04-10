@@ -27,6 +27,7 @@
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
+#  needs_attention           :string
 #  no_cats                   :boolean
 #  no_dogs                   :boolean
 #  no_smoke                  :boolean

@@ -37,7 +37,7 @@ class AssignmentsController < AuthenticatedController
     end
 
     def alert_manager
-      return unless Note::SENTIMENTS[@note_params[:sentiment]][:alert_manager]
+      return unless @note.negative?
       ProjectMailer.with(resource: @note.notable.project).alert_manager.deliver_now
     end
 end

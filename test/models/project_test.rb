@@ -29,6 +29,7 @@
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
+#  needs_attention           :string
 #  no_cats                   :boolean
 #  no_dogs                   :boolean
 #  no_smoke                  :boolean
@@ -78,6 +79,11 @@ class ProjectTest < ActiveSupport::TestCase
       project.save
       assert_predicate(project, :valid?, "Project fixture is invalid. Errors: #{project.errors.inspect}")
     end
+  end
+
+  test "needing_attention scope" do
+    Project.first.update(needs_attention: "stalled_invited")
+    assert_equal 1, Project.needing_attention.count
   end
 
   test "inbound_email_address assignment" do

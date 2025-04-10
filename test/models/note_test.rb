@@ -45,4 +45,15 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal "finisher", Assignment.first.notes.last.visibility
     assert_equal "fred@gmail.com", Assignment.first.notes.last.user.email
   end
+
+  test "#negative?" do
+    n = Assignment.first.notes.new(sentiment: "going_well")
+    refute n.negative?
+
+    n.sentiment = "no_progress"
+    refute n.negative?
+
+    n.sentiment = "not_great"
+    assert n.negative?
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_10_021635) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_10_115209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -237,6 +237,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_10_021635) do
     t.boolean "can_share_crafter_details", default: false
     t.text "material_brand"
     t.string "inbound_email_address"
+    t.string "needs_attention"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["inbound_email_address"], name: "index_projects_on_inbound_email_address", unique: true
     t.index ["latitude"], name: "index_projects_on_latitude"

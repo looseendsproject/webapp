@@ -4,4 +4,4 @@ production:
     schedule: every day at 12pm
   flag_stuck_projects:
     class: FlagStuckProjectJob
-    schedule: every day at 1pm
+    schedule: every Sunday at 8pm

@@ -29,6 +29,7 @@
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
+#  needs_attention           :string
 #  no_cats                   :boolean
 #  no_dogs                   :boolean
 #  no_smoke                  :boolean
@@ -157,6 +158,8 @@ class Project < ApplicationRecord
   }
 
   scope :ignore_tests, -> { where.not(status: "test") }
+  scope :needing_attention, -> { where.not(needs_attention: nil) \
+    .order(needs_attention: :asc, name: :asc) }
 
   before_save :clear_ready_status_unless_ready_to_match
   before_save :clear_in_process_status_unless_in_process
