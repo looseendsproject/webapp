@@ -33,12 +33,12 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
     travel_to @message.expires_at + 1.day
     get "/magic_link", params: { sgid: @message.sgid }
     assert_redirected_to "/users/sign_in"
-    assert_match "Expired link. Please contact support.", flash[:error]
+    assert_match "Expired link. Please contact support.", flash[:alert]
   end
 
   test 'missing params redirects with flash error' do
     get "/magic_link", params: {}
     assert_redirected_to '/users/sign_in'
-    assert_equal "Bad link. Please contact support.", flash[:error]
+    assert_equal "Bad link. Please contact support.", flash[:alert]
   end
 end

@@ -40,4 +40,11 @@ namespace :backfill do
     ActiveRecord::Base.record_timestamps = true
   end
 
+  desc "Set Project.needs_attention for existing negative notes"
+  task needs_attention: [:environment] do |_t|
+    Note.where(sentiment: "not_great").each do |note|
+      note.notable.project.update!(needs_attention: "negative_sentiment")
+    end
+  end
+
 end

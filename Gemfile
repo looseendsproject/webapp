@@ -64,6 +64,9 @@ gem "bootsnap", require: false
 # Use Sass to process CSS
 gem "sassc-rails"
 
+# Create inline-styled emails from regular CSS file
+gem 'premailer-rails'
+
 # Validations for uploads
 gem "active_storage_validations", ">= 2.0.2"
 

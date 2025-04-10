@@ -24,6 +24,7 @@ module Manage
     test "can create a note and mark as a finisher contact" do
       assert(@project.active_finisher, "Project must have an active finisher to test this feature")
       assignment = @project.assignments.where(finisher: @project.active_finisher).first
+      assignment.last_contacted_at = nil # set up fixture
 
       assert_predicate(assignment.last_contacted_at, :blank?)
 

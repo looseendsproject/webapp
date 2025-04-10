@@ -1,0 +1,11 @@
+%p.headline Hello #{@message.user.name}!
+
+%p Click below to tell us how <b>#{@resource.project.name}</b> is going.
+
+%p= link_to "How is it going?", magic_link_url(sgid: @message.sgid),
+  class: 'email-button'
+
+%p
+  Thank you for being part of this with us,
+  %br/
+  Masey & Jen

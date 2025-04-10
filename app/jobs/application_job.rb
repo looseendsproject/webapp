@@ -6,4 +6,19 @@ class ApplicationJob < ActiveJob::Base
 
   # Most jobs are safe to ignore if the underlying records are no longer available
   # discard_on ActiveJob::DeserializationError
+
+  def log_output(output)
+    JobLog.create!(output: output)
+  end
+
+  private
+
+    def output_header
+      <<~HEAD
+        #{self.inspect}
+        ========================================================================
+
+
+      HEAD
+    end
 end

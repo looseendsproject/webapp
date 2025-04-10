@@ -5,22 +5,7 @@
 %html{xmlns: "http://www.w3.org/1999/xhtml", "xml:lang" => "en-US", lang: "en-US"}
   %head
     %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
-    :css
-      /* Email styles need to be inline */
-      body { font-family: sans-serif; font-size: 1.1em; }
-      hr { border-top: 0.5px solid gray; }
-      .headline { font-size: 1.4em; font-weight: bold; }
-      .email-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #ffffff;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-      }
-      .email-button:hover { background-color: #0056b3; }
+    = stylesheet_link_tag 'email'
   %body
     = image_tag(attachments['looseendslogo.png'].url, width: "300px", alt: 'Loose Ends logo')
     %div(style="padding-top: 10px") &nbsp;

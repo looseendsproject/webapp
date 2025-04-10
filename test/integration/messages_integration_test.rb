@@ -17,7 +17,7 @@ class MessagesIntegrationTest < ActionDispatch::IntegrationTest
 
   test "show does not work un-authed" do
     get "/message/#{@message.id}"
-    assert_redirected_to root_path
+    assert_redirected_to new_user_session_path
   end
 
   test "show does not work for non admins" do

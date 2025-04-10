@@ -60,6 +60,7 @@ class MessageTest < ActiveSupport::TestCase
   test "Updates assignment last_contacted_at for Project" do
     project = Project.first
     assignment = project.active_assignment
+    assignment.last_contacted_at = nil # set up fixture
 
     assert(assignment)
     assert_nil(assignment.last_contacted_at)

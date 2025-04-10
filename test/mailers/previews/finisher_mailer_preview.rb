@@ -9,4 +9,8 @@ class FinisherMailerPreview < ActionMailer::Preview
   def profile_complete
     FinisherMailer.with(resource: Finisher.first).profile_complete
   end
+
+  def project_check_in
+    FinisherMailer.with(resource: Assignment.active.first).project_check_in
+  end
 end

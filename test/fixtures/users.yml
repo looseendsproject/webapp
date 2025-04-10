@@ -40,7 +40,7 @@ basic:
 
 finisher:
   id: 2
-  first_name: Fran
+  first_name: Fred
   last_name: Fishman
   email: fred@gmail.com
   heard_about_us: Instagram

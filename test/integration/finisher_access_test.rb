@@ -12,7 +12,7 @@ class FinisherAccessTest < ActionDispatch::IntegrationTest
   test "project page logged out" do
     get "/finisher"
 
-    assert_redirected_to "/"
+    assert_redirected_to "/users/sign_in"
   end
 
   test "project page logged in" do

@@ -50,4 +50,13 @@ class FinisherMailerTest < ActionMailer::TestCase
 
     assert_match "https://www.looseendsproject.org/flyers", mail.body.encoded
   end
+
+  ## Project check-in
+
+  test "should send check-in email with magic link" do
+    FinisherMailer.with(resource: Assignment.active.first, expires_in: 2.weeks) \
+      .project_check_in.deliver_now
+
+    assert_match "How is it going?", ActionMailer::Base.deliveries.last.body.encoded
+  end
 end

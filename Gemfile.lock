@@ -137,6 +137,8 @@ GEM
     countries (7.1.1)
       unaccent (~> 0.3)
     crass (1.0.6)
+    css_parser (1.21.1)
+      addressable
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
     csv (3.3.3)
@@ -263,6 +265,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
+    htmlentities (4.3.4)
     httpclient (2.9.0)
       mutex_m
     i18n (1.14.7)
@@ -361,6 +364,14 @@ GEM
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
+    premailer (1.27.0)
+      addressable
+      css_parser (>= 1.19.0)
+      htmlentities (>= 4.0.0)
+    premailer-rails (1.12.0)
+      actionmailer (>= 3)
+      net-smtp
+      premailer (~> 1.7, >= 1.7.9)
     prettyprint (0.2.0)
     prism (1.4.0)
     psych (5.2.3)
@@ -591,6 +602,7 @@ DEPENDENCIES
   mutex_m (~> 0.3.0)
   overcommit (~> 0.64.0)
   pg (~> 1.5.3)
+  premailer-rails
   puma (~> 6.0)
   rails (~> 8.0)
   rails-controller-testing
