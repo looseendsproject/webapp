@@ -35,6 +35,7 @@
 #
 class User < ApplicationRecord
   ROLES = %w[user manager admin].freeze
+  MAGIC_LINK_DEFAULT_DURATION = 48.hours
 
   include LooseEndsSearchable
 
@@ -45,16 +46,15 @@ class User < ApplicationRecord
 
   class HeardAboutUs
     HEARD_ABOUT_US_OPTIONS = {
-      'Facebook' => {  additional: false },
-      'Instagram' => {  additional: false },
-      'Newspaper' => {  additional: true },
-      'Radio' => {  additional: true },
-      'TV' => {  additional: true },
-      'AARP Magazine' => {  additional: false },
-      'Other Magazine' => {  additional: true },
+      'Social Media' => {  additional: false },
+      'TV' => {  additional: false },
+      'Radio' => {  additional: false },
+      'Podcast' => {  additional: false },
+      'Magazine' => {  additional: false },
+      'Newspaper' => {  additional: false },
+      'Craft Store' => {  additional: false },
+      'Flyer' => {  additional: false },
       'Friend' => {  additional: false },
-      'Local Yarn Store' => {  additional: false },
-      'Saw a Flyer' => {  additional: false },
       'Other' => {  additional: true }
     }.freeze
 
@@ -79,6 +79,9 @@ class User < ApplicationRecord
 
   has_many :projects, dependent: :destroy
   has_one :finisher, dependent: :destroy
+
+  has_many :messages, as: :messageable
+  has_many :notes
 
   validates :first_name, presence: true
   validates :last_name, presence: true

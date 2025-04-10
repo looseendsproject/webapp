@@ -1,14 +1,17 @@
-
-
 # == Schema Information
 #
 # Table name: messages
 #
 #  id               :bigint           not null, primary key
 #  channel          :string
+#  click_count      :integer          default(0), not null
 #  description      :string
+#  expires_at       :datetime
 #  last_edited_by   :integer
 #  messageable_type :string
+#  redirect_to      :string
+#  sgid             :string
+#  single_use       :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  messageable_id   :bigint
@@ -18,6 +21,7 @@
 #  index_messages_on_channel                              (channel)
 #  index_messages_on_messageable                          (messageable_type,messageable_id)
 #  index_messages_on_messageable_type_and_messageable_id  (messageable_type,messageable_id)
+#  index_messages_on_sgid                                 (sgid)
 #
 project:
   id: 1
@@ -34,3 +38,19 @@ finisher:
   description: "finisher/Bobby (Bob Simmons)"
   channel: inbound
 
+user:
+  id: 3
+  messageable_type: 'User'
+  messageable_id: 1
+  description: "DeviseMailer.new_password"
+  channel: outbound
+
+sgid:
+  id: 4
+  messageable_type: 'Finisher'
+  messageable_id: 1
+  description: "FinisherMailer.welcome [Bobby (Bob Simmons)]"
+  channel: outbound
+  sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJakJuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTODBQMlY0Y0dseVpYTmZhVzQ5TmpBME9EQXdCam9HUlZRPSIsImV4cCI6IjIwMjUtMDUtMDZUMjA6MjA6MzQuMDAwWiIsInB1ciI6ImRlZmF1bHQifX0=--e06d2cf24589ba6cf086ba9c512211cbfccaafcc
+  expires_at: 2025-05-06 20:20:34.000000000 UTC +00:00
+  redirect_to: "/finisher/new"

@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     unlocks: "users/unlocks"
   }
+  devise_scope :user do
+    get "magic_link", to: "users/sessions#magic_link", as: :magic_link
+    post "resend_link", to: "users/sessions#resend_link"
+  end
 
   root to: "home#show"
 
@@ -45,7 +49,7 @@ Rails.application.routes.draw do
     end
     resources :assignments, only: %i[destroy create]
     resources :projects do
-      resources :project_notes, only: %i[create destroy]
+      resources :notes, only: %i[create destroy]
       resources :assignments, only: [:new]
       resources :finishers, only: [:index] do
         collection do

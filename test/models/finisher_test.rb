@@ -99,4 +99,11 @@ class FinisherTest < ActiveSupport::TestCase
     assert_equal "Loose Ends Project Account Created - Next Steps...",
       finisher.messages.last.email.subject
   end
+
+  test "send profile_complete records Message" do
+    finisher = finishers(:knitter)
+    finisher.send_profile_complete_message
+    assert_equal "Welcome, Loose Ends Finisher!",
+      finisher.messages.last.email.subject
+  end
 end

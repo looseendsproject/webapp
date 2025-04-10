@@ -3,10 +3,10 @@ class FinisherMailerPreview < ActionMailer::Preview
   register_preview_interceptor :setup_preview
 
   def welcome
-    FinisherMailer.welcome(Finisher.fake)
+    FinisherMailer.with(resource: Finisher.first).welcome
   end
 
   def profile_complete
-    FinisherMailer.profile_complete(Finisher.fake)
+    FinisherMailer.with(resource: Finisher.first).profile_complete
   end
 end
