@@ -121,9 +121,6 @@ class Project < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :finishers, through: :assignments
   has_many :messages, as: :messageable
-
-  # ProjectNote is DEPRECATED.  Replaced w/ :notable
-  has_many :project_notes, dependent: :destroy
   has_many :notes, as: :notable
 
   has_many_attached :crafter_images
