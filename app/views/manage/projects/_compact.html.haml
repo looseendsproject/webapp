@@ -1,4 +1,4 @@
-%table.table.table-sm
+%table.table.table-sm.table-hover
   %thead
     %tr
       %th Name
@@ -8,7 +8,7 @@
       %th Reason
   %tbody
     - projects.each do |p|
-      %tr
+      %tr( onclick="document.location = '#{manage_project_path(p)}';" )
         %td= p.name
         %td= p.finisher.name
         %td= p.manager.name
