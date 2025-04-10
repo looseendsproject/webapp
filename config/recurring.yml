@@ -1,10 +1,7 @@
-# production:
-#   periodic_cleanup:
-#     class: CleanSoftDeletedRecordsJob
-#     queue: background
-#     args: [ 1000, { batch_size: 500 } ]
-#     schedule: every hour
-#   periodic_command:
-#     command: "SoftDeletedRecord.due.delete_all"
-#     priority: 2
-#     schedule: at 5am every day
+production:
+  check_in_job:
+    class: SendCheckInsJob
+    schedule: every day at 12pm
+  flag_stuck_projects:
+    class: FlagStuckProjectJob
+    schedule: every day at 1pm

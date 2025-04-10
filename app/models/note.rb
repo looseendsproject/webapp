@@ -47,9 +47,19 @@ class Note < ApplicationRecord
   belongs_to :user
 
   before_create :set_visibility
+  after_create :flag_project
 
   private
 
+    # Set project.needs_attention = true for negative sentiments
+    #
+    def flag_project
+      # TODO
+    end
+
+    # TODO probably don't need this b/c visibility
+    # is determined by notable_type
+    #
     def set_visibility
       case notable.class.to_s
       when "Project"

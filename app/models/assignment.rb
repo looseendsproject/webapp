@@ -23,6 +23,7 @@
 #
 class Assignment < ApplicationRecord
   STATUS = %w[potential invited accepted declined unresponsive completed].freeze
+  CHECK_IN_INTERVAL = 2.weeks
 
   belongs_to :project, touch: true
   belongs_to :finisher
@@ -39,6 +40,11 @@ class Assignment < ApplicationRecord
 
   def self.active
     where(ended_at: nil)
+  end
+
+  def self.needs_check_in
+    active.where("status = ? AND last_contacted_at < ?",
+      "accepted", Time.zone.now.beginning_of_day - CHECK_IN_INTERVAL)
   end
 
   def name

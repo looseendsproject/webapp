@@ -25,6 +25,7 @@ knit_active:
   created_by: 3
   started_at: 2024-01-01
   status: accepted
+  last_contacted_at: <%= Time.zone.now.beginning_of_day - 15.days %>
 
 knit_inactive:
   project_id: 2
