@@ -14,7 +14,7 @@
         %td= n.notable.name
         %td= n.notable.finisher.name
         %td= n.notable.project.manager.name
-        %td(class = "#{Note::SENTIMENTS[n.sentiment][:table_class]}")
+        %td(class = "sentiment sentiment-#{Note::SENTIMENTS[n.sentiment][:classification]}")
           = n.sentiment.titleize
         %td(data-bs-toggle="popover" data-bs-placement="top" data-bs-content="#{n.text}")
           %a(href="#"  onclick="return false;") #{truncate(n.text, length: 20, separator: " ")}

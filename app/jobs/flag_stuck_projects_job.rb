@@ -17,6 +17,9 @@ class FlagStuckProjects < ApplicationJob
 
   protected
 
+    # project.needs_attention value must be in
+    #  Project::NEEDS_ATTENTION_REASONS
+
     # Negative response from check-in
     #
     def negative_sentiment
@@ -45,10 +48,10 @@ class FlagStuckProjects < ApplicationJob
     def long_running
     end
 
-    # Set project.needs_attention = true
+    # Set project.needs_attention
     #
     def flag(assignments)
       # output_header
-      # assignments.update_all(needs_attention: true)
+      # assignments.update_all(needs_attention: <value>)
     end
 end

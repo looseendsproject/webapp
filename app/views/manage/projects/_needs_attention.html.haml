@@ -1,0 +1,23 @@
+#needs-attention-container
+  %h4 Needs Attention
+  = turbo_frame_tag "needs-attention-frame" do
+    = form_with model: project, url: manage_project_path(project),
+        html: { id: "needs-attention-form", class: "form", data: { turbo_frame: "needs-attention-frame" } } do |form|
+      = form.select :needs_attention, options_for_select(Project.needs_attention_options, project.needs_attention),
+        { include_blank: false },
+        { id: "needs-attention-select", class: "form-select", autocomplete: 'off',
+          onchange: 'this.form.requestSubmit()' }
+      - if project.changed?
+        %span.update-flash.visible SAVED
+      - else
+        %span.update-flash.opacity-0 SAVED
+  .pb-10 &nbsp;
+
+:javascript
+  setTimeout(() => {
+    let visibleFlashSelector = document.querySelector('.update-flash.visible');
+    if (visibleFlashSelector) {
+      visibleFlashSelector.classList.remove('visible')
+      visibleFlashSelector.classList.add('opacity-0')
+    }
+  }, 1000)

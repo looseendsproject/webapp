@@ -48,7 +48,7 @@ class Assignment < ApplicationRecord
   end
 
   def name
-    project.description
+    project.name
   end
 
   # Messageable must respond to "user".  In this context,

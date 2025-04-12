@@ -186,6 +186,8 @@
       .text-muted Not Provided
 
   .col-4
+    = render partial: "needs_attention", locals: { project: @project }
+
     %h4
       Assigned Finishers
       .float-end

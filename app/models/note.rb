@@ -24,18 +24,15 @@ class Note < ApplicationRecord
   SENTIMENTS = {
     "going_well" => {
       classification: "positive",
-      alert_manager: false,
-      table_class: "table-success"
+      alert_manager: false
     },
     "not_great" => {
       classification: "negative",
-      alert_manager: true,
-      table_class: "table-danger"
+      alert_manager: true
     },
     "no_progress" => {
-      classificaton: "neutral",
-      alert_manager: true,
-      table_class: "table-warning"
+      classification: "neutral",
+      alert_manager: false
     }
   }
 

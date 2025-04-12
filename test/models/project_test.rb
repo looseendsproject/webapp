@@ -135,6 +135,13 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_predicate(@project, :valid?, "Invalid status should not be allowed")
   end
 
+  test "needs_attention_option returns proper struct" do
+    assert_equal [["", nil], ["Negative Sentiment", "negative_sentiment"],
+      ["Stalled Accepted", "stalled_accepted"], ["Stalled Invited", "stalled_invited"],
+      ["Stalled Potential", "stalled_potential"], ["Long Running", "long_running"]],
+      Project.needs_attention_options
+  end
+
   test "missing_address_information? helper" do
     assert_not_predicate(@project, :missing_address_information?,
                          "Project fixture should not be missing address information")
