@@ -38,6 +38,6 @@ class AssignmentsController < AuthenticatedController
 
     def alert_manager
       return unless @note.negative?
-      ProjectMailer.with(resource: @note.notable.project).alert_manager.deliver_now
+      ProjectMailer.with(resource: @note.notable).alert_manager.deliver_later
     end
 end

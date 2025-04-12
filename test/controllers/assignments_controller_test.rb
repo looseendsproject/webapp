@@ -28,6 +28,7 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
       text: "this thing is a mess"
     }}
     assert_redirected_to "/thank_you"
+    deliver_enqueued_emails
     assert_equal @assignment.project.manager.email,
       ActionMailer::Base.deliveries.last.to.first
   end
