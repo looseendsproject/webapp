@@ -11,7 +11,8 @@
           = f.radio_button :sentiment, key, class: "radio"
           = f.label "headline_#{key}".to_sym, key.titleize
 
+      .pt-6 &nbsp;
       .fw-bold Leave an optional note for your Project Manager
       = f.text_area :text, size: "50x4"
 
-      = f.submit "Submit", class: "btn btn-primary"
+      .pt-3= f.submit "Submit", class: "btn btn-primary"

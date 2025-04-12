@@ -43,7 +43,7 @@ class Assignment < ApplicationRecord
   end
 
   def self.needs_check_in
-    active.where("status = ? AND last_contacted_at < ?",
+    active.where("status = ? AND (last_contacted_at < ? OR last_contacted_at is NULL)",
       "accepted", Time.zone.now.beginning_of_day - CHECK_IN_INTERVAL)
   end
 
