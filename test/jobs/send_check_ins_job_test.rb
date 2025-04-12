@@ -11,6 +11,6 @@ class SendCheckInsJobTest < ActiveJob::TestCase
 
   test "queues emails" do
     SendCheckInsJob.perform_now
-    assert_match "gid://looseends/Finisher/2", enqueued_jobs.last.inspect
+    assert_match "gid://looseends/Assignment/549976121", enqueued_jobs.last.inspect
   end
 end
