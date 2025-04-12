@@ -18,7 +18,7 @@ class ManagerBrowserTest < ApplicationSystemTestCase
     assert_text "Dashboard"
     assert_text "New email"
     assert_text "Reports"
-    assert_text "Job Queues"
+    assert_text "New scheduled job logs"
   end
 
   test 'browse projects' do
