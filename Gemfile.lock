@@ -191,6 +191,8 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    faker (3.5.1)
+      i18n (>= 1.8.11, < 2)
     faraday (1.10.4)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -590,6 +592,7 @@ DEPENDENCIES
   dotenv
   dotenv-rails (~> 3.1)
   drb (~> 2.2)
+  faker
   fasterer (~> 0.11.0)
   geocoder (~> 1.8)
   google_drive

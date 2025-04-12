@@ -26,4 +26,11 @@ namespace :test do
     FinisherMailer.with(resource: Assignment.active.first, expires_in: 2.weeks) \
       .project_check_in.deliver_now
   end
+
+  desc "Seed some job_logs"
+  task seed_job_logs: [:environment] do |_t|
+    50.times do
+      JobLog.create!(output: Faker::Lorem.paragraph(sentence_count: 40))
+    end
+  end
 end

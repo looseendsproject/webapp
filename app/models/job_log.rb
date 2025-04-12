@@ -10,4 +10,8 @@
 #  updated_at :datetime         not null
 #
 class JobLog < ApplicationRecord
+
+  def self.since(start)
+    where("created_at >= ?", start).order(created_at: :desc)
+  end
 end
