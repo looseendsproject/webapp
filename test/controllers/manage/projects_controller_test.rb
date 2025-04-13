@@ -114,6 +114,14 @@ module Manage
       assert_equal("New Name", @project.reload.name)
     end
 
+    test "update needs_attention turbo_stream shows SAVED badge" do
+      @project = Project.first
+      sign_in @user
+
+      patch "/manage/projects/#{@project.id}.turbo_stream", params: { project: { needs_attention: "not_great" } }
+      assert_match "<span class='update-flash visible'>SAVED</span>", response.body
+    end
+
     test "update updates material brand" do
       sign_in @user
       patch "/manage/projects/#{@project.id}", params: { project: { material_brand: "brandname" } }

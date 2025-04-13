@@ -1,6 +1,6 @@
 # Tags Projects that need Manager attention
 #
-class FlagStuckProjects < ApplicationJob
+class FlagStuckProjectsJob < ApplicationJob
   queue_as :default
 
   def perform

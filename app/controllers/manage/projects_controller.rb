@@ -47,7 +47,7 @@ module Manage
       if @project.update(project_params)
         respond_to do |format|
           format.html { redirect_to [:manage, @project] }
-          format.turbo_stream
+          format.turbo_stream { turbo_stream }
         end
       else
         render "edit"
