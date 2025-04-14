@@ -11,7 +11,6 @@
 #
 class JobLog < ApplicationRecord
 
-  def self.since(start)
-    where("created_at >= ?", start).order(created_at: :desc)
-  end
+  scope :since, -> (start) { where("created_at >= ?", start).order(created_at: :desc) }
+
 end
