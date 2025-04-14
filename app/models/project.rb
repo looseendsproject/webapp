@@ -16,6 +16,7 @@
 #  crafter_name              :string
 #  description               :text
 #  group_project             :boolean          default(FALSE)
+#  has_materials             :string
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
@@ -149,8 +150,10 @@ class Project < ApplicationRecord
                              size: { greater_than_or_equal_to: 5.kilobytes }
   validates :crafter_images, attached: false, content_type: %i[png jpg jpeg webp gif],
                              size: { greater_than_or_equal_to: 5.kilobytes }
+  validates :material_images, presence: true, if: :has_materials?
   validates :material_images, attached: false, content_type: %i[png jpg jpeg webp gif],
                               size: { greater_than_or_equal_to: 5.kilobytes }
+  validates :pattern_files, presence: true, if: :has_pattern?
 
   validates :group_manager, presence: true, if: :group_project?
   validates :press_region, presence: true, if: :press?
@@ -330,6 +333,14 @@ class Project < ApplicationRecord
   # method for checking if any address attribute has changed
   def full_address_has_changed?
     street_changed? || street_2_changed? || city_changed? || state_changed? || postal_code_changed? || country_changed?
+  end
+
+  def has_pattern?
+    has_pattern == 'Yes'
+  end
+
+  def has_materials?
+    has_materials == 'Yes'
   end
 
   private

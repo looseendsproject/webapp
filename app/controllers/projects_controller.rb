@@ -92,6 +92,7 @@ class ProjectsController < AuthenticatedController
       :postal_code,
       :craft_type,
       :has_pattern,
+      :has_materials,
       :material_type,
       :crafter_name,
       :crafter_description,
