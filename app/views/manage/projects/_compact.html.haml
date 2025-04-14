@@ -1,0 +1,16 @@
+%table.table.table-sm.table-hover
+  %thead
+    %tr
+      %th Name
+      %th Finisher
+      %th Manager
+      %th Project Status
+      %th Reason
+  %tbody
+    - projects.each do |p|
+      %tr( onclick="document.location = '#{manage_project_path(p)}';" )
+        %td= p.name
+        %td= p.finisher.name
+        %td= p.manager.name
+        %td= p.status
+        %td.needs-attention= p.needs_attention.titleize

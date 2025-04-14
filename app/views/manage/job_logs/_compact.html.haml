@@ -1,0 +1,10 @@
+%table.table.table-sm.table-hover
+  %thead
+    %tr
+      %th Created At
+      %th Job Output
+  %tbody
+    - job_logs.each do |log|
+      %tr( onclick="document.location = '#{manage_job_log_path(log)}';" )
+        %td= log.created_at.to_formatted_s(:human)
+        %td= truncate(log.output, length: 100)

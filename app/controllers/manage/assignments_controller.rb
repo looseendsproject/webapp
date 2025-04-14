@@ -2,6 +2,7 @@
 
 module Manage
   class AssignmentsController < Manage::ManageController
+
     def index
       @assignments = Assignment.all
     end
@@ -57,5 +58,6 @@ module Manage
     def create_assignment_params
       params.require(:assignment).permit(%i[project_id finisher_id status])
     end
+
   end
 end
