@@ -1,4 +1,4 @@
-- window = 3 # days
+- window = params[:window] && params[:window].to_i > 0 ? params[:window]&.to_i : 3 # days
 - since = (Time.zone.now - window.days).beginning_of_day
 
 %hr
