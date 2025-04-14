@@ -10,7 +10,7 @@
     - projects.each do |p|
       %tr( onclick="document.location = '#{manage_project_path(p)}';" )
         %td= p.name
-        %td= p.finisher.name
-        %td= p.manager.name
+        %td= p.finisher.present? ? p.finisher.name : "No Finisher Assigned"
+        %td= p.manager.present? ? p.manager.name : "No Manager Assigned"
         %td= p.status
         %td.needs-attention= p.needs_attention.titleize
