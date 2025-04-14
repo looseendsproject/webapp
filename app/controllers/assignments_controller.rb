@@ -38,6 +38,12 @@ class AssignmentsController < AuthenticatedController
 
     def alert_manager
       return unless @note.negative?
+
+      set_project_needs_attention
       ProjectMailer.with(resource: @note.notable).alert_manager.deliver_later
+    end
+
+    def set_project_needs_attention
+      @note.notable.project.update!(needs_attention: 'negative_sentiment')
     end
 end

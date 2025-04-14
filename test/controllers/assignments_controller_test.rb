@@ -31,6 +31,7 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     deliver_enqueued_emails
     assert_equal @assignment.project.manager.email,
       ActionMailer::Base.deliveries.last.to.first
+    assert_equal "negative_sentiment", @assignment.project.needs_attention
   end
 
   test "rando cannot create note" do
