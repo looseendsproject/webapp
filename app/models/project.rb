@@ -136,6 +136,8 @@ class Project < ApplicationRecord
 
   validates :status, inclusion: { in: STATUSES }
   validates :status, presence: true
+  validates :needs_attention, inclusion: {
+    in: NEEDS_ATTENTION_REASONS, allow_blank: true, allow_nil: true }
 
   validates :name, presence: true
   validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." }

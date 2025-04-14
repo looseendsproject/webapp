@@ -118,7 +118,7 @@ module Manage
       @project = Project.first
       sign_in @user
 
-      patch "/manage/projects/#{@project.id}.turbo_stream", params: { project: { needs_attention: "not_great" } }
+      patch "/manage/projects/#{@project.id}.turbo_stream", params: { project: { needs_attention: "stalled_accepted" } }
       assert_match "<span class='update-flash visible'>SAVED</span>", response.body
     end
 
