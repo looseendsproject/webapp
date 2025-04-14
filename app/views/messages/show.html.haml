@@ -1,24 +1,27 @@
 %button.btn.btn-primary.mb-4(onclick="history.back()") Back
 
-.pt-3= @message.email.date
-.pt-0 To: #{@message.email.to.join(', ')}
-.pt-0 From: #{@message.email.from.first}
-.pt-2
-  %b #{@message.email.subject}
+- if @message.content.present?
+  .pt-3= @message.email.date
+  .pt-0 To: #{@message.email.to.join(', ')}
+  .pt-0 From: #{@message.email.from.first}
+  .pt-2
+    %b #{@message.email.subject}
 
-.pt-0 &nbsp;
-- if @message.email.html_part.present?
-  %pt-0= @message.email.html_part.decoded
-- elsif @message.email.text_part.present?
-  .pt-0
-    %pre= @message.email.text_part.body.decoded
+  .pt-0 &nbsp;
+  - if @message.email.html_part.present?
+    %pt-0= @message.email.html_part.decoded
+  - elsif @message.email.text_part.present?
+    .pt-0
+      %pre= @message.email.text_part.body.decoded
+  - else
+    .pt-0 [no content]
+
+  %hr
+
+  .row
+    - @message.email.attachments.each do |attachment|
+      .col-4
+        %img.img-fluid(src="data:#{attachment.content_type};base64,#{Base64.encode64(attachment.body.decoded).html_safe}")
+        %figcaption.figure-caption= attachment.content_type
 - else
-  .pt-0 [no content]
-
-%hr
-
-.row
-  - @message.email.attachments.each do |attachment|
-    .col-4
-      %img.img-fluid(src="data:#{attachment.content_type};base64,#{Base64.encode64(attachment.body.decoded).html_safe}")
-      %figcaption.figure-caption= attachment.content_type
+  .pt-3.fst-italic No content
