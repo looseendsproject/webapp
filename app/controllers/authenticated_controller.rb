@@ -6,6 +6,6 @@ class AuthenticatedController < ApplicationController
   def require_current_user
     return if current_user
 
-    redirect_to root_path
+    redirect_to new_user_session_path, flash: { alert: "Please sign in to continue." }
   end
 end

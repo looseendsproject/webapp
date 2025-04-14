@@ -1,0 +1,26 @@
+%table.table.table-sm
+  %thead
+    %tr
+      %th Created At
+      %th Project Name
+      %th Finisher
+      %th Manager
+      %th Sentiment
+      %th Text
+  %tbody
+    - notes.each do |n|
+      %tr
+        %td= n.created_at.to_formatted_s(:human)
+        %td= n.notable.name
+        %td= n.notable.finisher.name
+        %td= n.notable.project.manager.name
+        %td(class = "sentiment sentiment-#{Note::SENTIMENTS[n.sentiment][:classification]}")
+          = n.sentiment.titleize
+        %td(data-bs-toggle="popover" data-bs-placement="top" data-bs-content="#{n.text}")
+          %a(href="#"  onclick="return false;") #{truncate(n.text, length: 20, separator: " ")}
+
+:javascript
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+  })

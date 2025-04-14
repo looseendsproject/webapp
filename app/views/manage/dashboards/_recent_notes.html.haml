@@ -1,0 +1,14 @@
+- window = params[:window] && params[:window].to_i > 0 ? params[:window]&.to_i : 3 # days
+- since = (Time.zone.now - window.days).beginning_of_day
+
+%hr
+%h3 Finisher Notes from last #{window} days
+
+.row.pt-3
+  .col
+    - notes = Note.where("created_at > ?", since).order(created_at: :desc)
+    - if notes.any?
+      .pt-1= render partial: 'manage/notes/compact',
+        locals: { notes: notes }
+    - else
+      %p.fst-italic No new notes since #{since.to_formatted_s(:human)} (try refreshing)

@@ -43,8 +43,12 @@ module Manage
 
     def update
       @project = Project.find(params[:id])
+
       if @project.update(project_params)
-        redirect_to [:manage, @project]
+        respond_to do |format|
+          format.html { redirect_to [:manage, @project] }
+          format.turbo_stream { turbo_stream }
+        end
       else
         render "edit"
       end
@@ -111,6 +115,7 @@ module Manage
         :group_manager_id,
         :press_region,
         :press_outlet,
+        :needs_attention,
         in_home_pets: [],
         append_crafter_images: [],
         append_project_images: [],

@@ -27,7 +27,21 @@
 
   .row.pt-3
     .col
+      = render partial: "projects_needing_attention"
+
+  .row.pt-3
+    .col
+      = render partial: "recent_notes"
+
+  .row.pt-3
+    .col
       = render partial: 'mail_traffic_dashboard'
+
+  .row.pt-3
+    .col
+      = render partial: "job_logs_dashboard"
+      = link_to 'Manage queues', 'jobs'
+
 
   - if Rails.env.development?
     = render partial: 'email_previews'
@@ -37,9 +51,3 @@
       %hr
       %h3 Reports
       = link_to 'Heard About Us', 'reports/heard_about_us'
-
-  .row.pt-3
-    .col
-      %hr
-      %h3 Job Queues
-      = link_to 'Manage queues', 'jobs'

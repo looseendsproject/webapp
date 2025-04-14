@@ -1,0 +1,11 @@
+%hr
+%h3 Projects Needing Attention
+
+.row.pt-3
+  .col
+    - projects = Project.needing_attention
+    - if projects.any?
+      .pt-1= render partial: 'manage/projects/compact',
+        locals: { projects: projects }
+    - else
+      %p.fst-italic Yay! No projects needing attention

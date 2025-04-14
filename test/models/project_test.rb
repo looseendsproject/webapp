@@ -29,6 +29,7 @@
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
+#  needs_attention           :string
 #  no_cats                   :boolean
 #  no_dogs                   :boolean
 #  no_smoke                  :boolean
@@ -80,6 +81,11 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  test "needing_attention scope" do
+    Project.first.update(needs_attention: "stalled_invited")
+    assert_equal 1, Project.needing_attention.count
+  end
+
   test "inbound_email_address assignment" do
     p = Project.new
     refute p.inbound_email_address
@@ -129,6 +135,13 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_predicate(@project, :valid?, "Invalid status should not be allowed")
   end
 
+  test "needs_attention_option returns proper struct" do
+    assert_equal [["", nil], ["Negative Sentiment", "negative_sentiment"],
+      ["Stalled Accepted", "stalled_accepted"], ["Stalled Invited", "stalled_invited"],
+      ["Stalled Potential", "stalled_potential"], ["Long Running", "long_running"]],
+      Project.needs_attention_options
+  end
+
   test "missing_address_information? helper" do
     assert_not_predicate(@project, :missing_address_information?,
                          "Project fixture should not be missing address information")
@@ -166,13 +179,13 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "updated_at timestamp updated when an assignment is added" do
     original_updated_at = @project.updated_at
-    @project.assignments.create(user: User.new, finisher: finishers(:crocheter))
+    @project.assignments.create(creator: User.new, finisher: finishers(:crocheter))
 
     assert_not_equal(original_updated_at, @project.updated_at)
   end
 
   test "updated_at timestamp updated when an assignment is updated" do
-    assignment = @project.assignments.create(user: User.new, finisher: finishers(:crocheter))
+    assignment = @project.assignments.create(creator: User.new, finisher: finishers(:crocheter))
     original_updated_at = @project.updated_at
     assignment.update(started_at: DateTime.now)
 

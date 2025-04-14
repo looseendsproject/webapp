@@ -10,7 +10,7 @@ module Manage
     def require_manager
       return if current_user.can_manage?
 
-      redirect_to root_path
+      redirect_to root_path, flash: { alert: "User does not have manager privileges." }
     end
   end
 end

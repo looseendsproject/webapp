@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+
+  def test_flash_messages
+    flash.alert = "Careful here! (:alert)"
+    flash.notice = "Nice work! (:notice)"
+    redirect_to new_user_session_path
+  end
+
   def after_sign_out_path_for(_resource_or_scope)
     root_path
   end
@@ -11,7 +18,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || root_path
+    stored_location_for(resource_or_scope) && return
+    return manage_dashboard_path if resource&.can_manage?
+    root_path
   end
 
   private

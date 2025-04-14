@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   root to: "home#show"
 
+  get "test_flash_messages", to: "application#test_flash_messages"
+
   get "about-us", to: "home#about-us"
 
   get "users", to: redirect("/users/sign_up")
@@ -36,6 +38,10 @@ Rails.application.routes.draw do
       get "edit_skills"
     end
   end
+
+  get "/assignment/:id/check_in", to: "assignments#check_in", as: :check_in
+  post "/assignment/:id/check_in", to: "assignments#record_check_in"
+  get "/thank_you", to: "assignments#thank_you", as: :thank_you
 
   resources :message, only: :show
 
@@ -67,6 +73,7 @@ Rails.application.routes.draw do
       end
       get "card", on: :member
     end
+    resources :job_logs, only: [:show]
     get "reports/heard_about_us", to: "reports#heard_about_us"
   end
 
