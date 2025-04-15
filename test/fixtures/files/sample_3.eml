@@ -1,0 +1,122 @@
+X-Original-To: project-testy@parse.looseendsproject.org
+Received: from mail-yw1-f182.google.com (mxd [209.85.128.182]) by mx.sendgrid.net with ESMTP id l28rswxGTfm7WHWp0kjqXA for <project-testy@parse.looseendsproject.org>; Mon, 14 Apr 2025 15:50:30.064 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6ff0a728a71so2001227b3.1
+        for <project-testy@parse.looseendsproject.org>; Mon, 14 Apr 2025 08:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=looseendsproject.org; s=google; t=1744645829; x=1745250629; darn=parse.looseendsproject.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/32B298901hMRI5aQz9yDZZK5XHqiszImHGtQC8WLEQ=;
+        b=H43yLHfa61jk13OIF4x+Q+yLZckeOqYzm8i7TqdZT4PjmS5KtagHdF7LDFr/Mn3rH7
+         mXYdtswxLn/NimTbadAsA3nG9EGYhHk0XoXJANDqUwPev712Ilq9yO0pR9CmcYDiriOL
+         Muo9aXuZMMdjniHR1BdJOC5s5sQSSPB2I0ED8SauJIVBeG8U3Ziz8sJRNz3xVaT4Sats
+         MiejfJXu5TApytXspYjClnpLxXcepMJRCsQvMbgFzxyjvqDZlubyBBdJ91Ra23Ay6zND
+         huayQx0/bFMxED966VjCU3APfyQCbJcDcJvPqZmopFEdCFP+rPHI6qxOpCir06jneRbd
+         nzFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744645829; x=1745250629;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/32B298901hMRI5aQz9yDZZK5XHqiszImHGtQC8WLEQ=;
+        b=goq6/jIyp0QetQ/0GPcNOOqjefjJCRuJ3HDhuKmVk+mrAxAX/WvR11ARxWlSxcg6sY
+         eKyPcxxhG3k5m+VjQ0msdDPpbqiou0wrSxgfkjTdvYscwNrrtxVoVJW75yRidG6a0f+M
+         zf3uhJky+Cn+9MGXUr9dD9syR+v68JJqBgb4Xt6Jh9Vv1AyXi5ntxXRRyPddgWd+Fdxq
+         ijiqvAYB2SZ31RmWjqIy5mIXjJyRmx67XIzFycvXblrajRUdbySOofbUvXHC0alnlyYi
+         yYfs65iH0fSOZlqNaod2h8ETueH8+1olm5rpMFSGb5hGGmsq4G0qLrm3yuk+A8D4nZYS
+         fiNw==
+X-Gm-Message-State: AOJu0YxEG1H8MWxeSeKKiJOWjyqWsDsfNIc8bfPn3jWXSpryKXSPB5yW
+  tqlnrEpJlI5EkO27IWhaefiah9g+8Drp9EMtl6RgVRQnRnE54amEFFTsycxnFaRe11Xd3SzETep
+  9Gre9xLJKtg99XrLq7j2lsbWFeeJ2WmRK+5U7wbdU9p/oJDzU+AqceZoY
+X-Gm-Gg: ASbGnctt8kIElDkJZomWeGXcG7XF67DEmrPVv01nVoepL/uHVfHMT1BLLwMbjKDtQ8K
+  YXL3yNT1VeFsUZc+U+2gpasxz1+Ww69BV/CKT81jSjZaaW32yXkGi7gL+W0srW287FT/e2PBE+k
+  w7AZGj1VpjiHfncrAtemWkNq7AHsEef1mFlI0cdKEGmA60easjs+CtWQ==
+X-Google-Smtp-Source: AGHT+IEIp5ia3tIFJkh/JwwDVLVHatWPtLNdHgWKyspJhXor+fQKCEqwCEGlxL+Uqw8sXWaBuDmJls3cZp5Rw9yHHbE=
+X-Received: by 2002:a05:690c:4588:b0:702:27f3:d601 with SMTP id
+ 00721157ae682-705a1981e95mr129547b3.8.1744645829170; Mon, 14 Apr 2025
+ 08:50:29 -0700 (PDT)
+MIME-Version: 1.0
+From: joan Sample <joan@looseendsproject.org>
+Date: Mon, 14 Apr 2025 09:50:20 -0600
+X-Gm-Features: ATxdqUEyUUsiYXH1v5XRBlyGkcSzEpq_0BlSqp5pROStMO1RtzknNKNuQB460tg
+Message-ID: <caerqfxlke8-x0bsf4mq0is0a7b_e+laq6j3tydyr0fmu=mgzbq@mail.gmail.com>
+Subject: Introducing a Project and a Finisher / Loose Ends: maroon knit
+ sweater vest
+To: project-testy@parse.looseendsproject.org, testytest@gmail.com,
+  Carol and tim baker <tcbaker@yahoo.com>
+Content-Type: multipart/alternative; boundary="000000000000e8379e0632bf02c7"
+
+--000000000000e8379e0632bf02c7
+Content-Type: text/plain; charset="UTF-8"
+
+Hello Carol &amp; Testy,
+
+
+I wanted to introduce you here. Carol, Testy has agreed to finish your
+maroon sweater vest. I've shared the photos, and I'm introducing you so you
+can discuss any details about exchanging the project. If it is easier to
+communicate via phone or text, Carol's phone number is 555-555-5555 and
+Testy's is 555-555-5555
+
+
+IMPORTANT NEXT STEPS:
+
+   1.
+
+   REPLY ALL to this email and arrange for a meet-up or shipping.
+   2.
+
+   PLEASE Let me know once the two of you have connected.
+
+
+I will be checking in with you periodically. Please remember that there's
+no time limit to finish a project, as this is an entirely volunteer effort.
+If either of you has any questions, please feel free to reach out!
+
+
+Many thanks,
+
+joan
+
+
+-- 
+joan Sample
+Project Manager
+
+
+Connect with us on Facebook <https: www.facebook.com="" looseendsproject="">
+Instagram <https: www.instagram.com="" thelooseendsproject="">  Bluesky
+<https: bsky.app="" profile="" looseendsproject.bsky.social="">  LinkedIn
+<https: www.linkedin.com="" company="" 82862398="" admin="" dashboard="">
+
+Loose Ends Project in the news:
+NPR, PRI, The World, NBC Nightly News,
+<https: www.looseendsproject.org="" press=""> BBC, CBC, Washington Post
+<https: www.looseendsproject.org="" press="">
+
+--000000000000e8379e0632bf02c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir="3D&quot;ltr&quot;"><div><div dir="3D&quot;ltr&quot;"><div><span id="3D&quot;m_20308618121855530=" 73gmail-docs-internal-guid-ddb0fd94-7fff-0544-894e-5864b62021c8"=""><font face="=3D&quot;arial," sans-serif"=""><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top=" :0pt;margin-bottom:0pt"=""><span style="3D&quot;background-color:transparent;font-va=" riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=":normal;vertical-align:baseline&quot;">Hello Carol &amp; Testy,</span></p><p dir="=3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top:0pt;margin-bottom:0pt&quot;"><span= style="3D&quot;background-color:transparent;font-variant-numeric:normal;font-var=" iant-east-asian:normal;font-variant-alternates:normal;vertical-align:baseli="ne&quot;"><br></span=></p><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top:0pt=" ;margin-bottom:0pt"=""><span style="3D&quot;background-color:transparent;font-varian=" t-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:nor="mal;vertical-align:baseline&quot;">I wanted to introduce you here. Carol, Testy =
+has agreed to finish your maroon sweater vest</span><span style="3D&quot;backgrou=" nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no="rmal;font-variant-alternates:normal;vertical-align:baseline&quot;">. I've sha=
+red the photos, and I'm introducing you so you can discuss any details =
+about exchanging the project. If it is easier to communicate via phone or t=
+ext, Carol's phone number is
+<span style="3D&quot;color:rgb(33,37,41)&quot;">555-555-5555</span>=C2=A0and Testy's=
+ is 555-555-5555 </span></p><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margi=" n-top:0pt;margin-bottom:0pt"=""><br></p><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.=" 656;margin-top:0pt;margin-bottom:0pt"=""><span style="3D&quot;background-color:rgb(2=" 55,255,0);font-weight:700;font-variant-numeric:normal;font-variant-east-asi="an:normal;font-variant-alternates:normal;vertical-align:baseline&quot;">IMPORTANT=
+ NEXT STEPS:</span></p><ol style="3D&quot;margin-top:0px;margin-bottom:0px&quot;"><li d="ir=3D&quot;ltr&quot;" style="3D&quot;list-style-type:decimal;background-color:transparent;fo=" nt-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alter="nates:normal;vertical-align:baseline&quot;"><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1=" .38;margin-top:0pt;margin-bottom:0pt"="" role="3D&quot;presentation&quot;"><span style="3D&quot;=" background-color:rgb(255,255,0);font-variant-numeric:normal;font-variant-ea="st-asian:normal;font-variant-alternates:normal;vertical-align:baseline&quot;">REP=
+LY ALL to this email and arrange for a meet-up or shipping.=C2=A0=C2=A0</span></p></li><li dir="3D&quot;ltr&quot;" style="3D&quot;list-style-type:decimal;background-col=" or:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;f="ont-variant-alternates:normal;vertical-align:baseline&quot;"><p dir="3D&quot;ltr&quot;" style="=3D&quot;line-height:1.38;margin-top:0pt;margin-bottom:0pt&quot;" role="3D&quot;presentation=" "=""><span style="3D&quot;background-color:rgb(255,255,0);font-variant-numeric:norma=" l;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-al="ign:baseline&quot;">PLEASE Let me know once the two of you have connected.</span>=
+</p></li></ol><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top:0pt;marg=" in-bottom:0pt"=""><br></p><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top=" :0pt;margin-bottom:0pt"=""><span style="3D&quot;background-color:transparent;font-va=" riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=":normal;vertical-align:baseline&quot;">I will be checking in with you periodicall=
+y. </span><span style="3D&quot;background-color:transparent;font-weight:700;font-=" variant-numeric:normal;font-variant-east-asian:normal;font-variant-alternat="es:normal;vertical-align:baseline&quot;">Please remember that there's no time=
+ limit to finish a project, as this is an entirely volunteer effort.</span>=
+<span style="3D&quot;background-color:transparent;font-variant-numeric:normal;fon=" t-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:b="aseline&quot;"> If either of you has any questions, please feel free to reach out=
+!</span></p><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top:0pt;margin=" -bottom:0pt"=""><br></p><p dir="3D&quot;ltr&quot;" style="3D&quot;line-height:1.656;margin-top:0=" pt;margin-bottom:0pt"=""><span style="3D&quot;background-color:transparent;font-vari=" ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n="ormal;vertical-align:baseline&quot;">Many thanks,</span></p><p style="3D&quot;line-heig=" ht:1.656;margin-top:0pt;margin-bottom:0pt"=""><span style="3D&quot;background-color:=" transparent;font-variant-numeric:normal;font-variant-east-asian:normal;font="-variant-alternates:normal;vertical-align:baseline&quot;">joan</span></p></font>&lt;=
+/span&gt;</span></div><div><div dir="3D&quot;ltr&quot;" class="3D&quot;gmail_signature&quot;"><div dir="3D&quot;ltr=" "=""><div style="3D&quot;color:rgb(80,0,80)&quot;"><br></div></div></div></div></div><div><br></div><span class="3D&quot;gmail_signature_prefix&quot;">-- </span><br><div d="ir=3D&quot;ltr&quot;" class="3D&quot;gmail_signature&quot;" data-smartmail="3D&quot;gmail_signature&quot;"><di= v="" dir="3D&quot;ltr&quot;"><div><font color="3D&quot;#444444&quot;">joan Sample</font></div><div><f= ont="" color="3D&quot;#444444&quot;">Project Manager</f=></div><div><br></div><img src="=3D&quot;https://ci3.googleusercontent.com/mail-sig/AIorK4xsUp7zFieiNC8iTWROu-Ee=" rlokpobcnaogjvj5dsvdenj4lsph1t0j30yrk9qfd3xphb8-1prlrzrj"="" width="3D&quot;200&quot;" hei="ght=3D&quot;50&quot;"><div><br><div><div style="3D&quot;color:rgb(80,0,80)&quot;"><font color="3D&quot;#=" 888888"="">Connect with us on=C2=A0</font><font color="3D&quot;#073763&quot;"><a href="3D&quot;h=" ttps:="" www.facebook.com="" looseendsproject"="" style="3D&quot;color:rgb(17,85,204)&quot;" ta="rget=3D&quot;_blank&quot;">Facebook</a>=C2=A0=C2=A0<a href="3D&quot;https://www.instagram.co=" m="" thelooseendsproject="" "="" style="3D&quot;color:rgb(17,85,204)&quot;" target="3D&quot;_blank&quot;">In=
+stagram</a>=C2=A0=C2=A0<a href="3D&quot;https://bsky.app/profile/looseendsproject=" .bsky.social"="" style="3D&quot;color:rgb(17,85,204)&quot;" target="3D&quot;_blank&quot;">Bluesky</a>=
+=C2=A0=C2=A0<a href="3D&quot;https://www.linkedin.com/company/82862398/admin/dash=" board="" "="" style="3D&quot;color:rgb(17,85,204)&quot;" target="3D&quot;_blank&quot;">LinkedIn</a>=C2=A0=
+</font></div><div style="3D&quot;color:rgb(136,136,136)&quot;"><br></div><div style="3D&quot;=" color:rgb(80,0,80)"=""><font color="3D&quot;#888888&quot;">Loose Ends Project in the news:=
+</font><div><font color="3D&quot;#073763&quot;"><a href="3D&quot;https://www.looseendsproject=" .org="" press"="" style="3D&quot;color:rgb(17,85,204)&quot;" target="3D&quot;_blank&quot;">NPR, PRI, The =
+World, NBC Nightly News,</a>=C2=A0<a href="3D&quot;https://www.looseendsproject.o=" rg="" press"="" style="3D&quot;color:rgb(17,85,204)&quot;" target="3D&quot;_blank&quot;">BBC, CBC,=C2=A0W=
+ashington Post</a></font></div></div></div></div></di=></div></div></div>
+
+--000000000000e8379e0632bf02c7--</https:></https:></https:></https:></https:></https:></tcbaker@yahoo.com></caerqfxlke8-x0bsf4mq0is0a7b_e+laq6j3tydyr0fmu=mgzbq@mail.gmail.com></joan@looseendsproject.org></project-testy@parse.looseendsproject.org></project-testy@parse.looseendsproject.org>

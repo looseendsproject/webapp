@@ -92,6 +92,16 @@ class MessageTest < ActiveSupport::TestCase
     assert_match(/How does this look\?/, m.email.text_part.body.decoded)
   end
 
+  test "parses troublesome eml" do
+    m = Project.first.messages.new
+    m.content = File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    m.save!
+
+    assert m.email.to.is_a?(String)
+    assert_equal "joan Sample", m.email.from
+    assert_predicate m.email, :multipart?
+  end
+
   test "since method" do
     start = Time.now - 3.days
     target = Message.where(created_at: (start..Time.now)).count
