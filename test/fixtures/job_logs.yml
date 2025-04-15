@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: job_logs
+#
+#  id         :bigint           not null, primary key
+#  output     :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 one:
   id: 1
   output: Hic sequi vel. Ipsa sapiente fugit. Architecto maiores cupiditate. Voluptatem illum magni. Labore voluptatem unde. Quibusdam iste itaque. Labore vero magni. Sed voluptatem minima. Amet perspiciatis voluptatem. Dolorum et beatae. Illum corrupti ea. Qui odio sunt. Consequatur et dolorem. Ut alias cupiditate. Non eum omnis. Quam sit est. Quia ducimus quam. Eligendi velit consequatur. Illo alias repudiandae. Hic consequatur ullam. Illum laboriosam dolore. Nihil est omnis. Enim deleniti sint. Optio dolore nulla. Quis saepe omnis. Totam aspernatur rerum. Sint rerum illum. Consectetur rerum expedita. Voluptas sint recusandae. Saepe ipsum eum. Est corrupti et. Veniam est amet. Fugiat laborum reprehenderit. Doloremque harum autem. Aspernatur et vel. Placeat labore nemo. Iusto exercitationem dolores. Sequi quam repellendus. Ducimus facilis quia. Id rerum eum.

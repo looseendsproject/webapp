@@ -5,6 +5,7 @@
 # Table name: assignments
 #
 #  id                :bigint           not null, primary key
+#  check_in_sent_at  :datetime
 #  created_by        :bigint
 #  ended_at          :datetime
 #  last_contacted_at :datetime
@@ -43,8 +44,11 @@ class Assignment < ApplicationRecord
   end
 
   def self.needs_check_in
-    active.where("status = ? AND (last_contacted_at < ? OR last_contacted_at is NULL)",
-      "accepted", Time.zone.now.beginning_of_day - CHECK_IN_INTERVAL)
+    active.where("
+      status = ?
+      AND (last_contacted_at < ? OR last_contacted_at IS NULL)
+      AND (check_in_sent_at < ? OR check_in_sent_at IS NULL)
+      ", "accepted", CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
   end
 
   def name

@@ -3,6 +3,7 @@
 # Table name: assignments
 #
 #  id                :bigint           not null, primary key
+#  check_in_sent_at  :datetime
 #  created_by        :bigint
 #  ended_at          :datetime
 #  last_contacted_at :datetime
@@ -65,6 +66,18 @@ class AssignmentTest < ActiveSupport::TestCase
 
       assert_predicate @assignment, :valid?, "Status #{status} should be valid"
     end
+  end
+
+  test "needs_check_in does not include assignments with recent check-ins" do
+    assignment = Assignment.needs_check_in.first
+    assert_equal 1, Assignment.needs_check_in.count
+
+    assignment.update_attribute("check_in_sent_at", 10.minutes.ago)
+    travel_to 1.day.from_now
+    assert_equal 0, Assignment.needs_check_in.count
+
+    travel_to 15.days.from_now
+    assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 
   test "allows nil status" do

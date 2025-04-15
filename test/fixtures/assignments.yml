@@ -3,6 +3,7 @@
 # Table name: assignments
 #
 #  id                :bigint           not null, primary key
+#  check_in_sent_at  :datetime
 #  created_by        :bigint
 #  ended_at          :datetime
 #  last_contacted_at :datetime
