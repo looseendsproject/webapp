@@ -90,7 +90,7 @@ class FinisherTest < ActiveSupport::TestCase
     f = Finisher.new
     refute f.inbound_email_address
     f.valid?
-    assert_match /Finisher-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/, f.inbound_email_address
+    assert_match /finisher-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/, f.inbound_email_address
   end
 
   test "send welcome records Message" do
