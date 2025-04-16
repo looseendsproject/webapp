@@ -16,6 +16,7 @@
 #  crafter_name              :string
 #  description               :text
 #  group_project             :boolean          default(FALSE)
+#  has_materials             :string
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
