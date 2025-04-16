@@ -1,7 +1,7 @@
-production:
-  check_in_job:
-    class: SendCheckInsJob
-    schedule: every day at 12pm
-  flag_stuck_projects:
-    class: FlagStuckProjectsJob
-    schedule: every Sunday at 8pm
+# production:
+#   check_in_job:
+#     class: SendCheckInsJob
+#     schedule: every day at 12pm
+#   flag_stuck_projects:
+#     class: FlagStuckProjectsJob
+#     schedule: every Sunday at 8pm
