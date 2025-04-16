@@ -235,6 +235,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_10_115209) do
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
     t.boolean "can_share_crafter_details", default: false
+    t.string "has_materials"
     t.text "material_brand"
     t.string "inbound_email_address"
     t.string "needs_attention"
