@@ -230,12 +230,14 @@ module LooseEndsSearchable
                else
                  with_field_value(result, :status, params[:status])
                end
-      result = with_sub_status(result, :ready_status) if params[:status] == "ready to match"
-      result = with_sub_status(result, :in_process_status) if params[:status] == "in process"
+      result = with_sub_status(result, :ready_status, params) \
+        if params[:status] == "ready to match"
+      result = with_sub_status(result, :in_process_status, params) \
+        if params[:status] == "in process"
       result
     end
 
-    def with_sub_status(query, field)
+    def with_sub_status(query, field, params)
       with_field_value(query, field, params[field])
     end
 
