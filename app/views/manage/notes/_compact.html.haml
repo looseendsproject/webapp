@@ -13,7 +13,7 @@
         %td= n.created_at.to_formatted_s(:human)
         %td= n.notable.name
         %td= n.notable.finisher.name
-        %td= n.notable.project.manager.name
+        %td= n.notable.project.manager&.name
         %td(class = "sentiment sentiment-#{Note::SENTIMENTS[n.sentiment][:classification]}")
           = n.sentiment.titleize
         %td(data-bs-toggle="popover" data-bs-placement="top" data-bs-content="#{n.text}")

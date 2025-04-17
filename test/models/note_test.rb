@@ -46,6 +46,13 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal "fred@gmail.com", Assignment.first.notes.last.user.email
   end
 
+  test "for_assignments scope" do
+    assert_equal 2, Note.count
+    assignment_notes = Note.for_assignment
+    assert_equal 1, assignment_notes.count
+    assert_equal "All good!", assignment_notes.first.text
+  end
+
   test "#negative?" do
     n = Assignment.first.notes.new(sentiment: "going_well")
     refute n.negative?

@@ -17,8 +17,8 @@ module Manage
                     format: :turbo_stream
 
       assert_response :success
-      assert_equal(1, @project.notes.count)
-      assert_equal("This is a note", @project.notes.first.text)
+      assert_equal(2, @project.notes.count)
+      assert_equal("This is a note", @project.notes.last.text)
     end
 
     test "can create a note and mark as a finisher contact" do
@@ -40,12 +40,12 @@ module Manage
       sign_in @user
       note = @project.notes.create!(user: @user, text: "This is a note")
 
-      assert_equal(1, @project.notes.count)
+      assert_equal(2, @project.notes.count)
 
       delete :destroy, params: { project_id: @project.id, id: note.id }, format: :turbo_stream
 
       assert_response :success
-      assert_equal(0, @project.notes.count)
+      assert_equal(1, @project.notes.count)
     end
   end
 end

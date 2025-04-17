@@ -1,0 +1,8 @@
+# Backup, download, and restore prod db to local
+
+heroku pg:backups:capture --app <app name>
+heroku pg:backups:download --app <app name>
+
+# downloads to working dir as "latest.dump"
+
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -d looseends_development -U <db user> latest.dump
