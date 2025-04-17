@@ -1,0 +1,8 @@
+%h3 Project "#{@resource.project.name}" needs attention
+
+%p Finisher responded negatively to a check-in.
+
+%br= @resource.project.name
+%br= @resource.project.active_finisher.name
+%br= @resource.project.active_finisher.phone_number
+%br= @resource.project.active_finisher.user.email

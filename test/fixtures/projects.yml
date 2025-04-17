@@ -14,6 +14,7 @@
 #  crafter_name              :string
 #  description               :text
 #  group_project             :boolean          default(FALSE)
+#  has_materials             :string
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
@@ -27,6 +28,7 @@
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
+#  needs_attention           :string
 #  no_cats                   :boolean
 #  no_dogs                   :boolean
 #  no_smoke                  :boolean
@@ -79,6 +81,7 @@ one:
   state: WA
   postal_code: 12345
   country: USA
+  manager_id: 3
   inbound_email_address: Project-7A37voRf@localhost
   created_at: <%= 8.days.ago %>
   updated_at: <%= 7.days.ago %>

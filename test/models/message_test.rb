@@ -60,6 +60,7 @@ class MessageTest < ActiveSupport::TestCase
   test "Updates assignment last_contacted_at for Project" do
     project = Project.first
     assignment = project.active_assignment
+    assignment.last_contacted_at = nil # set up fixture
 
     assert(assignment)
     assert_nil(assignment.last_contacted_at)
@@ -89,6 +90,16 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "Fwd: Test inbound from Gmail", m.email.subject
     assert_equal "2025-03-22T12:25:35-04:00", m.email.date.to_s
     assert_match(/How does this look\?/, m.email.text_part.body.decoded)
+  end
+
+  test "parses troublesome eml" do
+    m = Project.first.messages.new
+    m.content = File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    m.save!
+
+    assert m.email.to.is_a?(String)
+    assert_equal "joan Sample", m.email.from
+    assert_predicate m.email, :multipart?
   end
 
   test "since method" do

@@ -22,7 +22,7 @@ module Manage
 
       sign_in @user
       get :show, params: { id: 2 }
-      assert_match /Finisher-\w{8}@localhost/, response.body
+      assert_match /finisher-\w{8}@localhost/, response.body
     end
 
     test "search requires login" do

@@ -64,6 +64,9 @@ gem "bootsnap", require: false
 # Use Sass to process CSS
 gem "sassc-rails"
 
+# Create inline-styled emails from regular CSS file
+gem 'premailer-rails'
+
 # Validations for uploads
 gem "active_storage_validations", ">= 2.0.2"
 
@@ -108,6 +111,9 @@ group :development do
 
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Create fake data
+  gem "faker"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"

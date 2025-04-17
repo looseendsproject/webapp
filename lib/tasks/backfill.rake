@@ -40,4 +40,22 @@ namespace :backfill do
     ActiveRecord::Base.record_timestamps = true
   end
 
+  desc "Set Project.needs_attention for existing negative notes"
+  task needs_attention: [:environment] do |_t|
+    Note.where(sentiment: "not_great").each do |note|
+      note.notable.project.update!(needs_attention: "negative_sentiment")
+    end
+  end
+
+  desc "Downcase inbound_email_addresses"
+  task downcase_inbound_email: [:environment] do |_t|
+    Finisher.where.not(inbound_email_address: nil).map do |f|
+      f.update_attribute("inbound_email_address", f.inbound_email_address.downcase)
+    end
+
+    Project.where.not(inbound_email_address: nil).map do |p|
+      p.update_attribute("inbound_email_address", p.inbound_email_address.downcase)
+    end
+  end
+
 end

@@ -16,6 +16,7 @@
 #  crafter_name              :string
 #  description               :text
 #  group_project             :boolean          default(FALSE)
+#  has_materials             :string
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
@@ -29,6 +30,7 @@
 #  material_type             :string
 #  more_details              :text
 #  name                      :string           not null
+#  needs_attention           :string
 #  no_cats                   :boolean
 #  no_dogs                   :boolean
 #  no_smoke                  :boolean
@@ -105,6 +107,9 @@ class Project < ApplicationRecord
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
+  NEEDS_ATTENTION_REASONS = %w(negative_sentiment stalled_accepted
+    stalled_invited stalled_potential long_running)
+
   include LooseEndsSearchable
   include EmailAddressable
 
@@ -121,9 +126,6 @@ class Project < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :finishers, through: :assignments
   has_many :messages, as: :messageable
-
-  # ProjectNote is DEPRECATED.  Replaced w/ :notable
-  has_many :project_notes, dependent: :destroy
   has_many :notes, as: :notable
 
   has_many_attached :crafter_images
@@ -135,6 +137,8 @@ class Project < ApplicationRecord
 
   validates :status, inclusion: { in: STATUSES }
   validates :status, presence: true
+  validates :needs_attention, inclusion: {
+    in: NEEDS_ATTENTION_REASONS, allow_blank: true, allow_nil: true }
 
   validates :name, presence: true
   validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." }
@@ -146,8 +150,10 @@ class Project < ApplicationRecord
                              size: { greater_than_or_equal_to: 5.kilobytes }
   validates :crafter_images, attached: false, content_type: %i[png jpg jpeg webp gif],
                              size: { greater_than_or_equal_to: 5.kilobytes }
+  validates :material_images, presence: true, if: :has_materials?
   validates :material_images, attached: false, content_type: %i[png jpg jpeg webp gif],
                               size: { greater_than_or_equal_to: 5.kilobytes }
+  validates :pattern_files, presence: true, if: :has_pattern?
 
   validates :group_manager, presence: true, if: :group_project?
   validates :press_region, presence: true, if: :press?
@@ -160,6 +166,7 @@ class Project < ApplicationRecord
   }
 
   scope :ignore_tests, -> { where.not(status: "test") }
+  scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
 
   before_save :clear_ready_status_unless_ready_to_match
   before_save :clear_in_process_status_unless_in_process
@@ -280,6 +287,16 @@ class Project < ApplicationRecord
     end
   end
 
+  # Helper for options_for_select
+  #
+  def self.needs_attention_options
+    opts = [["", nil]]
+    NEEDS_ATTENTION_REASONS.map do |nar|
+      opts << [nar.titleize, nar]
+    end
+    opts
+  end
+
   def missing_information?
     description.blank? || phone_number.blank? || missing_address_information? || has_pattern.blank? || material_type.blank? || project_images.blank?
   end
@@ -316,6 +333,14 @@ class Project < ApplicationRecord
   # method for checking if any address attribute has changed
   def full_address_has_changed?
     street_changed? || street_2_changed? || city_changed? || state_changed? || postal_code_changed? || country_changed?
+  end
+
+  def has_pattern?
+    has_pattern == 'Yes'
+  end
+
+  def has_materials?
+    has_materials == 'Yes'
   end
 
   private

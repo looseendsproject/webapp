@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_15_192708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,16 +75,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
   create_table "assignments", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "finisher_id"
-    t.bigint "user_id"
+    t.bigint "created_by"
     t.datetime "ended_at"
     t.datetime "started_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "status"
     t.datetime "last_contacted_at"
+    t.datetime "check_in_sent_at"
+    t.index ["created_by"], name: "index_assignments_on_created_by"
     t.index ["finisher_id"], name: "index_assignments_on_finisher_id"
     t.index ["project_id"], name: "index_assignments_on_project_id"
-    t.index ["user_id"], name: "index_assignments_on_user_id"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -145,6 +146,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
     t.index ["user_id"], name: "index_finishers_on_user_id"
   end
 
+  create_table "job_logs", force: :cascade do |t|
+    t.text "output"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "messages", force: :cascade do |t|
     t.string "description"
     t.string "messageable_type"
@@ -169,10 +176,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
     t.bigint "notable_id"
     t.text "text"
     t.string "visibility", default: "manager", null: false
-    t.integer "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "sentiment"
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
@@ -182,16 +189,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "project_notes", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "user_id"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_notes_on_project_id"
-    t.index ["user_id"], name: "index_project_notes_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -239,8 +236,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_06_151132) do
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
     t.boolean "can_share_crafter_details", default: false
+    t.string "has_materials"
     t.text "material_brand"
     t.string "inbound_email_address"
+    t.string "needs_attention"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["inbound_email_address"], name: "index_projects_on_inbound_email_address", unique: true
     t.index ["latitude"], name: "index_projects_on_latitude"

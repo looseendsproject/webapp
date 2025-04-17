@@ -92,6 +92,7 @@ class ProjectsController < AuthenticatedController
       :postal_code,
       :craft_type,
       :has_pattern,
+      :has_materials,
       :material_type,
       :crafter_name,
       :crafter_description,
@@ -114,6 +115,6 @@ class ProjectsController < AuthenticatedController
 
   def get_project
     @project = current_user.projects.find_by(id: params[:id])
-    redirect_to :root unless @project
+    raise ActiveRecord::RecordNotFound unless @project
   end
 end

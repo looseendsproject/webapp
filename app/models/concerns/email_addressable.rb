@@ -23,7 +23,7 @@ module EmailAddressable
   def unique_address
     loop do
       str = SecureRandom.alphanumeric LENGTH
-      uniq = "#{self.class.to_s}-#{str}@" + DESTINATION_HOST
+      uniq = "#{self.class.to_s}-#{str}@".downcase + DESTINATION_HOST
       return uniq unless self.class.where(inbound_email_address: uniq).exists?
     end
   end

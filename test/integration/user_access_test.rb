@@ -15,7 +15,7 @@ class UserAccessTest < ActionDispatch::IntegrationTest
 
   test '/finisher for unauthed request redirects' do
     get '/finisher'
-    assert_redirected_to :root
+    assert_redirected_to new_user_session_path
   end
 
   test "finisher can view profile" do

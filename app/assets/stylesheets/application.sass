@@ -3,7 +3,7 @@
 @import "@fortawesome/fontawesome-free/scss/fontawesome"
 @import "@fortawesome/fontawesome-free/scss/solid"
 @import "@fortawesome/fontawesome-free/scss/brands"
-
+@import "./actiontext.css"
 
 // Finishers
 
@@ -157,6 +157,21 @@ footer
   border-radius: .8em
   border: solid 1px #CCC
 
+// Sentiments
+.sentiment
+  font-weight: bold
+.sentiment-negative
+  color: $danger
+.sentiment-neutral
+  color: $warning
+.sentiment-positive
+  color: $success
+
+// Tables
+
+.table-hover > tbody > tr
+  cursor: pointer
+
 // Project management
 
 .project-table
@@ -184,6 +199,15 @@ footer
     color: $secondary
     i.fa
       color: $gray-400
+
+.needs-attention
+  color: $danger
+  font-weight: bold
+
+#needs-attention-container
+  #needs-attention-select
+    color: $danger
+    font-weight: bold
 
 .assignment-card
   i.fa
