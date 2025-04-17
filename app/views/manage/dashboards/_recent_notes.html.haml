@@ -6,9 +6,9 @@
 
 .row.pt-3
   .col
-    - notes = Note.where("created_at > ?", since).order(created_at: :desc)
+    - notes = Note.for_assignment.where("created_at > ?", since).order(created_at: :desc)
     - if notes.any?
       .pt-1= render partial: 'manage/notes/compact',
         locals: { notes: notes }
     - else
-      %p.fst-italic No new notes since #{since.to_formatted_s(:human)} (try refreshing)
+      %p.fst-italic No new Finisher notes since #{since.to_formatted_s(:human)}

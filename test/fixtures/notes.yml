@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: notes
+#
+#  id           :bigint           not null, primary key
+#  notable_type :string
+#  sentiment    :string
+#  text         :text
+#  visibility   :string           default("manager"), not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  notable_id   :bigint
+#  user_id      :bigint
+#
+# Indexes
+#
+#  index_notes_on_notable  (notable_type,notable_id)
+#  index_notes_on_user_id  (user_id)
+#
+project_note:
+  notable_type: Project
+  notable_id: 1
+  text: Internal note by manager
+  user_id: 3
+
+assignment_note:
+  notable_type: Assignment
+  notable_id: 2
+  sentiment: going_well
+  text: All good!
+  user_id: 2

@@ -17,7 +17,7 @@ module Manage
     def create
       @assignment = Assignment.new(create_assignment_params)
       @assignment.started_at = DateTime.now
-      @assignment.user = current_user
+      @assignment.creator = current_user
       if @assignment.save
         redirect_to manage_project_path(@assignment.project)
       else
