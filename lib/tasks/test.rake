@@ -2,8 +2,7 @@
 
 namespace :test do
 
-  raise "Does not work in production!" \
-    if Rails.env.production? && ENV["RAILS_ENV_DISPLAY"] == "production"
+  ### NOT FOR PRODUCTION!
 
   # Use mailcatcher in development https://mailcatcher.me/
   #
