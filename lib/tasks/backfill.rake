@@ -47,4 +47,15 @@ namespace :backfill do
     end
   end
 
+  desc "Downcase inbound_email_addresses"
+  task downcase_inbound_email: [:environment] do |_t|
+    Finisher.where.not(inbound_email_address: nil).map do |f|
+      f.update_attribute("inbound_email_address", f.inbound_email_address.downcase)
+    end
+
+    Project.where.not(inbound_email_address: nil).map do |p|
+      p.update_attribute("inbound_email_address", p.inbound_email_address.downcase)
+    end
+  end
+
 end
