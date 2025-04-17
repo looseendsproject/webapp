@@ -21,6 +21,7 @@
 #  index_assignments_on_project_id   (project_id)
 #
 knit_active:
+  id: 1
   project_id: 1
   finisher_id: 2
   created_by: 3
@@ -29,6 +30,7 @@ knit_active:
   last_contacted_at: <%= Time.zone.now.beginning_of_day - 15.days %>
 
 knit_inactive:
+  id: 2
   project_id: 2
   finisher_id: 2
   created_by: 3
