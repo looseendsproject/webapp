@@ -42,6 +42,8 @@ class Note < ApplicationRecord
   before_create :set_visibility
   after_create :flag_project
 
+  scope :for_assignment, -> { where(notable_type: 'Assignment') }
+
   def negative?
     return false unless sentiment.present? && SENTIMENTS[sentiment].present?
     SENTIMENTS[sentiment][:classification] == "negative"
