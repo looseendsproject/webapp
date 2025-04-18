@@ -32,4 +32,23 @@ namespace :test do
       JobLog.create!(output: Faker::Lorem.paragraph(sentence_count: 40))
     end
   end
+
+  desc "Dump status combinations"
+  task dump_statuses: [:environment] do |_t|
+    Project::STATUSES.map do |status|
+      if status == "ready to match"
+        Project::READY_TO_MATCH_STATUSES.map do |rtm|
+          puts "#{status.upcase}:#{rtm.upcase}"
+        end
+      elsif status == "in process"
+        Project::IN_PROCESS_STATUSES.map do |ips|
+          puts "#{status.upcase}:#{ips.upcase}"
+        end
+      else
+        puts status.upcase
+      end
+    end
+    Assignment::STATUS.map { |s| puts s.upcase }
+  end
+
 end

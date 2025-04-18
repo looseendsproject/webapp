@@ -24,6 +24,16 @@ module Manage
       assert_equal new_assignment.created_by, new_assignment.project.manager_id
     end
 
+    test "create through params" do
+      params = { "assignment" => { "project_id"=>"1", "finisher_id"=>"2", "status"=>"accepted"}}
+      Assignment.find(1).destroy
+      refute Project.find(1).assignments.any?
+      post :create, params: params
+      assert_response :found
+      assert_redirected_to "/manage/projects/1"
+      assert Project.find(1).assignments.any?
+    end
+
     test "update denormalizes manager_id" do
       assignment = assignments(:knit_active)
       assignment.project.manager_id = nil

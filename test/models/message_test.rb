@@ -59,8 +59,9 @@ class MessageTest < ActiveSupport::TestCase
 
   test "Updates assignment last_contacted_at for Project" do
     project = Project.first
+    project.status = "in process"
     assignment = project.active_assignment
-    assignment.last_contacted_at = nil # set up fixture
+    assignment.update_attribute("last_contacted_at", nil) # set up fixture
 
     assert(assignment)
     assert_nil(assignment.last_contacted_at)
@@ -71,6 +72,23 @@ class MessageTest < ActiveSupport::TestCase
     m.save!
 
     assert_not_nil(assignment.reload.last_contacted_at)
+  end
+
+  test "does not update last_contacted_at unless active assignment and project in process" do
+    project = Project.first
+    project.status = "anything except in process"
+    assignment = project.active_assignment
+    assignment.update_attribute("last_contacted_at", nil) # set up fixture
+
+    assert(assignment)
+    assert_nil(assignment.last_contacted_at)
+
+    m = project.messages.new
+    m.channel = "inbound"
+    m.content = "Primo content"
+    m.save!
+
+    assert_nil(assignment.reload.last_contacted_at)
   end
 
   test "#user returns a User no matter the messageable_type" do
