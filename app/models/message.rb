@@ -125,6 +125,7 @@ class Message < ApplicationRecord
     assignment = messageable.active_assignment
     return unless assignment
 
+    return unless assignment.project.status.match(/^in process/i)
     assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 end
