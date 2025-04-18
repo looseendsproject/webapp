@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_192708) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_18_183845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -193,7 +193,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_192708) do
 
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "status", default: "drafted", null: false
+    t.string "status", default: "DRAFTED", null: false
     t.string "name", null: false
     t.text "description"
     t.string "street"
@@ -236,9 +236,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_192708) do
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
     t.boolean "can_share_crafter_details", default: false
-    t.string "has_materials"
     t.text "material_brand"
     t.string "inbound_email_address"
+    t.string "has_materials"
     t.string "needs_attention"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["inbound_email_address"], name: "index_projects_on_inbound_email_address", unique: true

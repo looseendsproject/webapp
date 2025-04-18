@@ -41,7 +41,7 @@
 #  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
-#  status                    :string           default("drafted"), not null
+#  status                    :string           default("DRAFTED"), not null
 #  street                    :string
 #  street_2                  :string
 #  terms_of_use              :boolean
@@ -71,7 +71,7 @@ one:
   user_id: 5
   name: Project Title One
   description: Project desc one.
-  status: proposed
+  status: PROPOSED
   phone_number: 1234567890
   craft_type: knitting
   has_pattern: true
@@ -91,7 +91,7 @@ two:
   user_id: 2
   name: Project Title Two
   description: Project desc two.
-  status: ready to match
+  status: "READY TO MATCH: NEW"
   phone_number: 1234567890
   craft_type: knitting
   inbound_email_address: Project-t4Tzy9NI@localhost
