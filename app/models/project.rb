@@ -70,39 +70,26 @@
 #
 class Project < ApplicationRecord
   STATUSES = [
-    "drafted",
-    "proposed",
-    "submitted via google",
-    "project confirm email sent",
-    "ready to match",
-    "finisher invited",
-    "project accepted/waiting on terms",
-    "introduced",
-    "in process",
-    "finished/not returned",
-    "done",
-    "unresponsive",
-    "on hold",
-    "will not do",
-    "waiting for return to rematch",
-    "weird circumstance",
-    "test"
-  ].freeze
-
-  READY_TO_MATCH_STATUSES = [
-    "new",
-    "new - additional attempt",
-    "new - needs to go on facebook",
-    "old - needs match with a second skill",
-    "old - finisher requested rematch"
-  ].freeze
-
-  IN_PROCESS_STATUSES = [
-    "connected (both finisher and po have responded)",
-    "po still has project",
-    "humming along",
-    "check in",
-    "po out of touch"
+    "DRAFTED",
+    "PROPOSED",
+    "WAITING PROJECT CONFIRMATION",
+    "READY TO MATCH: NEW",
+    "READY TO MATCH: ADDITIONAL ATTEMPT",
+    "READY TO MATCH: NEEDS SECOND SKILL",
+    "READY TO MATCH: REMATCH REQUESTED",
+    "FINISHER INVITED",
+    "ACCEPTED WAITING TERMS",
+    "INTRODUCED",
+    "IN PROCESS: CONNECTED",
+    "IN PROCESS: WAITING HANDOFF",
+    "IN PROCESS: UNDERWAY",
+    "IN PROCESS: PO UNRESPONSIVE",
+    "FINISHED NOT RETURNED",
+    "DONE",
+    "PO UNRESPONSIVE",
+    "ON HOLD",
+    "WILL NOT DO",
+    "TEST"
   ].freeze
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
@@ -168,19 +155,16 @@ class Project < ApplicationRecord
   scope :ignore_tests, -> { where.not(status: "test") }
   scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
 
-  before_save :clear_ready_status_unless_ready_to_match
-  before_save :clear_in_process_status_unless_in_process
-
   after_update :move_to_proposed
 
   def move_to_proposed
-    return unless !missing_information? && status == "drafted"
+    return unless !missing_information? && status == "DRAFTED"
 
-    update_column(:status, "proposed")
+    update_column(:status, "PROPOSED")
   end
 
   def set_default_status
-    self.status ||= "drafted"
+    self.status ||= "DRAFTED"
   end
 
   def finisher
@@ -208,11 +192,7 @@ class Project < ApplicationRecord
   end
 
   def self.proposed
-    where({ status: "proposed" })
-  end
-
-  def self.submitted_via_google
-    where({ status: "submitted via google" })
+    where({ status: "PROPOSED" })
   end
 
   def self.project_confirm_email_sent
@@ -341,15 +321,5 @@ class Project < ApplicationRecord
 
   def has_materials?
     has_materials == 'Yes'
-  end
-
-  private
-
-  def clear_ready_status_unless_ready_to_match
-    self.ready_status = nil unless status == "ready to match"
-  end
-
-  def clear_in_process_status_unless_in_process
-    self.in_process_status = nil unless status == "in process"
   end
 end

@@ -1,0 +1,19 @@
+= form_with model: project, url: manage_project_path(project),
+    html: { id: "project-status-form", class: "form", data: { turbo_frame: "project-status-frame" } } do |form|
+  = form.select :status, options_for_select(Project::STATUSES, project.status),
+    { include_blank: false },
+    { id: "project-status-select", class: "form-select", autocomplete: 'off',
+      onchange: 'this.form.requestSubmit()' }
+  - if project.saved_change_to_status?
+    %span.update-flash.visible SAVED
+  - else
+    %span.update-flash.opacity-0 SAVED
+
+:javascript
+  setTimeout(() => {
+    let visibleFlashSelector = document.querySelector('.update-flash.visible');
+    if (visibleFlashSelector) {
+      visibleFlashSelector.classList.remove('visible')
+      visibleFlashSelector.classList.add('opacity-0')
+    }
+  }, 1000)

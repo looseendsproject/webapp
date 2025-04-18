@@ -58,4 +58,69 @@ namespace :backfill do
     end
   end
 
+  desc "Convert Project status values"
+  task convert_project_status: [:environment] do |_t|
+
+    STATUS_MAPS = {
+      "submitted via google" => "DRAFTED",
+      "project confirm email sent" => "WAITING PROJECT CONFIRMATION",
+      "project accepted/waiting on terms" => "ACCEPTED WAITING TERMS",
+      "finished/not returned" => "FINISHED NOT RETURNED",
+      "unresponsive" => "PO UNRESPONSIVE",
+      "waiting for return to rematch" => "READY TO MATCH: REMATCH REQUESTED",
+      "weird circumstance" => "TEST",
+      "new" => "NEW",
+      "new - additional attempt" => "ADDITIONAL ATTEMPT",
+      "new - needs to go on facebook" => "NEW",
+      "old - needs match with a second skill" => "NEEDS SECOND SKILL",
+      "old - finisher requested rematch" => "REMATCH REQUESTED",
+      "connected (both finisher and po have responded)" => "CONNECTED",
+      "po still has project" => "WAITING HANDOFF",
+      "humming along" => "UNDERWAY",
+      "check in" => "UNDERWAY",
+      "po out of touch" => "PO UNRESPONSIVE"
+    }
+
+    # Statuses
+    Project.all.each do |project|
+      puts "#{project.id} #{project.name} \
+        #{project.status} #{project.ready_status} #{project.in_process_status}"
+
+      begin
+
+        if ["in process", "ready to match"].include?(project.status)
+          project.update_attribute("status", project.status.upcase)
+          next
+        end
+
+        # Simplest case
+        if Project::STATUSES.include?(project.status.upcase)
+          project.update_attribute("status", project.status.upcase)
+          next
+        end
+
+        # Maps
+        project.update_attribute("status", STATUS_MAPS[project.status])
+      end
+    end
+
+    # Substatuses
+    Project.where("ready_status IS NOT NULL OR in_process_status IS NOT NULL").each do |project|
+      puts "#{project.id} #{project.name} \
+        #{project.status} #project{ready_status} #{project.in_process_status}"
+
+      begin
+        if project.status == "IN PROCESS" && project.in_process_status.present?
+          substatus = STATUS_MAPS[project.in_process_status]
+        end
+
+        if project.status == "READY TO MATCH" && project.ready_status.present?
+          substatus = STATUS_MAPS[project.ready_status]
+        end
+        project.update_attribute("status", "#{status}: #{substatus}")
+      end
+    end
+
+  end # convert project status
+
 end
