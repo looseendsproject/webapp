@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-
   def test_flash_messages
     flash.alert = "Careful here! (:alert)"
     flash.notice = "Nice work! (:notice)"
@@ -18,8 +17,10 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) && return
+    stored_location = stored_location_for(resource_or_scope)
+    return stored_location if stored_location.present?
     return manage_dashboard_path if resource&.can_manage?
+
     root_path
   end
 

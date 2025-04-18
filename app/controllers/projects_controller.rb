@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectsController < AuthenticatedController
-  before_action :store_user_location!, if: :storable_location?
+  prepend_before_action :store_user_location!, if: :storable_location?
 
   before_action :get_project, only: %i[
     show
