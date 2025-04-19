@@ -9,7 +9,7 @@
     %ul.list-unstyled
       %li
         = fa_icon("flag", title: 'Status')
-        %span= project.status.titleize
+        %span= project.status
       - if project.missing_address_information?
         %li.missing
           = fa_icon("location-dot", title: 'Location')
