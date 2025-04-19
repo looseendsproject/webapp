@@ -38,4 +38,12 @@ namespace :blobs do
     blob = ActiveStorage::Blob.where(service_name: source_service.name).first
     CopyBlobJob.perform_later(blob, source_service.name, destination_service.name)
   end
+
+  desc "copy failed ActionMailbox::InboundEmails to local"
+  task copy_inbound_to_dev: [:environment] do |_t|
+    source_service = ActiveStorage::Blob.services.fetch(:aws_s3)
+    destination_service = ActiveStorage::Blob.services.fetch(:local)
+
+
+  end
 end
