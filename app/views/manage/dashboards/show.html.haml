@@ -41,8 +41,7 @@
     .col
       = render partial: "job_logs_dashboard"
       .pt-0= link_to 'Manage queues', 'jobs'
-      - failed_inbound_count = ActionMailbox::InboundEmail.where("status > ?", 2)
-      .pt-0= link_to "Failed Inbound Emails #{}", "failed_inbound_emails"
+      .pt-0= link_to "Inbound Emails", "inbound_emails#index"
 
   - if Rails.env.development?
     = render partial: 'email_previews'

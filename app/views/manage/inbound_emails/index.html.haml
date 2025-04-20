@@ -1,0 +1,20 @@
+%h1 Failed Inbound Emails
+
+%table.table.table-sm
+  %thead
+    %tr
+      %th Created At
+      %th Addresses
+      %th Subject
+      %th Status
+  %tbody
+    - @inbound_emails.failed.each do |inbound|
+      %tr
+        %td= inbound.created_at.to_formatted_s(:human)
+        %td
+          .pt-0 From: #{inbound.mail.from}
+          .pt-0 To: #{inbound.mail.to}
+          .pt-0 CC: #{inbound.mail.cc}
+        %td= inbound.mail.subject
+        %td= inbound.status
+

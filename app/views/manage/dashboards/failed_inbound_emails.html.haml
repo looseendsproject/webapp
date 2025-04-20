@@ -1,7 +1,0 @@
-%h1 Failed Inbound Emails
-
-- @failed_inbound_emails.each do |email|
-  - if email.raw_email_attachment.representable?
-    .pt-0= email.mail
-  - else
-    .pt-0.fst-italic ActiveStorage::Blob not present

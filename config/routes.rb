@@ -74,7 +74,7 @@ Rails.application.routes.draw do
       get "card", on: :member
     end
     resources :job_logs, only: [:show]
-    get "failed_inbound_emails", to: "dashboards#failed_inbound_emails"
+    resources :inbound_emails
     get "reports/heard_about_us", to: "reports#heard_about_us"
   end
 
