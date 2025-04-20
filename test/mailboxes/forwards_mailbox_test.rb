@@ -35,7 +35,26 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
 
   test "project found in to: array not #first" do
     @inbound.mail.to = ["random@example.com", PROJECT_ADDRESS]
+    ActiveRecord::Base.transaction do
+      @inbound.route
+      assert_match /Subject: Getting started with ActiveMailbox/,
+        Project.find(1).messages.last.content.body.to_s
+      refute Project.find(2).messages.any?
+    end
+  end
 
+  test "project found in cc:" do
+    @inbound.mail.cc = ["random@example.com", PROJECT_ADDRESS]
+    ActiveRecord::Base.transaction do
+      @inbound.route
+      assert_match /Subject: Getting started with ActiveMailbox/,
+        Project.find(1).messages.last.content.body.to_s
+      refute Project.find(2).messages.any?
+    end
+  end
+
+  test "project found in bcc:" do
+    @inbound.mail.bcc = ["random@example.com", PROJECT_ADDRESS]
     ActiveRecord::Base.transaction do
       @inbound.route
       assert_match /Subject: Getting started with ActiveMailbox/,
