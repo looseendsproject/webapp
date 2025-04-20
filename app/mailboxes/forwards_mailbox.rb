@@ -8,7 +8,6 @@ class ForwardsMailbox < ApplicationMailbox
 
   private
 
-  # BUG Gotta look for inbound_email_address in to:, cc:, and bcc: arrays
   def resource
     all_addresses = [mail.to, mail.cc, mail.bcc].flatten.compact
     all_addresses.each do |addr|
