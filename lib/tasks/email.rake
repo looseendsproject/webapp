@@ -1,0 +1,37 @@
+# frozen_string_literal: true
+
+namespace :email do
+
+  desc "Set inbound_email_address on Project where NULL"
+  task inbound_emails: [:environment] do |_t|
+    Project.where('inbound_email_address IS NULL').all.each do |p|
+      puts p.ensure_inbound_email_address
+      p.save!(validate: false)
+    end
+  end
+
+  desc "Downcase inbound_email_addresses"
+  task downcase_inbound_email: [:environment] do |_t|
+    Finisher.where.not(inbound_email_address: nil).map do |f|
+      f.update_attribute("inbound_email_address", f.inbound_email_address.downcase)
+    end
+
+    Project.where.not(inbound_email_address: nil).map do |p|
+      p.update_attribute("inbound_email_address", p.inbound_email_address.downcase)
+    end
+  end
+
+  desc "Reprocess failed InboundEmails"
+  task reprocess_failed: [:environment] do |_t|
+    ActionMailbox::InboundEmail.where("status > ?", 2).order(id: :asc).each do |inbound|
+      begin
+        inbound.pending!
+        inbound.route
+        puts "InboundEmail #{inbound.id}: reprocessed"
+      rescue
+        puts "InboundEmail #{inbound.id}: missing blob"
+        next
+      end
+    end
+  end
+end
