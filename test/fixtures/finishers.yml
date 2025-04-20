@@ -59,7 +59,7 @@ crocheter:
   chosen_name: Bobby
   description: I love to crochet.
   phone_number: 1234567890
-  inbound_email_address: Finisher-AskQeXbS@localhost
+  inbound_email_address: finisher-askqexbs@localhost
 
 knitter:
   id: 2
