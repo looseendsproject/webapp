@@ -6,9 +6,11 @@
 
 .row.pt-3
   .col
-    - messages = Message.inbound.since(since)
-    - if messages.any?
-      .pt-1= render partial: 'messages/compact',
-        locals: { format: 'inbound', messages:  messages }
-    - else
-      %p.fst-italic No new email since #{since.to_formatted_s(:human)} (try refreshing)
+    / - messages = Message.inbound.since(since)
+    / - if messages.any?
+    /   .pt-1= render partial: 'messages/compact',
+    /     locals: { format: 'inbound', messages:  messages }
+    / - else
+    /   %p.fst-italic No new email since #{since.to_formatted_s(:human)} (try refreshing)
+
+    .fst-italic Temporarily removed for performance reasons.  Fix underway
