@@ -103,8 +103,13 @@ class MessageTest < ActiveSupport::TestCase
     m.save!
 
     assert_predicate m.email, :multipart?
+    assert_equal m.email.html_part.content_type, "text/html; charset=UTF-8"
+    assert_equal m.email.html_part.content_transfer_encoding, "quoted-printable"
+
     assert_equal ["inbound@example.com"], m.email.to
-    # TODO: assert_equal 'forwarder@example.com', m.email.from
+
+    # HACK temporary
+    # assert_equal 'forwarder@example.com', m.email.from
     assert_equal "Fwd: Test inbound from Gmail", m.email.subject
     assert_equal "2025-03-22T12:25:35-04:00", m.email.date.to_s
     assert_match(/How does this look\?/, m.email.text_part.body.decoded)
