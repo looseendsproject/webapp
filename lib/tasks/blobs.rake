@@ -38,4 +38,5 @@ namespace :blobs do
     blob = ActiveStorage::Blob.where(service_name: source_service.name).first
     CopyBlobJob.perform_later(blob, source_service.name, destination_service.name)
   end
+
 end

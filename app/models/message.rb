@@ -58,7 +58,7 @@ class Message < ApplicationRecord
   end
 
   def email
-    Mail.from_source content.to_plain_text
+    Mail.from_source Mail::Encodings::QuotedPrintable.decode(content.to_plain_text)
   end
   alias_method :mail, :email
 
