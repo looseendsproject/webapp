@@ -21,10 +21,15 @@
     %p.pt-0
       %pre= @message.email.text_part.body.to_s
 
-  - if @message.email.html_part.present?
-    %p.pt-3.fw-bold HTML Part
-    %p.pt-0= sanitize @message.email.html_part.body.to_s
-    %hr
+  / HACK temporary until encoding issue is resolved
+  / - if @message.email.html_part.present?
+  /   %p.pt-3.fw-bold HTML Part
+  /   %p.pt-0= sanitize @message.email.html_part.body.to_s
+
+  %p.pt-3.fw-bold Raw Source
+  %pre= @message.email.raw_source
+
+  %hr
 
   .row
     - @message.email.attachments.each do |attachment|
