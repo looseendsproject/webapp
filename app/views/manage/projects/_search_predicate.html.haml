@@ -1,0 +1,21 @@
+- multiple_choice = local_assigns[:values].present?
+.search-predicate{ data: { controller: 'search-predicate' } }
+  .field
+    %input{ type: :text, data: { 'search-predicate-target': 'field', action: 'search-predicate#refresh' }, value: field.to_s.titleize, readonly: true, autocomplete: :off, disabled: true, size: field.length }
+  .operator
+    %select{ data: { 'search-predicate-target': 'operator', action: 'search-predicate#refresh' }, autocomplete: :off }
+      %option{ selected: ('=' == operator ? 'selected' : nil), value: '=' } is
+      - if !multiple_choice
+        %option{ selected: ('<>' == operator ? 'selected' : nil), value: '<>' } is not
+        %option{ selected: ('begin' == operator ? 'selected' : nil), value: 'begin' } begins
+        %option{ selected: ('contains' == operator ? 'selected' : nil), value: 'contains' } contains
+  .value
+    - if multiple_choice
+      %select{ data: { 'search-predicate-target': 'value', action: 'search-predicate#refresh' }, autocomplete: :off }
+        - values.each do |option|
+          %option{ selected: (option == value ? 'selected' : nil) }= option
+    - else
+      %input{ type: :text, data: { 'search-predicate-target': 'value', action: 'search-predicate#refresh' }, value: value, autocomplete: :off, onfocus: 'this.select()', size: 10 }
+  %input{ type: :hidden, data: { 'search-predicate-target': 'predicate' }, autocomplete: :off }
+  .remove
+    %button.btn-sm.btn-close{ data: {action: 'search-predicate#remove' } }

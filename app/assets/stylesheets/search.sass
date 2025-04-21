@@ -1,0 +1,66 @@
+
+$predicate-border-color: #ced4da
+
+.search-predicate
+  display: flex
+  align-items: center
+  margin-bottom: 10px
+  margin-right: 10px
+  border: 1px solid $predicate-border-color
+  border-radius: 5px
+
+  .field, .operator, .value
+    display: flex
+    border: none
+    border-right: 1px solid $predicate-border-color
+    padding: 0.3em
+
+  .field input
+    border: none
+    color: black
+    height: 100%
+    text-align: right
+    user-select: none
+
+  .operator select
+    height: 100%
+    cursor: pointer
+    text-align: center
+    background-color: transparent
+    border: none
+    appearance: none
+    padding: 0px 18px
+
+    &:hover, &:focus
+      border: none
+      appearance: auto
+      padding: 0px 0px 0px 18px
+
+  .value
+    select
+      height: 100%
+      cursor: pointer
+      background-color: transparent
+      border: none
+      appearance: none
+      padding-right: 24px
+
+      &:hover, &:focus
+        border: none
+        appearance: auto
+        padding-right: 6px
+
+    input[type="text"]
+      cursor: pointer
+      border: none
+      background-color: transparent
+
+  .remove
+    display: flex
+    align-items: center
+    cursor: pointer
+    padding: 0.3rem 0.25rem
+
+    .btn-close
+      font-size: 0.5em
+      padding: 0
