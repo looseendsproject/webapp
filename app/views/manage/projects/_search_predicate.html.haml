@@ -1,21 +1,28 @@
 - multiple_choice = local_assigns[:values].present?
+- date_field = field.ends_with?('_at')
+- field_name = field.to_s.sub(/(_at|_id)/, '').titleize
 .search-predicate{ data: { controller: 'search-predicate' } }
   .field
-    %input{ type: :text, data: { 'search-predicate-target': 'field', action: 'search-predicate#refresh' }, value: field.to_s.titleize, readonly: true, autocomplete: :off, disabled: true, size: field.length }
+    %input{ type: :hidden, data: { 'search-predicate-target': 'field', action: 'search-predicate#refresh' }, value: field }
+    %span= field_name
   .operator
     %select{ data: { 'search-predicate-target': 'operator', action: 'search-predicate#refresh' }, autocomplete: :off }
-      %option{ selected: ('=' == operator ? 'selected' : nil), value: '=' } is
-      - if !multiple_choice
-        %option{ selected: ('<>' == operator ? 'selected' : nil), value: '<>' } is not
-        %option{ selected: ('begin' == operator ? 'selected' : nil), value: 'begin' } begins
-        %option{ selected: ('contains' == operator ? 'selected' : nil), value: 'contains' } contains
+      - if date_field
+        %option{ selected: ('before' == operator ? 'selected' : nil), value: 'before' } before
+        %option{ selected: ('after' == operator ? 'selected' : nil), value: 'after' } after
+      - else
+        %option{ selected: ('=' == operator ? 'selected' : nil), value: '=' } is
   .value
     - if multiple_choice
       %select{ data: { 'search-predicate-target': 'value', action: 'search-predicate#refresh' }, autocomplete: :off }
-        - values.each do |option|
-          %option{ selected: (option == value ? 'selected' : nil) }= option
+        - if values.first.kind_of?(Array) # [ [title, value], ... ]
+          - values.each do |pair|
+            %option{ value: pair.last, selected: ((pair == value || pair.include?(value)) ? 'selected' : nil) }= pair.first
+        - else # [ val, val, ... ]
+          - values.each do |option|
+            %option{ selected: (option == value ? 'selected' : nil) }= option
     - else
       %input{ type: :text, data: { 'search-predicate-target': 'value', action: 'search-predicate#refresh' }, value: value, autocomplete: :off, onfocus: 'this.select()', size: 10 }
   %input{ type: :hidden, data: { 'search-predicate-target': 'predicate' }, autocomplete: :off }
-  .remove
-    %button.btn-sm.btn-close{ data: {action: 'search-predicate#remove' } }
+  .remove{ data: {action: 'click->search-predicate#remove' } }
+    .btn-sm.btn-close

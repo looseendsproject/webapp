@@ -1,6 +1,10 @@
 
 $predicate-border-color: #ced4da
 
+.search-row
+  padding: 0.5em 0px
+  gap: 8px
+
 .search-predicate
   display: flex
   align-items: center
@@ -15,12 +19,8 @@ $predicate-border-color: #ced4da
     border-right: 1px solid $predicate-border-color
     padding: 0.3em
 
-  .field input
-    border: none
-    color: black
-    height: 100%
-    text-align: right
-    user-select: none
+  .field
+    padding: 0.3em 0.5em
 
   .operator select
     height: 100%
@@ -43,12 +43,10 @@ $predicate-border-color: #ced4da
       background-color: transparent
       border: none
       appearance: none
-      padding-right: 24px
 
       &:hover, &:focus
         border: none
         appearance: auto
-        padding-right: 6px
 
     input[type="text"]
       cursor: pointer
@@ -58,6 +56,7 @@ $predicate-border-color: #ced4da
   .remove
     display: flex
     align-items: center
+    height: 100%
     cursor: pointer
     padding: 0.3rem 0.25rem
 

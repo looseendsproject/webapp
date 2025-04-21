@@ -124,6 +124,7 @@ module LooseEndsSearchable
       query = with_assigned(query, params[:assigned])
       query = with_statuses(query, params)
       query = with_manager_id(query, params[:manager_id])
+      query = handle_date(query, :last_contacted_at, params[:last_contacted_at])
       with_project_boolean_attributes(query, params)
     end
 
@@ -160,6 +161,21 @@ module LooseEndsSearchable
     #    '"jane doe" knit' => ["jane doe", "knit"]
     def extract_tokens(search)
       search.scan(/(?:\w|"[^"]*")+/).map { |token| token.delete('"') }
+    end
+
+    def handle_date(query, field, date_query)
+      return query unless %i[last_contacted_at updated_at created_at].include?(field)
+      return query if date_query.blank?
+
+      if date_query =~ /^before\((\d+)\)$/
+        seconds = $1.to_i
+        query.where("#{field} < ?", Time.now - seconds)
+      elsif date_query =~ /^after\((\d+)\)$/
+        seconds = $1.to_i
+        query.where("#{field} > ?", Time.now - seconds)
+      else
+        query
+      end
     end
 
     def with_since(query, since)

@@ -3,7 +3,10 @@
   = link_to 'New Project', [:new, :manage, :project], class: 'btn btn-outline-secondary float-end'
 
 .mb-4
-  = render 'search'
+  - if params[:v2]
+    = render 'search_v2'
+  - else
+    = render 'search'
 
 .row
   - if params[:view] == 'list'
@@ -45,6 +48,10 @@
   };
 
   var setupSortHeaders = () => {
+    if (! document.getElementById('sort')) {
+      return;
+    }
+
     const currentSort = document.getElementById('sort').value
     const sortableHeaders = document.getElementsByClassName('sortable')
 
