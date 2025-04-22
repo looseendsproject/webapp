@@ -43,7 +43,7 @@
 #  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
-#  status                    :string           default("drafted"), not null
+#  status                    :string           default("PROPOSED"), not null
 #  street                    :string
 #  street_2                  :string
 #  terms_of_use              :boolean
@@ -115,19 +115,19 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_predicate(@project, :valid?, "Short phone number should not be allowed")
   end
 
-  test "status defaults to proposed if the project IS NOT missing information" do
+  test "status defaults to PROPOSED if the project IS NOT missing information" do
     @project.status = nil
     @project.save!
 
-    assert_equal("proposed", @project.reload.status)
+    assert_equal("PROPOSED", @project.reload.status)
   end
 
-  test "status defaults to drafted if the project IS missing information" do
+  test "status defaults to PROPOSED if the project IS missing information" do
     @project.has_pattern = nil
     @project.status = nil
     @project.save!
 
-    assert_equal("drafted", @project.reload.status)
+    assert_equal("PROPOSED", @project.reload.status)
   end
 
   test "invalid status rejected" do

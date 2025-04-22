@@ -2,27 +2,20 @@
   = render "error_messages", resource: @project
 
   .row.justify-content-between.align-items-center
-    %h2.col-6 Project Details
-    .col-6.row
+    %h2.col-4 Project Details
+    .col-8.row
       .d-flex.align-items-end
-        .col-5.me-2
+        .col-8.me-2
           = form.label :status, class: 'form-label'
-          = form.select :status, Project::STATUSES.map { |status| [status.humanize, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
-        .col-5.me-2
+          = form.select :status, Project::STATUSES.values.map { |status| [status, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
+        .col-3.me-2
           = form.label :manager_id, class: 'form-label'
           = form.select :manager_id, User.project_managers.map { |a| [a.name, a.id] }, { include_blank: true }, { class: 'form-select' }
         .col-2
           - if current_user.admin?
             = link_to 'Cancel', [:manage, @project], class: 'btn btn-danger float-end'
           -# This section will be toggled based on the selected status
-      .mt-2#ready-status-row{ class: [@project.status == 'ready to match' ? 'd-flex' : 'd-none'] }
-        .col-5.me-2
-          = form.label :ready_status, 'Ready to Match Status', class: 'form-label'
-          = form.select :ready_status, Project::READY_TO_MATCH_STATUSES.map { |status| [status.humanize, status] }, { include_blank: true }, { class: 'form-select' }
-      .mt-2#in-process-status-row{ class:[@project.status == 'in process' ? 'd-flex' : 'd-none'] }
-        .col-5.me-2
-          = form.label :in_process_status, 'In Process Status', class: 'form-label'
-          = form.select :in_process_status, Project::IN_PROCESS_STATUSES.map { |status| [status.humanize.gsub(/\bpo\b/i, 'PO'), status] }, { include_blank: true }, { class: 'form-select' }
+
   %hr
 
   .page-section

@@ -18,12 +18,7 @@
   .row
     .col-2
       = link_to 'Projects', manage_projects_path
-    .col-2
-      Proposed: #{Project.proposed.count + Project.submitted_via_google.count}
-    .col-2
-      In Progress: #{Project.on_hold.count + Project.project_confirm_email_sent.count + Project.ready_to_match.count + Project.finisher_invited.count + Project.project_accepted_waiting_on_terms.count + Project.introduced.count + Project.in_process.count + Project.will_not_do.count + Project.unresponsive.count + Project.waiting_for_return_to_rematch.count + Project.weird_circumstance.count}
-    .col-2
-      Done: #{Project.done.count}
+    .col-6.fst-italic Numbers removed pending redesign
 
   .row.pt-3
     .col
