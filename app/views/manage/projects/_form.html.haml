@@ -7,7 +7,7 @@
       .d-flex.align-items-end
         .col-8.me-2
           = form.label :status, class: 'form-label'
-          = form.select :status, Project::STATUSES.map { |status| [status, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
+          = form.select :status, Project::STATUSES.values.map { |status| [status, status] }, { }, { id: 'status-dropdown', class: 'form-select' }
         .col-3.me-2
           = form.label :manager_id, class: 'form-label'
           = form.select :manager_id, User.project_managers.map { |a| [a.name, a.id] }, { include_blank: true }, { class: 'form-select' }

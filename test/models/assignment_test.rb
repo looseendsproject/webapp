@@ -61,7 +61,7 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "allows known status" do
-    Assignment::STATUS.each do |status|
+    Assignment::STATUSES.values.each do |status|
       @assignment.status = status
 
       assert_predicate @assignment, :valid?, "Status #{status} should be valid"

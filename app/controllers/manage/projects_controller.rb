@@ -72,7 +72,7 @@ module Manage
     def status_options_for_select
       status_counts = Project.group(:status).count
 
-      Project::STATUSES.map do |status|
+      Project::STATUSES.values.map do |status|
         ["#{status}#{status_counts[status].to_i.positive? ?
           " (#{status_counts[status]})" : ''}", status ]
       end

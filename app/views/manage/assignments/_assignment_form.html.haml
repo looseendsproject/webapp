@@ -24,7 +24,7 @@
         %strong
           = (assignment.status || 'Unknown').titleize
       - else
-        = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'd-inline form-select form-select-sm w-auto', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
+        = form.select :status,  [['Unknown', nil]] + Assignment::STATUSES.values.map{|s| [s.titleize, s] }, {}, { class: 'd-inline form-select form-select-sm w-auto', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
       - if assignment.saved_change_to_status?
         %span.update-flash.visible SAVED
       - else

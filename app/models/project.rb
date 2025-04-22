@@ -69,26 +69,26 @@
 #  fk_rails_...  (manager_id => users.id)
 #
 class Project < ApplicationRecord
-  STATUSES = [
-    "PROPOSED",
-    "WAITING PROJECT CONFIRMATION",
-    "READY TO MATCH: NEW",
-    "READY TO MATCH: ADDITIONAL ATTEMPT",
-    "READY TO MATCH: NEEDS SECOND SKILL",
-    "READY TO MATCH: REMATCH REQUESTED",
-    "FINISHER INVITED",
-    "ACCEPTED WAITING TERMS",
-    "INTRODUCED",
-    "IN PROCESS: CONNECTED",
-    "IN PROCESS: WAITING HANDOFF",
-    "IN PROCESS: UNDERWAY",
-    "IN PROCESS: PO UNRESPONSIVE",
-    "FINISHED NOT RETURNED",
-    "DONE",
-    "ON HOLD",
-    "WILL NOT DO",
-    "TEST"
-  ].freeze
+  STATUSES = {
+    proposed: "PROPOSED",
+    waiting_for_project_confirmation: "WAITING PROJECT CONFIRMATION",
+    ready_to_match_new: "READY TO MATCH: NEW",
+    ready_to_match_additional_attempt: "READY TO MATCH: ADDITIONAL ATTEMPT",
+    ready_to_match_needs_second_skill: "READY TO MATCH: NEEDS SECOND SKILL",
+    ready_to_match_rematch_requested: "READY TO MATCH: REMATCH REQUESTED",
+    finisher_invited: "FINISHER INVITED",
+    accepted_waiting_terms: "ACCEPTED WAITING TERMS",
+    introduced: "INTRODUCED",
+    in_process_connected: "IN PROCESS: CONNECTED",
+    in_process_waiting_handoff: "IN PROCESS: WAITING HANDOFF",
+    in_process_underway: "IN PROCESS: UNDERWAY",
+    in_process_po_unresponsive: "IN PROCESS: PO UNRESPONSIVE",
+    finished_not_returned: "FINISHED NOT RETURNED",
+    done: "DONE",
+    on_hold: "ON HOLD",
+    will_not_do: "WILL NOT DO",
+    test: "TEST"
+  }.freeze
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
@@ -120,7 +120,7 @@ class Project < ApplicationRecord
 
   before_validation :set_default_status
 
-  validates :status, inclusion: { in: STATUSES }
+  validates :status, inclusion: { in: STATUSES.values }
   validates :status, presence: true
   validates :needs_attention, inclusion: {
     in: NEEDS_ATTENTION_REASONS, allow_blank: true, allow_nil: true }
