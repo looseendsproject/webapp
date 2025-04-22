@@ -23,7 +23,6 @@
 #  index_assignments_on_project_id   (project_id)
 #
 class Assignment < ApplicationRecord
-  # STATUS = %w[potential invited accepted declined unresponsive completed].freeze
   STATUSES = {
     potential: "potential",
     invited: "invited",
@@ -31,7 +30,7 @@ class Assignment < ApplicationRecord
     declined: "declined",
     unresponsive: "unresponsive",
     completed: "completed"
-  }
+  }.freeze
   CHECK_IN_INTERVAL = 2.weeks
 
   belongs_to :project, touch: true
