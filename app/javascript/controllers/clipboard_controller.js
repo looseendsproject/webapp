@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 const CopyDelayMs = 1000
+const CopyClass = "copied"
 
 export default class extends Controller {
   connect() {
@@ -14,12 +15,18 @@ export default class extends Controller {
   copy(event) {
     let textForCopy = this.element.textContent
     event.preventDefault()
+
+    if (this.element.classList.contains(CopyClass)) {
+      // Copy already in progress. Don't copy "Copied!" on double click.
+      return
+    }
+
     navigator.clipboard.writeText(textForCopy)
-    this.element.classList.add("copied")
+    this.element.classList.add(CopyClass)
     this.element.textContent = "Copied!"
 
     setTimeout(() => {
-      this.element.classList.remove("copied")
+      this.element.classList.remove(CopyClass)
       this.element.textContent
        = textForCopy
     }, CopyDelayMs)
