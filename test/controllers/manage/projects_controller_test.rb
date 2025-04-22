@@ -108,7 +108,8 @@ module Manage
       @project.name = "New Name"
 
       sign_in @user
-      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" } }
+      assert_nil @project.has_materials
+      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" }}
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("New Name", @project.reload.name)
@@ -124,10 +125,15 @@ module Manage
 
     test "update updates material brand" do
       sign_in @user
-      patch "/manage/projects/#{@project.id}", params: { project: { material_brand: "brandname" } }
+      patch "/manage/projects/#{@project.id}", params: { project: {
+        material_brand: "brandname",
+        has_materials: "Yes",
+        append_material_images: [file_fixture_upload("test.jpg", "image/jpeg")]
+      }}
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("brandname", @project.reload.material_brand)
+      assert_equal("Yes", @project.has_materials)
     end
 
     test "create with incomplete params renders page" do

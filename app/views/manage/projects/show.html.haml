@@ -152,8 +152,11 @@
       Is there a pattern? #{@project.has_pattern}
     - @project.pattern_files.each do |file|
       .removeable_file
-        = link_to image_tag(file.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
-        url_for(file.variant(format: :jpg)), target: "_blank"
+        - if file.variable?
+          = link_to image_tag(file.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
+          url_for(file.variant(format: :jpg)), target: "_blank"
+        - else
+          = link_to(file.filename, url_for(file))
         = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
     %h4 Original Crafter Details
     - if @project.crafter_name? || @project.crafter_description? || @project.crafter_images.any?

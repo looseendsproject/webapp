@@ -1,12 +1,14 @@
 - window = params[:window] && params[:window].to_i > 0 ? params[:window]&.to_i : 3 # days
 - since = (Time.zone.now - window.days).beginning_of_day
 
+- limit = 10 # HACK temporary performance hack
+
 %hr
-%h3 New email from last #{window} days
+%h3 New email from last #{window} days, most recent #{limit}
 
 .row.pt-3
   .col
-    - messages = Message.inbound.since(since)
+    - messages = Message.with_rich_text_content.includes(:messageable).inbound.since(since).limit(limit).order(created_at: :desc)
     - if messages.any?
       .pt-1= render partial: 'messages/compact',
         locals: { format: 'inbound', messages:  messages }

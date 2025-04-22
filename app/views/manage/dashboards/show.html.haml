@@ -35,8 +35,8 @@
   .row.pt-3
     .col
       = render partial: "job_logs_dashboard"
-      = link_to 'Manage queues', 'jobs'
-
+      .pt-0= link_to 'Manage queues', 'jobs'
+      .pt-0= link_to "Inbound Emails", "inbound_emails#index"
 
   - if Rails.env.development?
     = render partial: 'email_previews'

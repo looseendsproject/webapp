@@ -82,7 +82,7 @@ one:
   postal_code: 12345
   country: USA
   manager_id: 3
-  inbound_email_address: Project-7A37voRf@localhost
+  inbound_email_address: project-7a37vorf@localhost
   created_at: <%= 8.days.ago %>
   updated_at: <%= 7.days.ago %>
 
@@ -94,6 +94,6 @@ two:
   status: "READY TO MATCH: NEW"
   phone_number: 1234567890
   craft_type: knitting
-  inbound_email_address: Project-t4Tzy9NI@localhost
+  inbound_email_address: project-t4tzy9ni@localhost
   created_at: <%= 3.days.ago %>
   updated_at: <%= 2.days.ago %>

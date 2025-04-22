@@ -9,14 +9,18 @@ class ForwardsMailbox < ApplicationMailbox
   private
 
   def resource
-    matches = /^(\w+)-\w{#{EmailAddressable::LENGTH}}@/.match(mail.to.first)
-    if matches.present?
-      klass = matches[1].constantize
-      record = klass.find_by(inbound_email_address: mail.to.first)
+    all_addresses = [mail.to, mail.cc, mail.bcc].flatten.compact
+    all_addresses.each do |addr|
+      matches = /^(\w+)-\w{#{EmailAddressable::LENGTH}}@/.match(addr)
+      if matches.present?
+        klass = matches[1].titleize.constantize
+        record = klass.find_by(inbound_email_address: addr.downcase)
+        return record if record.present?
+      end
     end
 
-    # Exception will kick InboundEmail into "failed" status until incinerated
-    raise ActiveRecord::RecordNotFound unless record.present?
-    record
+    # Put InboundEmail into "failed" (2) status if no record
+    raise ActiveRecord::RecordNotFound
   end
+
 end
