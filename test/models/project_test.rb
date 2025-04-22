@@ -115,14 +115,14 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_predicate(@project, :valid?, "Short phone number should not be allowed")
   end
 
-  test "status defaults to proposed if the project IS NOT missing information" do
+  test "status defaults to PROPOSED if the project IS NOT missing information" do
     @project.status = nil
     @project.save!
 
     assert_equal("PROPOSED", @project.reload.status)
   end
 
-  test "status defaults to drafted if the project IS missing information" do
+  test "status defaults to PROPOSED if the project IS missing information" do
     @project.has_pattern = nil
     @project.status = nil
     @project.save!

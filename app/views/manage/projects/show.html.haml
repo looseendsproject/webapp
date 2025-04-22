@@ -10,7 +10,7 @@
 
 %hr
 
-- if current_user.can_manage? || current_user == @project.user
+- if current_user.can_manage?
   = link_to 'Edit', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
 
 .row

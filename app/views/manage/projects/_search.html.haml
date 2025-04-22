@@ -17,7 +17,7 @@
       Per Page:
   .row.mb-2
     .col
-      = select_tag :status, options_for_select(Project::STATUSES.map{ |status| ["#{status}#{@status_counts[status].to_i.positive? ? " (#{@status_counts[status]})" : ''}", status ]}, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
+      = select_tag :status, options_for_select(@status_options_for_select, params[:status]), include_blank: true, id: 'status-dropdown', class: 'form-select'
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
