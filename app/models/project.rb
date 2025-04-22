@@ -43,7 +43,7 @@
 #  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
-#  status                    :string           default("DRAFTED"), not null
+#  status                    :string           default("PROPOSED"), not null
 #  street                    :string
 #  street_2                  :string
 #  terms_of_use              :boolean
@@ -70,7 +70,6 @@
 #
 class Project < ApplicationRecord
   STATUSES = [
-    "DRAFTED",
     "PROPOSED",
     "WAITING PROJECT CONFIRMATION",
     "READY TO MATCH: NEW",
@@ -86,7 +85,6 @@ class Project < ApplicationRecord
     "IN PROCESS: PO UNRESPONSIVE",
     "FINISHED NOT RETURNED",
     "DONE",
-    "PO UNRESPONSIVE",
     "ON HOLD",
     "WILL NOT DO",
     "TEST"
@@ -155,16 +153,8 @@ class Project < ApplicationRecord
   scope :ignore_tests, -> { where.not(status: "test") }
   scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
 
-  after_update :move_to_proposed
-
-  def move_to_proposed
-    return unless !missing_information? && status == "DRAFTED"
-
-    update_column(:status, "PROPOSED")
-  end
-
   def set_default_status
-    self.status ||= "DRAFTED"
+    self.status ||= "PROPOSED"
   end
 
   def finisher

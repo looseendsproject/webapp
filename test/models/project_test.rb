@@ -43,7 +43,7 @@
 #  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
-#  status                    :string           default("DRAFTED"), not null
+#  status                    :string           default("PROPOSED"), not null
 #  street                    :string
 #  street_2                  :string
 #  terms_of_use              :boolean
@@ -127,7 +127,7 @@ class ProjectTest < ActiveSupport::TestCase
     @project.status = nil
     @project.save!
 
-    assert_equal("DRAFTED", @project.reload.status)
+    assert_equal("PROPOSED", @project.reload.status)
   end
 
   test "invalid status rejected" do

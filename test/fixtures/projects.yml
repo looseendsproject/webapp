@@ -41,7 +41,7 @@
 #  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
-#  status                    :string           default("DRAFTED"), not null
+#  status                    :string           default("PROPOSED"), not null
 #  street                    :string
 #  street_2                  :string
 #  terms_of_use              :boolean

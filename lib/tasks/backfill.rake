@@ -2,14 +2,6 @@
 
 namespace :backfill do
 
-  desc "Set inbound_email_address on Project where NULL"
-  task inbound_emails: [:environment] do |_t|
-    Project.where('inbound_email_address IS NULL').all.each do |p|
-      puts p.ensure_inbound_email_address
-      p.save!(validate: false)
-    end
-  end
-
   desc "Set message.channel"
   task message_channel: [:environment] do |_t|
     Message.where('channel IS NULL').update_all(channel: 'inbound')
@@ -62,11 +54,13 @@ namespace :backfill do
   task convert_project_status: [:environment] do |_t|
 
     STATUS_MAPS = {
-      "submitted via google" => "DRAFTED",
+      "drafted" => "PROPOSED",
+      "DRAFTED" => "PROPOSED",
+      "submitted via google" => "PROPOSED",
       "project confirm email sent" => "WAITING PROJECT CONFIRMATION",
       "project accepted/waiting on terms" => "ACCEPTED WAITING TERMS",
       "finished/not returned" => "FINISHED NOT RETURNED",
-      "unresponsive" => "PO UNRESPONSIVE",
+      "unresponsive" => "WILL NOT DO",
       "waiting for return to rematch" => "READY TO MATCH: REMATCH REQUESTED",
       "weird circumstance" => "TEST",
       "new" => "NEW",
@@ -83,43 +77,73 @@ namespace :backfill do
 
     # Statuses
     Project.all.each do |project|
-      puts "#{project.id} #{project.name} \
-        #{project.status} #{project.ready_status} #{project.in_process_status}"
 
+      next if Project::STATUSES.include? project.status
+      next if ["IN PROCESS", "READY TO MATCH"].include? project.status # for idempotency
+
+      original_status = nil
       begin
 
+        original_status = project.status
+
         if ["in process", "ready to match"].include?(project.status)
-          project.update_attribute("status", project.status.upcase)
+          project.update_column("status", project.status.upcase)
           next
         end
 
         # Simplest case
         if Project::STATUSES.include?(project.status.upcase)
-          project.update_attribute("status", project.status.upcase)
+          project.update_column("status", project.status.upcase)
           next
         end
 
         # Maps
-        project.update_attribute("status", STATUS_MAPS[project.status])
+        project.update_column("status", STATUS_MAPS[project.status])
+
+        puts "#{project.id} #{project.name} #{project.status}"
+
+      rescue
+        puts "Invalid status: #{project.status}. Original status: #{original_status}"
       end
     end
 
     # Substatuses
     Project.where("ready_status IS NOT NULL OR in_process_status IS NOT NULL").each do |project|
-      puts "#{project.id} #{project.name} \
-        #{project.status} #project{ready_status} #{project.in_process_status}"
 
+      next if Project::STATUSES.include? project.status
+
+      original_substatus = nil
       begin
-        if project.status == "IN PROCESS" && project.in_process_status.present?
-          substatus = STATUS_MAPS[project.in_process_status]
+
+        original_substatus = [project.in_process_status, project.ready_status]
+
+        if project.status == "IN PROCESS"
+          substatus = project.in_process_status.present? ?
+            STATUS_MAPS[project.in_process_status] : "CONNECTED"
         end
 
-        if project.status == "READY TO MATCH" && project.ready_status.present?
-          substatus = STATUS_MAPS[project.ready_status]
+        if project.status == "READY TO MATCH"
+          substatus = project.ready_status.present? ? STATUS_MAPS[project.ready_status] : "NEW"
         end
-        project.update_attribute("status", "#{status}: #{substatus}")
+
+        raise "NULL substatus for #{project.status}" unless substatus.present?
+        compound_status = "#{project.status}: #{substatus}"
+        raise "No compound status '#{compound_status}'" \
+          unless Project::STATUSES.include?(compound_status)
+
+        project.update_column("status", compound_status)
+
+        puts "#{project.id} #{project.name} #{project.status}"
+
+      rescue StandardError => e
+        puts "#{e}: #{compound_status}. \
+          Original substatuses: #{original_substatus} \
+          Current status: #{project.status}"
       end
     end
+
+    # Gutcheck the backfill in case some threw exceptions
+    puts Project.group(:status).count(:status)
 
   end # convert project status
 
