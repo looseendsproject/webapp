@@ -44,11 +44,12 @@ class Assignment < ApplicationRecord
   end
 
   def self.needs_check_in
-    active.where("
-      status = ?
+    active.joins(:project).where("
+      assignments.status = ?
+      AND projects.status = ?
       AND (last_contacted_at < ? OR last_contacted_at IS NULL)
       AND (check_in_sent_at < ? OR check_in_sent_at IS NULL)
-      ", "accepted", CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
+      ", "accepted", "IN PROCESS: UNDERWAY", CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
   end
 
   def name

@@ -4,6 +4,10 @@ require "test_helper"
 
 class SendCheckInsJobTest < ActiveJob::TestCase
 
+  def setup
+    Project.find(1).update_column("status", "IN PROCESS: UNDERWAY")
+  end
+
   test "logs output" do
     SendCheckInsJob.perform_now
     assert_match "#<SendCheckInsJob:0x0", JobLog.last.output
