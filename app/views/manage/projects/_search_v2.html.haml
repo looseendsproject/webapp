@@ -1,0 +1,21 @@
+- manager_options = User.project_managers.map { |a| [a.name, a.id] }
+- date_options = [30, 7].map{|i| ["#{i} days ago", i.days.to_i.to_s] }
+= form_tag [:manage, :projects], method: :get, data: { turbo: false } do
+  = hidden_field_tag :v2, true
+  .search-row
+    = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
+  .search-row.d-flex
+    .flex-grow-0
+      = render partial: 'search_filters_menu'
+    .d-flex.flex-wrap.flex-grow-1
+      - if params[:manager_id].present?
+        = render partial: 'search_predicate', locals: { field: :manager_id, operator: '=', values: manager_options, value: params[:manager_id] }
+      - if params[:status].present?
+        = render partial: 'search_predicate', locals: { field: :status, operator: '=', values: Project::STATUSES, value: params[:status] }
+      - if params[:last_contacted_at].present? && params[:last_contacted_at] =~ /^(before|after)\((\d+)\)$/
+        - op = $1
+        - dt = $2
+        = render partial: 'search_predicate', locals: { field: :last_contacted_at, operator: op, values: date_options, value: dt }
+    .flex-grow-0
+      = button_tag "Clear", name: nil, class: 'btn btn-light', onclick: "document.querySelectorAll('.search-predicate').forEach((e) => { e.remove() })"
+      = submit_tag "Search", name: nil, class: 'btn btn-primary'
