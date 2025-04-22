@@ -43,7 +43,7 @@
 #  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
-#  status                    :string           default("drafted"), not null
+#  status                    :string           default("PROPOSED"), not null
 #  street                    :string
 #  street_2                  :string
 #  terms_of_use              :boolean
@@ -69,41 +69,26 @@
 #  fk_rails_...  (manager_id => users.id)
 #
 class Project < ApplicationRecord
-  STATUSES = [
-    "drafted",
-    "proposed",
-    "submitted via google",
-    "project confirm email sent",
-    "ready to match",
-    "finisher invited",
-    "project accepted/waiting on terms",
-    "introduced",
-    "in process",
-    "finished/not returned",
-    "done",
-    "unresponsive",
-    "on hold",
-    "will not do",
-    "waiting for return to rematch",
-    "weird circumstance",
-    "test"
-  ].freeze
-
-  READY_TO_MATCH_STATUSES = [
-    "new",
-    "new - additional attempt",
-    "new - needs to go on facebook",
-    "old - needs match with a second skill",
-    "old - finisher requested rematch"
-  ].freeze
-
-  IN_PROCESS_STATUSES = [
-    "connected (both finisher and po have responded)",
-    "po still has project",
-    "humming along",
-    "check in",
-    "po out of touch"
-  ].freeze
+  STATUSES = {
+    proposed: "PROPOSED",
+    waiting_for_project_confirmation: "WAITING PROJECT CONFIRMATION",
+    ready_to_match_new: "READY TO MATCH: NEW",
+    ready_to_match_additional_attempt: "READY TO MATCH: ADDITIONAL ATTEMPT",
+    ready_to_match_needs_second_skill: "READY TO MATCH: NEEDS SECOND SKILL",
+    ready_to_match_rematch_requested: "READY TO MATCH: REMATCH REQUESTED",
+    finisher_invited: "FINISHER INVITED",
+    accepted_waiting_terms: "ACCEPTED WAITING TERMS",
+    introduced: "INTRODUCED",
+    in_process_connected: "IN PROCESS: CONNECTED",
+    in_process_waiting_handoff: "IN PROCESS: WAITING HANDOFF",
+    in_process_underway: "IN PROCESS: UNDERWAY",
+    in_process_po_unresponsive: "IN PROCESS: PO UNRESPONSIVE",
+    finished_not_returned: "FINISHED NOT RETURNED",
+    done: "DONE",
+    on_hold: "ON HOLD",
+    will_not_do: "WILL NOT DO",
+    test: "TEST"
+  }.freeze
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
@@ -135,7 +120,7 @@ class Project < ApplicationRecord
 
   before_validation :set_default_status
 
-  validates :status, inclusion: { in: STATUSES }
+  validates :status, inclusion: { in: STATUSES.values }
   validates :status, presence: true
   validates :needs_attention, inclusion: {
     in: NEEDS_ATTENTION_REASONS, allow_blank: true, allow_nil: true }
@@ -168,19 +153,8 @@ class Project < ApplicationRecord
   scope :ignore_tests, -> { where.not(status: "test") }
   scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
 
-  before_save :clear_ready_status_unless_ready_to_match
-  before_save :clear_in_process_status_unless_in_process
-
-  after_update :move_to_proposed
-
-  def move_to_proposed
-    return unless !missing_information? && status == "drafted"
-
-    update_column(:status, "proposed")
-  end
-
   def set_default_status
-    self.status ||= "drafted"
+    self.status ||= "PROPOSED"
   end
 
   def finisher
@@ -205,78 +179,6 @@ class Project < ApplicationRecord
 
   def active_finisher
     active_assignment&.finisher
-  end
-
-  def self.proposed
-    where({ status: "proposed" })
-  end
-
-  def self.submitted_via_google
-    where({ status: "submitted via google" })
-  end
-
-  def self.project_confirm_email_sent
-    where({ status: "project confirm email sent" })
-  end
-
-  def self.ready_to_match
-    where({ status: "ready to match" })
-  end
-
-  def self.finisher_invited
-    where({ status: "finisher invited" })
-  end
-
-  def self.project_accepted_waiting_on_terms
-    where({ status: "project accepted/waiting on terms" })
-  end
-
-  def self.introduced
-    where({ status: "introduced" })
-  end
-
-  def self.in_process
-    where({ status: "in process" })
-  end
-
-  def self.finished
-    where({ status: "finished/not returned" })
-  end
-
-  def self.done
-    where({ status: "done" })
-  end
-
-  def self.unresponsive
-    where({ status: "unresponsive" })
-  end
-
-  def self.on_hold
-    where({ status: "on hold" })
-  end
-
-  def self.will_not_do
-    where({ status: "will not do" })
-  end
-
-  def self.waiting_for_return_to_rematch
-    where({ status: "waiting for return to rematch" })
-  end
-
-  def self.weird_circumstance
-    where({ status: "weird circumstance" })
-  end
-
-  def self.has_status(status_state)
-    where({ status: status_state })
-  end
-
-  def self.has_ready_status(status)
-    where(ready_status: status)
-  end
-
-  def self.has_in_process_status(status)
-    where(in_process_status: status)
   end
 
   def self.has_assigned(assigned_state)
@@ -341,15 +243,5 @@ class Project < ApplicationRecord
 
   def has_materials?
     has_materials == 'Yes'
-  end
-
-  private
-
-  def clear_ready_status_unless_ready_to_match
-    self.ready_status = nil unless status == "ready to match"
-  end
-
-  def clear_in_process_status_unless_in_process
-    self.in_process_status = nil unless status == "in process"
   end
 end

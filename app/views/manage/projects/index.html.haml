@@ -44,36 +44,6 @@
     sortFormElem.form.requestSubmit()
   };
 
-  var updateStatus = (newStatus) => {
-    const readyStatusRow = document.getElementById('ready-status-row');
-    const inProcessStatusRow = document.getElementById('in-process-status-row');
-
-    if (newStatus === 'ready to match') {
-      readyStatusRow.style.display = 'block';
-      inProcessStatusRow.style.display = 'none';
-    } else if (newStatus === 'in process') {
-      readyStatusRow.style.display = 'none';
-      inProcessStatusRow.style.display = 'block';
-    } else {
-      readyStatusRow.style.display = 'none';
-      inProcessStatusRow.style.display = 'none';
-    }
-  }
-
-  var setupStatusDropdown = () => {
-    const statusElement = document.getElementById('status-dropdown');
-    if (!statusElement) {
-      return;
-    }
-
-    // Update with dropdown state on page load.
-    updateStatus(statusElement.value);
-    statusElement.addEventListener('change', () => {
-      // Update when changed after page load.
-      updateStatus(statusElement.value);
-    });
-  };
-
   var setupSortHeaders = () => {
     const currentSort = document.getElementById('sort').value
     const sortableHeaders = document.getElementsByClassName('sortable')
@@ -93,7 +63,6 @@
   };
 
   var setupDomListeners = () => {
-    setupStatusDropdown()
     setupSortHeaders()
   };
 

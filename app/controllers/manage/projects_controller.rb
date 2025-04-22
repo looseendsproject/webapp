@@ -12,7 +12,7 @@ module Manage
         format.csv { add_csv_headers }
         format.html do
           @projects = @projects.paginate(page: params[:page], per_page: params[:per_page])
-          @status_counts = status_counts
+          @status_options_for_select = status_options_for_select
         end
       end
     end
@@ -69,10 +69,13 @@ module Manage
         "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
     end
 
-    def status_counts
+    def status_options_for_select
       status_counts = Project.group(:status).count
-      status_counts.merge!(Project.group(:ready_status).count)
-      status_counts.merge!(Project.group(:in_process_status).count)
+
+      Project::STATUSES.values.map do |status|
+        ["#{status}#{status_counts[status].to_i.positive? ?
+          " (#{status_counts[status]})" : ''}", status ]
+      end
     end
 
     def project_params
@@ -83,8 +86,6 @@ module Manage
         :description,
         :more_details,
         :status,
-        :ready_status,
-        :in_process_status,
         :street,
         :street_2,
         :city,

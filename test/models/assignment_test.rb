@@ -61,7 +61,7 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "allows known status" do
-    Assignment::STATUS.each do |status|
+    Assignment::STATUSES.values.each do |status|
       @assignment.status = status
 
       assert_predicate @assignment, :valid?, "Status #{status} should be valid"
@@ -69,6 +69,7 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "needs_check_in does not include assignments with recent check-ins" do
+    Project.find(1).update_column("status", "IN PROCESS: UNDERWAY")
     assignment = Assignment.needs_check_in.first
     assert_equal 1, Assignment.needs_check_in.count
 
