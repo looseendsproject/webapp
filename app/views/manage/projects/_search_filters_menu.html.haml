@@ -1,6 +1,7 @@
 .dropdown
-  .btn.btn-primary.dropdown-toggle{ data: { 'bs-toggle': 'dropdown' }, aria: { 'has-popup': 'true', expanded: 'false' } }
-    Filters
-  .dropdown-menu
-    %ul
-      %a.dropdown-item bar
+  %button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"}
+    Add Filter
+  .dropdown-menu{"aria-labelledby" => "dropdownMenuButton"}
+    = link_to('Manager', manage_projects_path(request.query_parameters.merge(manager_id: 5)), class: 'dropdown-item')
+    = link_to('Status', manage_projects_path(request.query_parameters.merge(status: 'test')), class: 'dropdown-item')
+    = link_to('Last Contact Date', manage_projects_path(request.query_parameters.merge(last_contacted_at: "before(#{30.days.to_i})")), class: 'dropdown-item')

@@ -4,10 +4,10 @@ export default class extends Controller {
   static targets = ['field', 'value', 'operator', 'predicate']
 
   connect() {
-    this.refresh()
+    this.refresh(true)
   }
 
-  refresh() {
+  refresh(skipDirty) {
     const field = this.fieldTarget.value
     const value = this.valueTarget.value.trim()
     const operator = this.operatorTarget.value
@@ -20,6 +20,9 @@ export default class extends Controller {
     if (value) {
       this.updatePredicate(operator, value)
       this.valueTarget.style.width = `${valueName.length + 2}ch`
+      if (skipDirty != true) {
+        window.dispatchEvent(new CustomEvent('search-predicate:dirty'))
+      }
     } else {
       this.predicateTarget.value = ''
     }

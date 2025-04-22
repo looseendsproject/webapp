@@ -1,4 +1,4 @@
-- manager_options = User.project_managers.map { |a| [a.name, a.id] }
+- manager_options = User.project_managers.map { |a| [a.name, a.id.to_s] }
 - date_options = [30, 7].map{|i| ["#{i} days ago", i.days.to_i.to_s] }
 = form_tag [:manage, :projects], method: :get, data: { turbo: false } do
   = hidden_field_tag :v2, true

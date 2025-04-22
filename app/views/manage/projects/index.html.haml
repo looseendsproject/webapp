@@ -8,7 +8,7 @@
   - else
     = render 'search'
 
-.row
+.row#search-results
   - if params[:view] == 'list'
     %table.table.project-table
       %thead
@@ -69,8 +69,20 @@
     }
   };
 
+  var setupSearchHandler = () => {
+    window.addEventListener('search-predicate:dirty', () => {
+      const searchResults = document.getElementById('search-results')
+      if (! searchResults) {
+        return
+      }
+
+      searchResults.style.opacity = 0.5
+    })
+  };
+
   var setupDomListeners = () => {
     setupSortHeaders()
+    setupSearchHandler()
   };
 
   window.addEventListener('load', setupDomListeners);
