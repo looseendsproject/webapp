@@ -20,7 +20,6 @@
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
-#  in_process_status         :string
 #  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
@@ -40,7 +39,6 @@
 #  press_outlet              :string
 #  press_region              :string
 #  privacy_needed            :boolean          default(FALSE)
-#  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
 #  status                    :string           default("PROPOSED"), not null
