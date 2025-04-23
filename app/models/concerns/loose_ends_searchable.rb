@@ -133,7 +133,7 @@ module LooseEndsSearchable
 
       result = query
       result = result.includes(_search_query_includes) if _search_query_includes.present?
-      result = result.joins(_search_query_joins) if _search_query_joins.present?
+      result = result.left_outer_joins(_search_query_joins) if _search_query_joins.present?
       result
     end
 
@@ -168,10 +168,10 @@ module LooseEndsSearchable
       return query if date_query.blank?
 
       if date_query =~ /^before\((\d+)\)$/
-        seconds = $1.to_i
+        seconds = ::Regexp.last_match(1).to_i
         query.where("#{field} < ?", Time.now - seconds)
       elsif date_query =~ /^after\((\d+)\)$/
-        seconds = $1.to_i
+        seconds = ::Regexp.last_match(1).to_i
         query.where("#{field} > ?", Time.now - seconds)
       else
         query

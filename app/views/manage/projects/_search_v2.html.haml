@@ -11,11 +11,11 @@
       - if params[:manager_id].present?
         = render partial: 'search_predicate', locals: { field: :manager_id, operator: '=', values: manager_options, value: params[:manager_id] }
       - if params[:status].present?
-        = render partial: 'search_predicate', locals: { field: :status, operator: '=', values: Project::STATUSES, value: params[:status] }
+        = render partial: 'search_predicate', locals: { field: :status, operator: '=', values: Project::STATUSES.values, value: params[:status] }
       - if params[:last_contacted_at].present? && params[:last_contacted_at] =~ /^(before|after)\((\d+)\)$/
         - op = $1
         - dt = $2
         = render partial: 'search_predicate', locals: { field: :last_contacted_at, operator: op, values: date_options, value: dt }
     .flex-grow-0
       = button_tag "Clear", name: nil, class: 'btn btn-light', onclick: "document.querySelectorAll('.search-predicate').forEach((e) => { e.remove() })"
-      = submit_tag "Search", name: nil, class: 'btn btn-primary'
+      = submit_tag "Search", name: nil, class: 'btn btn-primary btn-search'

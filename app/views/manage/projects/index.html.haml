@@ -72,10 +72,12 @@
   var setupSearchHandler = () => {
     window.addEventListener('search-predicate:dirty', () => {
       const searchResults = document.getElementById('search-results')
-      if (! searchResults) {
+      const searchButtons = document.getElementsByClassName('btn-search')
+      if (! searchResults || ! searchButtons || ! searchButtons.length == 1) {
         return
       }
 
+      searchButtons[0].classList.add('highlight')
       searchResults.style.opacity = 0.5
     })
   };
