@@ -8,12 +8,3 @@
     %span.update-flash.visible SAVED
   - else
     %span.update-flash.opacity-0 SAVED
-
-:javascript
-  setTimeout(() => {
-    let visibleFlashSelector = document.querySelector('.update-flash.visible');
-    if (visibleFlashSelector) {
-      visibleFlashSelector.classList.remove('visible')
-      visibleFlashSelector.classList.add('opacity-0')
-    }
-  }, 1000)
