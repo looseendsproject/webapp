@@ -97,7 +97,23 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal User, Message.find(3).user.class # from User directly
   end
 
-  test "parses email source into Mail object" do
+  test "Mail.from_source parses raw eml correctly" do
+    eml = File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    mail = Mail.from_source eml
+
+    assert_equal "joan@looseendsproject.org", mail.from.first
+    assert_equal [
+      "project-testy@parse.looseendsproject.org", "testytest@gmail.com",
+      "more_testy@yahoo.com"], mail.to
+    assert_equal DateTime.parse("Mon, 14 Apr 2025 09:50:20 -0600"), mail.date
+    assert_equal "multipart/alternative; boundary=000000000000e8379e0632bf02c7",
+      mail.content_type
+    assert_equal "text/plain; charset=UTF-8", mail.text_part.content_type
+    assert_equal "text/html; charset=UTF-8", mail.html_part.content_type
+    assert_equal "quoted-printable", mail.html_part.content_transfer_encoding
+  end
+
+  test "parses email source stored in ActionText content into Mail object" do
     m = Project.first.messages.new
     m.content = File.read(Rails.root.join("test/fixtures/files/sample_2.eml"))
     m.save!
