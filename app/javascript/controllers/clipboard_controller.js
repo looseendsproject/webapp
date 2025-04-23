@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-const CopyDelayMs = 1000
+const CopyDelayMs = 800
 const CopyClass = "copied"
 
 export default class extends Controller {
@@ -21,7 +21,17 @@ export default class extends Controller {
       return
     }
 
-    navigator.clipboard.writeText(textForCopy)
+    navigator.clipboard.writeText(textForCopy).then(
+      () => {
+        this.showCopyFeedback(textForCopy)
+      },
+      (err) => {
+        console.error("Could not copy text: ", err)
+      }
+    )
+  }
+
+  showCopyFeedback(textForCopy) {
     this.element.classList.add(CopyClass)
     this.element.textContent = "Copied!"
 
