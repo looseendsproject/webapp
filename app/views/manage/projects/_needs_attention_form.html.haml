@@ -4,8 +4,5 @@
     { include_blank: false },
     { id: "needs-attention-select", class: "form-select", autocomplete: 'off',
       onchange: 'this.form.requestSubmit()' }
-  - if project.saved_change_to_needs_attention?
-    %span.update-flash.visible SAVED
-  - else
-    %span.update-flash.opacity-0 SAVED
+  = render partial: 'manage/update_label', locals: { did_save: project.saved_change_to_needs_attention? }
   .pb-1 &nbsp;
