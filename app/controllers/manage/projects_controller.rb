@@ -6,6 +6,16 @@ module Manage
   class ProjectsController < Manage::ManageController
     def index
       @title = "Loose Ends - Manage - Projects"
+
+      if params[:view]
+        project_view = current_user.project_views.find(params[:view])
+        view_params = { v2: true }
+        project_view.query.each do |query_predicate|
+          view_params[query_predicate["field"]] = query_predicate["value"]
+        end
+        redirect_to manage_projects_path(view_params)
+      end
+
       @projects = Project.search(params).includes(:finishers)
 
       respond_to do |format|
@@ -73,8 +83,11 @@ module Manage
       status_counts = Project.group(:status).count
 
       Project::STATUSES.values.map do |status|
-        ["#{status}#{status_counts[status].to_i.positive? ?
-          " (#{status_counts[status]})" : ''}", status ]
+        ["#{status}#{if status_counts[status].to_i.positive?
+                       " (#{status_counts[status]})"
+                     else
+                       ""
+                     end}", status]
       end
     end
 

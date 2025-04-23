@@ -29,6 +29,7 @@ export default class extends Controller {
   }
 
   remove() {
+    window.dispatchEvent(new CustomEvent('search-predicate:dirty'))
     this.element.remove()
   }
 

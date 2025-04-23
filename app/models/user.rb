@@ -46,16 +46,16 @@ class User < ApplicationRecord
 
   class HeardAboutUs
     HEARD_ABOUT_US_OPTIONS = {
-      'Social Media' => {  additional: false },
-      'TV' => {  additional: false },
-      'Radio' => {  additional: false },
-      'Podcast' => {  additional: false },
-      'Magazine' => {  additional: false },
-      'Newspaper' => {  additional: false },
-      'Craft Store' => {  additional: false },
-      'Flyer' => {  additional: false },
-      'Friend' => {  additional: false },
-      'Other' => {  additional: true }
+      "Social Media" => {  additional: false },
+      "TV" => {  additional: false },
+      "Radio" => { additional: false },
+      "Podcast" => { additional: false },
+      "Magazine" => { additional: false },
+      "Newspaper" => { additional: false },
+      "Craft Store" => { additional: false },
+      "Flyer" => {  additional: false },
+      "Friend" => { additional: false },
+      "Other" => { additional: true }
     }.freeze
 
     def self.options_for_select
@@ -64,7 +64,7 @@ class User < ApplicationRecord
 
     def self.options_for_additional
       results = []
-      HEARD_ABOUT_US_OPTIONS.map { |k,v| results << k if v[:additional] }
+      HEARD_ABOUT_US_OPTIONS.map { |k, v| results << k if v[:additional] }
       results
     end
   end
@@ -82,6 +82,7 @@ class User < ApplicationRecord
 
   has_many :messages, as: :messageable
   has_many :notes
+  has_many :project_views, dependent: :destroy
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -95,10 +96,10 @@ class User < ApplicationRecord
   # For use in mailer previews so as to not expose any personal info
   def self.fake
     new({
-      first_name: "Fake",
-      last_name: "User",
-      email: "fake_user@example.com"
-    })
+          first_name: "Fake",
+          last_name: "User",
+          email: "fake_user@example.com"
+        })
   end
 
   def name

@@ -2,6 +2,11 @@
 - date_options = [30, 7].map{|i| ["#{i} days ago", i.days.to_i.to_s] }
 = form_tag [:manage, :projects], method: :get, data: { turbo: false } do
   = hidden_field_tag :v2, true
+  - if current_user.project_views.any?
+    .search-row.d-flex
+      Saved Views:
+      - current_user.project_views.each do |project_view|
+        = link_to project_view.name, %Q[?v2=true&view=#{project_view.id}]
   .search-row
     = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
   .search-row.d-flex
