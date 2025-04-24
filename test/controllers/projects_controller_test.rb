@@ -56,6 +56,22 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(new_project)
   end
 
+  test "should fail to create on invalid phone with image" do
+    sign_in @project.user
+    post :create, params: {
+      project: {
+        name: "New Project",
+        phone_number: "123", # too short
+        description: "Description here",
+        craft_type: "Knitting",
+        append_project_images: [fixture_file_upload("test.jpg")],
+        append_crafter_images: [fixture_file_upload("test.jpg")]
+      }
+    }
+
+    assert_response :success
+  end
+
   test "should update project" do
     sign_in @project.user
     patch :update, params: {
