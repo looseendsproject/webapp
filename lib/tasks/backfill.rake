@@ -147,4 +147,12 @@ namespace :backfill do
 
   end # convert project status
 
+  desc "Move email source from ActionText to ActiveStorage on Message"
+  task move_email_source: [:environment] do |_t|
+    Message.inbound.each do |msg|
+      msg.email_source.attach(msg.content.to_plain_text)
+      puts "Attached to #{record.id}"
+    end
+  end
+
 end

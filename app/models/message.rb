@@ -31,11 +31,16 @@ class Message < ApplicationRecord
   DEFAULT_MAGIC_LINK_DURATION = 7.days
 
   belongs_to :messageable, polymorphic: true
-  has_rich_text :content
+  has_rich_text :content # DEPRECATED.  Will be removed
+  has_one_attached :email_source
 
   validates_presence_of :messageable
   validates :channel, inclusion: { in: %w(inbound outbound),
       message: "%{value} is not a valid message channel" }
+
+  # 25MB is the Gmail limit (which is still laaaaaaarge)
+  validates :email_source, content_type: "text/plain",
+    size: { less_than_or_equal_to: 25.megabytes }
 
   before_validation :set_defaults
   after_create :update_last_contacted_at

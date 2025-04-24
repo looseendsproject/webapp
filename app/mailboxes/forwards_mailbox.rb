@@ -1,9 +1,10 @@
 class ForwardsMailbox < ApplicationMailbox
 
   def process
-    m = resource.messages.new
-    m.content = mail.raw_source # content is not a db column
-    m.save!
+    ActiveRecord::Base.transaction do
+      m = resource.messages.create!(channel: "inbound")
+      m.email_source.attach(mail.raw_source)
+    end
   end
 
   private
