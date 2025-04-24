@@ -24,18 +24,5 @@
         %strong
           = (assignment.status || 'Unknown').titleize
       - else
-        = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'd-inline form-select form-select-sm w-auto', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
-      - if assignment.saved_change_to_status?
-        %span.update-flash.visible SAVED
-      - else
-        %span.update-flash.opacity-0 SAVED
-
-
-:javascript
-  setTimeout(() => {
-    let visibleFlashSelector = document.querySelector('.update-flash.visible');
-    if (visibleFlashSelector) {
-      visibleFlashSelector.classList.remove('visible')
-      visibleFlashSelector.classList.add('opacity-0')
-    }
-  }, 1000)
+        = form.select :status,  [['Unknown', nil]] + Assignment::STATUSES.values.map{|s| [s.titleize, s] }, {}, { class: 'd-inline form-select form-select-sm w-auto', autocomplete: 'off', onchange: 'this.form.requestSubmit()' }
+      = render partial: 'manage/update_label', locals: { did_save: assignment.saved_change_to_status? }

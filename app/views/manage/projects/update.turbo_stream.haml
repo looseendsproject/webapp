@@ -1,2 +1,5 @@
 = turbo_stream.replace "needs-attention-form" do
   = render "needs_attention_form", project: @project
+
+= turbo_stream.replace "project-status-form" do
+  = render "project_status_form", project: @project

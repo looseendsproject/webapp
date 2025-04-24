@@ -200,18 +200,18 @@ module Manage
 
     test "search by status" do
       result = create_search_project
-      result.update!(status: "proposed")
+      result.update!(status: "PROPOSED")
 
-      assert_search_results([result], status: "proposed")
-      assert_search_no_results(status: "drafted")
+      assert_search_results([result], status: "PROPOSED")
+      assert_search_no_results(status: "DRAFTED")
     end
 
     test "search without status ignores status=test" do
       result = create_search_project
-      result.update!(status: "test")
+      result.update!(status: "TEST")
 
       assert_search_no_results({})
-      assert_search_results([result], status: "test")
+      assert_search_results([result], status: "TEST")
     end
 
     test "search by assigned" do

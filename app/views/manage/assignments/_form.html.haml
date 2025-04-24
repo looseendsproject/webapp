@@ -11,5 +11,5 @@
   - if !@finisher.assigned_to(@project)
     .form-actions.border-top.pt-4
       = form.label :status, 'Assignment Status'
-      = form.select :status,  [['Unknown', nil]] + Assignment::STATUS.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm me-4', autocomplete: 'off' }
+      = form.select :status,  [['Unknown', nil]] + Assignment::STATUSES.values.map{|s| [s.titleize, s] }, {}, { class: 'form-select-sm me-4', autocomplete: 'off' }
       = form.submit 'Assign Project', class: "btn btn-primary"

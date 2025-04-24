@@ -1,0 +1,4 @@
+- if current_user.admin?
+  #project-status-container
+    = turbo_frame_tag "project-status-frame" do
+      = render "manage/projects/project_status_form", project: project, readonly: local_assigns[:readonly], context: local_assigns[:context]

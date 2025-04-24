@@ -23,7 +23,14 @@
 #  index_assignments_on_project_id   (project_id)
 #
 class Assignment < ApplicationRecord
-  STATUS = %w[potential invited accepted declined unresponsive completed].freeze
+  STATUSES = {
+    potential: "potential",
+    invited: "invited",
+    accepted: "accepted",
+    declined: "declined",
+    unresponsive: "unresponsive",
+    completed: "completed"
+  }.freeze
   CHECK_IN_INTERVAL = 2.weeks
 
   belongs_to :project, touch: true
@@ -34,7 +41,7 @@ class Assignment < ApplicationRecord
   has_many :messages, as: :messageable
 
   validates :finisher_id, uniqueness: { scope: :project_id }
-  validates :status, inclusion: { in: STATUS, allow_blank: true }
+  validates :status, inclusion: { in: STATUSES.values, allow_blank: true }
 
   before_save :sanitize_status
   after_save :denormalize_created_by
@@ -44,11 +51,14 @@ class Assignment < ApplicationRecord
   end
 
   def self.needs_check_in
-    active.where("
-      status = ?
+    active.joins(:project).where("
+      assignments.status = ?
+      AND projects.status = ?
       AND (last_contacted_at < ? OR last_contacted_at IS NULL)
       AND (check_in_sent_at < ? OR check_in_sent_at IS NULL)
-      ", "accepted", CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
+      ",
+      STATUSES[:accepted], Project::STATUSES[:in_process_underway],
+        CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
   end
 
   def name
