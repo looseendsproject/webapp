@@ -126,6 +126,8 @@ class Message < ApplicationRecord
     return unless assignment
 
     return unless assignment.project.status.match(/^in process/i)
-    assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+
+    # HACK Temporarily disable update.  Need to make the logic smarter
+    # assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 end
