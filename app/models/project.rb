@@ -151,7 +151,7 @@ class Project < ApplicationRecord
   }
 
   scope :ignore_tests, -> { where.not(status: "test") }
-  scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
+  scope :needing_attention, -> { where.not(needs_attention: [nil, ""]).order(name: :asc) }
 
   def set_default_status
     self.status ||= "PROPOSED"
@@ -192,7 +192,7 @@ class Project < ApplicationRecord
   # Helper for options_for_select
   #
   def self.needs_attention_options
-    opts = [["", nil]]
+    opts = []
     NEEDS_ATTENTION_REASONS.map do |nar|
       opts << [nar.titleize, nar]
     end
