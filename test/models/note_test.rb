@@ -60,7 +60,7 @@ class NoteTest < ActiveSupport::TestCase
     n.sentiment = "no_progress"
     refute n.negative?
 
-    n.sentiment = "not_great"
+    n.sentiment = "need_help"
     assert n.negative?
   end
 end
