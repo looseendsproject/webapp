@@ -45,6 +45,7 @@ namespace :email do
       if message.present?
         message.email_source.attach(io: StringIO.new(doc["body"]),
           filename: "rich_text.eml", content_type: "text/plain")
+        message.stash_headers(Mail.from_source doc["body"])
         message.save!
       end
     end

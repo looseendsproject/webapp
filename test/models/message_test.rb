@@ -6,6 +6,7 @@
 #  channel          :string
 #  click_count      :integer          default(0), not null
 #  description      :string
+#  email_headers    :jsonb            not null
 #  expires_at       :datetime
 #  last_edited_by   :integer
 #  messageable_type :string
@@ -136,6 +137,18 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "text/plain; charset=UTF-8", mail.text_part.content_type
     assert_equal "text/html; charset=UTF-8", mail.html_part.content_type
     assert_equal "quoted-printable", mail.html_part.content_transfer_encoding
+  end
+
+  test "stash headers" do
+    mail_message = Mail.from_source File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    headers = Message.first.stash_headers(mail_message)
+    assert_equal DateTime.parse("Mon, 14 Apr 2025 09:50:20 -0600"), headers[:date]
+    assert_equal ["joan@looseendsproject.org"], headers[:from]
+    assert_equal ["project-testy@parse.looseendsproject.org",
+      "testytest@gmail.com", "more_testy@yahoo.com"], headers[:to]
+    assert_nil headers[:cc]
+    assert_equal "Introducing a Project and a Finisher / Loose Ends: maroon knit sweater vest",
+      headers[:subject]
   end
 
   test "since method" do

@@ -8,6 +8,7 @@
 #  channel          :string
 #  click_count      :integer          default(0), not null
 #  description      :string
+#  email_headers    :jsonb            not null
 #  expires_at       :datetime
 #  last_edited_by   :integer
 #  messageable_type :string
@@ -66,6 +67,17 @@ class Message < ApplicationRecord
     Mail.from_source email_source.download
   end
   alias_method :mail, :email
+
+  # pass a Mail::Message
+  def stash_headers(mail_message)
+    self.email_headers = {
+      date: mail_message.date,
+      from: mail_message.from,
+      to: mail_message.to,
+      cc: mail_message.cc,
+      subject: mail_message.subject
+    }
+  end
 
   def path_to_messageable
     "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"

@@ -14,16 +14,14 @@
       %thead
         %tr
           %th Sent
-          %th Recorded
           %th From
           %th Subject
           %th &nbsp;
       %tbody
         - resource.messages.each do |message|
           %tr
-            %td= message.email&.date.to_s
-            %td= message.created_at.to_s
-            %td= message.email&.from
-            %td= link_to message.email&.subject, message
+            %td= message.email_headers["date"]
+            %td= message.email_headers["from"]&.join(", ")
+            %td= link_to message.email_headers["subject"]
             %td
               // TODO action buttons (view, delete)

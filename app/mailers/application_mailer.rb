@@ -46,6 +46,7 @@ class ApplicationMailer < ActionMailer::Base
     def record_delivery
       return false unless @message.present? # skip Devise emails
       @message.channel = "outbound"
+      @message.stash_headers(message)
       @message.email_source.attach(io: StringIO.new(message.to_s),
         filename: "source.eml", content_type: "text/plain")
       @message.save!

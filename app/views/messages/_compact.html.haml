@@ -10,9 +10,9 @@
   %tbody
     - messages.each do |m|
       %tr
-        %td= m.email&.date
-        %td #{ format == 'inbound' ? m.email&.from&.first : m.email&.to&.first }
+        %td= m.email_headers["date"]
+        %td #{ format == 'inbound' ? m.email_headers["from"]&.join(", ") : m.email_headers["to"]&.join(", ") }
         %td
           %a(href="#{m.path_to_messageable}") #{m.description}
         %td
-          %a(href="/message/#{m.id}") #{m.email&.subject}
+          %a(href="/message/#{m.id}") #{m.email_headers["subject"]}

@@ -74,6 +74,12 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
     refute Finisher.find(2).messages.any?
   end
 
+  test "stash headers" do
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email_headers["subject"]
+  end
+
   test 'project not found' do
     @inbound.mail.to = "not_a_person@nowhere.com"
     assert_raises(ActiveRecord::RecordNotFound) { @inbound.route }
