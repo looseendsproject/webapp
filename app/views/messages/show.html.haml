@@ -1,6 +1,6 @@
 %button.btn.btn-primary.mb-4(onclick="history.back()") Back
 
-- if @message.content.present?
+- if @message.email_source.attached?
   %table.table.table-sm.table-borderless
     %tbody
       %tr

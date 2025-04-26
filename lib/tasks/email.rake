@@ -34,4 +34,18 @@ namespace :email do
       end
     end
   end
+
+  desc "Move Message email source from ActionText to ActiveStorage"
+  task move_email_source: [:environment] do |_t|
+    docs = ActiveRecord::Base.connection.execute("SELECT record_id, body FROM action_text_rich_texts")
+    docs.each do |doc|
+      message = Message.find(doc["record_id"])
+      if message.present?
+        message.email_source.attach(io: StringIO.new(doc["body"]),
+          filename: "rich_text.eml", content_type: "text/plain")
+        message.save!
+      end
+    end
+  end
+
 end

@@ -37,6 +37,10 @@ class Message < ApplicationRecord
   validates :channel, inclusion: { in: %w(inbound outbound),
       message: "%{value} is not a valid message channel" }
 
+  # 25MB is the Gmail limit (which is still laaaaaaarge)
+  validates :email_source, content_type: ["text/plain", "message/rfc822"],
+    size: { less_than_or_equal_to: 25.megabytes }
+
   before_validation :set_defaults
   after_create :update_last_contacted_at
 
@@ -58,7 +62,8 @@ class Message < ApplicationRecord
   end
 
   def email
-    Mail.from_source Mail::Encodings::QuotedPrintable.decode(content.to_plain_text)
+    return nil unless email_source.attached?
+    Mail.from_source email_source.download
   end
   alias_method :mail, :email
 

@@ -34,7 +34,12 @@ class FinisherMailer < ApplicationMailer
 
   private
 
+  # `message` here is the Mail::Message just delivered
+  #
   def record_delivery
-    @message.update!(channel: 'outbound', content: message.to_s)
+    @message.channel = "outbound"
+    @message.email_source.attach(io: StringIO.new(message.to_s),
+      filename: "source.eml", content_type: "text/plain")
+    @message.save!
   end
 end
