@@ -33,6 +33,7 @@ class Message < ApplicationRecord
 
   belongs_to :messageable, polymorphic: true
   has_rich_text :content
+  has_one_attached :email_source
 
   validates_presence_of :messageable
   validates :channel, inclusion: { in: %w(inbound outbound),
