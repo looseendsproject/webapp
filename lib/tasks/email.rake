@@ -37,6 +37,8 @@ namespace :email do
 
   desc "Move Message email source from ActionText to ActiveStorage"
   task move_email_source: [:environment] do |_t|
+
+    # Gotta do this to circumvent ActionText magic
     docs = ActiveRecord::Base.connection.execute("SELECT record_id, body FROM action_text_rich_texts")
     docs.each do |doc|
       message = Message.find(doc["record_id"])
