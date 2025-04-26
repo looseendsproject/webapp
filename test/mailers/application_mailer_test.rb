@@ -18,6 +18,8 @@ class ApplicationMailerTest < ActionMailer::TestCase
     assert_nil m.expires_at
     refute m.single_use
     assert_equal 0, m.click_count
+
+    assert_equal "Looseends ApplicationMailer.test", m.email_headers["subject"]
   end
 
 end
