@@ -4,6 +4,7 @@
 @import "@fortawesome/fontawesome-free/scss/solid"
 @import "@fortawesome/fontawesome-free/scss/brands"
 @import "./actiontext.css"
+@import "./animations"
 
 // Finishers
 
@@ -98,14 +99,10 @@ h1.assigned
   font-size: 0.8rem
   padding: 0.25rem
 
-  .visible
-    visibility: visible
+  &.visible
     opacity: 1
     transition: opacity 2s linear
-  .hidden
-    visibility: hidden
-    opacity: 0
-    transition: visibility 0s 2s, opacity 2s linear
+    animation: fade-out 300ms linear 1s forwards
 
 // Breadcrumbs
 
@@ -239,6 +236,7 @@ h1.project-name
     background: $yellow-100
     padding: 0.5rem
     border-radius: 0.5rem
+    user-select: none
 
 // pagination
 .pagination a, .pagination span, .pagination em

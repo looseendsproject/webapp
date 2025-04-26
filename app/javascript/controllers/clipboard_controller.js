@@ -1,11 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
-const CopyDelayMs = 1000
+const CopyDelayMs = 800
+const CopySupportedClass = "copy-supported"
+const CopyClass = "copied"
 
 export default class extends Controller {
   connect() {
     if ("clipboard" in navigator) {
-      this.element.classList.add("copy-supported")
+      this.element.classList.add(CopySupportedClass)
       this.element.setAttribute("aria-label", "Copy to clipboard")
       this.element.addEventListener("click", this.copy.bind(this))
     }
@@ -14,12 +16,34 @@ export default class extends Controller {
   copy(event) {
     let textForCopy = this.element.textContent
     event.preventDefault()
-    navigator.clipboard.writeText(textForCopy)
-    this.element.classList.add("copied")
+
+    if (! this.element.classList.contains(CopySupportedClass)) {
+      // Clipboard API not supported or returning errors. Do nothing.
+      return
+    }
+
+    if (this.element.classList.contains(CopyClass)) {
+      // Copy already in progress. Don't copy "Copied!" on double click.
+      return
+    }
+
+    navigator.clipboard.writeText(textForCopy).then(
+      () => {
+        this.showCopyFeedback(textForCopy)
+      },
+      (err) => {
+        this.element.classList.remove(CopySupportedClass)
+        console.error("Could not copy text: ", err)
+      }
+    )
+  }
+
+  showCopyFeedback(textForCopy) {
+    this.element.classList.add(CopyClass)
     this.element.textContent = "Copied!"
 
     setTimeout(() => {
-      this.element.classList.remove("copied")
+      this.element.classList.remove(CopyClass)
       this.element.textContent
        = textForCopy
     }, CopyDelayMs)

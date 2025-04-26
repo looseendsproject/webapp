@@ -74,85 +74,46 @@ namespace :backfill do
       "check in" => "UNDERWAY",
       "po out of touch" => "PO UNRESPONSIVE"
     }
+    TEST_RUN = false # set to true to not persist
 
-    # Statuses
     Project.all.each do |project|
+      next if Project::STATUSES.values.include? project.status
 
-      next if Project::STATUSES.include? project.status
-      next if ["IN PROCESS", "READY TO MATCH"].include? project.status # for idempotency
+      original_status = "#{project.status}, #{project.ready_status}, #{project.in_process_status}"
+      status = nil
 
-      original_status = nil
-      begin
-
-        original_status = project.status
-
-        if ["in process", "ready to match"].include?(project.status)
-          project.update_column("status", project.status.upcase)
-          next
-        end
-
-        # Simplest case
-        if Project::STATUSES.include?(project.status.upcase)
-          project.update_column("status", project.status.upcase)
-          next
-        end
-
-        # Maps
-        project.update_column("status", STATUS_MAPS[project.status])
-
-        puts "#{project.id} #{project.name} #{project.status}"
-
-      rescue
-        puts "Invalid status: #{project.status}. Original status: #{original_status}"
+      # in process requires a substatus
+      if project.status == "in process"
+        status = "IN PROCESS: " + (project.in_process_status.present? ?
+          STATUS_MAPS[project.in_process_status] : "CONNECTED")
       end
-    end
 
-    # Substatuses
-    Project.where("ready_status IS NOT NULL OR in_process_status IS NOT NULL").each do |project|
-
-      next if Project::STATUSES.include? project.status
-
-      original_substatus = nil
-      begin
-
-        original_substatus = [project.in_process_status, project.ready_status]
-
-        if project.status == "IN PROCESS"
-          substatus = project.in_process_status.present? ?
-            STATUS_MAPS[project.in_process_status] : "CONNECTED"
-        end
-
-        if project.status == "READY TO MATCH"
-          substatus = project.ready_status.present? ? STATUS_MAPS[project.ready_status] : "NEW"
-        end
-
-        raise "NULL substatus for #{project.status}" unless substatus.present?
-        compound_status = "#{project.status}: #{substatus}"
-        raise "No compound status '#{compound_status}'" \
-          unless Project::STATUSES.include?(compound_status)
-
-        project.update_column("status", compound_status)
-
-        puts "#{project.id} #{project.name} #{project.status}"
-
-      rescue StandardError => e
-        puts "#{e}: #{compound_status}. \
-          Original substatuses: #{original_substatus} \
-          Current status: #{project.status}"
+      # ready to match requires substatus
+      if project.status == "ready to match"
+        status = "READY TO MATCH: " + (project.ready_status.present? ?
+          STATUS_MAPS[project.ready_status] : "NEW")
       end
-    end
+
+      # Simple case -- just upcase the string
+      if status.blank? && Project::STATUSES.values.include?(project.status.upcase)
+        status = project.status.upcase
+      end
+
+      # Map from one value to another
+      if status.blank?
+        status = STATUS_MAPS[project.status]
+      end
+
+      if Project::STATUSES.values.include?(status)
+        project.update_column("status", status) unless TEST_RUN
+        puts "#{project.id} #{project.name} #{status}"
+      else
+        puts "Invalid status: #{status}. Original status: #{original_status}"
+      end
+    end # project loop
 
     # Gutcheck the backfill in case some threw exceptions
     puts Project.group(:status).count(:status)
-
   end # convert project status
-
-  desc "Move email source from ActionText to ActiveStorage on Message"
-  task move_email_source: [:environment] do |_t|
-    Message.inbound.each do |msg|
-      msg.email_source.attach(msg.content.to_plain_text)
-      puts "Attached to #{record.id}"
-    end
-  end
 
 end
