@@ -31,15 +31,4 @@ class FinisherMailer < ApplicationMailer
       subject: "Tell us how #{@resource.project.name} is going"
     )
   end
-
-  private
-
-  # `message` here is the Mail::Message just delivered
-  #
-  def record_delivery
-    @message.channel = "outbound"
-    @message.email_source.attach(io: StringIO.new(message.to_s),
-      filename: "source.eml", content_type: "text/plain")
-    @message.save!
-  end
 end
