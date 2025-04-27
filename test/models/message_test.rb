@@ -151,6 +151,16 @@ class MessageTest < ActiveSupport::TestCase
       headers[:subject]
   end
 
+  test "valid_headers?" do
+    message = Message.first
+    mail_message = Mail.from_source File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    headers = message.stash_headers(mail_message)
+    assert message.valid_headers?
+
+    message.email_headers = {}
+    refute message.valid_headers?
+  end
+
   test "since method" do
     start = Time.now - 3.days
     target = Message.where(created_at: (start..Time.now)).count

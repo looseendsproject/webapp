@@ -21,6 +21,7 @@
           %th &nbsp;
       %tbody
         - resource.messages.each do |message|
+          - next unless message.valid_headers?
           %tr
             %td= DateTime.parse(message.email_headers["date"]).to_formatted_s(:compact)
             %td= message.email_headers["from"]&.join(", ")

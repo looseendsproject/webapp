@@ -70,7 +70,7 @@ class Message < ApplicationRecord
   alias_method :mail, :email
 
   # pass a Mail::Message
-  def stash_headers(mail_message)
+  def stash_headers(mail_message = nil)
     self.email_headers = {
       date: mail_message.date,
       from: mail_message.from,
@@ -80,6 +80,19 @@ class Message < ApplicationRecord
       attachments: mail_message.attachments.count,
       size: mail_message.raw_source.size
     }
+  end
+
+  def valid_headers?
+    begin
+      DateTime.parse(email_headers["date"])
+      raise "Malformed email_headers struct" unless email_headers.keys == [
+        "date", "from", "to", "cc", "subject", "attachments", "size"
+      ]
+    rescue StandardError => e
+      false
+    else
+      true
+    end
   end
 
   def path_to_messageable

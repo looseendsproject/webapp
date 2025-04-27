@@ -28,16 +28,32 @@ project:
   id: 1
   messageable_type: 'Project'
   messageable_id: 1
-  description: "project/Project Title One"
+  description: "Project Title One"
   last_edited_by: 3
   channel: inbound
+  email_headers:
+    date: "Sun, 23 Mar 2025 19:55:35 -0400"
+    from: ["somebody@somewhere.com"]
+    to: ["Project-t4Tzy9NI@localhost"]
+    cc: nil
+    subject: "testy"
+    attachments: 1
+    size: 145000
 
 finisher:
   id: 2
   messageable_type: 'Finisher'
   messageable_id: 1
-  description: "finisher/Bobby (Bob Simmons)"
+  description: "Bobby (Bob Simmons)"
   channel: inbound
+  email_headers:
+    date: "Sun, 23 Mar 2025 19:55:35 -0400"
+    from: ["somebody@somewhere.com"]
+    to: ["Finisher-t4Tzy9NI@localhost"]
+    cc: nil
+    subject: "testy"
+    attachments: 1
+    size: 145000
 
 user:
   id: 3
@@ -55,3 +71,12 @@ sgid:
   sgid: eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJakJuYVdRNkx5OXNiMjl6WldWdVpITXZUV1Z6YzJGblpTODBQMlY0Y0dseVpYTmZhVzQ5TmpBME9EQXdCam9HUlZRPSIsImV4cCI6IjIwMjUtMDUtMDZUMjA6MjA6MzQuMDAwWiIsInB1ciI6ImRlZmF1bHQifX0=--e06d2cf24589ba6cf086ba9c512211cbfccaafcc
   expires_at: 2025-05-06 20:20:34.000000000 UTC +00:00
   redirect_to: "/finisher/new"
+  email_headers:
+    date: "Sun, 23 Mar 2025 19:55:35 -0400"
+    from: ["somebody@somewhere.com"]
+    to: ["Finisher-t4Tzy9NI@localhost"]
+    cc: nil
+    subject: "testy"
+    attachments: 1
+    size: 145000
+
