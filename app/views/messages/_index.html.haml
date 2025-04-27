@@ -16,12 +16,16 @@
           %th Sent
           %th From
           %th Subject
+          %th.text-center Attachments
+          %th.text-end Size
           %th &nbsp;
       %tbody
         - resource.messages.each do |message|
           %tr
-            %td= message.email_headers["date"]
+            %td= DateTime.parse(message.email_headers["date"]).to_formatted_s(:compact)
             %td= message.email_headers["from"]&.join(", ")
-            %td= link_to message.email_headers["subject"]
+            %td= link_to message.email_headers["subject"], message
+            %td.text-center= message.email_headers["attachments"] > 0 ? fa_icon("paperclip") : ""
+            %td.text-end= number_to_human_size(message.email_headers["size"], precision: 2)
             %td
               // TODO action buttons (view, delete)

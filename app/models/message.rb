@@ -76,7 +76,9 @@ class Message < ApplicationRecord
       from: mail_message.from,
       to: mail_message.to,
       cc: mail_message.cc,
-      subject: mail_message.subject
+      subject: mail_message.subject,
+      attachments: mail_message.attachments.count,
+      size: mail_message.raw_source.size
     }
   end
 
@@ -133,7 +135,7 @@ class Message < ApplicationRecord
   # Messageable must respond to #name
   def set_defaults
     self.channel ||= 'inbound'
-    self.description ||= "#{messageable.class.to_s.downcase}/#{messageable.name}"
+    self.description ||= messageable.name
   end
 
   def update_last_contacted_at

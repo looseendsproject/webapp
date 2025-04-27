@@ -7,12 +7,16 @@
       %th #{ format == 'inbound' ? 'From' : 'To' }
       %th Attached to
       %th Subject
+      %th.text-center Attachments
+      %th.text-end Size
   %tbody
     - messages.each do |m|
       %tr
-        %td= m.email_headers["date"]
+        %td= DateTime.parse(m.email_headers["date"]).to_formatted_s(:compact)
         %td #{ format == 'inbound' ? m.email_headers["from"]&.join(", ") : m.email_headers["to"]&.join(", ") }
         %td
           %a(href="#{m.path_to_messageable}") #{m.description}
         %td
-          %a(href="/message/#{m.id}") #{m.email_headers["subject"]}
+          %a(href="/message/#{m.id}") #{truncate(m.email_headers["subject"], length: 50)}
+        %td.text-center= m.email_headers["attachments"] > 0 ? fa_icon("paperclip") : ""
+        %td.text-end= number_to_human_size(m.email_headers["size"], precision: 2)
