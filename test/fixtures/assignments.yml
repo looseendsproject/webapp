@@ -26,7 +26,7 @@ knit_active:
   finisher_id: 2
   created_by: 3
   started_at: 2024-01-01
-  status: "IN PROCESS: UNDERWAY"
+  status: accepted
   last_contacted_at: <%= Time.zone.now.beginning_of_day - 15.days %>
 
 knit_inactive:
