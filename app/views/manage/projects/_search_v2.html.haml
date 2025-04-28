@@ -27,6 +27,6 @@
         - dt = $2
         = render partial: 'search_predicate', locals: { field: :last_contacted_at, operator: op, values: date_options, value: dt }
     .d-flex.justify-content-end.align-items-start.flex-grow-0.text-nowrap
-      = select_tag :view, options_for_select([['Show Cards', nil], ['Show List', 'list']], params[:view]), class: 'form-select'
+      = select_tag :view, options_for_select([['Show Cards', nil], ['Show List', 'list']], params[:view]), class: 'form-select me-1'
       = render partial: 'search_view_save_menu'
       = submit_tag "Search", name: nil, class: 'btn btn-primary btn-search ms-1'
