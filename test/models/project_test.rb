@@ -87,6 +87,22 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 1, Project.needing_attention.count
   end
 
+  test "finisher method returns finisher" do
+    assert_not_nil @project.finisher
+    assert_equal finishers(:knitter), @project.finisher
+  end
+
+  test "finisher method returns last finisher" do
+    @project.assignments.create!(creator: User.new, finisher: finishers(:crocheter))
+    assert_not_nil @project.finisher
+    assert_equal finishers(:crocheter), @project.finisher
+  end
+
+  test "active_finisher method returns finisher" do
+    assert_not_nil @project.active_finisher
+    assert_equal finishers(:knitter), @project.active_finisher
+  end
+
   test "inbound_email_address assignment" do
     p = Project.new
     refute p.inbound_email_address

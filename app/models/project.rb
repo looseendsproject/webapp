@@ -90,6 +90,9 @@ class Project < ApplicationRecord
     test: "TEST"
   }.freeze
 
+  ACTIVE_STATUSES = STATUSES.slice(:introduced, :in_process_connected, :in_process_waiting_handoff,
+                                  :in_process_underway, :in_process_po_unresponsive, :finished_not_returned).freeze
+
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
   NEEDS_ATTENTION_REASONS = %w(negative_sentiment stalled_accepted
@@ -158,7 +161,7 @@ class Project < ApplicationRecord
   end
 
   def finisher
-    finishers.first
+    finishers.reorder('assignments.updated_at desc').first
   end
 
   def finisher_name
@@ -174,7 +177,7 @@ class Project < ApplicationRecord
   end
 
   def active_assignment
-    assignments.find_by(status: "accepted")
+    assignments.find_by(status: ACTIVE_STATUSES.values)
   end
 
   def active_finisher
