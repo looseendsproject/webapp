@@ -9,6 +9,32 @@ $predicate-border-color: #ced4da
   padding: 0.5em 0px
   gap: 8px
 
+.saved-view
+  .saved-view-name
+    border-right: 1px solid transparent
+  .remove
+    border-left: 1px solid transparent
+    display: flex
+    align-items: center
+    height: 100%
+    cursor: pointer
+    padding: 0
+
+    .btn-close
+      opacity: 0
+      height: 28px
+      font-size: 0.5em
+      padding: 0.3rem 0.25rem
+
+  &:hover
+    .saved-view-name
+      border-right: 1px solid $secondary
+    .remove
+      border-left: 1px solid $secondary
+      .btn-close
+        opacity: 1
+        transition: opacity 0.2s ease-in-out
+
 .search-predicate
   display: flex
   height: 36px

@@ -1,0 +1,35 @@
+.dropdown
+  %button.btn.btn-outline-primary.text-nowrap.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", "data-bs-auto-close" => "outside", type: "button"}
+    Save View
+  .dropdown-menu.p-2
+    .mb-2
+      = label_tag :save_view, 'Name', class: 'form-label'
+      = text_field_tag :save_view, nil, class: 'form-control', autocomplete: 'off', onkeypress: 'onEnterSave(event)'
+    .foo
+      = submit_tag 'Save', class: "btn btn-primary", id: 'save-view-submit'
+
+:javascript
+
+  function onEnterSave(event) {
+    if (event.key == "Enter") {
+      event.preventDefault()
+      event.target.closest('form').requestSubmit()
+    }
+  }
+
+  window.setInterval(function() {
+    const predicateCount = document.querySelectorAll('.search-predicate').length
+    const saveViewEnabled = predicateCount > 0
+    const textField = document.getElementById('save_view')
+    const submitButton = document.getElementById('save-view-submit')
+
+    textField.disabled = !saveViewEnabled
+    submitButton.disabled = !saveViewEnabled
+    if (saveViewEnabled) {
+      textField.classList.remove('disabled')
+      submitButton.classList.remove('disabled')
+    } else {
+      textField.classList.add('disabled')
+      submitButton.classList.add('disabled')
+    }
+  }, 500)

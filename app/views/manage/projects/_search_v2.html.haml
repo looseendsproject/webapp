@@ -2,16 +2,18 @@
 - date_options = [30, 7].map{|i| ["#{i} days ago", i.days.to_i.to_s] }
 = form_tag [:manage, :projects], method: :get, data: { turbo: false } do
   = hidden_field_tag :v2, true
-  - if current_user.project_views.any?
-    .search-row.d-flex
-      Saved Views:
-      - current_user.project_views.each do |project_view|
-        = link_to project_view.name, %Q[?v2=true&view=#{project_view.id}]
   .search-row
     = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
+  - if current_user.project_views.any?
+    .search-row.d-flex
+      - current_user.project_views.each do |project_view|
+        .saved-view.btn-group
+          = link_to project_view.name, %Q[?v2=true&load_view=#{project_view.id}], class: 'btn btn-outline-secondary saved-view-name'
+          .remove.btn.btn-sm.btn-outline-secondary
+            = button_to(' ', saved_view_remove_manage_projects_path(remove_view: project_view.id), class: 'btn btn-sm btn-close')
   .search-row.d-flex
     .flex-grow-0
-      = render partial: 'search_filters_menu'
+      = render partial: 'search_filters_menu', locals: { manager_options:, date_options:, statuses: Project::STATUSES.values }
     .d-flex.flex-wrap.flex-grow-1
       - if params[:manager_id].present?
         = render partial: 'search_predicate', locals: { field: :manager_id, operator: '=', values: manager_options, value: params[:manager_id] }
@@ -21,6 +23,7 @@
         - op = $1
         - dt = $2
         = render partial: 'search_predicate', locals: { field: :last_contacted_at, operator: op, values: date_options, value: dt }
-    .flex-grow-0
-      = button_tag "Clear", name: nil, class: 'btn btn-light', onclick: "document.querySelectorAll('.search-predicate').forEach((e) => { e.remove() })"
-      = submit_tag "Search", name: nil, class: 'btn btn-primary btn-search'
+    .d-flex.justify-content-end.align-items-start.flex-grow-0
+      = button_tag "Clear", name: nil, class: 'btn btn-light me-1', onclick: "document.querySelectorAll('.search-predicate').forEach((e) => { e.remove() })"
+      = render partial: 'search_view_save_menu'
+      = submit_tag "Search", name: nil, class: 'btn btn-primary btn-search ms-1'

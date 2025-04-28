@@ -4,18 +4,13 @@ require "csv"
 
 module Manage
   class ProjectsController < Manage::ManageController
+    before_action :redirect_to_saved_view, only: :index
+    before_action :save_view_by_name, only: :index
+
+    SAVED_QUERY_PARAMS = %i[manager_id status last_contacted_at].freeze
+
     def index
       @title = "Loose Ends - Manage - Projects"
-
-      if params[:view]
-        project_view = current_user.project_views.find(params[:view])
-        view_params = { v2: true }
-        project_view.query.each do |query_predicate|
-          view_params[query_predicate["field"]] = query_predicate["value"]
-        end
-        redirect_to manage_projects_path(view_params)
-      end
-
       @projects = Project.search(params).includes(:finishers)
 
       respond_to do |format|
@@ -71,6 +66,16 @@ module Manage
       redirect_to %i[manage projects]
     end
 
+    def remove_saved_view
+      return unless params[:remove_view].present?
+
+      project_view = current_user.project_views.find(params[:remove_view])
+      project_view.destroy
+      flash[:notice] = "View removed"
+
+      redirect_to manage_projects_path(v2: true)
+    end
+
     protected
 
     def add_csv_headers
@@ -89,6 +94,38 @@ module Manage
                        ""
                      end}", status]
       end
+    end
+
+    def redirect_to_saved_view
+      if load_view_name = params[:load_view]
+        project_view = current_user.project_views.find(load_view_name)
+        view_params = { v2: true }
+        project_view.query.each do |query_predicate|
+          view_params[query_predicate["field"]] = query_predicate["value"]
+        end
+        redirect_to manage_projects_path(view_params)
+      end
+    end
+
+    def save_view_by_name
+      return unless params[:save_view].present?
+      new_view_name = params[:save_view].strip
+      return if new_view_name.blank?
+
+      query_params = params.permit(SAVED_QUERY_PARAMS).to_h
+      if query_params.empty?
+        flash[:notice] = "Cannot save an empty query view"
+        redirect_to manage_projects_path(v2: true)
+        return
+      end
+
+      project_view = current_user.project_views.find_or_initialize_by(name: new_view_name)
+      project_view.query = query_params.map{|k, v| { field: k, value: v } }
+      project_view.save!
+      flash[:notice] = "View saved as #{new_view_name}"
+
+      # Redirect to the new view to avoid leaving it in the URL when parameters are changed
+      redirect_to manage_projects_path(v2: true, load_view: project_view.id)
     end
 
     def project_params

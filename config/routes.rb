@@ -65,6 +65,7 @@ Rails.application.routes.draw do
       end
       collection do
         get "finishers/search", to: "finishers#search"
+        post "saved_view/remove", to: "projects#remove_saved_view"
       end
     end
     resources :finishers do
