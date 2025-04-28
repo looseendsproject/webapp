@@ -90,6 +90,8 @@ class Project < ApplicationRecord
     test: "TEST"
   }.freeze
 
+  INACTIVE_STATUSES = STATUSES.slice(:done, :will_not_do, :test).freeze
+
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
   NEEDS_ATTENTION_REASONS = %w(negative_sentiment stalled_accepted
@@ -150,7 +152,7 @@ class Project < ApplicationRecord
     obj.full_address.present? && obj.full_address_has_changed?
   }
 
-  scope :ignore_tests, -> { where.not(status: "test") }
+  scope :ignore_inactive, -> { where.not(status: INACTIVE_STATUSES.values) }
   scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
 
   def set_default_status

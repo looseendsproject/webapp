@@ -103,6 +103,17 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal finishers(:knitter), @project.active_finisher
   end
 
+  test "ignore_inactive scope" do
+    Project::STATUSES.each do |key, value|
+      @project.update(status: value)
+      if Project::INACTIVE_STATUSES.include?(key)
+        assert_not_includes Project.ignore_inactive, @project.reload
+      else
+        assert_includes Project.ignore_inactive, @project.reload
+      end
+    end
+  end
+
   test "inbound_email_address assignment" do
     p = Project.new
     refute p.inbound_email_address

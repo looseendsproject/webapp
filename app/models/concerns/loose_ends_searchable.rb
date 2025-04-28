@@ -230,7 +230,7 @@ module LooseEndsSearchable
     def with_statuses(query, params)
       result = query
       result = if params[:status].blank?
-                 result.ignore_tests
+                 result.ignore_inactive
                else
                  with_field_value(result, :status, params[:status])
                end
