@@ -29,7 +29,7 @@ export default class extends Controller {
     hiddenTextElement.style.display = "none"
     hiddenTextElement.textContent = this.element.textContent
     const clipboardLink = document.createElement("span")
-    clipboardLink.classList.add("copy-supported")
+    clipboardLink.classList.add(CopySupportedClass)
     clipboardLink.setAttribute("aria-label", "Copy to clipboard")
     clipboardLink.addEventListener("click", this.copy.bind(this))
     clipboardLink.appendChild(hiddenTextElement)
@@ -40,13 +40,15 @@ export default class extends Controller {
     let textForCopy = event.target.textContent
     event.preventDefault()
 
-    if (! this.element.classList.contains(CopySupportedClass)) {
+    if (! event.target.classList.contains(CopySupportedClass)) {
       // Clipboard API not supported or returning errors. Do nothing.
+      console.log("Clipboard API not supported")
       return
     }
 
     if (this.element.classList.contains(CopyClass)) {
       // Copy already in progress. Don't copy "Copied!" on double click.
+      console.log("Already copying")
       return
     }
 
