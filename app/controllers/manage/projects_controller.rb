@@ -7,7 +7,7 @@ module Manage
     before_action :redirect_to_saved_view, only: :index
     before_action :save_view_by_name, only: :index
 
-    SAVED_QUERY_PARAMS = %i[manager_id status last_contacted_at].freeze
+    SAVED_QUERY_PARAMS = %i[manager_id status last_contacted_at search view sort].freeze
 
     def index
       @title = "Loose Ends - Manage - Projects"
@@ -97,20 +97,20 @@ module Manage
     end
 
     def redirect_to_saved_view
-      if load_view_name = params[:load_view]
-        project_view = current_user.project_views.find(load_view_name)
-        view_params = { v2: true }
-        project_view.query.each do |query_predicate|
-          view_params[query_predicate["field"]] = query_predicate["value"]
-        end
-        redirect_to manage_projects_path(view_params)
+      return unless load_view_name = params[:load_view]
+
+      project_view = current_user.project_views.find(load_view_name)
+      view_params = { v2: true }
+      project_view.query.each do |query_predicate|
+        view_params[query_predicate["field"]] = query_predicate["value"]
       end
+      redirect_to manage_projects_path(view_params)
     end
 
     def save_view_by_name
-      return unless params[:save_view].present?
+      return if params[:save_view].blank?
+
       new_view_name = params[:save_view].strip
-      return if new_view_name.blank?
 
       query_params = params.permit(SAVED_QUERY_PARAMS).to_h
       if query_params.empty?
@@ -120,7 +120,7 @@ module Manage
       end
 
       project_view = current_user.project_views.find_or_initialize_by(name: new_view_name)
-      project_view.query = query_params.map{|k, v| { field: k, value: v } }
+      project_view.query = query_params.map { |k, v| { field: k, value: v } }
       project_view.save!
       flash[:notice] = "View saved as #{new_view_name}"
 
