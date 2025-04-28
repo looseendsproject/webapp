@@ -1,7 +1,16 @@
 .dropdown
-  %button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"}
+  %button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", "data-bs-auto-close" => "outside", type: "button"}
     Add Filter
   .dropdown-menu{"aria-labelledby" => "dropdownMenuButton"}
     = link_to('Manager', manage_projects_path(request.query_parameters.merge(manager_id: 5)), class: 'dropdown-item')
     = link_to('Status', manage_projects_path(request.query_parameters.merge(status: 'test')), class: 'dropdown-item')
-    = link_to('Last Contact Date', manage_projects_path(request.query_parameters.merge(last_contacted_at: "before(#{30.days.to_i})")), class: 'dropdown-item')
+    .dropend
+      .dropdown-item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"}
+        Last Contact Date
+      %ul.dropdown-menu
+        %li
+          = link_to('> 30 days', manage_projects_path(request.query_parameters.merge(last_contacted_at: "before(#{30.days.to_i})")), class: 'dropdown-item')
+        %li
+          = link_to('> 7 days', manage_projects_path(request.query_parameters.merge(last_contacted_at: "before(#{7.days.to_i})")), class: 'dropdown-item')
+        %li
+          = link_to('< 30 days', manage_projects_path(request.query_parameters.merge(last_contacted_at: "after(#{30.days.to_i})")), class: 'dropdown-item')
