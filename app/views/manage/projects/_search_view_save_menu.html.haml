@@ -1,5 +1,5 @@
 .dropdown
-  %button.btn.btn-outline-primary.text-nowrap.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", "data-bs-auto-close" => "outside", type: "button"}
+  %button#save-view-dropdown.btn.btn-outline-primary.text-nowrap.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", "data-bs-auto-close" => "outside", type: "button"}
     Save View
   .dropdown-menu.p-2
     .mb-2
@@ -20,15 +20,18 @@
   window.setInterval(function() {
     const predicateCount = document.querySelectorAll('.search-predicate').length
     const saveViewEnabled = predicateCount > 0
+    const dropdownButton = document.getElementById('save-view-dropdown')
     const textField = document.getElementById('save_view')
     const submitButton = document.getElementById('save-view-submit')
 
     textField.disabled = !saveViewEnabled
     submitButton.disabled = !saveViewEnabled
     if (saveViewEnabled) {
+      dropdownButton.classList.remove('disabled')
       textField.classList.remove('disabled')
       submitButton.classList.remove('disabled')
     } else {
+      dropdownButton.classList.add('disabled')
       textField.classList.add('disabled')
       submitButton.classList.add('disabled')
     }

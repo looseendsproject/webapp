@@ -1,16 +1,17 @@
 - manager_options = User.project_managers.map { |a| [a.name, a.id.to_s] }
 - date_options = [30, 7].map{|i| ["#{i} days ago", i.days.to_i.to_s] }
+- if current_user.project_views.any?
+  .search-row.d-flex.align-items-center
+    %strong Saved Views:
+    - current_user.project_views.each do |project_view|
+      .saved-view.btn-group
+        = link_to project_view.name, %Q[?v2=true&load_view=#{project_view.id}], class: 'btn btn-sm btn-outline-secondary saved-view-name'
+        .remove.btn.btn-sm.btn-outline-secondary
+          = button_to(' ', saved_view_remove_manage_projects_path(remove_view: project_view.id), class: 'btn btn-sm btn-close')
 = form_tag [:manage, :projects], method: :get, data: { turbo: false } do
   = hidden_field_tag :v2, true
   .search-row
     = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
-  - if current_user.project_views.any?
-    .search-row.d-flex
-      - current_user.project_views.each do |project_view|
-        .saved-view.btn-group
-          = link_to project_view.name, %Q[?v2=true&load_view=#{project_view.id}], class: 'btn btn-outline-secondary saved-view-name'
-          .remove.btn.btn-sm.btn-outline-secondary
-            = button_to(' ', saved_view_remove_manage_projects_path(remove_view: project_view.id), class: 'btn btn-sm btn-close')
   .search-row.d-flex
     .flex-grow-0
       = render partial: 'search_filters_menu', locals: { manager_options:, date_options:, statuses: Project::STATUSES.values }
