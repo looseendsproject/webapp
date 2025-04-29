@@ -5,7 +5,7 @@ class ApplicationMailer < ActionMailer::Base
   layout "mailer"
 
   before_action :add_logo!, :create_message_record
-  after_deliver :update_message_record
+  after_deliver :record_delivery
 
   # Any actions in any mailers that inherit from self
   # must call "@message.set_sgid!" if they want a
@@ -43,9 +43,12 @@ class ApplicationMailer < ActionMailer::Base
     # also where we set the link_action for the mailer action
     # that was called.
     #
-    def update_message_record
-      return unless @message # skip Devise mail
-      @message.content = message.to_s
+    def record_delivery
+      return false unless @message.present? # skip Devise emails
+      @message.channel = "outbound"
+      @message.stash_headers(message)
+      @message.email_source.attach(io: StringIO.new(message.to_s),
+        filename: "source.eml", content_type: "text/plain")
       @message.save!
     end
 end

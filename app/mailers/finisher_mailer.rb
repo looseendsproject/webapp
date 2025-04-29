@@ -31,10 +31,4 @@ class FinisherMailer < ApplicationMailer
       subject: "Tell us how #{@resource.project.name} is going"
     )
   end
-
-  private
-
-  def record_delivery
-    @message.update!(channel: 'outbound', content: message.to_s)
-  end
 end
