@@ -45,7 +45,11 @@
   };
 
   var setupSortHeaders = () => {
-    const currentSort = document.getElementById('sort').value
+    const sortElement = document.getElementById('sort')
+    if (! sortElement) {
+      return
+    }
+    const currentSort = sortElement.value
     const sortableHeaders = document.getElementsByClassName('sortable')
 
     for (var i=0; i < sortableHeaders.length; i++) {
