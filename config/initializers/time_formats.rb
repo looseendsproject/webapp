@@ -52,5 +52,6 @@
 
 # Custom
 
-Time::DATE_FORMATS[:month_and_year] = "%B %Y"
+Time::DATE_FORMATS[:month_and_year] = "%B %Y" # January 2025
 Time::DATE_FORMATS[:human] = "%a %b %d, %Y %I:%M%p %Z" # Thu Apr 03, 2025 02:08AM UTC
+Time::DATE_FORMATS[:compact] = "%m/%e/%y %I:%M%p %Z" # 04/6/25 08:53AM -5:00

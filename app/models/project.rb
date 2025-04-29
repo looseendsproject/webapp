@@ -20,7 +20,6 @@
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
-#  in_process_status         :string
 #  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
@@ -40,7 +39,6 @@
 #  press_outlet              :string
 #  press_region              :string
 #  privacy_needed            :boolean          default(FALSE)
-#  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
 #  status                    :string           default("PROPOSED"), not null
@@ -153,7 +151,7 @@ class Project < ApplicationRecord
   }
 
   scope :ignore_inactive, -> { where.not(status: INACTIVE_STATUSES.values) }
-  scope :needing_attention, -> { where.not(needs_attention: nil).order(name: :asc) }
+  scope :needing_attention, -> { where.not(needs_attention: [nil, ""]).order(name: :asc) }
 
   def set_default_status
     self.status ||= "PROPOSED"
@@ -194,7 +192,7 @@ class Project < ApplicationRecord
   # Helper for options_for_select
   #
   def self.needs_attention_options
-    opts = [["", nil]]
+    opts = []
     NEEDS_ATTENTION_REASONS.map do |nar|
       opts << [nar.titleize, nar]
     end

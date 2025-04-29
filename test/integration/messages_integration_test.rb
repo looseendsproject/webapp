@@ -6,6 +6,9 @@ class MessagesIntegrationTest < ActionDispatch::IntegrationTest
 
   def setup
     @message = Message.find(1)
+    @message.email_source.attach(io: File.open(Rails.root.join("test/fixtures/files/sample_png.eml")),
+      filename: "source.eml", content_type: "text/plain")
+    @message.save!
   end
 
   test "show works for admin" do

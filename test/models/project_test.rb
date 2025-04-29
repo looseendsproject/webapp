@@ -20,7 +20,6 @@
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
-#  in_process_status         :string
 #  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
@@ -40,7 +39,6 @@
 #  press_outlet              :string
 #  press_region              :string
 #  privacy_needed            :boolean          default(FALSE)
-#  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
 #  status                    :string           default("PROPOSED"), not null
@@ -85,6 +83,9 @@ class ProjectTest < ActiveSupport::TestCase
   test "needing_attention scope" do
     Project.first.update(needs_attention: "stalled_invited")
     assert_equal 1, Project.needing_attention.count
+
+    Project.first.update(needs_attention: "")
+    assert_equal 0, Project.needing_attention.count
   end
 
   test "finisher method returns finisher" do
@@ -164,7 +165,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "needs_attention_option returns proper struct" do
-    assert_equal [["", nil], ["Negative Sentiment", "negative_sentiment"],
+    assert_equal [["Negative Sentiment", "negative_sentiment"],
       ["Stalled Accepted", "stalled_accepted"], ["Stalled Invited", "stalled_invited"],
       ["Stalled Potential", "stalled_potential"], ["Long Running", "long_running"]],
       Project.needs_attention_options

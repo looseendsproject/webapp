@@ -26,7 +26,7 @@ class Note < ApplicationRecord
       classification: "positive",
       alert_manager: false
     },
-    "not_great" => {
+    "need_help" => {
       classification: "negative",
       alert_manager: true
     },
