@@ -83,6 +83,9 @@ class ProjectTest < ActiveSupport::TestCase
   test "needing_attention scope" do
     Project.first.update(needs_attention: "stalled_invited")
     assert_equal 1, Project.needing_attention.count
+
+    Project.first.update(needs_attention: "")
+    assert_equal 0, Project.needing_attention.count
   end
 
   test "inbound_email_address assignment" do
@@ -135,7 +138,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "needs_attention_option returns proper struct" do
-    assert_equal [["", nil], ["Negative Sentiment", "negative_sentiment"],
+    assert_equal [["Negative Sentiment", "negative_sentiment"],
       ["Stalled Accepted", "stalled_accepted"], ["Stalled Invited", "stalled_invited"],
       ["Stalled Potential", "stalled_potential"], ["Long Running", "long_running"]],
       Project.needs_attention_options
