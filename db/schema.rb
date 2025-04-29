@@ -224,8 +224,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_192756) do
     t.float "latitude"
     t.float "longitude"
     t.bigint "manager_id"
-    t.string "ready_status"
-    t.string "in_process_status"
     t.boolean "joann_helped", default: false
     t.boolean "urgent", default: false
     t.boolean "influencer", default: false
