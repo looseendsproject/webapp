@@ -198,6 +198,12 @@ module Manage
       assert_search_no_results(manager_id: "0")
     end
 
+    test "search with manager_id=none returns projects without manager" do
+      result = create_search_project
+      result.update!(manager: nil)
+      assert_search_results([result], manager_id: "none")
+    end
+
     test "search by status" do
       result = create_search_project
       result.update!(status: "PROPOSED")

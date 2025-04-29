@@ -4,26 +4,51 @@ const CopyDelayMs = 800
 const CopySupportedClass = "copy-supported"
 const CopyClass = "copied"
 
+function shouldAppendCopyElement(element) {
+  return element.tagName === "A"
+}
+
 export default class extends Controller {
   connect() {
     if ("clipboard" in navigator) {
-      this.element.classList.add(CopySupportedClass)
-      this.element.setAttribute("aria-label", "Copy to clipboard")
-      this.element.addEventListener("click", this.copy.bind(this))
+      if (shouldAppendCopyElement(this.element)) {
+        this.appendCopyElement()
+      } else {
+        this.element.classList.add(CopySupportedClass)
+        this.element.setAttribute("aria-label", "Copy to clipboard")
+        this.element.addEventListener("click", this.copy.bind(this))
+      }
     }
   }
 
+  appendCopyElement() {
+    if (this.element.querySelector(".copy-supported")) {
+      return
+    }
+    const hiddenTextElement = document.createElement("span")
+    hiddenTextElement.style.display = "none"
+    hiddenTextElement.textContent = this.element.textContent
+    const clipboardLink = document.createElement("span")
+    clipboardLink.classList.add(CopySupportedClass)
+    clipboardLink.setAttribute("aria-label", "Copy to clipboard")
+    clipboardLink.addEventListener("click", this.copy.bind(this))
+    clipboardLink.appendChild(hiddenTextElement)
+    this.element.appendChild(clipboardLink)
+  }
+
   copy(event) {
-    let textForCopy = this.element.textContent
+    let textForCopy = event.target.textContent
     event.preventDefault()
 
-    if (! this.element.classList.contains(CopySupportedClass)) {
+    if (! event.target.classList.contains(CopySupportedClass)) {
       // Clipboard API not supported or returning errors. Do nothing.
+      console.log("Clipboard API not supported")
       return
     }
 
     if (this.element.classList.contains(CopyClass)) {
       // Copy already in progress. Don't copy "Copied!" on double click.
+      console.log("Already copying")
       return
     }
 
@@ -43,9 +68,15 @@ export default class extends Controller {
     this.element.textContent = "Copied!"
 
     setTimeout(() => {
-      this.element.classList.remove(CopyClass)
-      this.element.textContent
-       = textForCopy
+      this.restoreContent(textForCopy)
     }, CopyDelayMs)
+  }
+
+  restoreContent(textForCopy) {
+    this.element.classList.remove(CopyClass)
+    this.element.textContent = textForCopy
+    if (shouldAppendCopyElement(this.element)) {
+      this.appendCopyElement()
+    }
   }
 }

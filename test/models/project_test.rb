@@ -88,6 +88,33 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Project.needing_attention.count
   end
 
+  test "finisher method returns finisher" do
+    assert_not_nil @project.finisher
+    assert_equal finishers(:knitter), @project.finisher
+  end
+
+  test "finisher method returns last finisher" do
+    @project.assignments.create!(creator: User.new, finisher: finishers(:crocheter))
+    assert_not_nil @project.finisher
+    assert_equal finishers(:crocheter), @project.finisher
+  end
+
+  test "active_finisher method returns finisher" do
+    assert_not_nil @project.active_finisher
+    assert_equal finishers(:knitter), @project.active_finisher
+  end
+
+  test "ignore_inactive scope" do
+    Project::STATUSES.each do |key, value|
+      @project.update(status: value)
+      if Project::INACTIVE_STATUSES.include?(key)
+        assert_not_includes Project.ignore_inactive, @project.reload
+      else
+        assert_includes Project.ignore_inactive, @project.reload
+      end
+    end
+  end
+
   test "inbound_email_address assignment" do
     p = Project.new
     refute p.inbound_email_address
