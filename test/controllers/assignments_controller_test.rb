@@ -24,7 +24,7 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "negative sentiment sends manager email" do
     post "/assignment/#{@assignment.id}/check_in", params: { note: {
-      sentiment: "not_great",
+      sentiment: "need_help",
       text: "this thing is a mess"
     }}
     assert_redirected_to "/thank_you"
