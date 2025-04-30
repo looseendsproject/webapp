@@ -164,7 +164,7 @@ class MessageTest < ActiveSupport::TestCase
       "cc"=>nil,
       "to"=>["project-15eo7ge2@parse-staging.looseendsproject.org"],
       "date"=>"2025-04-29T16:40:36.000-04:00",
-      "from"=>["bgatewood@gmail.com"],
+      "from"=>["testy_test@gmail.com"],
       "size"=>27755,
       "subject"=>"quoted-printable?",
       "attachments"=>1
