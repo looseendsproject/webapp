@@ -159,6 +159,17 @@ class MessageTest < ActiveSupport::TestCase
 
     message.email_headers = {}
     refute message.valid_headers?
+
+    message.email_headers = {
+      "cc"=>nil,
+      "to"=>["project-15eo7ge2@parse-staging.looseendsproject.org"],
+      "date"=>"2025-04-29T16:40:36.000-04:00",
+      "from"=>["testy_test@gmail.com"],
+      "size"=>27755,
+      "subject"=>"quoted-printable?",
+      "attachments"=>1
+    }
+    assert message.valid_headers?
   end
 
   test "since method" do

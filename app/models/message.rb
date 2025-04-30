@@ -85,9 +85,9 @@ class Message < ApplicationRecord
   def valid_headers?
     begin
       DateTime.parse(email_headers["date"])
-      raise "Malformed email_headers struct" unless email_headers.keys == [
+      raise "Malformed email_headers struct" if email_headers.keys.difference([
         "date", "from", "to", "cc", "subject", "attachments", "size"
-      ]
+      ]).any?
     rescue StandardError => e
       false
     else
