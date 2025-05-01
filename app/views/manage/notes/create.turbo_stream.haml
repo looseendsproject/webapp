@@ -1,5 +1,5 @@
-= turbo_stream.prepend "notes" do
-  = render @note
+= turbo_stream.prepend "manager-notes" do
+  = render partial: "manage/notes/manager_note", locals: { manager_note: @note }
 
 = turbo_stream.update "note_form" do
   = render partial: 'manage/notes/form', locals: { project: @project}

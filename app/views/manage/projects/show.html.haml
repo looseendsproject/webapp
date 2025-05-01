@@ -210,12 +210,18 @@
             Incomplete Address Prevents Map Searching
     = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
 
-    %h4.mt-4 Notes
+    %h4.mt-4 Finisher Notes
+    #finisher-notes.d-flex.flex-column
+      = render partial: "manage/notes/finisher_note",
+        collection: @project.finisher_notes.order(created_at: :desc)
+
+    %hr
+
+    %h4.mt-4 Manager Notes
     #note_form
       = render partial: 'manage/notes/form', locals: { project: @project }
-    #notes.d-flex.flex-column
-      - @notes = @project.notes.order(created_at: :desc)
-      = render @notes
+    #manager-notes.d-flex.flex-column
+      = render partial: "manage/notes/manager_note", collection: @project.notes.order(created_at: :desc)
 
 = render partial: 'messages/index', locals: { resource: @project }
 
