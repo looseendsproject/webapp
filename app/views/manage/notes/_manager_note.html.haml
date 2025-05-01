@@ -1,0 +1,10 @@
+= turbo_frame_tag(dom_id(manager_note)) do
+  .note.my-2
+    .note-header.small.d-flex.ms-au.align-items-center.border-bottom-1.border-dark
+      .note-author
+        = manager_note.user.name
+      = button_to fa_icon('remove'), manage_project_note_path(manager_note.notable, manager_note), method: :delete, class: 'btn btn-link p-0', form_class: 'd-inline m-0 ms-auto'
+    .note-body
+      = manager_note.text
+    .note-footer.small
+      = l(manager_note.created_at, format: :short)

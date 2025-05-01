@@ -2,7 +2,7 @@
 
 class AssignmentsController < AuthenticatedController
   before_action :sanitize_params, only: :record_check_in
-  after_action :alert_manager, only: [:record_check_in]
+  after_action :alert_manager, :update_last_contacted_at, only: [:record_check_in]
 
   # GET /assignment/:id/check_in
   def check_in
@@ -41,6 +41,10 @@ class AssignmentsController < AuthenticatedController
 
       set_project_needs_attention
       ProjectMailer.with(resource: @note.notable).alert_manager.deliver_later
+    end
+
+    def update_last_contacted_at
+      @note.notable.update_attribute(:last_contacted_at, Time.zone.now)
     end
 
     def set_project_needs_attention

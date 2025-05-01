@@ -112,6 +112,7 @@ class Project < ApplicationRecord
   has_many :finishers, through: :assignments
   has_many :messages, as: :messageable
   has_many :notes, as: :notable
+  has_many :finisher_notes, through: :assignments, source: "notes"
 
   has_many_attached :crafter_images
   has_many_attached :project_images
