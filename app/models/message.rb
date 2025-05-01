@@ -40,8 +40,9 @@ class Message < ApplicationRecord
       message: "%{value} is not a valid message channel" }
 
   # 25MB is the Gmail limit (which is still laaaaaaarge)
-  validates :email_source, content_type: ["text/plain", "message/rfc822"],
-    size: { less_than_or_equal_to: 25.megabytes }
+  validates :email_source, content_type: [
+    "text/plain", "text/html", "message/rfc822", "application/xhtml+xml"
+  ], size: { less_than_or_equal_to: 25.megabytes }
 
   before_validation :set_defaults
   after_create :update_last_contacted_at
