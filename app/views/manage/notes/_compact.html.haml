@@ -11,7 +11,7 @@
     - notes.each do |n|
       %tr
         %td= n.created_at.to_formatted_s(:human)
-        %td= n.notable.name
+        %td= link_to n.notable.name, manage_project_path(n.notable.project)
         %td= n.notable.finisher.name
         %td= n.notable.project.manager&.name
         %td(class = "sentiment sentiment-#{Note::SENTIMENTS[n.sentiment][:classification]}")

@@ -1,0 +1,9 @@
+.note.my-2
+  .note-header.small.d-flex.ms-au.align-items-center.border-bottom-1.border-dark
+    .note-author
+      #{finisher_note.user.name}, #{l(finisher_note.created_at, format: :short)}
+  %div(class = "sentiment sentiment-#{Note::SENTIMENTS[finisher_note.sentiment][:classification]}")
+    = finisher_note.sentiment.titleize
+  .note-body
+    = finisher_note.text
+
