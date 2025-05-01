@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_22_115749) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_26_192756) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -165,6 +165,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_115749) do
     t.integer "click_count", default: 0, null: false
     t.boolean "single_use", default: false, null: false
     t.datetime "expires_at"
+    t.jsonb "email_headers", default: {}, null: false
     t.index ["channel"], name: "index_messages_on_channel"
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable"
     t.index ["messageable_type", "messageable_id"], name: "index_messages_on_messageable_type_and_messageable_id"
@@ -223,8 +224,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_115749) do
     t.float "latitude"
     t.float "longitude"
     t.bigint "manager_id"
-    t.string "ready_status"
-    t.string "in_process_status"
     t.boolean "joann_helped", default: false
     t.boolean "urgent", default: false
     t.boolean "influencer", default: false

@@ -19,9 +19,16 @@
     - if @project.user.blank?
       %p System
     - else
-      %div= "#{@project.user.name}, #{@project.user.email}"
-      %div= "Heard about us: #{@project.user.heard_about_us}"
-    %p: &nbsp;
+      %div= @project.user.name
+    %h3 Email
+    %div{ data: { controller: 'clipboard' } }= @project.user.email
+    %h3 Phone Number
+    - if @project.user.phone?
+      %div{ data: { controller: 'clipboard' } }= @project.user.phone
+    - else
+      .text-secondary Unknown
+    %h3 Heard about us
+    %div= @project.user.heard_about_us
   .col-3
     %h3 Manager
     - if @project.manager.blank?

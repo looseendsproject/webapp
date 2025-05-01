@@ -24,74 +24,65 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
   test 'project found in to: array #first' do
     assert_equal ForwardsMailbox, ApplicationMailbox.mailbox_for(@inbound)
 
-    # Test was throwing a pg transaction error, but this works...
-    ActiveRecord::Base.transaction do
-      @inbound.route
-      assert_match /Subject: Getting started with ActiveMailbox/,
-        Project.find(1).messages.last.content.body.to_s
-      refute Project.find(2).messages.any?
-    end
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email.subject
+    refute Project.find(2).messages.any?
   end
 
   test "project found in to: array not #first" do
     @inbound.mail.to = ["random@example.com", PROJECT_ADDRESS]
-    ActiveRecord::Base.transaction do
-      @inbound.route
-      assert_match /Subject: Getting started with ActiveMailbox/,
-        Project.find(1).messages.last.content.body.to_s
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email.subject
       refute Project.find(2).messages.any?
-    end
   end
 
   test "project found in cc:" do
     @inbound.mail.cc = ["random@example.com", PROJECT_ADDRESS]
-    ActiveRecord::Base.transaction do
-      @inbound.route
-      assert_match /Subject: Getting started with ActiveMailbox/,
-        Project.find(1).messages.last.content.body.to_s
-      refute Project.find(2).messages.any?
-    end
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email.subject
+    refute Project.find(2).messages.any?
   end
 
   test "project found in bcc:" do
     @inbound.mail.bcc = ["random@example.com", PROJECT_ADDRESS]
-    ActiveRecord::Base.transaction do
-      @inbound.route
-      assert_match /Subject: Getting started with ActiveMailbox/,
-        Project.find(1).messages.last.content.body.to_s
-      refute Project.find(2).messages.any?
-    end
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email.subject
+    refute Project.find(2).messages.any?
   end
 
   test 'finisher downcased found' do
     @inbound.mail.to = FINISHER_ADDRESS.downcase
     assert_equal ForwardsMailbox, ApplicationMailbox.mailbox_for(@inbound)
 
-    ActiveRecord::Base.transaction do
-      @inbound.route
-      assert_match /Subject: Getting started with ActiveMailbox/,
-        Finisher.find(1).messages.last.content.body.to_s
-      refute Finisher.find(2).messages.any?
-    end
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Finisher.find(1).messages.last.email.subject
+    refute Finisher.find(2).messages.any?
   end
 
   test 'finisher original case found' do
     @inbound.mail.to = FINISHER_ADDRESS
     assert_equal ForwardsMailbox, ApplicationMailbox.mailbox_for(@inbound)
 
-    ActiveRecord::Base.transaction do
-      @inbound.route
-      assert_match /Subject: Getting started with ActiveMailbox/,
-        Finisher.find(1).messages.last.content.body.to_s
-      refute Finisher.find(2).messages.any?
-    end
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Finisher.find(1).messages.last.email.subject
+    refute Finisher.find(2).messages.any?
+  end
+
+  test "stash headers" do
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email_headers["subject"]
   end
 
   test 'project not found' do
-    ActiveRecord::Base.transaction do
-      @inbound.mail.to = "not_a_person@nowhere.com"
-      assert_raises(ActiveRecord::RecordNotFound) { @inbound.route }
-    end
+    @inbound.mail.to = "not_a_person@nowhere.com"
+    assert_raises(ActiveRecord::RecordNotFound) { @inbound.route }
   end
 
 end

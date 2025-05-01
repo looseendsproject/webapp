@@ -1,3 +1,5 @@
-%h4 Job completed: #{@job_log.created_at.to_formatted_s(:human)}
+.row
+  .col
+    %h4 Job completed: #{@job_log.created_at.to_formatted_s(:human)}
 
-%pre= @job_log.output
+    %pre.pre-wrap= @job_log.output

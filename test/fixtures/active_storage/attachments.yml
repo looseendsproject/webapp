@@ -9,3 +9,15 @@ project_two_picture:
   record_type: Project
   record_id: 2
   blob: project_two_blob
+
+project_one_email:
+  name: email_source
+  record_type: Message
+  record_id: 1
+  blob: project_one_email_blob
+
+finisher_two_email:
+  name: email_source
+  record_type: Message
+  record_id: 2
+  blob: project_one_email_blob

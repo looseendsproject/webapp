@@ -6,6 +6,7 @@
 #  channel          :string
 #  click_count      :integer          default(0), not null
 #  description      :string
+#  email_headers    :jsonb            not null
 #  expires_at       :datetime
 #  last_edited_by   :integer
 #  messageable_type :string
@@ -99,32 +100,76 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal User, Message.find(3).user.class # from User directly
   end
 
-  test "parses email source into Mail object" do
-    m = Project.first.messages.new
-    m.content = File.read(Rails.root.join("test/fixtures/files/sample_2.eml"))
-    m.save!
+  test "attaches ActiveStorage email_source via File.open and parses correctly" do
+    message = Project.first.messages.new(channel: "inbound")
+    message.email_source.attach(io: File.open(Rails.root.join("test/fixtures/files/sample_3.eml")),
+      filename: "source.eml", content_type: "text/plain")
+    message.save!
 
-    assert_predicate m.email, :multipart?
-    assert_equal m.email.html_part.content_type, "text/html; charset=UTF-8"
-    assert_equal m.email.html_part.content_transfer_encoding, "quoted-printable"
-
-    assert_equal ["inbound@example.com"], m.email.to
-
-    # HACK temporary
-    # assert_equal 'forwarder@example.com', m.email.from
-    assert_equal "Fwd: Test inbound from Gmail", m.email.subject
-    assert_equal "2025-03-22T12:25:35-04:00", m.email.date.to_s
-    assert_match(/How does this look\?/, m.email.text_part.body.decoded)
+    mail = message.mail
+    assert_equal "joan@looseendsproject.org", mail.from.first
+    assert_equal [
+      "project-testy@parse.looseendsproject.org", "testytest@gmail.com",
+      "more_testy@yahoo.com"], mail.to
+    assert_equal DateTime.parse("Mon, 14 Apr 2025 09:50:20 -0600"), mail.date
+    assert_equal "multipart/alternative; boundary=000000000000e8379e0632bf02c7",
+      mail.content_type
+    assert_equal "text/plain; charset=UTF-8", mail.text_part.content_type
+    assert_equal "text/html; charset=UTF-8", mail.html_part.content_type
+    assert_equal "quoted-printable", mail.html_part.content_transfer_encoding
   end
 
-  test "parses troublesome eml" do
-    m = Project.first.messages.new
-    m.content = File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
-    m.save!
+  test "can attach source as StringIO" do
+    text = File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    message = Project.first.messages.new(channel: "inbound")
+    message.email_source.attach(io: StringIO.new(text),
+      filename: "source.eml", content_type: "text/plain")
+    message.save!
 
-    assert m.email.to.is_a?(String)
-    assert_equal "joan Sample", m.email.from
-    assert_predicate m.email, :multipart?
+    mail = message.mail
+    assert_equal "joan@looseendsproject.org", mail.from.first
+    assert_equal [
+      "project-testy@parse.looseendsproject.org", "testytest@gmail.com",
+      "more_testy@yahoo.com"], mail.to
+    assert_equal DateTime.parse("Mon, 14 Apr 2025 09:50:20 -0600"), mail.date
+    assert_equal "multipart/alternative; boundary=000000000000e8379e0632bf02c7",
+      mail.content_type
+    assert_equal "text/plain; charset=UTF-8", mail.text_part.content_type
+    assert_equal "text/html; charset=UTF-8", mail.html_part.content_type
+    assert_equal "quoted-printable", mail.html_part.content_transfer_encoding
+  end
+
+  test "stash headers" do
+    mail_message = Mail.from_source File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    headers = Message.first.stash_headers(mail_message)
+    assert_equal DateTime.parse("Mon, 14 Apr 2025 09:50:20 -0600"), headers[:date]
+    assert_equal ["joan@looseendsproject.org"], headers[:from]
+    assert_equal ["project-testy@parse.looseendsproject.org",
+      "testytest@gmail.com", "more_testy@yahoo.com"], headers[:to]
+    assert_nil headers[:cc]
+    assert_equal "Introducing a Project and a Finisher / Loose Ends: maroon knit sweater vest",
+      headers[:subject]
+  end
+
+  test "valid_headers?" do
+    message = Message.first
+    mail_message = Mail.from_source File.read(Rails.root.join("test/fixtures/files/sample_3.eml"))
+    headers = message.stash_headers(mail_message)
+    assert message.valid_headers?
+
+    message.email_headers = {}
+    refute message.valid_headers?
+
+    message.email_headers = {
+      "cc"=>nil,
+      "to"=>["project-15eo7ge2@parse-staging.looseendsproject.org"],
+      "date"=>"2025-04-29T16:40:36.000-04:00",
+      "from"=>["testy_test@gmail.com"],
+      "size"=>27755,
+      "subject"=>"quoted-printable?",
+      "attachments"=>1
+    }
+    assert message.valid_headers?
   end
 
   test "since method" do

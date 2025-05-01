@@ -15,8 +15,8 @@ class SendCheckInsJob < ApplicationJob
 
         output += <<~LINE
           #{assignment.finisher.user.email}\
-          \t#{assignment.finisher.user.name}\
-          \t#{assignment.project.name}
+          \t\t\t#{assignment.finisher.user.name}\
+          \t\t\t#{assignment.project.name}
         LINE
       end
     end
