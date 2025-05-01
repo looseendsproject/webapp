@@ -225,6 +225,13 @@ class ProjectTest < ActiveSupport::TestCase
     assert_nothing_raised { @project.messages }
   end
 
+  test "responds to finisher_notes" do
+    assignment = @project.assignments.create(creator: User.new, finisher: finishers(:crocheter))
+    assignment.notes.create!(sentiment: "going_well",
+      text: "Here's some text", user_id: finishers(:crocheter).id)
+    assert_equal "Here's some text", @project.finisher_notes.first.text
+  end
+
   test "acts as EmailAddressable" do
     assert Project.method_defined? :inbound_email_address
     assert @project.inbound_email_address
