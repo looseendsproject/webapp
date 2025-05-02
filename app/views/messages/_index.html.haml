@@ -13,14 +13,14 @@
     %table
       %thead
         %tr
-          %th Sent
+          %th Date
           %th From
           %th Subject
           %th.text-center Attachments
           %th.text-end Size
           %th &nbsp;
       %tbody
-        - resource.messages.each do |message|
+        - resource.messages.order(created_at: :desc).each do |message|
           - next unless message.valid_headers?
           %tr
             %td= DateTime.parse(message.email_headers["date"]).to_formatted_s(:compact)
