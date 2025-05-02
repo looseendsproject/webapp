@@ -118,6 +118,7 @@ module Manage
                                        :phone_number,
                                        :approved,
                                        :unavailable,
+                                       :confirm_email,
                                        :joined_on,
                                        :chosen_name,
                                        :dominant_hand,

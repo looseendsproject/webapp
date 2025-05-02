@@ -147,5 +147,27 @@ module Manage
 
       assert(finisher.has_volunteer_time_off)
     end
+
+    test "can update user.confirmed_at" do
+      sign_in @user
+
+      finisher = finishers(:crocheter)
+      params = {
+        id: finisher.id,
+        finisher: finisher.attributes.merge(
+          "street" => "123 Main St",
+          "city" => "Anytown",
+          "state" => "WA",
+          "postal_code" => "12345",
+          "country" => "US",
+          "confirm_email" => "1"
+        )
+      }
+      patch :update, params: params
+
+      finisher.reload
+
+      assert(finisher.user.confirmed?)
+    end
   end
 end
