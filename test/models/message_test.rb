@@ -28,34 +28,22 @@ require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
 
-  test "validations" do
+  def setup
+    @test_headers = {
+      "cc"=>nil,
+      "to"=>["project-15eo7ge2@parse-staging.looseendsproject.org"],
+      "date"=>"2025-04-29T16:40:36.000-04:00",
+      "from"=>["testy_test@gmail.com"],
+      "size"=>27755,
+      "subject"=>"quoted-printable?",
+      "attachments"=>1
+    }
+  end
+
+  test "channel validation" do
     m = Project.first.messages.new(channel: 'wrong')
     refute m.valid?
     assert_match /Channel wrong is not a valid message channel/, m.errors.full_messages.to_s
-  end
-
-  test "persists to Project" do
-    m = Project.first.messages.new
-    m.content = "Primo content"
-    m.save!
-
-    assert_equal "Primo content", Project.first.messages.last.content.body.to_plain_text
-  end
-
-  test "persists to Finisher" do
-    m = Finisher.first.messages.new
-    m.content = "Finisher content"
-    m.save!
-
-    assert_equal "Finisher content", Finisher.first.messages.last.content.body.to_plain_text
-  end
-
-  test "persists to User" do
-    m = User.first.messages.new
-    m.content = "Something about the User..."
-    m.save!
-
-    assert_equal "Something about the User...", User.first.messages.last.content.body.to_plain_text
   end
 
   test "Updates assignment last_contacted_at for Project" do
@@ -69,12 +57,18 @@ class MessageTest < ActiveSupport::TestCase
 
     m = project.messages.new
     m.channel = "inbound"
-    m.content = "Primo content"
+    m.email_headers = {
+      "cc"=>nil,
+      "to"=>[project.inbound_email_address],
+      "date"=>"2025-04-29T16:40:36.000-04:00",
+      "from"=>[assignment.finisher.user.email],
+      "size"=>27755,
+      "subject"=>"quoted-printable?",
+      "attachments"=>1
+    }
     m.save!
 
-    # HACK Temporarily disabled updating
-    #
-    assert_nil(assignment.reload.last_contacted_at)
+    assert_not_nil(assignment.reload.last_contacted_at)
   end
 
   test "does not update last_contacted_at unless active assignment and project in process" do
@@ -88,7 +82,7 @@ class MessageTest < ActiveSupport::TestCase
 
     m = project.messages.new
     m.channel = "inbound"
-    m.content = "Primo content"
+    m.email_headers = @test_headers
     m.save!
 
     assert_nil(assignment.reload.last_contacted_at)
@@ -102,8 +96,9 @@ class MessageTest < ActiveSupport::TestCase
 
   test "attaches ActiveStorage email_source via File.open and parses correctly" do
     message = Project.first.messages.new(channel: "inbound")
-    message.email_source.attach(io: File.open(Rails.root.join("test/fixtures/files/sample_3.eml")),
-      filename: "source.eml", content_type: "text/plain")
+    source = Rails.root.join("test/fixtures/files/sample_3.eml")
+    message.email_source.attach(io: File.open(source), filename: "source.eml", content_type: "text/plain")
+    message.stash_headers(Mail.from_source(source.read))
     message.save!
 
     mail = message.mail
@@ -124,6 +119,7 @@ class MessageTest < ActiveSupport::TestCase
     message = Project.first.messages.new(channel: "inbound")
     message.email_source.attach(io: StringIO.new(text),
       filename: "source.eml", content_type: "text/plain")
+    message.email_headers = @test_headers # awkward, but for tests
     message.save!
 
     mail = message.mail
