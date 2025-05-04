@@ -18,34 +18,22 @@
             %td Subject
             %td= @message.email.subject
 
-
   - if @message.email.html_part.present?
     .row
       .col
-        %p.pt-3.fw-bold HTML Part
         %p.pt-0= @message.email.html_part.decoded.html_safe
-        %hr
+
+  - if @message.email.text_part.present? && !@message.email.html_part.present?
+    .row
+      .col
+        %p.pt-0
+          %pre= @message.email.text_part.decoded
 
   .row
     - @message.email.attachments.each do |attachment|
       .col-4
         %img.img-fluid(src="data:#{attachment.content_type};base64,#{Base64.encode64(attachment.body.decoded).html_safe}")
         %figcaption.figure-caption= attachment.content_type
-
-  - if @message.email.text_part.present?
-    .row
-      .col
-        %p.pt-3.fw-bold Text Part
-        %p.pt-0
-          %pre= @message.email.text_part.decoded
-
-        %hr
-
-  %hr
-  .row
-    .col
-      %p.pt-3.fw-bold Raw Source
-      %pre= @message.email.raw_source
 
 - else
   .pt-0.fst-italic [no content]
