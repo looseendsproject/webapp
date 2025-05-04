@@ -23,7 +23,7 @@
         - resource.messages.order(created_at: :desc).each do |message|
           - next unless message.valid_headers?
           %tr
-            %td= DateTime.parse(message.email_headers["date"]).to_formatted_s(:compact)
+            %td= DateTime.parse(message.email_headers["date"]).in_time_zone(Time.zone).to_formatted_s(:compact)
             %td= message.email_headers["from"]&.join(", ")
             %td= link_to message.email_headers["subject"], message
             %td.text-center= message.email_headers["attachments"] > 0 ? fa_icon("paperclip") : ""
