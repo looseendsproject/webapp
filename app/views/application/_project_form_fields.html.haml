@@ -43,7 +43,7 @@
         = form.label :has_materials, 'Materials available?', class: 'form-label required'
         .form-info (yarn, fabric, string, etc.)
       .col-md-4
-        = form.select :has_materials, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-select', 'data-action': 'select#toggleUpload', required: true }
+        = form.select :has_materials, ['Yes', 'No', "I don't know"], { selected: form.object.has_materials || "I don't know" }, { class: 'form-select', 'data-action': 'select#toggleUpload', required: true }
     .row.mb-4
       .col-md-4{ 'data-select-target': 'imagesLabel' }
         = form.label :append_material_images, 'Material Images', class: 'form-label'
