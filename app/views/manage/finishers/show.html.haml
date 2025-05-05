@@ -32,6 +32,8 @@
     .page-section.mb-2
       %b Email:
       %span{ data: { controller: 'clipboard' } }= @finisher.user.email
+      - unless @finisher.user.confirmed?
+        .email-not-confirmed Email Not Confirmed
     .page-section.mb-2
       %b Phone Number:
       = @finisher.phone_number

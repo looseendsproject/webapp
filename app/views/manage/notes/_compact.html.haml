@@ -10,7 +10,7 @@
   %tbody
     - notes.each do |n|
       %tr
-        %td= n.created_at.to_formatted_s(:human)
+        %td= n.created_at.in_time_zone(Time.zone).to_formatted_s(:compact)
         %td= link_to n.notable.name, manage_project_path(n.notable.project)
         %td= n.notable.finisher.name
         %td= n.notable.project.manager&.name
