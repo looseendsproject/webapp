@@ -35,7 +35,6 @@
 #
 class User < ApplicationRecord
   ROLES = %w[user manager admin].freeze
-  MAGIC_LINK_DEFAULT_DURATION = 48.hours
 
   include LooseEndsSearchable
 

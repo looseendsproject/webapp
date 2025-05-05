@@ -21,7 +21,7 @@
     .col
       = select_tag :assigned, options_for_select([['True', 'true'], ['False', 'false']], params[:assigned]), include_blank: true, class: 'form-select'
     .col
-      = select_tag :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), include_blank: true, class: 'form-select'
+      = select_tag :manager_id, options_for_select([['Any', nil], ['No Manager', 'none']] + User.project_managers.map { |a| [a.name, a.id] }, params[:manager_id]), class: 'form-select'
     .col
       = select_tag :per_page, options_for_select(%w[10 20 50 100], params[:per_page] || 20), class: 'form-select', autocomplete: "off"
   .row

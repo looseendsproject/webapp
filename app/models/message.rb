@@ -8,6 +8,7 @@
 #  channel          :string
 #  click_count      :integer          default(0), not null
 #  description      :string
+#  email_headers    :jsonb            not null
 #  expires_at       :datetime
 #  last_edited_by   :integer
 #  messageable_type :string
@@ -31,11 +32,16 @@ class Message < ApplicationRecord
   DEFAULT_MAGIC_LINK_DURATION = 7.days
 
   belongs_to :messageable, polymorphic: true
-  has_rich_text :content
+  has_one_attached :email_source
 
   validates_presence_of :messageable
   validates :channel, inclusion: { in: %w(inbound outbound),
       message: "%{value} is not a valid message channel" }
+
+  # 25MB is the Gmail limit (which is still laaaaaaarge)
+  validates :email_source, content_type: [
+    "text/plain", "text/html", "message/rfc822", "application/xhtml+xml"
+  ], size: { less_than_or_equal_to: 25.megabytes }
 
   before_validation :set_defaults
   after_create :update_last_contacted_at
@@ -58,9 +64,36 @@ class Message < ApplicationRecord
   end
 
   def email
-    Mail.from_source Mail::Encodings::QuotedPrintable.decode(content.to_plain_text)
+    return nil unless email_source.attached?
+    Mail.from_source email_source.download
   end
   alias_method :mail, :email
+
+  # pass a Mail::Message
+  def stash_headers(mail_message = nil)
+    self.email_headers = {
+      date: mail_message.date,
+      from: mail_message.from,
+      to: mail_message.to,
+      cc: mail_message.cc,
+      subject: mail_message.subject,
+      attachments: mail_message.attachments.count,
+      size: mail_message.raw_source.size
+    }
+  end
+
+  def valid_headers?
+    begin
+      DateTime.parse(email_headers["date"])
+      raise "Malformed email_headers struct" if email_headers.keys.difference([
+        "date", "from", "to", "cc", "subject", "attachments", "size"
+      ]).any?
+    rescue StandardError => e
+      false
+    else
+      true
+    end
+  end
 
   def path_to_messageable
     "/manage/#{messageable.class.to_s.pluralize.downcase}/#{messageable.id}"
@@ -115,19 +148,18 @@ class Message < ApplicationRecord
   # Messageable must respond to #name
   def set_defaults
     self.channel ||= 'inbound'
-    self.description ||= "#{messageable.class.to_s.downcase}/#{messageable.name}"
+    self.description ||= messageable.name
   end
 
   def update_last_contacted_at
     return unless messageable_type == "Project" && channel == "inbound"
 
-    # TODO: Find assignment by specific email user. For now use active assignment
-    assignment = messageable.active_assignment
-    return unless assignment
+    user = User.find_by email: email_headers["from"].first
+    return unless user && user.finisher?
 
-    return unless assignment.project.status.match(/^in process/i)
+    assignment = messageable.assignments.find { |a| a.finisher.user === user }
+    return unless assignment && assignment.project.status.match(/^in process/i)
 
-    # HACK Temporarily disable update.  Need to make the logic smarter
-    # assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+    assignment.update_attribute(:last_contacted_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
   end
 end

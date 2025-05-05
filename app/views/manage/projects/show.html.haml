@@ -19,9 +19,16 @@
     - if @project.user.blank?
       %p System
     - else
-      %div= "#{@project.user.name}, #{@project.user.email}"
-      %div= "Heard about us: #{@project.user.heard_about_us}"
-    %p: &nbsp;
+      %div= @project.user.name
+    %h3 Email
+    %div{ data: { controller: 'clipboard' } }= @project.user.email
+    %h3 Phone Number
+    - if @project.user.phone?
+      %div{ data: { controller: 'clipboard' } }= @project.user.phone
+    - else
+      .text-secondary Unknown
+    %h3 Heard about us
+    %div= @project.user.heard_about_us
   .col-3
     %h3 Manager
     - if @project.manager.blank?
@@ -203,12 +210,18 @@
             Incomplete Address Prevents Map Searching
     = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
 
-    %h4.mt-4 Notes
+    %h4.mt-4 Finisher Notes
+    #finisher-notes.d-flex.flex-column
+      = render partial: "manage/notes/finisher_note",
+        collection: @project.finisher_notes.order(created_at: :desc)
+
+    %hr
+
+    %h4.mt-4 Manager Notes
     #note_form
       = render partial: 'manage/notes/form', locals: { project: @project }
-    #notes.d-flex.flex-column
-      - @notes = @project.notes.order(created_at: :desc)
-      = render @notes
+    #manager-notes.d-flex.flex-column
+      = render partial: "manage/notes/manager_note", collection: @project.notes.order(created_at: :desc)
 
 = render partial: 'messages/index', locals: { resource: @project }
 

@@ -2,7 +2,9 @@
   .col-6
     %h3 Hello, #{@note.notable.finisher.name}
 
-    .fw-bold How is the project "#{@note.notable.project.name}" going right now?
+    .p Thank you for being a Loose Ends volunteer! Please provide an update on your project. There is NO DEADLINE on your work - any pace is fine - but we do need to hear from you regularly with an update. If you check Need Help, your Loose Ends project manager will be in touch.
+
+    .pt-2.fw-bold How is the project "#{@note.notable.project.name}" going right now?
 
     = form_with url: check_in_path(@note.notable), model: @note do |f|
 

@@ -50,7 +50,8 @@
 #  t.strftime("Printed on %m/%d/%Y")   #=> "Printed on 04/09/2003"
 #  t.strftime("at %I:%M%p")            #=> "at 08:56AM"
 
-# Custom
+# Custom formats
 
-Time::DATE_FORMATS[:month_and_year] = "%B %Y"
+Time::DATE_FORMATS[:month_and_year] = "%B %Y" # January 2025
 Time::DATE_FORMATS[:human] = "%a %b %d, %Y %I:%M%p %Z" # Thu Apr 03, 2025 02:08AM UTC
+Time::DATE_FORMATS[:compact] = "%m/%d/%y %I:%M%p %Z" # 04/6/25 08:53AM -5:00

@@ -14,3 +14,4 @@ hr { border-top: 0.5px solid gray; }
   transition: background-color 0.3s ease;
 }
 .email-button:hover { background-color: #0056b3; }
+.italic { font-style: italic; }

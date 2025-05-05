@@ -22,9 +22,18 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to "/thank_you"
   end
 
+  test "any response updates last_contacted_at" do
+    old_date = @assignment.last_contacted_at
+    post "/assignment/#{@assignment.id}/check_in", params: { note: {
+      sentiment: "going_well",
+      text: "here's a very nice note"
+    }}
+    assert @assignment.reload.last_contacted_at > old_date
+  end
+
   test "negative sentiment sends manager email" do
     post "/assignment/#{@assignment.id}/check_in", params: { note: {
-      sentiment: "not_great",
+      sentiment: "need_help",
       text: "this thing is a mess"
     }}
     assert_redirected_to "/thank_you"

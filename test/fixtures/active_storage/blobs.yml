@@ -15,3 +15,6 @@ project_two_blob:
   byte_size: 40000
   checksum: fdUivZUf74Y6pjAiemuvlg==
   service_name: test
+
+project_one_email_blob: <%= ActiveStorage::FixtureSet.blob(filename: "sample_png.eml",
+  service_name: "test_fixtures") %>

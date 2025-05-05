@@ -1,35 +1,33 @@
 %button.btn.btn-primary.mb-4(onclick="history.back()") Back
 
-- if @message.content.present?
-  %table.table.table-sm.table-borderless
-    %tbody
-      %tr
-        %td Date
-        %td= @message.email.date
-      %tr
-        %td To
-        %td= @message.email.to.is_a?(String) ? @message.email.to : @message.email.to.join(', ')
-      %tr
-        %td From
-        %td= @message.email.from.first
-      %tr
-        %td Subject
-        %td= @message.email.subject
+- if @message.email_source.attached?
+  .row
+    .col
+      %table.table.table-sm.table-borderless
+        %tbody
+          %tr
+            %td Date
+            %td= @message.email.date
+          %tr
+            %td To
+            %td= @message.email.to.is_a?(String) ? @message.email.to : @message.email.to.join(', ')
+          %tr
+            %td From
+            %td= @message.email.from.first
+          %tr
+            %td Subject
+            %td= @message.email.subject
 
-  - if @message.email.text_part.present?
-    %p.pt-3.fw-bold Text Part
-    %p.pt-0
-      %pre= @message.email.text_part.body.to_s
+  - if @message.email.html_part.present?
+    .row
+      .col
+        %p.pt-0= @message.email.html_part.decoded.html_safe
 
-  / HACK temporary until encoding issue is resolved
-  / - if @message.email.html_part.present?
-  /   %p.pt-3.fw-bold HTML Part
-  /   %p.pt-0= sanitize @message.email.html_part.body.to_s
-
-  %p.pt-3.fw-bold Raw Source
-  %pre= @message.email.raw_source
-
-  %hr
+  - if @message.email.text_part.present? && !@message.email.html_part.present?
+    .row
+      .col
+        %p.pt-0
+          %pre= @message.email.text_part.decoded
 
   .row
     - @message.email.attachments.each do |attachment|

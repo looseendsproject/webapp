@@ -232,7 +232,11 @@ module LooseEndsSearchable
     def with_field_value(query, field, value)
       return query if value.blank?
 
-      query.where({ field => value })
+      if value == "none"
+        query.where({ field => nil })
+      else
+        query.where({ field => value })
+      end
     end
 
     def with_state(query, state)
@@ -242,7 +246,7 @@ module LooseEndsSearchable
     def with_statuses(query, params)
       result = query
       result = if params[:status].blank?
-                 result.ignore_tests
+                 result.ignore_inactive
                else
                  with_field_value(result, :status, params[:status])
                end

@@ -1,8 +1,10 @@
 class ForwardsMailbox < ApplicationMailbox
 
   def process
-    m = resource.messages.new
-    m.content = mail.raw_source # content is not a db column
+    m = resource.messages.new(channel: "inbound")
+    m.email_source.attach(io: StringIO.new(mail.raw_source),
+      filename: "source.eml", content_type: "text/plain")
+    m.stash_headers(mail)
     m.save!
   end
 

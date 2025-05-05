@@ -20,7 +20,6 @@
 #  has_pattern               :string
 #  has_smoke_in_home         :boolean          default(FALSE)
 #  in_home_pets              :string
-#  in_process_status         :string
 #  inbound_email_address     :string
 #  influencer                :boolean          default(FALSE)
 #  joann_helped              :boolean          default(FALSE)
@@ -40,7 +39,6 @@
 #  press_outlet              :string
 #  press_region              :string
 #  privacy_needed            :boolean          default(FALSE)
-#  ready_status              :string
 #  recipient_name            :string
 #  state                     :string
 #  status                    :string           default("PROPOSED"), not null
@@ -85,6 +83,36 @@ class ProjectTest < ActiveSupport::TestCase
   test "needing_attention scope" do
     Project.first.update(needs_attention: "stalled_invited")
     assert_equal 1, Project.needing_attention.count
+
+    Project.first.update(needs_attention: "")
+    assert_equal 0, Project.needing_attention.count
+  end
+
+  test "finisher method returns finisher" do
+    assert_not_nil @project.finisher
+    assert_equal finishers(:knitter), @project.finisher
+  end
+
+  test "finisher method returns last finisher" do
+    @project.assignments.create!(creator: User.new, finisher: finishers(:crocheter))
+    assert_not_nil @project.finisher
+    assert_equal finishers(:crocheter), @project.finisher
+  end
+
+  test "active_finisher method returns finisher" do
+    assert_not_nil @project.active_finisher
+    assert_equal finishers(:knitter), @project.active_finisher
+  end
+
+  test "ignore_inactive scope" do
+    Project::STATUSES.each do |key, value|
+      @project.update(status: value)
+      if Project::INACTIVE_STATUSES.include?(key)
+        assert_not_includes Project.ignore_inactive, @project.reload
+      else
+        assert_includes Project.ignore_inactive, @project.reload
+      end
+    end
   end
 
   test "inbound_email_address assignment" do
@@ -137,7 +165,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "needs_attention_option returns proper struct" do
-    assert_equal [["", nil], ["Negative Sentiment", "negative_sentiment"],
+    assert_equal [["Negative Sentiment", "negative_sentiment"],
       ["Stalled Accepted", "stalled_accepted"], ["Stalled Invited", "stalled_invited"],
       ["Stalled Potential", "stalled_potential"], ["Long Running", "long_running"]],
       Project.needs_attention_options
@@ -195,6 +223,13 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "has messages" do
     assert_nothing_raised { @project.messages }
+  end
+
+  test "responds to finisher_notes" do
+    assignment = @project.assignments.create(creator: User.new, finisher: finishers(:crocheter))
+    assignment.notes.create!(sentiment: "going_well",
+      text: "Here's some text", user_id: finishers(:crocheter).id)
+    assert_equal "Here's some text", @project.finisher_notes.first.text
   end
 
   test "acts as EmailAddressable" do
