@@ -53,19 +53,30 @@ $predicate-border-color: #ced4da
   .field
     padding: 0.3em 0.5em
 
-  .operator select
-    height: 100%
-    cursor: pointer
-    text-align: center
-    background-color: transparent
-    border: none
-    appearance: none
-    padding: 0px 18px
+  .operator
+    select
+      height: 100%
+      cursor: pointer
+      text-align: center
+      background-color: transparent
+      border: none
+      outline: none
+      appearance: none
+      padding-right: 18px
+
+    .select-arrow
+      cursor: pointer
+      font-size: 12px
+      margin-right: -90%
+      padding-left: 75%
+      opacity: 0
+
+      .fa
+        vertical-align: middle
 
     &:hover, &:focus
-      border: none
-      appearance: auto
-      padding: 0px 0px 0px 18px
+      .select-arrow
+        opacity: 1
 
   .value
     select
@@ -73,16 +84,31 @@ $predicate-border-color: #ced4da
       cursor: pointer
       background-color: transparent
       border: none
+      outline: none
       appearance: none
-
-      &:hover, &:focus
-        border: none
-        appearance: auto
 
     input[type="text"]
       cursor: pointer
       border: none
       background-color: transparent
+
+      &:focus
+        border: none
+        outline: none
+
+    .select-arrow
+      cursor: pointer
+      font-size: 12px
+      margin-right: -90%
+      padding-left: 90%
+      opacity: 0
+
+      .fa
+        vertical-align: middle
+
+    &:hover, &:focus
+      .select-arrow
+        opacity: 1
 
   .remove
     display: flex

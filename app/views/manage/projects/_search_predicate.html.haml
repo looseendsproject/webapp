@@ -6,6 +6,7 @@
     %input{ type: :hidden, data: { 'search-predicate-target': 'field', action: 'search-predicate#refresh' }, value: field }
     %span= field_name
   .operator
+    .select-arrow= fa_icon("chevron-down")
     %select{ data: { 'search-predicate-target': 'operator', action: 'search-predicate#refresh' }, autocomplete: :off }
       - if date_field
         %option{ selected: ('before' == operator ? 'selected' : nil), value: 'before' } before
@@ -14,6 +15,7 @@
         %option{ selected: ('=' == operator ? 'selected' : nil), value: '=' } is
   .value
     - if multiple_choice
+      .select-arrow= fa_icon("chevron-down")
       %select{ data: { 'search-predicate-target': 'value', action: 'search-predicate#refresh' }, autocomplete: :off }
         - if values.first.kind_of?(Array) # [ [title, value], ... ]
           - values.each do |pair|
