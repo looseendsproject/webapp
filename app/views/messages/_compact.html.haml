@@ -13,7 +13,7 @@
     - messages.each do |m|
       - next unless m.valid_headers?
       %tr
-        %td= DateTime.parse(m.email_headers["date"]).to_formatted_s(:compact)
+        %td= DateTime.parse(m.email_headers["date"]).in_time_zone(Time.zone).to_formatted_s(:compact)
         %td #{ format == 'inbound' ? m.email_headers["from"]&.join(", ") : m.email_headers["to"]&.join(", ") }
         %td
           %a(href="#{m.path_to_messageable}") #{m.description}

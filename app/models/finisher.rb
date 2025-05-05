@@ -183,6 +183,10 @@ class Finisher < ApplicationRecord
     finished_projects.attach(attachables)
   end
 
+  def confirm_email=(value)
+    user.update_attribute(:confirmed_at, Time.zone.now) if value == "1"
+  end
+
   def send_welcome_message
     FinisherMailer.with(resource: self).welcome.deliver_now
   end
