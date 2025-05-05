@@ -22,13 +22,19 @@ module Users
         end
       end
 
-      # If the action needs to do anything before redirect
+      # Pass a block if the action needs to do anything before redirect
       #
       def attempt_locate(&block)
         message = GlobalID::Locator.locate_signed(params[:sgid])
         if message.present? && message.user.is_a?(User)
           message.increment!(:click_count)
+
           sign_in(message.user)
+
+          # If they follow any magic link, confirm the email
+          #
+          message.user.update_attribute(:confirmed_at, Time.zone.now) \
+            unless message.user.confirmed?
 
           yield if block_given?
 

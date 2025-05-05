@@ -10,10 +10,20 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# LEP account
+# Default S3 storage for each environment (development, staging, production)
+#
 aws_s3:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-east-2
   bucket: looseendsproject-<%= ENV['RAILS_ENV_DISPLAY'] %>
+
+# Production S3 bucket used by scripts that rely on CopyBlobJob
+#
+aws_s3_production:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-2
+  bucket: looseendsproject-production
