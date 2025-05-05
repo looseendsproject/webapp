@@ -83,6 +83,10 @@ gem "google_drive"
 # Geocoding
 gem "geocoder", "~> 1.8"
 
+# Charts
+gem "chartkick"
+gem "groupdate"
+
 # Annotated source code for Models
 gem "annotaterb", "~> 4.13"
 

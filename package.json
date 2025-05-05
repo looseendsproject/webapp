@@ -10,6 +10,8 @@
     "@rails/actiontext": "^8.0.200",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
+    "chart.js": "^4.4.9",
+    "chartkick": "^5.0.1",
     "esbuild": "^0.17.18",
     "sass": "^1.62.1",
     "trix": "^2.1.13"
