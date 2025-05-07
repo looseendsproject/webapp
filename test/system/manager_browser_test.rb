@@ -16,7 +16,7 @@ class ManagerBrowserTest < ApplicationSystemTestCase
 
   test "dashboard widgets" do
     assert_text "Dashboard"
-    assert_text "New email"
+    assert_text "Inbound Emails"
     assert_text "Reports"
     assert_text "New scheduled job logs"
   end
