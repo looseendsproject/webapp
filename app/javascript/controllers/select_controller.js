@@ -1,15 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['imagesLabel', 'imagesFileField']
+  static targets = ['upload']
 
-  toggleUpload(event) {
+  toggleUploadVisible(event) {
     if (event.target.value == 'Yes') {
-      this.imagesFileFieldTarget.required = true
-      this.imagesLabelTarget.classList.add('required')
+      this.uploadTarget.hidden = false
     } else {
-      this.imagesFileFieldTarget.required = false
-      this.imagesLabelTarget.classList.remove('required')
+      this.uploadTarget.hidden = true
     }
 
   }

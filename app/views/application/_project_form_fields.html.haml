@@ -43,11 +43,11 @@
         = form.label :has_materials, 'Materials available?', class: 'form-label required'
         .form-info (yarn, fabric, string, etc.)
       .col-md-4
-        = form.select :has_materials, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-select', 'data-action': 'select#toggleUpload', required: true }
-    .row.mb-4
-      .col-md-4{ 'data-select-target': 'imagesLabel' }
-        = form.label :append_material_images, 'Material Images', class: 'form-label'
-      .col-md-4{ 'data-select-target': 'imagesFileField' }
+        = form.select :has_materials, availability_options(@project.has_materials), {}, { class: 'form-select', 'data-action': 'select#toggleUploadVisible', required: true }
+    .row.mb-4{'data-select-target': 'upload', hidden: !(@project.has_materials?)}
+      .col-md-4
+        = form.label :append_material_images, 'Material Images', class: 'form-label required'
+      .col-md-4
         = form.file_field :append_material_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", multiple: true
         - form.object.material_images.each do |image|
           - if image.id.present? # Rails bug https://github.com/rails/rails/issues/50234
@@ -58,11 +58,11 @@
     .col-md-4
       = form.label :has_pattern, 'Is there a pattern?', class: 'form-label required'
     .col-md-4
-      = form.select :has_pattern, ['Yes', 'No', "I don't know"], { include_blank: true }, { class: 'form-select', 'data-action': 'select#toggleUpload', required: true }
-  .row.mb-4
-    .col-md-4{ 'data-select-target': 'imagesLabel' }
-      = form.label :append_pattern_files, 'Pattern Files', class: 'form-label'
-    .col-md-4{ 'data-select-target': 'imagesFileField' }
+      = form.select :has_pattern, availability_options(@project.has_pattern), {}, { class: 'form-select', 'data-action': 'select#toggleUploadVisible', required: true }
+  .row.mb-4{'data-select-target': 'upload', hidden: !(@project.has_pattern?)}
+    .col-md-4
+      = form.label :append_pattern_files, 'Pattern Files', class: 'form-label required'
+    .col-md-4
       = form.file_field :append_pattern_files, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp,application/pdf", multiple: true
       - form.object.pattern_files.each do |file|
         - if file.representable?
