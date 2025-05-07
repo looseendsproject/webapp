@@ -27,7 +27,7 @@ class ManagerBrowserTest < ApplicationSystemTestCase
   end
 
   test 'browse finishers' do
-    click_link "Finishers"
+    click_link "Finishers Search"
     assert_text "Finishers"
   end
 end
