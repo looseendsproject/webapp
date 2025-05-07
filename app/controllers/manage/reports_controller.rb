@@ -15,6 +15,10 @@ class Manage::ReportsController < Manage::ManageController
 
   def active_projects_by_status
     results = {}
+
+    # Ugly, yes, but this is in order to preserve the order
+    # of the STATUSES.
+    #
     Project::STATUSES.each do |k,v|
       next if Project::INACTIVE_STATUSES.include? k
       results[v] = Project.where(status: v).count
