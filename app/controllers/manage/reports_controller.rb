@@ -16,7 +16,7 @@ class Manage::ReportsController < Manage::ManageController
   def active_projects_by_status
     results = {}
 
-    # Ugly, yes, but this is in order to preserve the order
+    # Ugly, yes, but this preserves the order
     # of the STATUSES.
     #
     Project::STATUSES.each do |k,v|
