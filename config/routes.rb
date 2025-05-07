@@ -73,7 +73,6 @@ Rails.application.routes.draw do
       end
       get "card", on: :member
     end
-    resources :messages, only: [:index]
     resources :job_logs, only: [:show]
     resources :inbound_emails
     get "reports/heard_about_us", to: "reports#heard_about_us"
