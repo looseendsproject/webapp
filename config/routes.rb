@@ -75,7 +75,13 @@ Rails.application.routes.draw do
     end
     resources :job_logs, only: [:show]
     resources :inbound_emails
-    get "reports/heard_about_us", to: "reports#heard_about_us"
+
+    namespace :reports do
+      get "heard_about_us"
+      get "active_projects_by_status"
+      get "new_projects_by_month"
+      get "new_finishers_by_month"
+    end
   end
 
   namespace :admin do
