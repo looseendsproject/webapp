@@ -28,6 +28,7 @@ class Assignment < ApplicationRecord
     invited: "invited",
     accepted: "accepted",
     declined: "declined",
+    requested_rematch: "requested rematch",
     unresponsive: "unresponsive",
     completed: "completed"
   }.freeze
