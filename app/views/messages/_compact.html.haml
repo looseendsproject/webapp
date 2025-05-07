@@ -21,3 +21,5 @@
           %a(href="/message/#{m.id}") #{truncate(m.email_headers["subject"], length: 50)}
         %td.text-center= m.email_headers["attachments"] > 0 ? fa_icon("paperclip") : ""
         %td.text-end= number_to_human_size(m.email_headers["size"], precision: 2)
+
+= will_paginate messages, param_name: "messages_page"
