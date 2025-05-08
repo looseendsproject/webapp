@@ -1,24 +1,26 @@
 = render 'title', title: 'Dashboard'
 .container
   .row
-    .col-2
-      = link_to 'Finishers', manage_finishers_path
-      = link_to 'Map', map_manage_finishers_path
-    .col-2
-      Count: #{Finisher.count}
-    .col-2
-      Approved: #{Finisher.approved.count}
+    .col-2= link_to 'Projects', manage_projects_path, class: "btn btn-primary"
+    .col-2= link_to 'Finishers Map', map_manage_finishers_path, class: "btn btn-primary"
+    .col-2= link_to 'Finishers Search', manage_finishers_path, class: "btn btn-primary"
+
   .row
-    .col-2
-      = link_to 'Assignments', manage_assignments_path
-    .col-2
-      Count: #{Assignment.count}
-    .col-2
-      Active: #{Assignment.active.count}
+    .col
+      %hr
+      %h2 Active Projects by Status
+      .pt-0= bar_chart manage_reports_active_projects_by_status_path
+
   .row
-    .col-2
-      = link_to 'Projects', manage_projects_path
-    .col-6.fst-italic Numbers removed pending redesign
+    .col-6
+      %hr
+      %h2 New Projects by Month (Last 12 Months)
+      .pt-0= line_chart manage_reports_new_projects_by_month_path
+
+    .col-6
+      %hr
+      %h2 New Finshers by Month (Last 12 Months)
+      .pt-0= line_chart manage_reports_new_finishers_by_month_path
 
   .row.pt-3
     .col
@@ -30,7 +32,7 @@
 
   .row.pt-3
     .col
-      = render partial: 'mail_traffic_dashboard'
+      = render partial: "messages"
 
   .row.pt-3
     .col
