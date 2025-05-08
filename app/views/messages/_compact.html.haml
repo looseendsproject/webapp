@@ -22,4 +22,4 @@
         %td.text-center= m.email_headers["attachments"] > 0 ? fa_icon("paperclip") : ""
         %td.text-end= number_to_human_size(m.email_headers["size"], precision: 2)
 
-= will_paginate messages, param_name: "messages_page"
+= will_paginate messages, param_name: "messages_page", params: { anchor: "messages" }
