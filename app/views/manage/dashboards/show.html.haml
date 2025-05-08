@@ -1,26 +1,17 @@
 = render 'title', title: 'Dashboard'
 .container
   .row
-    .col-2= link_to 'Projects', manage_projects_path, class: "btn btn-primary"
-    .col-2= link_to 'Finishers Map', map_manage_finishers_path, class: "btn btn-primary"
-    .col-2= link_to 'Finishers Search', manage_finishers_path, class: "btn btn-primary"
+    .d-grid.gap-2.d-md-block
+      = link_to 'Projects', manage_projects_path, class: "btn btn-primary"
+      = link_to 'Finishers Map', map_manage_finishers_path, class: "btn btn-primary"
+      = link_to 'Finishers Search', manage_finishers_path, class: "btn btn-primary"
+      = link_to "Reports", manage_reports_path, class: "btn btn-primary"
 
   .row
     .col
       %hr
       %h2 Active Projects by Status
       .pt-0= bar_chart manage_reports_active_projects_by_status_path
-
-  .row
-    .col-6
-      %hr
-      %h2 New Projects by Month (Last 12 Months)
-      .pt-0= line_chart manage_reports_new_projects_by_month_path
-
-    .col-6
-      %hr
-      %h2 New Finshers by Month (Last 12 Months)
-      .pt-0= line_chart manage_reports_new_finishers_by_month_path
 
   .row.pt-3
     .col
@@ -38,13 +29,11 @@
     .col
       = render partial: "job_logs_dashboard"
       .pt-0= link_to 'Manage queues', 'jobs'
-      .pt-0= link_to "Inbound Emails", "inbound_emails#index"
+      .pt-0
+        = link_to "Failed Inbound Emails", "inbound_emails#index"
+        - failed_inbound_count = ActionMailbox::InboundEmail.failed.count
+        - if failed_inbound_count > 0
+          %span.badge.rounded-pill.bg-danger #{failed_inbound_count}
 
   - if Rails.env.development?
     = render partial: 'email_previews'
-
-  .row.pt-3
-    .col
-      %hr
-      %h3 Reports
-      .pt-0= link_to 'Heard About Us', 'reports/heard_about_us'
