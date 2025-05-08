@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :inbound_emails
 
     namespace :reports do
+      get "/", action: :index
       get "heard_about_us"
       get "active_projects_by_status"
       get "new_projects_by_month"

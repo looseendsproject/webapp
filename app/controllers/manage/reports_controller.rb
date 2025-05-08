@@ -1,5 +1,8 @@
 class Manage::ReportsController < Manage::ManageController
 
+  # GET /manage/reports
+  def index; end
+
   # Add route for each report and link on dashboard
   # @results is a 2-D array [[col1, col2, col3], [col1, col2, col3],...]
   # if you're displaying a table using render 'show'
