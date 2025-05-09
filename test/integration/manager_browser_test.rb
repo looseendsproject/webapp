@@ -16,7 +16,7 @@ class ManagerBrowserTest < ApplicationSystemTestCase
 
   test "dashboard widgets" do
     assert_text "Dashboard"
-    assert_text "New email"
+    assert_text "Failed Inbound Emails"
     assert_text "Reports"
     assert_text "New scheduled job logs"
   end
@@ -27,7 +27,12 @@ class ManagerBrowserTest < ApplicationSystemTestCase
   end
 
   test 'browse finishers' do
-    click_link "Finishers"
+    click_link "Finishers Search"
     assert_text "Finishers"
+  end
+
+  test "view reports" do
+    click_link "Reports"
+    assert_text "Other Reports"
   end
 end

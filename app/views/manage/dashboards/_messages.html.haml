@@ -1,0 +1,11 @@
+
+%hr#messages
+%h3 Inbound Emails
+
+.row.pt-1
+  .col
+    - messages = Message.includes(:messageable).inbound.order(created_at: :desc).paginate(page: params[:messages_page], per_page: 10)
+    - if messages.any?
+      = render partial: 'messages/compact', locals: { format: 'inbound', messages:  messages }
+    - else
+      %p.fst-italic No inbound emails
