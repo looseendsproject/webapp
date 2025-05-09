@@ -1,0 +1,122 @@
+
+$predicate-border-color: #ced4da
+
+.btn-search
+  &.highlight
+    animation: fa-beat 500ms linear 0s 2 forwards
+
+.search-row
+  padding: 0.5em 0px
+  gap: 8px
+
+.saved-view
+  .saved-view-name
+    border-right: 1px solid transparent
+  .remove
+    border-left: 1px solid transparent
+    display: flex
+    align-items: center
+    height: 100%
+    cursor: pointer
+    padding: 0
+
+    .btn-close
+      opacity: 0
+      height: 20px
+      font-size: 0.5em
+      padding: 0.3rem 0.25rem
+
+  &:hover
+    .saved-view-name
+      border-right: 1px solid $secondary
+    .remove
+      border-left: 1px solid $secondary
+      .btn-close
+        opacity: 1
+        transition: opacity 0.2s ease-in-out
+
+.search-predicate
+  display: flex
+  height: 36px
+  align-items: center
+  margin-bottom: 10px
+  margin-right: 10px
+  border: 1px solid $predicate-border-color
+  border-radius: 5px
+
+  .field, .operator, .value
+    display: flex
+    border: none
+    border-right: 1px solid $predicate-border-color
+    padding: 0.3em
+
+  .field
+    padding: 0.3em 0.5em
+
+  .operator
+    select
+      height: 100%
+      cursor: pointer
+      text-align: center
+      background-color: transparent
+      border: none
+      outline: none
+      appearance: none
+      padding-right: 18px
+
+    .select-arrow
+      cursor: pointer
+      font-size: 12px
+      margin-right: -90%
+      padding-left: 75%
+      opacity: 0
+
+      .fa
+        vertical-align: middle
+
+    &:hover, &:focus
+      .select-arrow
+        opacity: 1
+
+  .value
+    select
+      height: 100%
+      cursor: pointer
+      background-color: transparent
+      border: none
+      outline: none
+      appearance: none
+
+    input[type="text"]
+      cursor: pointer
+      border: none
+      background-color: transparent
+
+      &:focus
+        border: none
+        outline: none
+
+    .select-arrow
+      cursor: pointer
+      font-size: 12px
+      margin-right: -90%
+      padding-left: 90%
+      opacity: 0
+
+      .fa
+        vertical-align: middle
+
+    &:hover, &:focus
+      .select-arrow
+        opacity: 1
+
+  .remove
+    display: flex
+    align-items: center
+    height: 100%
+    cursor: pointer
+    padding: 0.3rem 0.25rem
+
+    .btn-close
+      font-size: 0.5em
+      padding: 0

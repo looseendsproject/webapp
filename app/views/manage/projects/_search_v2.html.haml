@@ -1,0 +1,32 @@
+- manager_options = [['No Manager', 'none']] + User.project_managers.map { |a| [a.name, a.id.to_s] }
+- date_options = [30, 7].map{|i| ["#{i} days ago", i.days.to_i.to_s] }
+- if current_user.project_views.any?
+  .search-row.d-flex.align-items-center
+    %strong Saved Views:
+    - current_user.project_views.each do |project_view|
+      .saved-view.btn-group
+        = link_to project_view.name, %Q[?v2=true&load_view=#{project_view.id}], class: 'btn btn-sm btn-outline-secondary saved-view-name'
+        .remove.btn.btn-sm.btn-outline-secondary
+          = button_to(' ', saved_view_remove_manage_projects_path(remove_view: project_view.id), class: 'btn btn-sm btn-close')
+= form_tag [:manage, :projects], method: :get, data: { turbo: false } do
+  = hidden_field_tag :v2, true
+  = hidden_field_tag :sort, params[:sort]
+  .search-row
+    = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
+  .search-row.d-flex
+    .flex-grow-0
+      = render partial: 'search_filters_menu', locals: { manager_options:, date_options:, statuses: Project::STATUSES.values }
+      = button_tag "Clear Filters", name: nil, class: 'btn btn-sm btn-light mt-1', onclick: "document.querySelectorAll('.search-predicate').forEach((e) => { e.remove() })"
+    .d-flex.flex-wrap.flex-grow-1
+      - if params[:manager_id].present?
+        = render partial: 'search_predicate', locals: { field: :manager_id, operator: '=', values: manager_options, value: params[:manager_id] }
+      - if params[:status].present?
+        = render partial: 'search_predicate', locals: { field: :status, operator: '=', values: Project::STATUSES.values, value: params[:status] }
+      - if params[:last_contacted_at].present? && params[:last_contacted_at] =~ /^(before|after)\((\d+)\)$/
+        - op = $1
+        - dt = $2
+        = render partial: 'search_predicate', locals: { field: :last_contacted_at, operator: op, values: date_options, value: dt }
+    .d-flex.justify-content-end.align-items-start.flex-grow-0.text-nowrap
+      = select_tag :view, options_for_select([['Show Cards', nil], ['Show List', 'list']], params[:view]), class: 'form-select me-1'
+      = render partial: 'search_view_save_menu'
+      = submit_tag "Search", name: nil, class: 'btn btn-primary btn-search ms-1'

@@ -10,5 +10,8 @@ application.register("autocomplete", AutocompleteController)
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
 
+import SearchPredicateController from "./search_predicate_controller"
+application.register("search-predicate", SearchPredicateController)
+
 import SelectController from "./select_controller"
 application.register("select", SelectController)

@@ -192,6 +192,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_192756) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "project_views", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "name", null: false
+    t.jsonb "query", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.bigint "user_id"
     t.string "status", default: "PROPOSED", null: false

@@ -98,7 +98,7 @@ class Project < ApplicationRecord
   include LooseEndsSearchable
   include EmailAddressable
 
-  search_query_joins :user
+  search_query_joins :user, :assignments
   search_sort_name_field :name
   search_text_fields :"projects.name", :"projects.description", :"projects.craft_type", :"projects.material_type",
                      :"projects.material_brand", :"projects.city", :"projects.state", :"users.first_name",
