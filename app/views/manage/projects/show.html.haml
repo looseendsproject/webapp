@@ -1,18 +1,16 @@
 = hidden_field_tag "updated_at_utc", @project.updated_at.iso8601
 
 .row
-  .col-md-8.mb-4.mb-md-0
+  .col.mb-4.mb-md-0
     %h1.project-name= @project.name
     %small.text-secondary.mb-2= time_tag(@project.updated_at, "Last Updated: #{time_ago_in_words(@project.updated_at)} ago", title: @project.updated_at, id: 'updated_at')
-  .col-md-4
-    = render partial: "status", locals: { project: @project }
 
 %hr
 
-- if suggested_actions?
+- if suggested_actions.present?
   .row
     .col
-      = render partial: 'show_actions'
+      = render partial: 'show_actions', local: { suggested_actions: }
 
 .row
   .col-md-8.order-last.order-md-first
@@ -25,7 +23,7 @@
   .col-md-4.border-start
     - if current_user.can_manage?
       = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary mb-4'
-    = render partial: 'needs_attention', locals: { project: @project }
+    = render partial: 'show_quick_actions', locals: { project: @project }
     = render partial: 'show_finishers'
     = render partial: 'show_notes'
 

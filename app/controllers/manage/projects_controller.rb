@@ -4,7 +4,7 @@ require "csv"
 
 module Manage
   class ProjectsController < Manage::ManageController
-    helper_method :suggested_actions?
+    helper_method :suggested_actions
 
     def index
       @title = "Loose Ends - Manage - Projects"
@@ -83,8 +83,8 @@ module Manage
       end
     end
 
-    def suggested_actions?
-      false # TODO: Implement this method
+    def suggested_actions
+      []
     end
 
     def project_params
