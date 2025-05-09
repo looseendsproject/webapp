@@ -1,229 +1,36 @@
 = hidden_field_tag "updated_at_utc", @project.updated_at.iso8601
-%small#updated_at= "Last updated:"
 
 .row
-  .col
-    .float-start
-      %h1.project-name= @project.name
-    .float-end
-      = render partial: "status", locals: { project: @project }
+  .col-md-8.mb-4.mb-md-0
+    %h1.project-name= @project.name
+    %small.text-secondary.mb-2= time_tag(@project.updated_at, "Last Updated: #{time_ago_in_words(@project.updated_at)} ago", title: @project.updated_at, id: 'updated_at')
+  .col-md-4
+    = render partial: "status", locals: { project: @project }
 
 %hr
 
-- if current_user.can_manage?
-  = link_to 'Edit', [:edit, :manage, @project], class: 'btn btn-outline-secondary float-end'
+- if suggested_actions?
+  .row
+    .col
+      = render partial: 'show_actions'
 
 .row
-  .col-4
-    %h4 Project Owner
-    - if @project.user.blank?
-      %p System
-    - else
-      %div= @project.user.name
-    %h3 Email
-    %div{ data: { controller: 'clipboard' } }= @project.user.email
-    %h3 Phone Number
-    - if @project.user.phone?
-      %div{ data: { controller: 'clipboard' } }= @project.user.phone
-    - else
-      .text-secondary Unknown
-    %h3 Heard about us
-    %div= @project.user.heard_about_us
-  .col-3
-    %h3 Manager
-    - if @project.manager.blank?
-      %p None
-    - else
-      %p= @project.manager.name
-  .col-3
-    %h3 Project Attributes
-    - if @project.joann_helped || @project.urgent || @project.influencer || @project.group_project || @project.press || @project.privacy_needed
-      %ul.list-unstyled
-        - if @project.joann_helped
-          %li
-            %i.fa.fa-check
-            Joann helped
-        - if @project.urgent
-          %li
-            %i.fa.fa-check
-            Urgent
-        - if @project.influencer
-          %li
-            %i.fa.fa-check
-            Influencer
-        - if @project.group_project
-          %li
-            %i.fa.fa-check
-            Group project
-            - if @project.group_manager
-              %br
-              %small.text-muted
-                Group Manager: #{@project.group_manager.name}
-        - if @project.press
-          %li
-            %i.fa.fa-check
-            Press
-            - if @project.press_region.present? || @project.press_outlet.present?
-              %br
-              %small.text-muted
-                = "Region: #{@project.press_region}" if @project.press_region.present?
-                = " | " if @project.press_region.present? && @project.press_outlet.present?
-                = "Outlet: #{@project.press_outlet}" if @project.press_outlet.present?
-        - if @project.privacy_needed
-          %li
-            %i.fa.fa-check
-            Privacy needed
-    - else
-      %p No special attributes set
-
-.row.d-flex
-  .col-4
-    %h3 Description
-    = @project.description
-
-    %h5 Phone Number
-    - if @project.phone_number.present?
-      = @project.phone_number
-    - else
-      %p.text-danger
-        (Required)
-    %hr
-    - @project.project_images.each do |image|
-      - if image.representable?
-        = link_to image_tag(image.representation( resize_to_limit: [100, 100])), |
-          url_for(image.variant(format: :jpg)), target: "_blank"
-    - if @project.more_details.present?
-      .page-section
-        %h5 More Details
-        = @project.more_details
-    .page-section.mb-2
-      .row
-        .col
-          %b Mailing Address:
-        .col.text-end= link_to fa_icon('map'), "https://maps.google.com/?q=#{@project.full_address}", target: "_blank"
-      .street= @project.street
-      - if @project.street_2.present?
-        .street2= @project.street_2
-      .city-state-zip
-        #{@project.city}, #{@project.state} #{@project.postal_code}
-      .country
-        = ISO3166::Country[@project.country]&.iso_short_name
-  .col-4
-    - if @project.no_smoke || @project.no_cats || @project.no_dogs
-      .page-section.mb-3
-        %h4 Sensitivities
-        %ul
-          - if @project.no_smoke
-            %li No Smoke Please
-          - if @project.no_cats
-            %li No Cats Please
-          - if @project.no_dogs
-            %li No Dogs Please
-      - if @project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?
-        .page-section.mb-3
-          %h4 Pets in Home
-          = @project.in_home_pets.select(&:present?).map{|p| p.capitalize}.join(', ')
-
-      - if @project.has_smoke_in_home
-        .page-section.mb-3
-          %h4 Smoking in Home
-          Has Smoke In Home
-    - if @project.no_smoke || @project.no_cats || @project.no_dogs || (@project.in_home_pets.present? && @project.in_home_pets.select(&:present?).any?) || @project.has_smoke_in_home
-      %hr/
-
-    %h4 Craft Type
-    = @project.craft_type
-
-    %h4.mt-4
-      Material Details
-    .row
-      %b.col-auto Type:
-      .col
-        = @project.material_type
-    .row
-      %b.col-auto Brand:
-      .col
-        = @project.material_brand
-    .row
-      - @project.material_images.each do |image|
-        - if image.representable?
-          .removeable_image
-            = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
-            url_for(image.variant(format: :jpg)), target: "_blank"
-            = button_to fa_icon("trash"), project_path(@project, { material_image_id: image.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-    %h4.mt-4
-      .row
-        .col-9
-          Pattern Details
-    %p
-      Is there a pattern? #{@project.has_pattern}
-    - @project.pattern_files.each do |file|
-      .removeable_file
-        - if file.variable?
-          = link_to image_tag(file.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), |
-          url_for(file.variant(format: :jpg)), target: "_blank"
-        - else
-          = link_to(file.filename, url_for(file))
-        = button_to fa_icon("trash"), project_path(@project, { pattern_file_id: file.id }), method: :delete, :onclick => "return confirm('Are you sure?')", class: 'icon'
-    %h4 Original Crafter Details
-    - if @project.crafter_name? || @project.crafter_description? || @project.crafter_images.any?
-      = @project.crafter_name
-      = @project.crafter_description
-      - @project.crafter_images.each do |image|
-        - if image.representable?
-          = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail'), url_for(image.variant(format: :jpg))
-    - else
-      .text-muted Not Provided
-
-    %p= @project.crafter_dominant_hand
-
-    %h4 Sensitivities
-    - if @project.no_smoke || @project.no_cats || @project.no_dogs
-      .page-section
-        %ul
-          - if @project.no_smoke
-            %li No Smoke Please
-          - if @project.no_cats
-            %li No Cats Please
-          - if @project.no_dogs
-            %li No Dogs Please
-    - else
-      .text-muted Not Provided
-
-    %h4 Recipient
-    - if @project.recipient_name?
-      = @project.recipient_name
-    - else
-      .text-muted Not Provided
-
-  .col-4
-    = render partial: "needs_attention", locals: { project: @project }
-
-    %h4
-      Assigned Finishers
-      .float-end
-        = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
-        - if @project.state.present? && @project.country.present?
-          = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
-        - else
-          %h5.text-danger
-            Incomplete Address Prevents Map Searching
-    = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
-
-    %h4.mt-4 Finisher Notes
-    #finisher-notes.d-flex.flex-column
-      = render partial: "manage/notes/finisher_note",
-        collection: @project.finisher_notes.order(created_at: :desc)
-
-    %hr
-
-    %h4.mt-4 Manager Notes
-    #note_form
-      = render partial: 'manage/notes/form', locals: { project: @project }
-    #manager-notes.d-flex.flex-column
-      = render partial: "manage/notes/manager_note", collection: @project.notes.order(created_at: :desc)
+  .col-md-8.order-last.order-md-first
+    .d-flex.flex-wrap.gap-4
+      = render partial: 'show_owner_manager'
+      = render partial: 'show_attributes'
+      = render partial: 'show_details'
+      = render partial: 'show_materials'
+      = render partial: 'show_crafter'
+  .col-md-4.border-start
+    - if current_user.can_manage?
+      = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary mb-4'
+    = render partial: 'needs_attention', locals: { project: @project }
+    = render partial: 'show_finishers'
+    = render partial: 'show_notes'
 
 = render partial: 'messages/index', locals: { resource: @project }
+
 
 :javascript
   var updateProjectTimestamp = () => {
@@ -232,7 +39,7 @@
     const time = new Date(timestamp.value).toLocaleTimeString()
 
     const text = document.getElementById('updated_at')
-    text.innerHTML = `Last updated: ${date} ${time}`
+    text.title = `${date} ${time}`
   }
 
   window.addEventListener('load', updateProjectTimestamp);

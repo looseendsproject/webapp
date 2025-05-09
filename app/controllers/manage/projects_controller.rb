@@ -4,6 +4,8 @@ require "csv"
 
 module Manage
   class ProjectsController < Manage::ManageController
+    helper_method :suggested_actions?
+
     def index
       @title = "Loose Ends - Manage - Projects"
       @projects = Project.search(params).includes(:finishers)
@@ -73,9 +75,16 @@ module Manage
       status_counts = Project.group(:status).count
 
       Project::STATUSES.values.map do |status|
-        ["#{status}#{status_counts[status].to_i.positive? ?
-          " (#{status_counts[status]})" : ''}", status ]
+        ["#{status}#{if status_counts[status].to_i.positive?
+                       " (#{status_counts[status]})"
+                     else
+                       ""
+                     end}", status]
       end
+    end
+
+    def suggested_actions?
+      false # TODO: Implement this method
     end
 
     def project_params
