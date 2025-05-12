@@ -97,6 +97,36 @@ module Manage
       assert_select "td", text: "brandname"
     end
 
+    test "show actions prompts manager assignment" do
+      sign_in @user
+      @project.update!(manager_id: nil)
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-assign-manager"
+    end
+
+    test "show actions prompts invite finisher" do
+      sign_in @user
+      @project.assignments.destroy_all
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-invite-finisher"
+    end
+
+    test "show actions prompts update address" do
+      sign_in @user
+      @project.update_attribute!(:street, nil)
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-update-address"
+    end
+
     test "edit loads" do
       sign_in @user
       get "/manage/projects/#{@project.id}/edit"
