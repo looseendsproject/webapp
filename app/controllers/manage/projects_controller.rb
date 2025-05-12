@@ -4,7 +4,6 @@ require "csv"
 
 module Manage
   class ProjectsController < Manage::ManageController
-    helper_method :suggested_actions
     before_action :redirect_to_saved_view, only: :index
     before_action :save_view_by_name, only: :index
 
@@ -95,21 +94,6 @@ module Manage
                        ""
                      end}", status]
       end
-    end
-
-    ProjectAction = Struct.new("ProjectAction", :title, :path)
-    def suggested_actions
-      actions = []
-      status_rank = Project::STATUSES.values.index(@project.status)
-      done_rank = Project::STATUSES.values.index("DONE")
-      if status_rank && status_rank < done_rank
-        if @project.missing_address_information?
-          actions << ProjectAction.new("Add Address", edit_manage_project_path(@project))
-        elsif @project.manager_id.nil?
-          actions << ProjectAction.new("Assign Manager", edit_manage_project_path(@project))
-        end
-      end
-      actions
     end
 
     def redirect_to_saved_view

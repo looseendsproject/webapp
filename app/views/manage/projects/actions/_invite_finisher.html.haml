@@ -1,0 +1,7 @@
+- if @project.assignments.none?
+  .d-flex.flex-wrap.align-items-center
+    .action-info.flex-grow-1
+      %h3 Invite Finisher
+      %p Invite a finisher to work on this project
+    .action-cta
+      = link_to 'Find Finisher', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-primary'

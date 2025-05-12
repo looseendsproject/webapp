@@ -1,9 +1,0 @@
-.card.flex-fill
-  %h5.card-header.mt-0 Original Crafter
-  .card-body
-    %table
-      %tbody
-        = render partial: 'show_row', locals: { title: 'Name', value: @project.crafter_name }
-        = render partial: 'show_row', locals: { title: 'Description', value: @project.crafter_description }
-        = render partial: 'show_row', locals: { title: 'Dominant Hand', value: @project.crafter_dominant_hand }
-        = render partial: 'show_row_images', locals: { title: 'Images', value: @project.crafter_images }

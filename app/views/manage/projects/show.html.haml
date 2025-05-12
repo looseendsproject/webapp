@@ -7,25 +7,24 @@
 
 %hr
 
-- if suggested_actions.present?
-  .row
-    .col
-      = render partial: 'show_actions', local: { suggested_actions: }
+.row
+  .col
+    = render partial: 'manage/projects/actions/show'
 
 .row
   .col-md-8.order-last.order-md-first
     .d-flex.flex-wrap.gap-4
-      = render partial: 'show_owner_manager'
-      = render partial: 'show_attributes'
-      = render partial: 'show_details'
-      = render partial: 'show_materials'
-      = render partial: 'show_crafter'
+      = render partial: 'manage/projects/show/owner_manager'
+      = render partial: 'manage/projects/show/attributes'
+      = render partial: 'manage/projects/show/details'
+      = render partial: 'manage/projects/show/materials'
+      = render partial: 'manage/projects/show/crafter'
   .col-md-4.border-start
     - if current_user.can_manage?
       = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary mb-4'
-    = render partial: 'show_quick_actions', locals: { project: @project }
-    = render partial: 'show_finishers'
-    = render partial: 'show_notes'
+    = render partial: 'manage/projects/show/quick_actions', locals: { project: @project }
+    = render partial: 'manage/projects/show/finishers'
+    = render partial: 'manage/projects/show/notes'
 
 = render partial: 'messages/index', locals: { resource: @project }
 
