@@ -3,7 +3,7 @@
   - if value.present?
     %td
       - value.each do |image|
-        - if image.representable?
+        - if image.representable? && image.content_type.starts_with?('image')
           = link_to image_tag(image.representation( resize_to_limit: [100, 100]), class: 'thumbnail rounded'),
             url_for(image.variant(format: :jpg)), target: "_blank", class: 'align-top'
         - else
