@@ -4,4 +4,6 @@
       %h3 Assign manager
       %p This project has no manager currently assigned.
     .action-cta
-      = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-primary'
+      #action-manager-container
+        = turbo_frame_tag "project-manager-frame" do
+          = render "manage/projects/project_manager_form", project: @project
