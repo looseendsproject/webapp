@@ -5,4 +5,3 @@
     { id: "needs-attention-select", class: "form-select", autocomplete: 'off',
       onchange: 'this.form.requestSubmit()' }
   = render partial: 'manage/update_label', locals: { did_save: project.saved_change_to_needs_attention? }
-  .pb-1 &nbsp;

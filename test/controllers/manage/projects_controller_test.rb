@@ -94,7 +94,37 @@ module Manage
       get manage_project_path(@project)
 
       assert_response :success
-      assert_select "div", text: "brandname"
+      assert_select "td", text: "brandname"
+    end
+
+    test "show actions prompts manager assignment" do
+      sign_in @user
+      @project.update!(manager_id: nil)
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-assign-manager"
+    end
+
+    test "show actions prompts invite finisher" do
+      sign_in @user
+      @project.assignments.destroy_all
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-invite-finisher"
+    end
+
+    test "show actions prompts update address" do
+      sign_in @user
+      @project.update_attribute!(:street, nil)
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-update-address"
     end
 
     test "edit loads" do
@@ -108,8 +138,9 @@ module Manage
       @project.name = "New Name"
 
       sign_in @user
+
       assert_nil @project.has_materials
-      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" }}
+      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" } }
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("New Name", @project.reload.name)
@@ -120,6 +151,7 @@ module Manage
       sign_in @user
 
       patch "/manage/projects/#{@project.id}.turbo_stream", params: { project: { needs_attention: "stalled_accepted" } }
+
       assert_match "<span class='update-flash visible'>SAVED</span>", response.body
     end
 
@@ -129,7 +161,7 @@ module Manage
         material_brand: "brandname",
         has_materials: "Yes",
         append_material_images: [file_fixture_upload("test.jpg", "image/jpeg")]
-      }}
+      } }
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("brandname", @project.reload.material_brand)
@@ -201,6 +233,7 @@ module Manage
     test "search with manager_id=none returns projects without manager" do
       result = create_search_project
       result.update!(manager: nil)
+
       assert_search_results([result], manager_id: "none")
     end
 
