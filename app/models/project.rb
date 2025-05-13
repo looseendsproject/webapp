@@ -92,8 +92,8 @@ class Project < ApplicationRecord
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
-  NEEDS_ATTENTION_REASONS = %w(negative_sentiment stalled_accepted
-    stalled_invited stalled_potential long_running)
+  NEEDS_ATTENTION_REASONS = %w[negative_sentiment stalled_accepted
+                               stalled_invited stalled_potential long_running]
 
   include LooseEndsSearchable
   include EmailAddressable
@@ -124,7 +124,8 @@ class Project < ApplicationRecord
   validates :status, inclusion: { in: STATUSES.values }
   validates :status, presence: true
   validates :needs_attention, inclusion: {
-    in: NEEDS_ATTENTION_REASONS, allow_blank: true, allow_nil: true }
+    in: NEEDS_ATTENTION_REASONS, allow_blank: true
+  }
 
   validates :name, presence: true
   validates :phone_number, length: { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." }
@@ -159,7 +160,7 @@ class Project < ApplicationRecord
   end
 
   def finisher
-    finishers.reorder('assignments.updated_at desc').first
+    finishers.reorder("assignments.updated_at desc").first
   end
 
   def finisher_name
@@ -230,7 +231,7 @@ class Project < ApplicationRecord
 
   # method for combining all available address attributes for geocoding
   def full_address
-    [street, street_2, city, state, postal_code, country].compact.join(", ")
+    [street, street_2, city, state, postal_code, country].compact_blank.join(", ")
   end
 
   # method for checking if any address attribute has changed
@@ -239,10 +240,10 @@ class Project < ApplicationRecord
   end
 
   def has_pattern?
-    has_pattern == 'Yes'
+    has_pattern == "Yes"
   end
 
   def has_materials?
-    has_materials == 'Yes'
+    has_materials == "Yes"
   end
 end

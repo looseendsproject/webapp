@@ -1,0 +1,7 @@
+= form_with model: project, url: manage_project_path(project),
+    html: { id: "project-manager-form", class: "form", data: { turbo_frame: "project-manager-frame" } } do |form|
+  = form.select :manager_id, options_for_select(User.project_managers.map { |a| [a.name, a.id.to_s] }, project.manager_id),
+    { prompt: "Choose a manager" },
+    { id: "project-manager-select", class: "form-select", autocomplete: 'off',
+      onchange: 'this.form.requestSubmit()' }
+  = render partial: 'manage/update_label', locals: { did_save: project.saved_change_to_manager_id? }

@@ -95,7 +95,7 @@ class Finisher < ApplicationRecord
   validates :chosen_name, presence: true
   validates :phone_number, length:
     { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." },
-    allow_blank: true
+                           allow_blank: true
 
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: %i[png jpg jpeg webp gif],
@@ -197,7 +197,7 @@ class Finisher < ApplicationRecord
 
   # method for combining all available address attributes for geocoding
   def full_address
-    [street, street_2, city, state, postal_code, country].compact.join(", ")
+    [street, street_2, city, state, postal_code, country].compact_blank.join(", ")
   end
 
   # method for checking if any address attribute has changed

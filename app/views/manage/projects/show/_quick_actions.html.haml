@@ -1,0 +1,6 @@
+.card.mb-4
+  %h5.card-header.mt-0 Quick Actions
+  .card-body
+    %h5.mt-2 Project Status
+    = render partial: "status", locals: { project: @project }
+    = render partial: 'needs_attention', locals: { project: @project }
