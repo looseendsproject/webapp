@@ -13,7 +13,7 @@ module ActiveSupport
     Geocoder.configure(lookup: :test)
     # Locations form test fixtures
     Geocoder::Lookup::Test.add_stub(
-      "123 Main St, , Anytown, WA, 12345", [{
+      "123 Main St, Anytown, WA, 12345", [{
         "latitude" => 40.7143528,
         "longitude" => -74.0059731,
         "address" => "New York, NY, USA",
@@ -26,7 +26,7 @@ module ActiveSupport
 
     # needed one with the "US" at the end
     Geocoder::Lookup::Test.add_stub(
-      "123 Main St, , Anytown, WA, 12345, US", [{
+      "123 Main St, Anytown, WA, 12345, US", [{
         "latitude" => 40.7143528,
         "longitude" => -74.0059731,
         "address" => "New York, NY, USA",
@@ -52,6 +52,6 @@ module ActionDispatch
 end
 
 def setup_message!
-  content = File.read(Rails.root.join('test', 'fixtures', 'files', 'sample_2.eml'))
+  content = File.read(Rails.root.join("test/fixtures/files/sample_2.eml"))
   Message.all.map { |m| m.update!(content: content) }
 end

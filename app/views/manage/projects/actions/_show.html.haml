@@ -1,0 +1,12 @@
+- action_dir = Rails.root.join('app', 'views', 'manage', 'projects', 'actions').to_s
+- action_partials = Dir.glob("#{action_dir}/_*.html.haml").map{|p| File.basename(p).sub(/^_(.*?)\.html.haml$/, "\\1") }
+- action_partials -= ['show'] # ignore this template
+- rendered_actions = action_partials.map{|p| render(partial: "manage/projects/actions/#{p}") }
+- rendered_actions.reject!{|item| strip_tags(item).blank? } # remove any empty items
+- if rendered_actions.present?
+  .card.mb-4.flex-fill.border-info
+    %h5.card-header.mt-0 Suggested Actions
+    .card-body
+      %ul.list-group.list-group-flush
+        - rendered_actions.each do |item|
+          %li.list-group-item= item

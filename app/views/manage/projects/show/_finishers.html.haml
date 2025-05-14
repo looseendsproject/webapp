@@ -1,0 +1,17 @@
+#assigned-finishers.card.mb-4
+  %h5.card-header.mt-0
+    Assigned Finishers
+    .float-end
+      = link_to 'Search', [:manage, @project, :finishers, { state: @project.state, country: @project.country }], class: 'btn btn-sm btn-link'
+      - if @project.state.present? && @project.country.present?
+        = link_to 'Map', [:map, :manage, @project, :finishers, { near: @project.full_address, radius: 50 }], class: 'btn btn-sm btn-link'
+  .card-body
+    - if @project.assignments.any?
+      = render partial: 'manage/assignments/assignment', collection: @project.assignments.order(updated_at: :desc), as: :assignment, locals: { context: :project }
+    - else
+      .text-secondary No Finishers
+
+.card.mb-4
+  %h5.card-header.mt-0 Finisher Notes
+  .card-body
+    = render partial: "manage/notes/finisher_note", collection: @project.finisher_notes.order(created_at: :desc)
