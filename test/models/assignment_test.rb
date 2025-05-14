@@ -81,6 +81,27 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 
+  test "missed_check_ins?" do
+    user = @assignment.finisher.user
+    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 8.weeks, user: user)
+    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 6.weeks, user: user)
+    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 4.weeks, user: user)
+    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 2.weeks, user: user)
+    @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
+    @assignment.update_attribute(:last_contacted_at,
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+
+    assert @assignment.missed_check_ins?
+
+    @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_connected])
+    refute @assignment.missed_check_ins?
+    @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
+
+    @assignment.notes.last.destroy
+    travel_to 2.weeks.ago
+    refute @assignment.missed_check_ins?
+  end
+
   test "allows nil status" do
     @assignment.status = nil
 
