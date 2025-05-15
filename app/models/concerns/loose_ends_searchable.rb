@@ -269,32 +269,30 @@ module LooseEndsSearchable
     end
 
     def with_sort_and_distinct(query, sort)
-      custom_sorts = {
-        "name" => "LOWER(#{_sort_name_field}) ASC",
-        "name asc" => "LOWER(#{_sort_name_field}) ASC",
-        "name desc" => "LOWER(#{_sort_name_field}) DESC",
-        "date" => "#{_since_field} ASC",
-        "date asc" => "#{_since_field} ASC",
-        "date desc" => "#{_since_field} DESC"
-      }
-
       sort_clause = sort_clause(sort)
       sort_col = sort_clause.split(" ").first
 
-      query.order(sort_clause).select("#{table_name}.*, #{table_name}.#{sort_col} AS sort_col").distinct
+      query.order(sort_clause).select("#{table_name}.*, #{sort_col} AS sort_col").distinct
     end
 
     def sort_clause(sort)
       custom_sorts = {
-        "name" => "LOWER(#{_sort_name_field}) ASC",
-        "name asc" => "LOWER(#{_sort_name_field}) ASC",
-        "name desc" => "LOWER(#{_sort_name_field}) DESC",
-        "date" => "#{_since_field} ASC",
-        "date asc" => "#{_since_field} ASC",
-        "date desc" => "#{_since_field} DESC"
+        "name" => "LOWER(#{table_name}.#{_sort_name_field}) ASC",
+        "name asc" => "LOWER(#{table_name}.#{_sort_name_field}) ASC",
+        "name desc" => "LOWER(#{table_name}.#{_sort_name_field}) DESC",
+        "date" => "#{table_name}.#{_since_field} ASC",
+        "date asc" => "#{table_name}.#{_since_field} ASC",
+        "date desc" => "#{table_name}.#{_since_field} DESC"
       }
-      # Form passed in something custom, so just use it
-      return sort if sort.present? && custom_sorts[sort].nil?
+      if sort.present? && custom_sorts[sort].nil?
+        # Form passed in something custom, so just use it
+
+        # Table name included in sort, use it as is
+        return sort if sort.include?(".")
+
+        # Table name not included in sort, add it
+        return "#{table_name}.#{sort}"
+      end
 
       sort.present? ? custom_sorts[sort] : custom_sorts[_default_sort]
     end
