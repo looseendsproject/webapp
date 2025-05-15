@@ -1,4 +1,4 @@
 #needs-attention-container
-  %h4 Needs Attention
+  %h5.mt-0 Needs Attention
   = turbo_frame_tag "needs-attention-frame" do
     = render "manage/projects/needs_attention_form", project: project, readonly: local_assigns[:readonly], context: local_assigns[:context]

@@ -32,7 +32,10 @@ class Assignment < ApplicationRecord
     unresponsive: "unresponsive",
     completed: "completed"
   }.freeze
+
   CHECK_IN_INTERVAL = 2.weeks
+  UNRESPONSIVE_INTERVAL = 8.weeks
+  MISSED_CHECK_INS = 4
 
   belongs_to :project, touch: true
   belongs_to :finisher
@@ -60,6 +63,16 @@ class Assignment < ApplicationRecord
       ",
       STATUSES[:accepted], Project::STATUSES[:in_process_underway],
         CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
+  end
+
+  def missed_check_ins?
+    return false unless status == STATUSES[:accepted] &&
+      project.status == Project::STATUSES[:in_process_underway] &&
+      last_contacted_at < UNRESPONSIVE_INTERVAL.ago
+
+    check_ins = notes.order(created_at: :desc).limit(MISSED_CHECK_INS)
+    return false unless check_ins.count == MISSED_CHECK_INS
+    true
   end
 
   def name

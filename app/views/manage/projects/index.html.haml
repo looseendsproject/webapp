@@ -3,9 +3,12 @@
   = link_to 'New Project', [:new, :manage, :project], class: 'btn btn-outline-secondary float-end'
 
 .mb-4
-  = render 'search'
+  - if params[:v2]
+    = render 'search_v2'
+  - else
+    = render 'search'
 
-.row
+.row#search-results
   - if params[:view] == 'list'
     %table.table.project-table
       %thead
@@ -66,8 +69,22 @@
     }
   };
 
+  var setupSearchHandler = () => {
+    window.addEventListener('search-predicate:dirty', () => {
+      const searchResults = document.getElementById('search-results')
+      const searchButtons = document.getElementsByClassName('btn-search')
+      if (! searchResults || ! searchButtons || ! searchButtons.length == 1) {
+        return
+      }
+
+      searchButtons[0].classList.add('highlight')
+      searchResults.style.opacity = 0.5
+    })
+  };
+
   var setupDomListeners = () => {
     setupSortHeaders()
+    setupSearchHandler()
   };
 
   window.addEventListener('load', setupDomListeners);

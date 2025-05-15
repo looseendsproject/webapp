@@ -1,0 +1,13 @@
+.card.flex-fill
+  %h5.card-header.mt-0 Owner
+  .card-body
+    %table
+      %tbody
+        = render partial: 'manage/projects/show/row', locals: { title: 'Name', value: @project.user.name }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Email', value: @project.user.email, copy_paste: true }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Phone Number', value: @project.user.phone, copy_paste: true }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Heard About Us', value: @project.user.heard_about_us }
+        - if @project.manager.present?
+          = render partial: 'manage/projects/show/row', locals: { title: 'Manager', value: @project.manager.name }
+        - if @project.active_finisher.present?
+          = render partial: 'manage/projects/show/row', locals: { title: 'Active Finisher', value: @project.active_finisher }

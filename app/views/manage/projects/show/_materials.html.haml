@@ -1,0 +1,10 @@
+.card.flex-fill
+  %h5.card-header.mt-0 Pattern & Materials
+  .card-body
+    %table
+      %tbody
+        = render partial: 'manage/projects/show/row', locals: { title: 'Has Pattern', value: @project.has_pattern }
+        = render partial: 'manage/projects/show/row_images', locals: { title: 'Pattern Images', value: @project.pattern_files }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Material Type', value: @project.material_type }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Material Brand', value: @project.material_brand }
+        = render partial: 'manage/projects/show/row_images', locals: { title: 'Material Images', value: @project.material_images }
