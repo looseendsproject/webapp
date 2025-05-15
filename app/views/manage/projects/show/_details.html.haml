@@ -11,4 +11,5 @@
           = render partial: 'manage/projects/show/row', locals: { title: 'Address', value: false }
         - else
           = render partial: 'manage/projects/show/row', locals: { title: 'Address', value: @project.full_address, link: link_to(fa_icon('map'), "https://maps.google.com/?q=#{@project.full_address}", target: "_blank") }
+        = render partial: 'manage/projects/show/row_images', locals: { title: 'Project Images', value: @project.project_images }
         = render partial: 'manage/projects/show/row', locals: { title: 'More Details', value: @project.more_details }
