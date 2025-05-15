@@ -15,10 +15,10 @@
   .col-md-8.order-last.order-md-first
     .d-flex.flex-wrap.gap-4
       = render partial: 'manage/projects/show/owner_manager'
-      = render partial: 'manage/projects/show/attributes'
       = render partial: 'manage/projects/show/details'
       = render partial: 'manage/projects/show/materials'
       = render partial: 'manage/projects/show/crafter'
+      = render partial: 'manage/projects/show/attributes'
   .col-md-4.border-start
     - if current_user.can_manage?
       = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-outline-secondary mb-4'
