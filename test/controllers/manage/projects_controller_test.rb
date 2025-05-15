@@ -51,6 +51,18 @@ module Manage
       assert_operator(projects[0].created_at, :<, projects[1].created_at)
     end
 
+    test "index shows projects with multiple finishers only once" do
+      sign_in @user
+      @project.assignments.create!(creator: @user, finisher: Finisher.first)
+
+      assert_equal(2, @project.assignments.count)
+
+      get "/manage/projects"
+
+      assert_response :success
+      assert_select "a[href=?]", manage_project_path(@project), count: 1
+    end
+
     test "CSV export metadata" do
       sign_in @user
 
@@ -150,7 +162,9 @@ module Manage
       @project = Project.first
       sign_in @user
 
-      patch "/manage/projects/#{@project.id}.turbo_stream", params: { project: { needs_attention: "finisher_unresponsive" } }
+      patch "/manage/projects/#{@project.id}.turbo_stream",
+            params: { project: { needs_attention: "finisher_unresponsive" } }
+
       assert_match "<span class='update-flash visible'>SAVED</span>", response.body
     end
 

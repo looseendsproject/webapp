@@ -96,7 +96,8 @@ module LooseEndsSearchable
       query = with_user_fields(query, params) if self == User
       query = with_finisher_fields(query, params) if self == Finisher
       query = with_project_fields(query, params) if self == Project
-      with_sort(query, params[:sort])
+      query = with_sort(query, params[:sort])
+      query.distinct
     end
 
     private
