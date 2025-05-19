@@ -1,3 +1,4 @@
+# rubocop:disable Rails/SkipsModelValidations
 # == Schema Information
 #
 # Table name: assignments
@@ -45,11 +46,14 @@ class AssignmentTest < ActiveSupport::TestCase
 
   test "denormalizes created_by unless project.manager_id.present?" do
     @assignment.project.manager_id = nil
-    refute @assignment.project.manager_id
+
+    assert_not @assignment.project.manager_id
     @assignment.save!
+
     assert_equal @assignment.created_by, @assignment.project.manager_id
 
     @assignment.update(created_by: 1)
+
     assert_not_equal @assignment.created_by, @assignment.project.manager_id
   end
 
@@ -69,16 +73,40 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "needs_check_in does not include assignments with recent check-ins" do
-    Project.find(1).update_column("status", "IN PROCESS: UNDERWAY")
+    Project.find(1).update_column("status", Project::STATUSES[:in_process_underway])
     assignment = Assignment.needs_check_in.first
+
     assert_equal 1, Assignment.needs_check_in.count
 
     assignment.update_attribute("check_in_sent_at", 10.minutes.ago)
     travel_to 1.day.from_now
+
     assert_equal 0, Assignment.needs_check_in.count
 
     travel_to 15.days.from_now
+
     assert_equal assignment.id, Assignment.needs_check_in.first.id
+  end
+
+  test "needs_check_in includes assignments in process only" do
+    Project.find(1).update_column("status", Project::STATUSES[:in_process_underway])
+    assignment = Assignment.needs_check_in.first
+
+    assert_equal 1, Assignment.needs_check_in.count
+    assignment.update_attribute("status", Assignment::STATUSES[:declined])
+
+    assert_equal 0, Assignment.needs_check_in.count
+    assignment.update_attribute("status", Assignment::STATUSES[:accepted])
+
+    assert_equal 1, Assignment.needs_check_in.count
+
+    assignment.update_attribute("status", Assignment::STATUSES[:working])
+
+    assert_equal 1, Assignment.needs_check_in.count
+
+    assignment.update_attribute("status", Assignment::STATUSES[:completed])
+
+    assert_equal 0, Assignment.needs_check_in.count
   end
 
   test "missed_check_ins?" do
@@ -89,17 +117,19 @@ class AssignmentTest < ActiveSupport::TestCase
     @assignment.notes.create!(created_at: Time.now.beginning_of_day - 2.weeks, user: user)
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
     @assignment.update_attribute(:last_contacted_at,
-      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+                                 Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
 
-    assert @assignment.missed_check_ins?
+    assert_predicate @assignment, :missed_check_ins?
 
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_connected])
-    refute @assignment.missed_check_ins?
+
+    assert_not_predicate @assignment, :missed_check_ins?
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
 
     @assignment.notes.last.destroy
     travel_to 2.weeks.ago
-    refute @assignment.missed_check_ins?
+
+    assert_not_predicate @assignment, :missed_check_ins?
   end
 
   test "allows nil status" do
@@ -122,3 +152,5 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_not_includes Assignment.active, assignments(:knit_inactive)
   end
 end
+
+# rubocop:enable Rails/SkipsModelValidations

@@ -27,6 +27,7 @@ class Assignment < ApplicationRecord
     potential: "potential",
     invited: "invited",
     accepted: "accepted",
+    working: "working",
     declined: "declined",
     requested_rematch: "requested rematch",
     unresponsive: "unresponsive",
@@ -36,6 +37,7 @@ class Assignment < ApplicationRecord
   CHECK_IN_INTERVAL = 2.weeks
   UNRESPONSIVE_INTERVAL = 8.weeks
   MISSED_CHECK_INS = 4
+  CHECK_IN_STATUSES = STATUSES.values_at(:accepted, :working).freeze
 
   belongs_to :project, touch: true
   belongs_to :finisher
@@ -55,35 +57,29 @@ class Assignment < ApplicationRecord
   end
 
   def self.needs_check_in
-    active.joins(:project).where("
-      assignments.status = ?
-      AND projects.status = ?
-      AND (last_contacted_at < ? OR last_contacted_at IS NULL)
-      AND (check_in_sent_at < ? OR check_in_sent_at IS NULL)
-      ",
-      STATUSES[:accepted], Project::STATUSES[:in_process_underway],
-        CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
+    active.joins(:project)
+          .where(status: CHECK_IN_STATUSES)
+          .where(project: { status: Project::STATUSES[:in_process_underway] })
+          .where("last_contacted_at < ? OR last_contacted_at IS NULL", CHECK_IN_INTERVAL.ago)
+          .where("check_in_sent_at < ? OR check_in_sent_at IS NULL", CHECK_IN_INTERVAL.ago)
   end
 
   def missed_check_ins?
-    return false unless status == STATUSES[:accepted] &&
-      project.status == Project::STATUSES[:in_process_underway] &&
-      last_contacted_at < UNRESPONSIVE_INTERVAL.ago
+    return false unless CHECK_IN_STATUSES.include?(status) &&
+                        project.status == Project::STATUSES[:in_process_underway] &&
+                        last_contacted_at < UNRESPONSIVE_INTERVAL.ago
 
     check_ins = notes.order(created_at: :desc).limit(MISSED_CHECK_INS)
     return false unless check_ins.count == MISSED_CHECK_INS
+
     true
   end
 
-  def name
-    project.name
-  end
+  delegate :name, to: :project
 
   # Messageable must respond to "user".  In this context,
   # "user" is "finisher.user"...
-  def user
-    finisher.user
-  end
+  delegate :user, to: :finisher
 
   private
 
@@ -92,7 +88,7 @@ class Assignment < ApplicationRecord
   end
 
   def denormalize_created_by
-    self.project.update!(manager_id: created_by) \
-      unless self.project.manager_id.present?
+    project.update!(manager_id: created_by) \
+      unless project.manager_id.present?
   end
 end
