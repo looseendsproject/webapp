@@ -37,7 +37,7 @@ class Assignment < ApplicationRecord
   CHECK_IN_INTERVAL = 2.weeks
   UNRESPONSIVE_INTERVAL = 8.weeks
   MISSED_CHECK_INS = 4
-  CHECK_IN_STATUSES = STATUSES.values_at(:accepted, :working).freeze
+  ACTIVE_STATUSES = STATUSES.values_at(:accepted, :working).freeze
 
   belongs_to :project, touch: true
   belongs_to :finisher
@@ -58,14 +58,14 @@ class Assignment < ApplicationRecord
 
   def self.needs_check_in
     active.joins(:project)
-          .where(status: CHECK_IN_STATUSES)
+          .where(status: ACTIVE_STATUSES)
           .where(project: { status: Project::STATUSES[:in_process_underway] })
           .where("last_contacted_at < ? OR last_contacted_at IS NULL", CHECK_IN_INTERVAL.ago)
           .where("check_in_sent_at < ? OR check_in_sent_at IS NULL", CHECK_IN_INTERVAL.ago)
   end
 
   def missed_check_ins?
-    return false unless CHECK_IN_STATUSES.include?(status) &&
+    return false unless ACTIVE_STATUSES.include?(status) &&
                         project.status == Project::STATUSES[:in_process_underway] &&
                         last_contacted_at < UNRESPONSIVE_INTERVAL.ago
 

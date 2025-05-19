@@ -74,7 +74,7 @@ class Finisher < ApplicationRecord
   has_many_attached :finished_projects
 
   has_many :active_assignments, lambda {
-    where(status: %w[invited accepted unresponsive])
+    where(status: Assignment::ACTIVE_STATUSES + %w[invited unresponsive])
   }, class_name: "Assignment"
 
   has_many :assignments, dependent: :destroy

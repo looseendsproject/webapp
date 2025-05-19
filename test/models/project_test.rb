@@ -76,15 +76,18 @@ class ProjectTest < ActiveSupport::TestCase
   test "All fixtures should be valid" do
     Project.find_each do |project|
       project.save
+
       assert_predicate(project, :valid?, "Project fixture is invalid. Errors: #{project.errors.inspect}")
     end
   end
 
   test "needing_attention scope" do
     Project.first.update(needs_attention: "manager_hold")
+
     assert_equal 1, Project.needing_attention.count
 
     Project.first.update(needs_attention: "")
+
     assert_equal 0, Project.needing_attention.count
   end
 
@@ -95,6 +98,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "finisher method returns last finisher" do
     @project.assignments.create!(creator: User.new, finisher: finishers(:crocheter))
+
     assert_not_nil @project.finisher
     assert_equal finishers(:crocheter), @project.finisher
   end
@@ -102,6 +106,14 @@ class ProjectTest < ActiveSupport::TestCase
   test "active_finisher method returns finisher" do
     assert_not_nil @project.active_finisher
     assert_equal finishers(:knitter), @project.active_finisher
+  end
+
+  test "active_finisher includes assignments in working status" do
+    assignment = @project.active_assignment
+    assignment.update!(status: Assignment::STATUSES[:working])
+    @project.reload
+
+    assert_not_nil @project.active_finisher
   end
 
   test "ignore_inactive scope" do
@@ -117,10 +129,12 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "inbound_email_address assignment" do
     p = Project.new
-    refute p.inbound_email_address
+
+    assert_not p.inbound_email_address
     p.valid?
-    assert_match /^project-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/,
-      p.inbound_email_address
+
+    assert_match(/^project-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/o,
+                 p.inbound_email_address)
   end
 
   test "Name update" do
@@ -166,9 +180,9 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "needs_attention_option returns proper struct" do
     assert_equal [["Negative Sentiment", "negative_sentiment"],
-      ["Finisher Unresponsive", "finisher_unresponsive"],
-      ["Manager Hold", "manager_hold"]],
-      Project.needs_attention_options
+                  ["Finisher Unresponsive", "finisher_unresponsive"],
+                  ["Manager Hold", "manager_hold"]],
+                 Project.needs_attention_options
   end
 
   test "missing_address_information? helper" do
@@ -228,7 +242,8 @@ class ProjectTest < ActiveSupport::TestCase
   test "responds to finisher_notes" do
     assignment = @project.assignments.create(creator: User.new, finisher: finishers(:crocheter))
     assignment.notes.create!(sentiment: "going_well",
-      text: "Here's some text", user_id: finishers(:crocheter).id)
+                             text: "Here's some text", user_id: finishers(:crocheter).id)
+
     assert_equal "Here's some text", @project.finisher_notes.first.text
   end
 

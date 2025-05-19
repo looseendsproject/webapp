@@ -92,7 +92,7 @@ class Project < ApplicationRecord
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
-  NEEDS_ATTENTION_REASONS = %w(negative_sentiment finisher_unresponsive manager_hold)
+  NEEDS_ATTENTION_REASONS = %w[negative_sentiment finisher_unresponsive manager_hold]
 
   include LooseEndsSearchable
   include EmailAddressable
@@ -175,7 +175,7 @@ class Project < ApplicationRecord
   end
 
   def active_assignment
-    assignments.find_by(status: "accepted")
+    assignments.find_by(status: Assignment::ACTIVE_STATUSES)
   end
 
   def active_finisher
