@@ -11,7 +11,10 @@ module Manage
 
     def index
       @title = "Loose Ends - Manage - Projects"
-      @projects = Project.search(params).includes(:finishers)
+      @projects = Project.search(params)
+                         .includes(:finishers)
+                         .left_outer_joins(:assignments)
+                         .group("projects.id")
 
       respond_to do |format|
         format.csv { add_csv_headers }
