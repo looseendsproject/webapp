@@ -15,7 +15,7 @@
         %tr.small
           %th.sortable{ data: { sort: "name asc", reverse: "name desc" } } Project Name
           %th.sortable{ data: { sort: "status asc", reverse: "status desc" } } Status
-          %th.text-nowrap Last Finisher Response
+          %th.sortable.text-nowrap{ data: { sort: "MAX(assignments.last_contacted_at) asc NULLS LAST", reverse: "MAX(assignments.last_contacted_at) desc NULLS LAST" } } Last Finisher Response
           %th.sortable{ data: { sort: "users.email asc", reverse: "users.email desc" } } Project Owner
           %th.sortable{ data: { sort: "finishers.chosen_name asc nulls last", reverse: "finishers.chosen_name desc nulls last" } } Finisher
       %tbody
