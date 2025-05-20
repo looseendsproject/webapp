@@ -1,4 +1,4 @@
 
-.d-inline-block.border.rounded.p-2.w-100
-  %turbo-frame{ id: dom_id(assignment) }
+%turbo-frame{ id: dom_id(assignment) }
+  .d-inline-block.border.rounded.p-2.w-100
     = render "manage/assignments/assignment_form", assignment: assignment, readonly: local_assigns[:readonly], context: local_assigns[:context]
