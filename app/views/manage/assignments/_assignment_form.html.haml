@@ -1,3 +1,5 @@
+= button_to [:manage, assignment], method: :delete, class: 'unmatch-button float-end btn btn-sm btn-outline-danger rounded-circle', form: { data: { turbo_confirm: 'Deleting assignment. Are you sure?' } } do
+  = fa_icon("trash", title: 'Unmatch')
 = form_for [:manage, assignment] do |form|
   %ul.list-unstyled.assignment-card
     - if local_assigns[:context] != :project
