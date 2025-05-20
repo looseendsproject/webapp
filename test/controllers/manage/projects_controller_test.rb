@@ -51,6 +51,14 @@ module Manage
       assert_operator(projects[0].created_at, :<, projects[1].created_at)
     end
 
+    test "index sort accepts MAX(assignments.last_contacted_at)" do
+      sign_in @user
+      get "/manage/projects?sort=MAX(assignments.last_contacted_at)+asc"
+      projects = assigns(:projects)
+
+      assert_equal Project.all.count, projects.to_a.size
+    end
+
     test "index shows projects with multiple finishers only once" do
       sign_in @user
       @project.assignments.create!(creator: @user, finisher: Finisher.first)
