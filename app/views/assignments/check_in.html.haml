@@ -1,3 +1,5 @@
+= render partial: "error_messages", locals: { resource: @note }
+
 .row
   .col-6
     %h3 Hello, #{@note.notable.finisher.name}
@@ -11,10 +13,10 @@
       - Note::SENTIMENTS.keys.map do |key|
         .pt-3.form-check.form-check-inline
           = f.radio_button :sentiment, key, class: "radio"
-          = f.label "headline_#{key}".to_sym, key.titleize
+          = f.label "sentiment_#{key}".to_sym, key.titleize
 
       .pt-6 &nbsp;
       .fw-bold Leave an optional note for your Project Manager
-      = f.text_area :text, size: "50x4"
+      = f.text_area :text, size: "50x4", id: "note_text"
 
       .pt-3= f.submit "Submit", class: "btn btn-primary"

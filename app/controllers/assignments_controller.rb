@@ -21,8 +21,7 @@ class AssignmentsController < AuthenticatedController
     if @note.save
       redirect_to thank_you_path
     else
-      render :check_in, status: :unprocessable_entity,
-        flash: { alert: "Something went wrong. Contact support." }
+      render :check_in, status: :unprocessable_entity
     end
   end
 
@@ -33,7 +32,7 @@ class AssignmentsController < AuthenticatedController
 
     def sanitize_params
       @assignment_id = params.expect(:id)
-      @note_params = params.expect(note: [:sentiment, :text])
+      @note_params = params.require(:note).permit(:sentiment, :text)
     end
 
     def alert_manager

@@ -10,6 +10,11 @@ require "test_helper"
 # Locators: https://www.selenium.dev/documentation/webdriver/elements/locators/
   # XPath: https://www.geeksforgeeks.org/introduction-to-xpath/
 
+Capybara.configure do |config|
+  config.save_path = Rails.root.join("tmp", "screenshots")
+end
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :headless_chrome
+  include Devise::Test::IntegrationHelpers
 end

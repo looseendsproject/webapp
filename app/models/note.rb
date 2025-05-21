@@ -40,9 +40,15 @@ class Note < ApplicationRecord
   belongs_to :user
 
   before_create :set_visibility
-  after_create :flag_project
+
+  validates :sentiment, presence: true, if: :finisher_note?
+  validates :text, presence: { message: "is required for 'Need Help' responses" }, if: :negative?
 
   scope :for_assignment, -> { where(notable_type: 'Assignment') }
+
+  def finisher_note?
+    notable_type == "Assignment"
+  end
 
   def negative?
     return false unless sentiment.present? && SENTIMENTS[sentiment].present?
@@ -50,12 +56,6 @@ class Note < ApplicationRecord
   end
 
   private
-
-    # Set project.needs_attention = true for negative sentiments
-    #
-    def flag_project
-      # if notable is Assignment and sentiment is alert, set project.needs_attention
-    end
 
     # TODO probably don't need this b/c visibility
     # is determined by notable_type
