@@ -53,6 +53,25 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal "All good!", assignment_notes.first.text
   end
 
+  test "requires sentiment for Assignment note" do
+    note = Assignment.first.notes.new sentiment: "going_well", text: "", user: users(:finisher)
+    assert note.valid?
+
+    note = Assignment.first.notes.new text: "no sentiment", user: users(:finisher)
+    assert_not note.valid?
+
+    note = Assignment.first.notes.new sentiment: "", text: "no sentiment", user: users(:finisher)
+    assert_not note.valid?
+  end
+
+  test "requires text for negative note" do
+    note = Assignment.first.notes.new sentiment: "need_help", text: "", user: users(:finisher)
+    assert_not note.valid?
+
+    note = Assignment.first.notes.new sentiment: "need_help", text: "this sux", user: users(:finisher)
+    assert note.valid?
+  end
+
   test "#negative?" do
     n = Assignment.first.notes.new(sentiment: "going_well")
     refute n.negative?
