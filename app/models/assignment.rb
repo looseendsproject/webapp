@@ -68,7 +68,7 @@ class Assignment < ApplicationRecord
   def missed_check_ins?
     (status == STATUSES[:accepted] &&
       project.status == Project::STATUSES[:in_process_underway] &&
-      last_contacted_at < UNRESPONSIVE_INTERVAL.ago) ? true : false
+      (last_contacted_at.present? && last_contacted_at < UNRESPONSIVE_INTERVAL.ago)) ? true : false
   end
 
   def name
