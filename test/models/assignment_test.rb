@@ -83,10 +83,6 @@ class AssignmentTest < ActiveSupport::TestCase
 
   test "missed_check_ins?" do
     user = @assignment.finisher.user
-    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 8.weeks, user: user)
-    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 6.weeks, user: user)
-    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 4.weeks, user: user)
-    @assignment.notes.create!(created_at: Time.now.beginning_of_day - 2.weeks, user: user)
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
     @assignment.update_attribute(:last_contacted_at,
       Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
@@ -97,7 +93,6 @@ class AssignmentTest < ActiveSupport::TestCase
     refute @assignment.missed_check_ins?
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
 
-    @assignment.notes.last.destroy
     travel_to 2.weeks.ago
     refute @assignment.missed_check_ins?
   end
