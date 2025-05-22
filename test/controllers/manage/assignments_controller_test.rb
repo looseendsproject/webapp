@@ -12,34 +12,40 @@ module Manage
     test "create denormalizes manager_id" do
       old_assignment = assignments(:knit_active)
       old_assignment.project.manager_id = nil
-      refute old_assignment.project.manager_id
+
+      assert_not old_assignment.project.manager_id
 
       new_assignment = old_assignment.dup
       old_assignment.destroy
-      assert_raises (ActiveRecord::RecordNotFound) {
+      assert_raises(ActiveRecord::RecordNotFound) do
         Assignment.find(old_assignment.id).present?
-      }
+      end
 
       new_assignment.save!
+
       assert_equal new_assignment.created_by, new_assignment.project.manager_id
     end
 
     test "create through params" do
-      params = { "assignment" => { "project_id"=>"1", "finisher_id"=>"2", "status"=>"accepted"}}
+      params = { "assignment" => { "project_id" => "1", "finisher_id" => "2", "status" => "accepted" } }
       Assignment.find(1).destroy
-      refute Project.find(1).assignments.any?
+
+      assert_not_predicate Project.find(1).assignments, :any?
       post :create, params: params
+
       assert_response :found
       assert_redirected_to "/manage/projects/1"
-      assert Project.find(1).assignments.any?
+      assert_predicate Project.find(1).assignments, :any?
     end
 
     test "update denormalizes manager_id" do
       assignment = assignments(:knit_active)
       assignment.project.manager_id = nil
-      refute assignment.project.manager_id
+
+      assert_not assignment.project.manager_id
       assert_equal 3, assignment.created_by
       assignment.update(started_at: Time.zone.now)
+
       assert_equal assignment.created_by, assignment.project.manager_id
     end
 
@@ -58,6 +64,21 @@ module Manage
 
       assert_response :redirect
       assert_nil assignment.reload.status
+    end
+
+    test "destroy removes assignment via turbo_stream" do
+      assignment = assignments(:knit_active)
+
+      assert Assignment.exists?(assignment.id)
+
+      post :destroy, params: { id: assignment.id }, format: :turbo_stream
+
+      assert_response :success
+      puts response.body
+
+      assert_select "turbo-stream[action=remove][target=assignment_#{assignment.id}]"
+
+      assert_not Assignment.exists?(assignment.id)
     end
 
     test "turbo stream update renders saved label on update" do

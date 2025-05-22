@@ -66,13 +66,9 @@ class Assignment < ApplicationRecord
   end
 
   def missed_check_ins?
-    return false unless status == STATUSES[:accepted] &&
+    (status == STATUSES[:accepted] &&
       project.status == Project::STATUSES[:in_process_underway] &&
-      last_contacted_at < UNRESPONSIVE_INTERVAL.ago
-
-    check_ins = notes.order(created_at: :desc).limit(MISSED_CHECK_INS)
-    return false unless check_ins.count == MISSED_CHECK_INS
-    true
+      (last_contacted_at.present? && last_contacted_at < UNRESPONSIVE_INTERVAL.ago)) ? true : false
   end
 
   def name

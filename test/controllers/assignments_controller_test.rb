@@ -48,4 +48,18 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     get "/assignment/#{@assignment.id}/check_in"
     assert_redirected_to "/users/sign_in"
   end
+
+  test "must have sentiment, text not required unless need_help" do
+    post "/assignment/#{@assignment.id}/check_in", params: { note: { sentiment: "going_well" }}
+    assert_redirected_to "/thank_you"
+
+    post "/assignment/#{@assignment.id}/check_in", params: { note: {}}
+    assert_response :bad_request
+
+    post "/assignment/#{@assignment.id}/check_in", params: { note: { text: "text" }}
+    assert_response :unprocessable_content
+
+    post "/assignment/#{@assignment.id}/check_in", params: { note: { sentiment: "need_help", text: "" }}
+    assert_response :unprocessable_content
+  end
 end
