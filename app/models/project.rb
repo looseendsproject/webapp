@@ -92,7 +92,7 @@ class Project < ApplicationRecord
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
-  NEEDS_ATTENTION_REASONS = %w(negative_sentiment finisher_unresponsive manager_hold)
+  NEEDS_ATTENTION_REASONS = %w(negative_sentiment finisher_unresponsive manager_hold completed)
 
   include LooseEndsSearchable
   include EmailAddressable
