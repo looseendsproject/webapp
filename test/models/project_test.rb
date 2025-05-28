@@ -167,7 +167,8 @@ class ProjectTest < ActiveSupport::TestCase
   test "needs_attention_option returns proper struct" do
     assert_equal [["Negative Sentiment", "negative_sentiment"],
       ["Finisher Unresponsive", "finisher_unresponsive"],
-      ["Manager Hold", "manager_hold"]],
+      ["Manager Hold", "manager_hold"],
+      ["Completed", "completed"]],
       Project.needs_attention_options
   end
 
