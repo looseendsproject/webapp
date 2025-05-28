@@ -14,7 +14,7 @@ class AssignmentsController < AuthenticatedController
 
   # POST /assignment/:id/check_in
   def record_check_in
-    assignment = current_user.finisher. assignments.find(@assignment_id)
+    assignment = current_user.finisher.assignments.find(@assignment_id)
     @note = assignment.notes.new(@note_params)
     @note.user_id = current_user.id
 
@@ -36,7 +36,7 @@ class AssignmentsController < AuthenticatedController
     end
 
     def alert_manager
-      return unless @note.negative?
+      return unless @note.alert_manager?
 
       set_project_needs_attention
       ProjectMailer.with(resource: @note.notable).alert_manager.deliver_later
@@ -47,6 +47,12 @@ class AssignmentsController < AuthenticatedController
     end
 
     def set_project_needs_attention
-      @note.notable.project.update!(needs_attention: 'negative_sentiment')
+      reason = if @note.negative?
+                'negative_sentiment'
+              else
+                'completed'
+              end
+
+      @note.notable.project.update!(needs_attention: reason)
     end
 end

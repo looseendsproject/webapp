@@ -43,6 +43,28 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "negative_sentiment", @assignment.project.needs_attention
   end
 
+  test "completed sentiment sends manager email" do
+    post "/assignment/#{@assignment.id}/check_in", params: { note: {
+      sentiment: "completed",
+      text: "all done"
+    }}
+    assert_redirected_to "/thank_you"
+    deliver_enqueued_emails
+    assert_equal @assignment.project.manager.email,
+      ActionMailer::Base.deliveries.last.to.first
+    assert_equal "completed", @assignment.project.needs_attention
+  end
+
+  test "positive sentiment does not send manager email" do
+    post "/assignment/#{@assignment.id}/check_in", params: { note: {
+      sentiment: "positive",
+      text: "chugging along"
+    }}
+    assert_redirected_to "/thank_you"
+    deliver_enqueued_emails
+    assert_nil ActionMailer::Base.deliveries.last
+  end
+
   test "rando cannot create note" do
     sign_out(@assignment.finisher.user)
     get "/assignment/#{@assignment.id}/check_in"
