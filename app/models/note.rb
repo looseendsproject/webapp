@@ -33,6 +33,10 @@ class Note < ApplicationRecord
     "no_progress" => {
       classification: "neutral",
       alert_manager: false
+    },
+    "completed" => {
+      classification: "positive",
+      alert_manager: true
     }
   }
 
@@ -53,6 +57,11 @@ class Note < ApplicationRecord
   def negative?
     return false unless sentiment.present? && SENTIMENTS[sentiment].present?
     SENTIMENTS[sentiment][:classification] == "negative"
+  end
+
+  def alert_manager?
+    return false unless sentiment.present? && SENTIMENTS[sentiment].present?
+    SENTIMENTS[sentiment][:alert_manager]
   end
 
   private
