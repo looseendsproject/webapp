@@ -8,10 +8,10 @@ require "test_helper"
 # Cheatsheet: https://devhints.io/capybara
 
 # Locators: https://www.selenium.dev/documentation/webdriver/elements/locators/
-  # XPath: https://www.geeksforgeeks.org/introduction-to-xpath/
+# XPath: https://www.geeksforgeeks.org/introduction-to-xpath/
 
 Capybara.configure do |config|
-  config.save_path = Rails.root.join("tmp", "screenshots")
+  config.save_path = Rails.root.join("tmp/screenshots")
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
