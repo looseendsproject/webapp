@@ -15,6 +15,6 @@ Capybara.configure do |config|
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :headless_chrome
+  driven_by :selenium, using: :headless_chrome, options: { timeout: 3 }
   include Devise::Test::IntegrationHelpers
 end
