@@ -6,7 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  can_publicize             :boolean
-#  can_share_crafter_details :boolean          default(FALSE)
+#  can_share_crafter_details :boolean          default(TRUE)
 #  can_use_first_name        :boolean          default(FALSE)
 #  city                      :string
 #  country                   :string
