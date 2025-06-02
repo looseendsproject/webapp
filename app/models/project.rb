@@ -92,16 +92,16 @@ class Project < ApplicationRecord
 
   BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
 
-  NEEDS_ATTENTION_REASONS = %w(negative_sentiment finisher_unresponsive manager_hold completed)
+  NEEDS_ATTENTION_REASONS = %w[negative_sentiment finisher_unresponsive manager_hold completed]
 
   include LooseEndsSearchable
   include EmailAddressable
 
-  search_query_joins :user, :assignments
+  search_query_joins :user, assignments: { finisher: :user }
   search_sort_name_field :name
   search_text_fields :"projects.name", :"projects.description", :"projects.craft_type", :"projects.material_type",
                      :"projects.material_brand", :"projects.city", :"projects.state", :"users.first_name",
-                     :"users.last_name", :"users.email"
+                     :"users.last_name", :"users.email", :"users_finishers.email"
   search_default_sort "date desc"
 
   belongs_to :manager, optional: true, class_name: "User"

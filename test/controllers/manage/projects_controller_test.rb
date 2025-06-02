@@ -228,6 +228,15 @@ module Manage
       assert_search_no_results(search: "NOT_A_MATCHING_STRING")
     end
 
+    test "search by finisher email" do
+      result = create_search_project
+      project_finisher = Finisher.where.not(user: @user).first
+
+      result.assignments.create!(creator: @user, finisher: project_finisher)
+
+      assert_search_results([result], search: project_finisher.user.email)
+    end
+
     test "search by project boolean attributes" do
       result = create_search_project
       # Required for some attributes
