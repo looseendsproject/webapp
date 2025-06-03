@@ -15,6 +15,6 @@ Capybara.configure do |config|
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :remote_selenium, screen_size: [1280, 800]
+  driven_by :selenium, using: :chrome, screen_size: [1400, 1400], options: { browser: :remote, url: "http://chrome-server:4444" }
   include Devise::Test::IntegrationHelpers
 end
