@@ -1,8 +1,15 @@
 services:
   app:
+    depends_on:
+      - db
+      - selenium
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
+    environment:
+      WEB_CONCURRENCY: 1
+      SELENIUM_HOST: selenium
+      SELENIUM_PORT: 4444
 
     volumes:
       - ../..:/workspaces:cached
@@ -13,9 +20,12 @@ services:
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     network_mode: service:db
 
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+  selenium:
+    image: seleniarm/standalone-chromium
+    restart: unless-stopped
 
+  # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+  # (Adding the "ports" property to this file will not forward from a Codespace.)
   db:
     image: postgres:latest
     restart: unless-stopped

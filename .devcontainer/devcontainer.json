@@ -17,6 +17,11 @@
 		}
 	},
 
+	"containerEnv": {
+		"SELENIUM_HOST": "selenium",
+		"SELENIUM_PORT": "4444"
+	},
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 

@@ -17,6 +17,14 @@ jobs:
     needs: install-cache
     timeout-minutes: 10
     services:
+      selenium:
+        image: seleniarm/standalone-chromium
+        ports: ["4444:4444"]
+        options: >-
+          --health-cmd "curl -f http://localhost:4444/wd/hub/status || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       postgres:
         image: postgres
         ports: ["5432:5432"]
