@@ -74,7 +74,6 @@ module Manage
       post :destroy, params: { id: assignment.id }, format: :turbo_stream
 
       assert_response :success
-      puts response.body
 
       assert_select "turbo-stream[action=remove][target=assignment_#{assignment.id}]"
 
