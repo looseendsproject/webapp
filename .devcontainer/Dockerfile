@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/ruby:1-3.3-bullseye
+FROM mcr.microsoft.com/devcontainers/ruby:1-3.3
 
 # Default value to allow debug server to serve content over GitHub Codespace's port forwarding service
 # The value is a comma-separated list of allowed domains
