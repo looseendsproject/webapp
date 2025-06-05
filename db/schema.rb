@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_26_192756) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_23_002151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -242,7 +242,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_26_192756) do
     t.string "press_region"
     t.string "press_outlet"
     t.boolean "can_use_first_name", default: false
-    t.boolean "can_share_crafter_details", default: false
+    t.boolean "can_share_crafter_details", default: true
     t.text "material_brand"
     t.string "inbound_email_address"
     t.string "has_materials"
