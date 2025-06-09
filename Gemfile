@@ -144,7 +144,6 @@ group :test do
   gem "capybara"
   gem "rails-controller-testing"
   gem "selenium-webdriver"
-  gem "webdrivers"
 end
 
 gem "solid_queue", "~> 1.1"
