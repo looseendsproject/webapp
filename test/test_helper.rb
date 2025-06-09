@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+ENV["WD_CHROMEDRIVER_PATH"] = "/usr/bin/chromedriver"
 ENV["RAILS_ENV"] ||= "test"
+
 require_relative "../config/environment"
 require "rails/test_help"
+require "capybara/rails"
+require "capybara/minitest"
 
 module ActiveSupport
   class TestCase
@@ -54,4 +58,34 @@ end
 def setup_message!
   content = File.read(Rails.root.join("test/fixtures/files/sample_2.eml"))
   Message.all.map { |m| m.update!(content: content) }
+end
+
+Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument("--headless=new")
+  options.add_argument("--disable-gpu")
+  options.add_argument("--no-sandbox")
+  options.add_argument("--disable-dev-shm-usage")
+  options.add_argument("--window-size=1400,1400")
+
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    options: options
+  )
+end
+
+Capybara.javascript_driver = :headless_chrome
+
+class ActionDispatch::SystemTestCase
+  include Capybara::DSL
+
+  setup do
+    Capybara.current_driver = Capybara.javascript_driver
+  end
+
+  teardown do
+    Capybara.reset_sessions!
+    Capybara.use_default_driver
+  end
 end
