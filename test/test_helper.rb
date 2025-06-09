@@ -1,27 +1,8 @@
 # frozen_string_literal: true
 
 ENV["WD_CHROMEDRIVER_PATH"] = "/usr/bin/chromedriver"
-
-require 'webdrivers'
-
-# Set a very long cache time so it rarely tries to update
-Webdrivers.cache_time = 86_400 * 365 # 1 year in seconds
-
-# Optionally force it to think the chromedriver version is correct
-# by setting required_version to the installed version string
-# (Run `chromedriver --version` in your container and replace "XX.XX.XX")
-Webdrivers::Chromedriver.required_version = "114.0.5735.90" # example version
-
-# You can also try to silence update checking by monkeypatching (last resort)
-module Webdrivers
-  class Chromedriver
-    def self.update
-      # no-op disables update attempts
-    end
-  end
-end
-
 ENV["RAILS_ENV"] ||= "test"
+
 require_relative "../config/environment"
 require "rails/test_help"
 require "capybara/rails"
