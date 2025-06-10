@@ -18,11 +18,12 @@ module Manage
     end
 
     test "assigns inbound_email_address" do
-      refute Finisher.find(2).inbound_email_address
+      assert_not Finisher.find(2).inbound_email_address
 
       sign_in @user
       get :show, params: { id: 2 }
-      assert_match /finisher-\w{8}@localhost/, response.body
+
+      assert_match(/finisher-\w{8}@localhost/, response.body)
     end
 
     test "search requires login" do
@@ -92,7 +93,7 @@ module Manage
 
     test "map CSV export metadata" do
       sign_in @user
-      get :map, format: :csv, params: { near: "123 Main St, , Anytown, WA, 12345" }
+      get :map, format: :csv, params: { near: "123 Main St, Anytown, WA, 12345" }
 
       assert_response :success
       assert_equal("text/csv", response.content_type)
@@ -101,7 +102,7 @@ module Manage
 
     test "map CSV export content" do
       sign_in @user
-      get :map, format: :csv, params: { near: "123 Main St, , Anytown, WA, 12345" }
+      get :map, format: :csv, params: { near: "123 Main St, Anytown, WA, 12345" }
 
       ["ID", "First Name", "Last Name", "Email", "Match", "Country"].each do |header|
         assert_includes(response.body, header)
@@ -167,7 +168,7 @@ module Manage
 
       finisher.reload
 
-      assert(finisher.user.confirmed?)
+      assert_predicate(finisher.user, :confirmed?)
     end
   end
 end

@@ -65,6 +65,7 @@ Rails.application.routes.draw do
       end
       collection do
         get "finishers/search", to: "finishers#search"
+        post "saved_view/remove", to: "projects#remove_saved_view"
       end
     end
     resources :finishers do
@@ -77,6 +78,7 @@ Rails.application.routes.draw do
     resources :inbound_emails
 
     namespace :reports do
+      get "/", action: :index
       get "heard_about_us"
       get "active_projects_by_status"
       get "new_projects_by_month"

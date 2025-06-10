@@ -6,7 +6,7 @@
 #
 #  id                        :bigint           not null, primary key
 #  can_publicize             :boolean
-#  can_share_crafter_details :boolean          default(FALSE)
+#  can_share_crafter_details :boolean          default(TRUE)
 #  can_use_first_name        :boolean          default(FALSE)
 #  city                      :string
 #  country                   :string
@@ -81,7 +81,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "needing_attention scope" do
-    Project.first.update(needs_attention: "stalled_invited")
+    Project.first.update(needs_attention: "manager_hold")
     assert_equal 1, Project.needing_attention.count
 
     Project.first.update(needs_attention: "")
@@ -166,8 +166,9 @@ class ProjectTest < ActiveSupport::TestCase
 
   test "needs_attention_option returns proper struct" do
     assert_equal [["Negative Sentiment", "negative_sentiment"],
-      ["Stalled Accepted", "stalled_accepted"], ["Stalled Invited", "stalled_invited"],
-      ["Stalled Potential", "stalled_potential"], ["Long Running", "long_running"]],
+      ["Finisher Unresponsive", "finisher_unresponsive"],
+      ["Manager Hold", "manager_hold"],
+      ["Completed", "completed"]],
       Project.needs_attention_options
   end
 

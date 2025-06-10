@@ -1,0 +1,15 @@
+.card.flex-fill
+  %h5.card-header.mt-0 Project Details
+  .card-body
+    %table
+      %tbody
+        = render partial: 'manage/projects/show/row', locals: { title: 'Craft Type', value: @project.craft_type }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Description', value: @project.description }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Recipient', value:  @project.recipient_name }
+        = render partial: 'manage/projects/show/row', locals: { title: 'Phone Number', value: @project.phone_number, copy_paste: true }
+        - if @project.missing_address_information?
+          = render partial: 'manage/projects/show/row', locals: { title: 'Address', value: false }
+        - else
+          = render partial: 'manage/projects/show/row', locals: { title: 'Address', value: @project.full_address, link: link_to(fa_icon('map'), "https://maps.google.com/?q=#{@project.full_address}", target: "_blank") }
+        = render partial: 'manage/projects/show/row_images', locals: { title: 'Project Images', value: @project.project_images }
+        = render partial: 'manage/projects/show/row', locals: { title: 'More Details', value: @project.more_details }

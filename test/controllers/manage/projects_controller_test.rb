@@ -51,6 +51,26 @@ module Manage
       assert_operator(projects[0].created_at, :<, projects[1].created_at)
     end
 
+    test "index sort accepts MAX(assignments.last_contacted_at)" do
+      sign_in @user
+      get "/manage/projects?sort=MAX(assignments.last_contacted_at)+asc"
+      projects = assigns(:projects)
+
+      assert_equal Project.all.count, projects.to_a.size
+    end
+
+    test "index shows projects with multiple finishers only once" do
+      sign_in @user
+      @project.assignments.create!(creator: @user, finisher: Finisher.first)
+
+      assert_equal(2, @project.assignments.count)
+
+      get "/manage/projects"
+
+      assert_response :success
+      assert_select "a[href=?]", manage_project_path(@project), count: 1
+    end
+
     test "CSV export metadata" do
       sign_in @user
 
@@ -94,7 +114,37 @@ module Manage
       get manage_project_path(@project)
 
       assert_response :success
-      assert_select "div", text: "brandname"
+      assert_select "td", text: "brandname"
+    end
+
+    test "show actions prompts manager assignment" do
+      sign_in @user
+      @project.update!(manager_id: nil)
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-assign-manager"
+    end
+
+    test "show actions prompts invite finisher" do
+      sign_in @user
+      @project.assignments.destroy_all
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-invite-finisher"
+    end
+
+    test "show actions prompts update address" do
+      sign_in @user
+      @project.update_attribute!(:street, nil)
+
+      get manage_project_path(@project)
+
+      assert_response :success
+      assert_select "#action-update-address"
     end
 
     test "edit loads" do
@@ -108,8 +158,9 @@ module Manage
       @project.name = "New Name"
 
       sign_in @user
+
       assert_nil @project.has_materials
-      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" }}
+      patch "/manage/projects/#{@project.id}", params: { project: { name: "New Name" } }
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("New Name", @project.reload.name)
@@ -119,7 +170,9 @@ module Manage
       @project = Project.first
       sign_in @user
 
-      patch "/manage/projects/#{@project.id}.turbo_stream", params: { project: { needs_attention: "stalled_accepted" } }
+      patch "/manage/projects/#{@project.id}.turbo_stream",
+            params: { project: { needs_attention: "finisher_unresponsive" } }
+
       assert_match "<span class='update-flash visible'>SAVED</span>", response.body
     end
 
@@ -129,7 +182,7 @@ module Manage
         material_brand: "brandname",
         has_materials: "Yes",
         append_material_images: [file_fixture_upload("test.jpg", "image/jpeg")]
-      }}
+      } }
 
       assert_redirected_to manage_project_path(@project)
       assert_equal("brandname", @project.reload.material_brand)
@@ -175,6 +228,15 @@ module Manage
       assert_search_no_results(search: "NOT_A_MATCHING_STRING")
     end
 
+    test "search by finisher email" do
+      result = create_search_project
+      project_finisher = Finisher.where.not(user: @user).first
+
+      result.assignments.create!(creator: @user, finisher: project_finisher)
+
+      assert_search_results([result], search: project_finisher.user.email)
+    end
+
     test "search by project boolean attributes" do
       result = create_search_project
       # Required for some attributes
@@ -201,6 +263,7 @@ module Manage
     test "search with manager_id=none returns projects without manager" do
       result = create_search_project
       result.update!(manager: nil)
+
       assert_search_results([result], manager_id: "none")
     end
 

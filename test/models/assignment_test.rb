@@ -81,6 +81,31 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 
+  test "missed_check_ins?" do
+    user = @assignment.finisher.user
+
+    # With proper Project status and last_contacted_at prior to UNRESPONSIVE_INTERVAL.ago
+    @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
+    @assignment.update_attribute(:last_contacted_at,
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+    assert @assignment.missed_check_ins?
+
+    # Not prior to UNRESPONSIVE_INTERVAL.ago
+    travel_to 2.weeks.ago
+    refute @assignment.missed_check_ins?
+    travel_back
+
+    # With nil last_contacted_at
+    @assignment.update_attribute(:last_contacted_at, nil)
+    refute @assignment.missed_check_ins?
+
+    # With irrelevant Project status
+    @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_connected])
+    @assignment.update_attribute(:last_contacted_at,
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+    refute @assignment.missed_check_ins?
+  end
+
   test "allows nil status" do
     @assignment.status = nil
 

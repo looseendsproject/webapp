@@ -14,15 +14,14 @@ class AssignmentsController < AuthenticatedController
 
   # POST /assignment/:id/check_in
   def record_check_in
-    assignment = current_user.finisher. assignments.find(@assignment_id)
+    assignment = current_user.finisher.assignments.find(@assignment_id)
     @note = assignment.notes.new(@note_params)
     @note.user_id = current_user.id
 
     if @note.save
       redirect_to thank_you_path
     else
-      render :check_in, status: :unprocessable_entity,
-        flash: { alert: "Something went wrong. Contact support." }
+      render :check_in, status: :unprocessable_entity
     end
   end
 
@@ -33,11 +32,11 @@ class AssignmentsController < AuthenticatedController
 
     def sanitize_params
       @assignment_id = params.expect(:id)
-      @note_params = params.expect(note: [:sentiment, :text])
+      @note_params = params.require(:note).permit(:sentiment, :text)
     end
 
     def alert_manager
-      return unless @note.negative?
+      return unless @note.alert_manager?
 
       set_project_needs_attention
       ProjectMailer.with(resource: @note.notable).alert_manager.deliver_later
@@ -48,6 +47,12 @@ class AssignmentsController < AuthenticatedController
     end
 
     def set_project_needs_attention
-      @note.notable.project.update!(needs_attention: 'negative_sentiment')
+      reason = if @note.negative?
+                'negative_sentiment'
+              else
+                'completed'
+              end
+
+      @note.notable.project.update!(needs_attention: reason)
     end
 end

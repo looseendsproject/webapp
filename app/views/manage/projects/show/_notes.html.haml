@@ -1,0 +1,7 @@
+.card.flex-fill.mb-4
+  %h5.card-header.mt-0 Manager Notes
+  .card-body
+    #note_form
+      = render partial: 'manage/notes/form', locals: { project: @project }
+    #manager-notes.d-flex.flex-column.d-flex.flex-wrap.gap-4
+      = render partial: "manage/notes/manager_note", collection: @project.notes.order(created_at: :desc)

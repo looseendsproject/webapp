@@ -1,0 +1,7 @@
+- if @project.missing_address_information?
+  #action-update-address.d-flex.flex-wrap.align-items-center
+    .action-info.flex-grow-1
+      %h3 Update Address
+      %p The address for this project is incomplete.
+    .action-cta
+      = link_to 'Edit Project', [:edit, :manage, @project], class: 'btn btn-primary'

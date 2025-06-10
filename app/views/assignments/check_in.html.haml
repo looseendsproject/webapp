@@ -1,5 +1,7 @@
+= render partial: "error_messages", locals: { resource: @note }
+
 .row
-  .col-6
+  .col-8
     %h3 Hello, #{@note.notable.finisher.name}
 
     .p Thank you for being a Loose Ends volunteer! Please provide an update on your project. There is NO DEADLINE on your work - any pace is fine - but we do need to hear from you regularly with an update. If you check Need Help, your Loose Ends project manager will be in touch.
@@ -11,10 +13,10 @@
       - Note::SENTIMENTS.keys.map do |key|
         .pt-3.form-check.form-check-inline
           = f.radio_button :sentiment, key, class: "radio"
-          = f.label "headline_#{key}".to_sym, key.titleize
+          = f.label "sentiment_#{key}".to_sym, key.titleize
 
       .pt-6 &nbsp;
       .fw-bold Leave an optional note for your Project Manager
-      = f.text_area :text, size: "50x4"
+      = f.text_area :text, size: "50x4", id: "note_text"
 
       .pt-3= f.submit "Submit", class: "btn btn-primary"
