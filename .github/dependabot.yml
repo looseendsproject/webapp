@@ -20,7 +20,7 @@ updates:
       - 'dependencies'
       - 'ruby'
 
-  # Enable version updates for Docker
+    # Enable version updates for Docker
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
     directory: "/"
