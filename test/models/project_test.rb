@@ -15,6 +15,7 @@
 #  crafter_dominant_hand     :string
 #  crafter_name              :string
 #  description               :text
+#  dominant_hand             :string           default("unknown")
 #  group_project             :boolean          default(FALSE)
 #  has_materials             :string
 #  has_pattern               :string

@@ -11,6 +11,7 @@
 #  craft_type                :string
 #  crafter_description       :text
 #  crafter_dominant_hand     :string
+#  crafter_hand              :string           default("unknown")
 #  crafter_name              :string
 #  description               :text
 #  group_project             :boolean          default(FALSE)
@@ -74,6 +75,7 @@ one:
   craft_type: knitting
   has_pattern: true
   material_type: wool
+  dominant_hand: right
   street: 123 Main St
   city: Anytown
   state: WA
@@ -92,6 +94,7 @@ two:
   status: "READY TO MATCH: NEW"
   phone_number: 1234567890
   craft_type: knitting
+  dominant_hand: left 
   inbound_email_address: project-t4tzy9ni@localhost
   created_at: <%= 3.days.ago %>
   updated_at: <%= 2.days.ago %>

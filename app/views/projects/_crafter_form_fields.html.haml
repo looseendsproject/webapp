@@ -8,6 +8,12 @@
     = form.label :crafter_description, 'Please share a little bit about about the crafter who started this project, and your relationship with the person and the things they made.', class: 'form-label required'
   .col-md-4
     = form.text_area :crafter_description, size: "60x5", class: 'form-control', required: true
+
+.row.mb-4
+  .col-md-4
+    = form.label "What was the dominant hand of original crafter?"
+  .col-md-4
+    =form.select :crafter_hand, options_for_select([["Not sure", "unsure"], ['Right', 'right'], ['Left', 'left']]), {}, class: 'form-select'
 .row.mb-4
   .col-md-4
     = form.label 'Would you like to share a photo of the original crafter?', class: 'form-label'
