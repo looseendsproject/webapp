@@ -46,3 +46,7 @@ latest.dump
 
 /config/credentials/development.key
 /config/credentials/development.yml.enc
+
+
+# Ignore local github actions
+bin/act
