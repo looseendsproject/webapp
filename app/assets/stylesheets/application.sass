@@ -168,7 +168,9 @@ footer
 .sentiment-neutral
   color: $warning
 .sentiment-positive
-  color: $success
+  color: $green-300
+  &.sentiment-completed
+    color: $success
 
 // Tables
 
@@ -209,6 +211,10 @@ h1.project-name
 .needs-attention
   color: $danger
   font-weight: bold
+  &.reason-completed
+    color: $success
+  &.reason-manager_hold
+    color: $warning
 
 #needs-attention-container
   #needs-attention-select
