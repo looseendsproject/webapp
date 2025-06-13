@@ -47,5 +47,15 @@ module Manage
       assert_response :success
       assert_equal(1, @project.notes.count)
     end
+
+    test "can load the index of notes" do
+      sign_in @user
+      get :index
+
+      assert_response :success
+      assert_not_nil assigns(:notes)
+      assert_template "manage/notes/index"
+      assert_select "h1", text: "Finisher Notes by Date"
+    end
   end
 end

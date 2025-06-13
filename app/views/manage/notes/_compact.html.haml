@@ -14,7 +14,7 @@
         %td= link_to n.notable.name, manage_project_path(n.notable.project)
         %td= n.notable.finisher.name
         %td= n.notable.project.manager&.name
-        %td(class = "sentiment sentiment-#{Note::SENTIMENTS[n.sentiment][:classification]}")
+        %td(class = "sentiment sentiment-#{n.sentiment} sentiment-#{Note::SENTIMENTS[n.sentiment][:classification]}")
           = n.sentiment.titleize
         %td(data-bs-toggle="popover" data-bs-placement="top" data-bs-content="#{n.text}")
           %a(href="#"  onclick="return false;") #{truncate(n.text, length: 20, separator: " ")}
