@@ -23,7 +23,9 @@ updates:
     # Enable version updates for Docker
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
-    directory: "/"
+    directory:
+      - "/"
+      - ".devcontainer/"
     # Check for updates once a week
     schedule:
       interval: "weekly"
