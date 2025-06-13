@@ -12,3 +12,9 @@
         locals: { notes: notes }
     - else
       %p.fst-italic No new Finisher notes since #{since.to_formatted_s(:human)}
+.row
+  .col
+  .col-auto
+    = link_to manage_notes_path, class: 'btn btn-outline-secondary btn-sm' do
+      All Notes
+      = fa_icon('chevron-right')

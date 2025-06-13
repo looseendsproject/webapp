@@ -20,7 +20,6 @@
 #  index_notes_on_user_id  (user_id)
 #
 class Note < ApplicationRecord
-
   SENTIMENTS = {
     "going_well" => {
       classification: "positive",
@@ -38,7 +37,7 @@ class Note < ApplicationRecord
       classification: "positive",
       alert_manager: true
     }
-  }
+  }.freeze
 
   belongs_to :notable, polymorphic: true, touch: true
   belongs_to :user
@@ -46,9 +45,10 @@ class Note < ApplicationRecord
   before_create :set_visibility
 
   validates :sentiment, presence: true, if: :finisher_note?
+  validates :sentiment, inclusion: { in: SENTIMENTS.keys }, if: :finisher_note?
   validates :text, presence: { message: "is required for 'Need Help' responses" }, if: :negative?
 
-  scope :for_assignment, -> { where(notable_type: 'Assignment') }
+  scope :for_assignment, -> { where(notable_type: "Assignment") }
 
   def finisher_note?
     notable_type == "Assignment"
@@ -56,27 +56,29 @@ class Note < ApplicationRecord
 
   def negative?
     return false unless sentiment.present? && SENTIMENTS[sentiment].present?
+
     SENTIMENTS[sentiment][:classification] == "negative"
   end
 
   def alert_manager?
     return false unless sentiment.present? && SENTIMENTS[sentiment].present?
+
     SENTIMENTS[sentiment][:alert_manager]
   end
 
   private
 
-    # TODO probably don't need this b/c visibility
-    # is determined by notable_type
-    #
-    def set_visibility
-      case notable.class.to_s
-      when "Project"
-        self.visibility = "manager"
-      when "Assignment"
-        self.visibility = "finisher"
-      else
-        raise NotImplementedError
-      end
+  # TODO: probably don't need this b/c visibility
+  # is determined by notable_type
+  #
+  def set_visibility
+    case notable.class.to_s
+    when "Project"
+      self.visibility = "manager"
+    when "Assignment"
+      self.visibility = "finisher"
+    else
+      raise NotImplementedError
     end
+  end
 end
