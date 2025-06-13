@@ -68,6 +68,7 @@
 #  fk_rails_...  (manager_id => users.id)
 #
 class Project < ApplicationRecord
+  DOMINANT_HAND = %w[left right unknown].freeze
   STATUSES = {
     proposed: "PROPOSED",
     waiting_for_project_confirmation: "WAITING PROJECT CONFIRMATION",
@@ -122,6 +123,7 @@ class Project < ApplicationRecord
   before_validation :set_default_status
 
   validates :status, inclusion: { in: STATUSES.values }
+  validates :dominant_hand, inclusion: { in: DOMINANT_HAND }
   validates :status, presence: true
   validates :needs_attention, inclusion: {
     in: NEEDS_ATTENTION_REASONS, allow_blank: true
