@@ -13,4 +13,4 @@
         %td= p.finisher.present? ? p.finisher.name : "No Finisher Assigned"
         %td= p.manager.present? ? p.manager.name : "No Manager Assigned"
         %td= p.status
-        %td.needs-attention= p.needs_attention.titleize
+        %td{ class: "needs-attention reason-#{p.needs_attention || 'none'}" }= p.needs_attention.titleize
