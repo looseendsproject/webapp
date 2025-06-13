@@ -10,6 +10,12 @@
     = form.text_area :crafter_description, size: "60x5", class: 'form-control', required: true
 .row.mb-4
   .col-md-4
+    = form.label "What was the crafter's dominant hand?", class: 'form-label required'
+  .col-md-4
+    = form.select :crafter_dominant_hand, options_for_select([['Right', 'right'], ['Left', 'left'], ['Unknown', 'unknown']]), {}, {class: 'form-select', required: true }
+    .form-info Please select the crafter's dominant hand.
+.row.mb-4
+  .col-md-4
     = form.label 'Would you like to share a photo of the original crafter?', class: 'form-label'
   .col-md-4
     = form.file_field :append_crafter_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
