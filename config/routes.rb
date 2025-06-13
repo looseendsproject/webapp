@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
   devise_for :users, controllers: {
     confirmations: "users/confirmations",
     passwords: "users/passwords",
@@ -54,6 +53,8 @@ Rails.application.routes.draw do
       resources :assignment_updates, only: %i[create destroy]
     end
     resources :assignments, only: %i[destroy create]
+    resources :notes, only: %i[index create destroy]
+
     resources :projects do
       resources :notes, only: %i[create destroy]
       resources :assignments, only: [:new]

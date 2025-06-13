@@ -1,0 +1,10 @@
+
+%h1 Finisher Notes by Date
+
+.row.pt-3
+  .col
+    .pt-1= render partial: 'manage/notes/compact',
+      locals: { notes: @notes }
+.row
+  .col
+    = will_paginate @notes

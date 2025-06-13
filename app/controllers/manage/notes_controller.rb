@@ -4,7 +4,13 @@
 #
 module Manage
   class NotesController < Manage::ManageController
-    before_action :get_project
+    before_action :get_project, except: [:index]
+
+    def index
+      @notes = Note.for_assignment
+                   .order(created_at: :desc)
+                   .paginate(page: params[:page], per_page: params[:per_page])
+    end
 
     def create
       @note = @project.notes.new(notes_params)
