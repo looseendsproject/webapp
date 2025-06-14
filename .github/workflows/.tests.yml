@@ -49,17 +49,23 @@ jobs:
         with:
           node-version: 23.5.0
           cache: yarn
+
       - name: Bundle install
         run: |
           bundle install
+
       - name: Install packages
         run: yarn install --force
+
       - name: Yarn Build Javascript
         run: yarn build
+
       - name: Yarn Build CSS
         run: yarn build:css
+
       - name: Copy Database Config
         run: cp config/database.yml.ci config/database.yml
+
       - name: Run tests
         env:
           RAILS_ENV: test
