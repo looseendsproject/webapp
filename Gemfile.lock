@@ -84,7 +84,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    annotaterb (4.14.0)
+    annotaterb (4.15.0)
     ast (2.4.3)
     aws-eventstream (1.4.0)
     aws-partitions (1.1115.0)
