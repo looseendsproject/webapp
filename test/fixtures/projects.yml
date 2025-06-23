@@ -79,7 +79,7 @@ one:
   city: Anytown
   state: WA
   postal_code: 12345
-  country: USA
+  country: US
   manager_id: 3
   inbound_email_address: project-7a37vorf@localhost
   created_at: <%= 8.days.ago %>
