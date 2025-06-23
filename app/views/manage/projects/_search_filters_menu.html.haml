@@ -26,3 +26,10 @@
         - date_options.each do |opt_name, opt_value|
           %li
             = link_to("after #{opt_name}", manage_projects_path(request.query_parameters.merge(last_contacted_at: "after(#{opt_value})")), class: 'dropdown-item')
+    .dropend
+      .dropdown-item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"}
+        Country
+      %ul.dropdown-menu
+        - @country_options_for_select.each do |country_name, country_code|
+          %li
+            = link_to(country_name, manage_projects_path(request.query_parameters.merge(country: country_code)), class: 'dropdown-item')

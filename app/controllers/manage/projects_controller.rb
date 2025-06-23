@@ -21,6 +21,7 @@ module Manage
         format.html do
           @projects = @projects.paginate(page: params[:page], per_page: params[:per_page])
           @status_options_for_select = status_options_for_select
+          @country_options_for_select = country_options_for_select
         end
       end
     end
@@ -97,6 +98,15 @@ module Manage
                        ""
                      end}", status]
       end
+    end
+
+    def country_options_for_select
+      @project_countries = Project.distinct.pluck(:country).compact_blank.sort
+      @countries = ISO3166::Country.all.select do |c|
+        @project_countries.include?(c.alpha2)
+      end
+      @countries.map { |c| [c.iso_short_name, c.alpha2] }
+                .sort_by { |c| I18n.transliterate(c[0]) }
     end
 
     def redirect_to_saved_view
