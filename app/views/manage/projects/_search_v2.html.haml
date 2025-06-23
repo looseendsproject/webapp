@@ -5,12 +5,12 @@
     %strong Saved Views:
     - current_user.project_views.each do |project_view|
       .saved-view.btn-group
-        = link_to project_view.name, %Q[?v2=true&load_view=#{project_view.id}], class: 'btn btn-sm btn-outline-secondary saved-view-name'
+        = link_to project_view.name, %Q[load_view=#{project_view.id}], class: 'btn btn-sm btn-outline-secondary saved-view-name'
         .remove.btn.btn-sm.btn-outline-secondary
           = button_to(' ', saved_view_remove_manage_projects_path(remove_view: project_view.id), class: 'btn btn-sm btn-close')
 = form_tag [:manage, :projects], method: :get, data: { turbo: false } do
-  = hidden_field_tag :v2, true
   = hidden_field_tag :sort, params[:sort]
+  .text-end.small= link_to 'Old Search', manage_projects_path(v1: true)
   .search-row
     = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
   .search-row.d-flex

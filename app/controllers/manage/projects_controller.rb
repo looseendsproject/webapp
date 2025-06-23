@@ -76,7 +76,7 @@ module Manage
       project_view.destroy
       flash[:notice] = "View removed"
 
-      redirect_to manage_projects_path(v2: true)
+      redirect_to manage_projects_path
     end
 
     protected
@@ -103,7 +103,7 @@ module Manage
       return unless load_view_name = params[:load_view]
 
       project_view = current_user.project_views.find(load_view_name)
-      view_params = { v2: true }
+      view_params = {}
       project_view.query.each do |query_predicate|
         view_params[query_predicate["field"]] = query_predicate["value"]
       end
@@ -118,7 +118,7 @@ module Manage
       query_params = params.permit(SAVED_QUERY_PARAMS).to_h
       if query_params.empty?
         flash[:notice] = "Cannot save an empty query view"
-        redirect_to manage_projects_path(v2: true)
+        redirect_to manage_projects_path
         return
       end
 
@@ -128,7 +128,7 @@ module Manage
       flash[:notice] = "View saved as #{new_view_name}"
 
       # Redirect to the new view to avoid leaving it in the URL when parameters are changed
-      redirect_to manage_projects_path(v2: true, load_view: project_view.id)
+      redirect_to manage_projects_path(load_view: project_view.id)
     end
 
     def project_params

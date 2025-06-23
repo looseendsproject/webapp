@@ -3,10 +3,10 @@
   = link_to 'New Project', [:new, :manage, :project], class: 'btn btn-outline-secondary float-end'
 
 .mb-4
-  - if params[:v2]
-    = render 'search_v2'
-  - else
+  - if params[:v1]
     = render 'search'
+  - else
+    = render 'search_v2'
 
 .row#search-results
   - if params[:view] == 'list'
