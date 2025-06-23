@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ['field', 'operator', 'value', 'predicate']
+  static values = { multiple: Boolean }
 
   connect() {
     this.refresh(true)
@@ -17,6 +18,11 @@ export default class extends Controller {
     }
 
     this.predicateTarget.name = field.toLowerCase()
+    console.log(field, this.multipleValue)
+    if (this.multipleValue) {
+      this.predicateTarget.name += '[]'
+    }
+
     if (value) {
       this.updatePredicate(operator, value)
       this.valueTarget.style.width = `${valueName.length + 2}ch`

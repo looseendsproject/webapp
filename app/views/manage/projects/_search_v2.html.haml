@@ -21,7 +21,8 @@
       - if params[:manager_id].present?
         = render partial: 'search_predicate', locals: { field: :manager_id, operator: '=', values: manager_options, value: params[:manager_id] }
       - if params[:status].present?
-        = render partial: 'search_predicate', locals: { field: :status, operator: '=', values: Project::STATUSES.values, value: params[:status] }
+        - Array(params[:status]).each do |status_value|
+          = render partial: 'search_predicate', locals: { field: :status, operator: '=', values: Project::STATUSES.values, value: status_value, allow_multiple: true }
       - if params[:country].present?
         = render partial: 'search_predicate', locals: { field: :country, operator: '=', values: @country_options_for_select, value: params[:country] }
       - if params[:last_contacted_at].present? && params[:last_contacted_at] =~ /^(before|after)\((\d+)\)$/

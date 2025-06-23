@@ -15,7 +15,7 @@
       %ul.dropdown-menu
         - statuses.each do |status|
           %li
-            = link_to(status, manage_projects_path(request.query_parameters.merge(status: status)), class: 'dropdown-item')
+            = link_to(status, manage_projects_path(request.query_parameters.merge(status: [status, request.query_parameters['status']].flatten.compact)), class: 'dropdown-item')
     .dropend
       .dropdown-item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"}
         Last Contact Date

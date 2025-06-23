@@ -1,7 +1,8 @@
 - multiple_choice = local_assigns[:values].present?
+- allow_multiple = local_assigns[:allow_multiple] ? 'true' : 'false'
 - date_field = field.ends_with?('_at')
 - field_name = field.to_s.sub(/(_at|_id)/, '').titleize
-.search-predicate{ data: { controller: 'search-predicate' } }
+.search-predicate{ data: { controller: 'search-predicate', :'search-predicate-multiple-value' => allow_multiple } }
   .field
     %input{ type: :hidden, data: { 'search-predicate-target': 'field', action: 'search-predicate#refresh' }, value: field }
     %span= field_name
