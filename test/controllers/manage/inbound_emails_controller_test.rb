@@ -10,6 +10,7 @@ module Manage
 
     test "index" do
       get "/manage/inbound_emails"
+
       assert_response :success
     end
   end

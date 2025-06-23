@@ -17,6 +17,14 @@ jobs:
     needs: install-cache
     timeout-minutes: 10
     services:
+      selenium:
+        image: seleniarm/standalone-chromium
+        ports: ["4444:4444"]
+        options: >-
+          --health-cmd "curl -f http://localhost:4444/wd/hub/status || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       postgres:
         image: postgres
         ports: ["5432:5432"]
@@ -41,17 +49,23 @@ jobs:
         with:
           node-version: 23.5.0
           cache: yarn
+
       - name: Bundle install
         run: |
           bundle install
+
       - name: Install packages
         run: yarn install --force
+
       - name: Yarn Build Javascript
         run: yarn build
+
       - name: Yarn Build CSS
         run: yarn build:css
+
       - name: Copy Database Config
         run: cp config/database.yml.ci config/database.yml
+
       - name: Run tests
         env:
           RAILS_ENV: test

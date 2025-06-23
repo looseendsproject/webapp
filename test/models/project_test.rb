@@ -4,53 +4,54 @@
 #
 # Table name: projects
 #
-#  id                        :bigint           not null, primary key
-#  can_publicize             :boolean
-#  can_share_crafter_details :boolean          default(TRUE)
-#  can_use_first_name        :boolean          default(FALSE)
-#  city                      :string
-#  country                   :string
-#  craft_type                :string
-#  crafter_description       :text
-#  crafter_dominant_hand     :string
-#  crafter_name              :string
-#  description               :text
-#  group_project             :boolean          default(FALSE)
-#  has_materials             :string
-#  has_pattern               :string
-#  has_smoke_in_home         :boolean          default(FALSE)
-#  in_home_pets              :string
-#  inbound_email_address     :string
-#  influencer                :boolean          default(FALSE)
-#  joann_helped              :boolean          default(FALSE)
-#  latitude                  :float
-#  longitude                 :float
-#  material_brand            :text
-#  material_type             :string
-#  more_details              :text
-#  name                      :string           not null
-#  needs_attention           :string
-#  no_cats                   :boolean
-#  no_dogs                   :boolean
-#  no_smoke                  :boolean
-#  phone_number              :string
-#  postal_code               :string
-#  press                     :boolean          default(FALSE)
-#  press_outlet              :string
-#  press_region              :string
-#  privacy_needed            :boolean          default(FALSE)
-#  recipient_name            :string
-#  state                     :string
-#  status                    :string           default("PROPOSED"), not null
-#  street                    :string
-#  street_2                  :string
-#  terms_of_use              :boolean
-#  urgent                    :boolean          default(FALSE)
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  group_manager_id          :bigint
-#  manager_id                :bigint
-#  user_id                   :bigint
+#  id                                                :bigint           not null, primary key
+#  can_publicize                                     :boolean
+#  can_share_crafter_details                         :boolean          default(TRUE)
+#  can_use_first_name                                :boolean          default(FALSE)
+#  city                                              :string
+#  country                                           :string
+#  craft_type                                        :string
+#  crafter_description                               :text
+#  crafter_dominant_hand                             :string
+#  crafter_name                                      :string
+#  description                                       :text
+#  dominant_hand(Dominant hand of the project owner) :string           default("unknown"), not null
+#  group_project                                     :boolean          default(FALSE)
+#  has_materials                                     :string
+#  has_pattern                                       :string
+#  has_smoke_in_home                                 :boolean          default(FALSE)
+#  in_home_pets                                      :string
+#  inbound_email_address                             :string
+#  influencer                                        :boolean          default(FALSE)
+#  joann_helped                                      :boolean          default(FALSE)
+#  latitude                                          :float
+#  longitude                                         :float
+#  material_brand                                    :text
+#  material_type                                     :string
+#  more_details                                      :text
+#  name                                              :string           not null
+#  needs_attention                                   :string
+#  no_cats                                           :boolean
+#  no_dogs                                           :boolean
+#  no_smoke                                          :boolean
+#  phone_number                                      :string
+#  postal_code                                       :string
+#  press                                             :boolean          default(FALSE)
+#  press_outlet                                      :string
+#  press_region                                      :string
+#  privacy_needed                                    :boolean          default(FALSE)
+#  recipient_name                                    :string
+#  state                                             :string
+#  status                                            :string           default("PROPOSED"), not null
+#  street                                            :string
+#  street_2                                          :string
+#  terms_of_use                                      :boolean
+#  urgent                                            :boolean          default(FALSE)
+#  created_at                                        :datetime         not null
+#  updated_at                                        :datetime         not null
+#  group_manager_id                                  :bigint
+#  manager_id                                        :bigint
+#  user_id                                           :bigint
 #
 # Indexes
 #

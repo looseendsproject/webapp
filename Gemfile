@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.3.7"
+ruby "3.4.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0"
@@ -65,7 +65,7 @@ gem "bootsnap", require: false
 gem "sassc-rails"
 
 # Create inline-styled emails from regular CSS file
-gem 'premailer-rails'
+gem "premailer-rails"
 
 # Validations for uploads
 gem "active_storage_validations", ">= 2.0.2"
@@ -144,7 +144,6 @@ group :test do
   gem "capybara"
   gem "rails-controller-testing"
   gem "selenium-webdriver"
-  gem "webdrivers"
 end
 
 gem "solid_queue", "~> 1.1"
