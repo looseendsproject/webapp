@@ -138,4 +138,17 @@ class FinisherTest < ActiveSupport::TestCase
     assert_not finisher.valid?
     assert_includes finisher.errors[:finished_projects], "too many files attached (maximum is 5 files, got 6)"
   end
+
+  test "Removing a finished project from a user with too many is allowed" do
+    image = Rack::Test::UploadedFile.new(File.join(ActionDispatch::IntegrationTest.file_fixture_path, 'tiny.jpg'), 'image/jpeg')
+
+    finisher = finishers(:crocheter)
+    finisher.append_finished_projects = [image] * 7
+    finisher.save!(validate: false)
+
+    last_image = finisher.finished_projects.last
+    last_image.purge # remove the last image
+
+    assert finisher.reload.valid?
+  end
 end
