@@ -19,10 +19,10 @@
   .row.g-1.g-sm-4.mb-3
     .col-12.col-md-9
       = form.label "Things you've finished", class: 'form-label optional'
-      .form-info Please upload photos of things you'd like to show off!
+      .form-info Add up to 5 photos of your work. This helps us match the right projects to the right people.
       = form.file_field :append_finished_projects, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp",  :multiple => true
       - form.object.finished_projects.each do |image|
-        - if image.representable?
+        - if image.persisted? && image.representable?
           = image_tag image.representation( resize_to_limit: [100, 100]), class: 'thumbnail', target: '_blank'
   .row.g-1.g-sm-4.mb-3.mb-3
     .col-12.col-md-9

@@ -170,5 +170,18 @@ module Manage
 
       assert_predicate(finisher.user, :confirmed?)
     end
+
+    test "can view a finisher with too many finished_projects" do
+      sign_in @user
+
+      finisher = finishers(:crocheter)
+      finisher.inbound_email_address = nil # force show to also save
+      finisher.append_finished_projects = [fixture_file_upload("tiny.jpg")] * 15
+      finisher.save!(validate: false)
+
+      get :show, params: { id: finisher.id }
+
+      assert_response :success
+    end
   end
 end
