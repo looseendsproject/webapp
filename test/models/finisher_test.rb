@@ -67,10 +67,13 @@ class FinisherTest < ActiveSupport::TestCase
 
   test "phone number validation allows blanks (b/c some prod data is that way)" do
     f = Finisher.first
-    assert f.valid?
+
+    assert_predicate f, :valid?
     f.phone_number = ''
-    assert f.valid?
+
+    assert_predicate f, :valid?
     f.phone_number = '12345678' # too short
+
     refute f.valid?
   end
 
@@ -83,19 +86,23 @@ class FinisherTest < ActiveSupport::TestCase
 
   test "has messages" do
     finisher = finishers(:crocheter)
+
     assert_equal finisher.name, finisher.messages.first.description
   end
 
   test "inbound_email_address assignment" do
     f = Finisher.new
+
     refute f.inbound_email_address
     f.valid?
+
     assert_match /finisher-\w{#{EmailAddressable::LENGTH}}@#{EmailAddressable::DESTINATION_HOST}/, f.inbound_email_address
   end
 
   test "send welcome records Message" do
     finisher = finishers(:knitter)
     finisher.send_welcome_message
+
     assert_equal "Loose Ends Project Account Created - Next Steps...",
       finisher.messages.last.email.subject
   end
@@ -103,7 +110,32 @@ class FinisherTest < ActiveSupport::TestCase
   test "send profile_complete records Message" do
     finisher = finishers(:knitter)
     finisher.send_profile_complete_message
+
     assert_equal "Welcome, Loose Ends Finisher!",
       finisher.messages.last.email.subject
+  end
+
+  test "An existing finisher with 6 finished projects is valid" do
+    image = Rack::Test::UploadedFile.new(File.join(ActionDispatch::IntegrationTest.file_fixture_path, 'tiny.jpg'), 'image/jpeg')
+
+    finisher = finishers(:crocheter)
+    finisher.append_finished_projects = [image] * 6
+    finisher.save!(validate: false)
+
+    assert_predicate finisher, :valid?
+    assert_equal 6, finisher.finished_projects.count
+  end
+
+  test "Adding a 6th finished project raises error" do
+    image = Rack::Test::UploadedFile.new(File.join(ActionDispatch::IntegrationTest.file_fixture_path, 'tiny.jpg'), 'image/jpeg')
+
+    finisher = finishers(:crocheter)
+    finisher.append_finished_projects = [image] * 5
+    finisher.save!(validate: false)
+
+    finisher.append_finished_projects = [image]
+
+    assert_not finisher.valid?
+    assert_includes finisher.errors[:finished_projects], "too many files attached (maximum is 5 files, got 6)"
   end
 end
