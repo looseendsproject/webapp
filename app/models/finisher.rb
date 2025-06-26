@@ -100,7 +100,8 @@ class Finisher < ApplicationRecord
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: %i[png jpg jpeg webp gif],
                                 size: { greater_than_or_equal_to: 5.kilobytes },
-                                limit: { max: 5 }
+                                limit: { max: 5 },
+                                if: ->(obj) { obj.attachment_changes['finished_projects'].present? }
   validates :picture, content_type: %i[png jpg jpeg webp gif], size: { greater_than_or_equal_to: 5.kilobytes }
 
   serialize :in_home_pets
