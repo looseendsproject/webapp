@@ -59,6 +59,15 @@ module Manage
       assert_equal Project.all.count, projects.to_a.size
     end
 
+    test "index sort accepts email list view" do
+      sign_in @user
+      get "/manage/projects?sort=users.email+asc"
+      projects = assigns(:projects)
+
+      assert_equal Project.count, projects.to_a.size
+      assert_operator(projects[0].user.email, :<, projects[1].user.email)
+    end
+
     test "index shows projects with multiple finishers only once" do
       sign_in @user
       @project.assignments.create!(creator: @user, finisher: Finisher.first)
