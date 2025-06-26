@@ -103,4 +103,18 @@ class FinishersControllerTest < ActionController::TestCase
 
     assert(finisher.has_volunteer_time_off)
   end
+
+  test "can remove finished project image over limit" do
+    finisher = finishers(:crocheter)
+    finisher.append_finished_projects = [fixture_file_upload("tiny.jpg")] * 15
+    finisher.save!(validate: false)
+
+    sign_in finisher.user
+
+    post :destroy, params: { finished_project_id: finisher.finished_projects.first.id }
+    assert_redirected_to finisher_path
+
+    finisher.reload
+    assert_equal 14, finisher.finished_projects.count
+  end
 end
