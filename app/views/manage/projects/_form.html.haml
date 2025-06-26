@@ -39,11 +39,16 @@
     .col-md-8
       .row.flex-nowrap
         %label.form-label.flex-shrink-1
-          = form.check_box :joann_helped
-          Joann helped
-        %label.form-label.flex-shrink-1
           = form.check_box :urgent
           Urgent
+        %label.form-label.flex-shrink-1
+          = form.check_box :company_helped
+          Company helped
+      .row.mb-3#help-company-row{ style: (@project.company_helped ? '' : 'display: none;') }
+        .col-6
+          = form.label :help_company, 'Company', class: 'form-label'
+          = form.text_field :help_company, class: 'form-control'
+
       .row.flex-nowrap
         %label.form-label.flex-shrink-1
           = form.check_box :influencer
@@ -93,6 +98,10 @@
     const pressCheckbox = document.getElementById('project_press');
     const pressFields = document.getElementById('press-fields');
     addRevealHandler(pressCheckbox, pressFields);
+
+    const companyHelpedCheckbox = document.getElementById('project_company_helped');
+    const helpCompanyRow = document.getElementById('help-company-row');
+    addRevealHandler(companyHelpedCheckbox, helpCompanyRow);
   };
 
   window.addEventListener('load', setupCheckboxes);
