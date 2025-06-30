@@ -272,7 +272,16 @@ module LooseEndsSearchable
       sort_clause = sort_clause(sort)
       sort_col = sort_clause.split(" ").first
 
-      query.order(sort_clause).select("#{table_name}.*, #{sort_col} AS sort_col").distinct
+      if sort_col.start_with?("MAX")
+        query.order(sort_clause)
+             .select("#{table_name}.*, #{sort_col} AS sort_col")
+             .distinct
+      else
+        query.order(sort_clause)
+             .select("#{table_name}.*, #{sort_col} AS sort_col")
+             .group("#{table_name}.id, #{sort_col}")
+             .distinct
+      end
     end
 
     def sort_clause(sort)

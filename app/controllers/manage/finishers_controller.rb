@@ -16,8 +16,7 @@ module Manage
           response.headers["Content-Type"] = "text/csv"
           response.headers["Content-Disposition"] =
             "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
-          @finishers = Finisher.includes(:user).select(:id, :user_id, :first_name, :last_name, :email,
-                                                       :has_workplace_match).search(params)
+          @finishers = Finisher.includes(:user).search(params)
         end
         format.html do
           first_finisher = Finisher.order(:joined_on).first
@@ -48,7 +47,8 @@ module Manage
       results = Geocoder.search(params[:near])
       return unless results.first
 
-      @finishers = Finisher.geocoded.near(results.first.coordinates, params[:radius]).includes(:rated_assessments, :user)
+      @finishers = Finisher.geocoded.near(results.first.coordinates, params[:radius]).includes(:rated_assessments,
+                                                                                               :user)
       if params[:skill_id].present?
         @finishers = @finishers.joins(:assessments).where(assessments: { skill_id: params[:skill_id], rating: 1.. })
         @skill_id = params[:skill_id]
