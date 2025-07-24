@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# This is the ugliest script I have ever created.  I am not proud.
+
 namespace :full_import do
 
   # Imports most of Google Sheet data so we can stop using it...
@@ -7,8 +9,8 @@ namespace :full_import do
   ## Edit sheet prior to dumping CSV
     # One Finisher email/name per cell
     # One PO email/name per cell
-    # Multiple photos separated with ", " or " ", not "\n"
-    # Add COUNTRY column
+    # Multiple photos separated with ", " or " ", not "\n" or nil
+    # Add COUNTRY column for Project
 
   ## Prepare CSV by hand
     # Remove pre-header rows (14)
@@ -102,6 +104,8 @@ namespace :full_import do
 
       create_project_notes!(project)
 
+      raise "TODO create Project Note with value of 'Private' column"
+
       finisher = create_finisher!(finisher_user)
 
       if finisher.blank?
@@ -111,7 +115,7 @@ namespace :full_import do
 
       create_assignment!(project, finisher)
 
-      attach_images!(project)
+      get_images(project)
 
       log "FINISHED importing project \"#{project.name}\""
 
@@ -166,7 +170,7 @@ namespace :full_import do
       finisher.phone = @row[:finisher_phone] || "ERROR"
       finisher.role = "user"
       finisher.heard_about_us = "IMPORT"
-      finisher.password = "CREATED_FROM_IMPORT"
+      finisher.password = DEFAULT_PASSWORD
       finisher.skip_confirmation!
       finisher.save!
       log("CREATED Finisher user #{finisher.id} #{@row[:finisher_name]}")
@@ -300,24 +304,78 @@ namespace :full_import do
     end
   end
 
-  def get_images
-    def custom_split(str)
-      str.split(/,? +/)
+  def get_images(project)
+
+    def extract_ids(str, type)
+      return unless str.present?
+      str.split(/(,|, | )/).each do |uri|
+        begin
+          query_str = URI(uri).query
+        rescue StandardError => e
+          log "ERROR parsing uri \"#{uri}\": #{e}"
+          next
+        end
+        next unless query_str.present?
+        id = query_str.split("=")[1]
+        @image_ids[id] = type
+      end
     end
 
-    project_photo_links = custom_split @row[:project_photo]
-    material_photos_links = custom_split @row[:materials_photo]
-    crafter_picture_links = custom_split @row[:crafter_picture]
+    def download(key)
+      uri = "https://drive.usercontent.google.com/download?id=#{key}&confirm=xxx"
 
-    File.open('project.png', 'wb') do |fo|
-      fo.write open(project_photo_links[0]).read
+      begin
+        stream = OpenURI.open_uri(uri)
+        if stream.content_type == "text/html"
+          log "ERROR downloading: content_type text/html"
+          return nil
+        end
+      rescue StandardError => e
+        log "ERROR downloading #{@image_ids[key]} #{key}: #{e}"
+        return nil
+      end
+
+      tmpfile = Tempfile.create
+      begin
+        tmpfile.write(stream.read.force_encoding(Encoding::UTF_8))
+        log "DOWNLOADED #{key} #{@image_ids[key]}"
+        return tmpfile
+      rescue StandardError => e
+        File.unlink(tmpfile.path)
+        log "ERROR downloading #{key}: #{e}"
+        return nil
+      end
     end
 
-    log "TODO get_images"
-  end
+    def attach(project, tmpfile, key, type)
+      io = File.open(tmpfile.path)
+      case type
+      when :project
+        project.project_images.attach(io: io, filename: key)
+      when :materials
+        project.material_images.attach(io: io, filename: key)
+      when :pattern
+        project.pattern_files.attach(io: io, filename: key)
+      when :crafter
+        project.crafter_images.attach(io: io, filename: key)
+      end
 
-  def attach_images!(project)
-    log "TODO attach_images!"
-  end
+      project.save(validate: false)
+      File.unlink(tmpfile.path)
+      log "ATTACHED #{type} #{key} to Project #{project.id}"
+    end
 
+    @image_ids = {}
+    extract_ids(@row[:project_photo], :project)
+    extract_ids(@row[:materials_photo], :materials)
+    extract_ids(@row[:pattern_photo], :pattern)
+    extract_ids(@row[:crafter_picture], :crafter)
+
+    @image_ids.keys.each do |key|
+      tmpfile = download(key)
+      next unless tmpfile.present? && tmpfile.size > 0
+      attach(project, tmpfile, key, @image_ids[key])
+    end
+
+  end
 end
