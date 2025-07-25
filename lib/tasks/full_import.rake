@@ -11,6 +11,8 @@ namespace :full_import do
     # One PO email/name per cell
     # Multiple photos separated with ", " or " ", not "\n" or nil
     # Add COUNTRY column for Project
+    # Phone numbers must be 10 digits
+    # Email addresses must be valid
 
   ## Prepare CSV by hand
     # Remove pre-header rows (14)
@@ -77,11 +79,16 @@ namespace :full_import do
     set_up_logger("rake full_import:import")
 
     download_csv(CSV_KEY)
+    successful_imports = 0
+    total_rows = 0
+    start_time = Time.zone.now
+    failed_rows = []
 
     CSV.foreach(TMPFILE,
       :headers => true,
       :header_converters => :symbol) do |row|
 
+      total_rows += 1
       @row = row
 
       next unless [
@@ -93,18 +100,26 @@ namespace :full_import do
       log "\nSTARTING import for project \"#{@row[:project_name]}\""
 
       if @row[:project_owner_email].blank? || @row[:finisher_email].blank?
-        log("FAILED.  Missing email address for \"#{@row[:project_name]}\"")
+        log "FAILED.  Missing email address for \"#{@row[:project_name]}\""
+        failed_rows.append @row[:project_name]
         next
       end
 
       po_user, finisher_user = create_users!
 
       if po_user.blank? || finisher_user.blank?
-        log("FAILED.  Could not create users for \"#{@row[:project_name]}\"")
+        log "FAILED.  Could not create users for \"#{@row[:project_name]}\""
+        failed_rows.append @row[:project_name]
         next
       end
 
       project = create_project!(po_user)
+
+      if project.blank?
+        log "FAILED. Could not create project \"#{@row[:project_name]}\""
+        failed_rows.append @row[:project_name]
+        next
+      end
 
       create_project_note!(project, @row[:notes])
       create_project_note!(project, @row[:private])
@@ -112,7 +127,8 @@ namespace :full_import do
       finisher = create_finisher!(finisher_user)
 
       if finisher.blank?
-        log "FAILED.  Could not create Finisher"
+        log "FAILED.  Could not create Finisher #{@row[:finisher_name]}"
+        failed_rows.append @row[:project_name]
         next
       end
 
@@ -120,9 +136,13 @@ namespace :full_import do
 
       get_images(project)
 
+      successful_imports += 1
       log "FINISHED importing project \"#{project.name}\""
-
     end
+
+    end_time = Time.zone.now
+    log "\nIMPORTED #{successful_imports} of #{total_rows} Projects in #{(end_time - start_time) / 60} minutes"
+    log "\nFAILED IMPORTS\n  -- #{failed_rows.join("\n  -- ")}"
   end
 
   def download_csv(key)
