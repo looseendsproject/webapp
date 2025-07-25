@@ -84,7 +84,11 @@ namespace :full_import do
 
       @row = row
 
-      next unless @row[:status] == "HUMMING ALONG (BOTH REPLIED)"
+      next unless [
+        "HUMMING ALONG (BOTH REPLIED)",
+        "IN PROCESS / from Masey",
+        "IN PROCESS"
+      ].include? @row[:status]
 
       log "\nSTARTING import for project \"#{@row[:project_name]}\""
 
@@ -102,9 +106,8 @@ namespace :full_import do
 
       project = create_project!(po_user)
 
-      create_project_notes!(project)
-
-      raise "TODO create Project Note with value of 'Private' column"
+      create_project_note!(project, @row[:notes])
+      create_project_note!(project, @row[:private])
 
       finisher = create_finisher!(finisher_user)
 
@@ -240,10 +243,10 @@ namespace :full_import do
     end
   end
 
-  def create_project_notes!(project)
+  def create_project_note!(project, text)
     note = Note.find_or_initialize_by(
       notable: project,
-      text: @row[:notes],
+      text: text,
       user: MANAGER_JEAN
     )
 
