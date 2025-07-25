@@ -190,7 +190,7 @@ namespace :full_import do
       name_tokens = @row[:finisher_name].split(" ")
       finisher.first_name = name_tokens[0] || "ERROR"
       finisher.last_name = name_tokens[1] || "ERROR"
-      finisher.phone = @row[:finisher_phone] || "ERROR"
+      finisher.phone = @row[:finisher_phone] || "ERROR     " # must be 10 char
       finisher.role = "user"
       finisher.heard_about_us = "IMPORT"
       finisher.password = DEFAULT_PASSWORD
@@ -283,6 +283,7 @@ namespace :full_import do
   def create_finisher!(user)
     finisher = Finisher.find_or_initialize_by(user_id: user.id)
     finisher.assign_attributes(
+      chosen_name: "#{user.first_name} #{user.last_name}",
       approved_at: Time.zone.now,
       street: @row[:finisher_address],
       city: @row[:finisher_city],
