@@ -67,7 +67,7 @@ namespace :full_import do
     # po_feedback_form_recd:nil
   #>
 
-  CSV_KEY = "LEP_import_20250713.csv"
+  CSV_KEY = "latest_sheet_dump.csv"
   BUCKET = "looseendsproject-" + ENV["RAILS_ENV_DISPLAY"]
   TMPFILE = Rails.root.join("tmp", "full_import.csv")
   DEFAULT_PASSWORD = "CREATED_FROM_IMPORT"
