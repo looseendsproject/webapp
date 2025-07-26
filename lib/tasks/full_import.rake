@@ -18,54 +18,55 @@ namespace :full_import do
     # Remove pre-header rows (14)
     # Remove trailing empty columns
 
-  #<CSV::Row
-    # date:"2/2/2025"
-    # last_f_contact:"7/1/2025"
-    # last_pm_update:nil
-    # private:"from Jen"
-    # nil:"C"
-    # status:"REMATCH"
-    # notes:"7/1: asked for rematch, waiting for photos. 4/28: working on it"
-    # terms:"Y"
-    # brands:nil
-    # project_name:"Crochet Lap blanket In Almonte, ON"
-    # finisher_name:"redacted - potential, email drafted\nF1 redacted"
-    # finisher_address:"164 redacted st"
-    # finisher_city:"Redacted"
-    # finisher_state:"ON"
-    # finisher_country:"K0A1A0"
-    # finisher_zip:"CA"
-    # finisher_email:"redacted@gmail.com"
-    # finisher_phone:"613-555-1212"
-    # project_owners_name:"Redacted"
-    # project_owner_address:"102 Redacted Street North"
-    # city:"Almonte" state:"ON" zip:"K0a1a0"
-    # project_owner_email:"redacted2@gmail.com"
-    # project_owner_phone:"613-555-1212"
-    # original_crafter:"Arlette Redacted"
-    # who_for:"For herself I believe "
-    # project_description:"Lap blanket"
-    # pattern:"No"
-    # project_photo:"https://drive.google.com/open?id=1CtdRdTZQOqivhoyIHJAQe0Re8XFEMFp0"
-    # materials_photo:"https://drive.google.com/open?id=19DNZBiSItggrSbcayNnPUX0FWH3PRpX_"
-    # project_info:nil
-    # pattern_photo:nil
-    # crafter_bio:"My mother Arlette has always been creative, and loved textiles. As a young newlywed she starts this lap blanket. Life and babies got in the way and it was stored away, but survived several house moves. Mum later became an avid and talented knitter, but in 2023 she started to become dissatisfied with her knitting, pulling a finished project apart if it had the most inconsequential flaw. Dad could not understand why. Then in early 2024 she was diagnosed with Lewy Body dementia and declined very quickly. She is no longer able to focus or use her hands and is now in a care home. It would be lovely if this project could be finished for her. Unfortunately my siblings and I are not knitters or crocheters. It would be my hope that the finished project might stir some memories and be a comfort to her. \nMany thanks for your consideration and for the special work that you do."
-    # crafter_picture:"https://drive.google.com/open?id=1-ZUj0fW009MG3YiY79BBNDwfEaEx9XSi"
-    # craft:"Crochet"
-    # material:"Synthetic (Nylon, Polyester, Acrylic, etc)"
-    # referred:"Instagram"
-    # terms:"I agree."
-    # project_pic_ok_to_use:"Yes"
-    # crafter_photo_ok_to_use:"No"
-    # pets_ok:"Yes"
-    # po_pets:nil
-    # po_smoker:nil
-    # right_left:nil
-    # finisher_feedback_form_sent:nil
-    # po_feedback_form_sent:nil
-    # po_feedback_form_recd:nil
-  #>
+  # < CSV::Row
+  #   date: "9/23/2024 16:01:06"
+  #   last_f_contact: "6/23/2025"
+  #   nil: "G"
+  #   status: "HUMMING ALONG (BOTH REPLIED)"
+  #   notes: "6/23: 1 5/15: \"1\""
+  #   terms: "P"
+  #   brands: "Red Heart"
+  #   project_name: "Child's blanket"
+  #   finisher_name: "Re Dacted"
+  #   finisher_address: "1111 94A ave NE"
+  #   finisher_city: "Edmonton"
+  #   finisher_state: "AB"
+  #   finisher_country: "Canada"
+  #   finisher_zip: "T6B0Z6"
+  #   finisher_email: "finisher@gmail.com"
+  #   finisher_phone: "5555551212"
+  #   project_owners_name: "Re Dacted"
+  #   project_owner_address: "2222 46B Street NE"
+  #   city: "Edmonton"
+  #   state: "AB"
+  #   zip: "T6A 1Z4"
+  #   project_owner_country: "Canada"
+  #   project_owner_email: "owner@gmail.com"
+  #   project_owner_phone: "5555551212"
+  #   original_crafter: "Re Dacted"
+  #   who_for: "Granddaughters"
+  #   project_description: "Blanket for each granddaughter"
+  #   pattern: "No"
+  #   project_photo: "https://drive.google.com/open?id=1rjYWrhNdAX_TGGqjiwVILCPUG6kQPm1L, https://drive.google.com/open?id=1bgxGBAKdWVtqn1tWtjmBJZ_1YwJV4AzY"
+  #   materials_photo: "https://drive.google.com/open?id=1Vc5bt5TZCrNFryT7TZN8nzIZii19Acqe"
+  #   project_info: "Long string of text..."
+  #   pattern_photo: nil
+  #   crafter_bio: "Long string of text..."
+  #   crafter_picture: "https://drive.google.com/open?id=11FvNI3S9pYqlq5HJht0QgBVEGIWZSjmJ"
+  #   craft: "Not sure if it is knitting or crocheting"
+  #   material: "Synthetic (Nylon, Polyester, Acrylic, etc)"
+  #   referred: "Through a friend who follows you on Instagram"
+  #   terms: "I agree."
+  #   project_pic_ok_to_use: "Yes"
+  #   crafter_photo_ok_to_use: "Yes"
+  #   pets_ok: "Yes"
+  #   po_pets: "No"
+  #   po_smoker: "No"
+  #   right_left: "Right"
+  #   finisher_feedback_form_sent: nil
+  #   po_feedback_form_sent: nil
+  #   po_feedback_form_recd: nil
+  # >
 
   CSV_KEY = "latest_sheet_dump.csv"
   BUCKET = "looseendsproject-" + ENV["RAILS_ENV_DISPLAY"]
@@ -122,7 +123,7 @@ namespace :full_import do
       end
 
       create_project_note!(project, @row[:notes])
-      create_project_note!(project, @row[:private])
+      create_project_note!(project, "Project originated at: #{@row[:date]}")
 
       finisher = create_finisher!(finisher_user)
 
@@ -171,7 +172,7 @@ namespace :full_import do
       name_tokens = @row[:project_owners_name].split(" ")
       po.first_name = name_tokens[0] || "ERROR"
       po.last_name = name_tokens[1] || "ERROR"
-      po.phone = @row[:project_owner_phone] || "ERROR"
+      po.phone = pad_phone(@row[:project_owner_phone])
       po.role = "user"
       po.heard_about_us = "IMPORT"
       po.password = DEFAULT_PASSWORD
@@ -190,10 +191,11 @@ namespace :full_import do
       name_tokens = @row[:finisher_name].split(" ")
       finisher.first_name = name_tokens[0] || "ERROR"
       finisher.last_name = name_tokens[1] || "ERROR"
-      finisher.phone = @row[:finisher_phone] || "ERROR     " # must be 10 char
+      finisher.phone = pad_phone(@row[:finisher_phone])
       finisher.role = "user"
       finisher.heard_about_us = "IMPORT"
       finisher.password = DEFAULT_PASSWORD
+      finisher.password_confirmation = DEFAULT_PASSWORD
       finisher.skip_confirmation!
       finisher.save!
       log("CREATED Finisher user #{finisher.id} #{@row[:finisher_name]}")
@@ -216,7 +218,7 @@ namespace :full_import do
       street_2: nil,
       city: @row[:city],
       state: @row[:state],
-      country: @row[:country] || 'US',
+      country: @row[:project_owner_country] || 'US',
       postal_code: @row[:zip],
       craft_type: @row[:craft],
       has_pattern: @row[:pattern],
@@ -226,10 +228,10 @@ namespace :full_import do
       recipient_name: @row[:who_for],
       more_details: nil,
       can_publicize: nil,
-      terms_of_use: nil,
-      phone_number: @row[:project_owner_phone],
+      terms_of_use: @row[:terms] && @row[:terms][0] == "Y" ? true : nil,
+      phone_number: pad_phone(@row[:project_owner_phone]),
       in_home_pets: nil,
-      has_smoke_in_home: nil,
+      has_smoke_in_home: @row[:po_smoker] && @row[:po_smoker] =~ /No/i ? false : nil,
       no_smoke: nil,
       no_cats: nil,
       no_dogs: nil,
@@ -249,7 +251,7 @@ namespace :full_import do
       material_brand: @row[:brands],
       has_materials: nil,
       needs_attention: nil,
-      dominant_hand: 'unknown'
+      dominant_hand: @row[:right_left] || 'unknown'
     )
     project.ensure_inbound_email_address
 
@@ -261,6 +263,12 @@ namespace :full_import do
       log "FAILED Project \"#{project.name}\", #{e}"
       return nil
     end
+  end
+
+  def pad_phone(str)
+    return "ERROR     " unless str.present?
+    return sprintf("%10s", result) unless str.length >= 10
+    str
   end
 
   def create_project_note!(project, text)
@@ -284,13 +292,14 @@ namespace :full_import do
     finisher = Finisher.find_or_initialize_by(user_id: user.id)
     finisher.assign_attributes(
       chosen_name: "#{user.first_name} #{user.last_name}",
+      description: finisher.description || "default finisher description",
       approved_at: Time.zone.now,
       street: @row[:finisher_address],
       city: @row[:finisher_city],
       state: @row[:finisher_state],
       country: @row[:finisher_country],
       postal_code: @row[:finisher_zip],
-      phone_number: @row[:finisher_phone]
+      phone_number: pad_phone(@row[:finisher_phone])
     )
 
     begin
