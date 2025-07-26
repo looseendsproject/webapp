@@ -89,7 +89,6 @@ namespace :full_import do
       :headers => true,
       :header_converters => :symbol) do |row|
 
-      total_rows += 1
       @row = row
 
       next unless [
@@ -98,6 +97,7 @@ namespace :full_import do
         "IN PROCESS"
       ].include? @row[:status]
 
+      total_rows += 1
       log "\nSTARTING import for project \"#{@row[:project_name]}\""
 
       if @row[:project_owner_email].blank? || @row[:finisher_email].blank?
