@@ -207,7 +207,25 @@ namespace :full_import do
     return [po, finisher]
   end
 
+  def parse_boolean(str)
+    return nil unless str.present?
+    str = str.downcase
+
+    return true if str.match?(/agree/)
+    return true if str.match?(/^y/)
+    return false if str.match?(/^n/)
+    nil
+  end
+
   def create_project!(po)
+
+    def parse_dominant_hand(str)
+      return "unknown" unless str.present?
+      str = str.downcase
+      return str if Project::DOMINANT_HAND.include?(str)
+      "unknown"
+    end
+
     project = Project.find_or_initialize_by(name: "#{@row[:project_name]} [IMPORT]")
 
     project.assign_attributes(
@@ -228,14 +246,14 @@ namespace :full_import do
       recipient_name: @row[:who_for],
       more_details: nil,
       can_publicize: nil,
-      terms_of_use: @row[:terms] && @row[:terms][0] == "Y" ? true : nil,
+      terms_of_use: parse_boolean(@row[:terms]),
       phone_number: pad_phone(@row[:project_owner_phone]),
-      in_home_pets: nil,
-      has_smoke_in_home: @row[:po_smoker] && @row[:po_smoker] =~ /No/i ? false : nil,
+      in_home_pets: parse_boolean(@row[:po_pets]),
+      has_smoke_in_home: parse_boolean(@row[:po_smoker]),
       no_smoke: nil,
       no_cats: nil,
       no_dogs: nil,
-      crafter_dominant_hand: nil,
+      crafter_dominant_hand: parse_dominant_hand(@row[:right_left]),
       manager: MANAGER_JEAN,
       joann_helped: nil,
       urgent: nil,
@@ -251,7 +269,7 @@ namespace :full_import do
       material_brand: @row[:brands],
       has_materials: nil,
       needs_attention: nil,
-      dominant_hand: @row[:right_left] || 'unknown'
+      dominant_hand: parse_dominant_hand(@row[:right_left])
     )
     project.ensure_inbound_email_address
 
@@ -267,7 +285,7 @@ namespace :full_import do
 
   def pad_phone(str)
     return "ERROR     " unless str.present?
-    return sprintf("%10s", result) unless str.length >= 10
+    return sprintf("%10s", str) unless str.length >= 10
     str
   end
 
