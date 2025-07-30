@@ -260,6 +260,12 @@ module Manage
       assert_search_no_results(manager_id: "0")
     end
 
+    test "search by country" do
+      result = create_search_project
+
+      assert_search_results([result], country: "US")
+    end
+
     test "search with manager_id=none returns projects without manager" do
       result = create_search_project
       result.update!(manager: nil)

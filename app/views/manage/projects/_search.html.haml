@@ -1,8 +1,10 @@
 = form_tag [:manage, :projects], :method => :get, data: { turbo: false } do
+  = hidden_field_tag :v1, true
   = hidden_field_tag :sort, params[:sort]
   .row
-    .col
+    .col-auto
       Search
+    .col.text-end.small= link_to 'New Search', manage_projects_path()
   .row.mb-2
     .col
       = text_field_tag :search, params[:search], class: 'form-control', autocomplete: "off", placeholder: 'Names, Descriptions, Craft Type, Cities, etc.'
