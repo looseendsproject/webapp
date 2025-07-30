@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-namespace :import do
+namespace :finisher_import do
   desc "Import Finishers"
   task finishers: [:environment] do |_t|
     knitting = Skill.find_or_create_by(name: "Knit")

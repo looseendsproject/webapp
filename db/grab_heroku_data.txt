@@ -6,3 +6,10 @@ heroku pg:backups:download --app <app name>
 # downloads to working dir as "latest.dump"
 
 pg_restore --verbose --clean --no-acl --no-owner -h localhost -d looseends_development -U <db user> latest.dump
+
+
+# Copy prod data to staging
+
+heroku pg:backups:capture --app YOUR_PRODUCTION_APP_NAME
+heroku pg:backups:restore `heroku pg:backups:url --app YOUR_PRODUCTION_APP` \
+  --app YOUR_STAGING_APP --confirm YOUR_STAGING_APP

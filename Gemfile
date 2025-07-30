@@ -143,7 +143,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "rails-controller-testing"
-  gem "selenium-webdriver"
+  gem 'webdrivers', '~> 5.0', require: false
 end
 
 gem "solid_queue", "~> 1.1"
