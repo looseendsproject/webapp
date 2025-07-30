@@ -248,7 +248,7 @@ namespace :full_import do
       can_publicize: nil,
       terms_of_use: parse_boolean(@row[:terms]),
       phone_number: pad_phone(@row[:project_owner_phone]),
-      in_home_pets: @row[:po_pets],
+      in_home_pets: nil,
       has_smoke_in_home: parse_boolean(@row[:po_smoker]),
       no_smoke: !parse_boolean(@row[:po_smoker]),
       no_cats: !!parse_boolean(@row[:pets_ok]),
