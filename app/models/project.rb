@@ -9,6 +9,7 @@
 #  can_share_crafter_details                         :boolean          default(TRUE)
 #  can_use_first_name                                :boolean          default(FALSE)
 #  city                                              :string
+#  company_helped                                    :boolean          default(FALSE)
 #  country                                           :string
 #  craft_type                                        :string
 #  crafter_description                               :text
@@ -20,10 +21,10 @@
 #  has_materials                                     :string
 #  has_pattern                                       :string
 #  has_smoke_in_home                                 :boolean          default(FALSE)
+#  help_company                                      :text
 #  in_home_pets                                      :string
 #  inbound_email_address                             :string
 #  influencer                                        :boolean          default(FALSE)
-#  joann_helped                                      :boolean          default(FALSE)
 #  latitude                                          :float
 #  longitude                                         :float
 #  material_brand                                    :text
@@ -92,7 +93,7 @@ class Project < ApplicationRecord
 
   INACTIVE_STATUSES = STATUSES.slice(:done, :will_not_do, :test).freeze
 
-  BOOLEAN_ATTRIBUTES = %i[joann_helped urgent influencer group_project press privacy_needed].freeze
+  BOOLEAN_ATTRIBUTES = %i[company_helped urgent influencer group_project press privacy_needed].freeze
 
   NEEDS_ATTENTION_REASONS = %w[negative_sentiment finisher_unresponsive manager_hold completed]
 
