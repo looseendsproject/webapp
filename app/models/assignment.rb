@@ -60,6 +60,7 @@ class Assignment < ApplicationRecord
       AND projects.status = ?
       AND (last_contacted_at < ? OR last_contacted_at IS NULL)
       AND (check_in_sent_at < ? OR check_in_sent_at IS NULL)
+      AND projects.name NOT LIKE '%[IMPORT]%'
       ",
       STATUSES[:accepted], Project::STATUSES[:in_process_underway],
         CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
