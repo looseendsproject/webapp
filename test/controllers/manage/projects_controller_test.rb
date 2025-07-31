@@ -198,6 +198,18 @@ module Manage
       assert_equal("Yes", @project.has_materials)
     end
 
+    test "allow setting helped company" do
+      sign_in @user
+      patch "/manage/projects/#{@project.id}", params: { project: {
+        help_company: "Test Company",
+        company_helped: true
+      } }
+
+      assert_redirected_to manage_project_path(@project)
+      assert_equal("Test Company", @project.reload.help_company)
+      assert @project.company_helped
+    end
+
     test "create with incomplete params renders page" do
       sign_in @user
       post "/manage/projects", params: { project: { name: "Lacking Details" } }

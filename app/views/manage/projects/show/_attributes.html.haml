@@ -12,8 +12,11 @@
           = render partial: 'manage/projects/show/row', locals: { title: 'Press Outlet', value: @project.press_outlet }
         - else
           = render partial: 'manage/projects/show/row_bool', locals: { title: 'Press', value: false }
-        - { 'Joann Helped' => @project.joann_helped,
-            'Urgent' => @project.urgent,
+        - if @project.company_helped
+          = render partial: 'manage/projects/show/row', locals: { title: 'Company Helped', value: @project.help_company }
+        - else
+          = render partial: 'manage/projects/show/row_bool', locals: { title: 'Company Helped', value: false }
+        - { 'Urgent' => @project.urgent,
             'Influencer' => @project.influencer }.each_pair do |title, value|
           = render partial: 'manage/projects/show/row_bool', locals: { title: , value: }
     %table

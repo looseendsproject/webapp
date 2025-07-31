@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_12_235841) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_175412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -232,7 +232,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_235841) do
     t.float "latitude"
     t.float "longitude"
     t.bigint "manager_id"
-    t.boolean "joann_helped", default: false
+    t.boolean "company_helped", default: false
     t.boolean "urgent", default: false
     t.boolean "influencer", default: false
     t.boolean "group_project", default: false
@@ -248,6 +248,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_235841) do
     t.string "has_materials"
     t.string "needs_attention"
     t.string "dominant_hand", default: "unknown", null: false, comment: "Dominant hand of the project owner"
+    t.text "help_company"
     t.index ["group_manager_id"], name: "index_projects_on_group_manager_id"
     t.index ["inbound_email_address"], name: "index_projects_on_inbound_email_address", unique: true
     t.index ["latitude"], name: "index_projects_on_latitude"
