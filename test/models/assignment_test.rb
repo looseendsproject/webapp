@@ -81,6 +81,15 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 
+  test "needs_check_in does not include Projects w/ [IMPORT] in name" do
+    Project.find(1).update_column("status", "IN PROCESS: UNDERWAY")
+    assignment = Assignment.needs_check_in.first
+    assert_equal 1, assignment.project.id
+
+    assignment.project.update_attribute("name", "#{assignment.project.name} [IMPORT]")
+    assert_equal 0, Assignment.needs_check_in.count
+  end
+
   test "missed_check_ins?" do
     user = @assignment.finisher.user
 
