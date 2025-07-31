@@ -38,4 +38,12 @@ class Manage::ReportsController < Manage::ManageController
     render json: Finisher.where("created_at > ?",
       Time.zone.now - 12.months).group_by_month(:created_at).count
   end
+
+  def project_counts
+    @description = "Counts of Projects by Status"
+    @columns = %w(status count)
+    @results = Project.group(:status).count
+    @results["TOTAL"] = Project.count
+    render 'show'
+  end
 end
