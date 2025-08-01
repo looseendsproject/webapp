@@ -84,6 +84,7 @@ Rails.application.routes.draw do
       get "active_projects_by_status"
       get "new_projects_by_month"
       get "new_finishers_by_month"
+      get "project_counts"
     end
   end
 
