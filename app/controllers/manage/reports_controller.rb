@@ -4,7 +4,7 @@ class Manage::ReportsController < Manage::ManageController
   def index; end
 
   # Add route for each report and link on dashboard
-  # @results is a 2-D array [[col1, col2, col3], [col1, col2, col3],...]
+  # @results is a hash { "Label1" => value1, "Label2" => value2 }
   # if you're displaying a table using render 'show'
 
   def heard_about_us
@@ -42,8 +42,13 @@ class Manage::ReportsController < Manage::ManageController
   def project_counts
     @description = "Counts of Projects by Status"
     @columns = %w(status count)
-    @results = Project.group(:status).count
-    @results["TOTAL"] = Project.count
+
+    @results = {}
+    Project::STATUSES.each do |k,v|
+      @results[v] = Project.where(status: v).count
+    end
+    @results["TOTAL -- all statuses"] = Project.count
+    @results["NOT DONE -- total less DONE"] = @results["TOTAL -- all statuses"] - Project.where(status: "DONE").count
     render 'show'
   end
 end
