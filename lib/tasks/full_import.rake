@@ -255,7 +255,7 @@ namespace :full_import do
       no_dogs: !!parse_boolean(@row[:pets_ok]),
       crafter_dominant_hand: parse_dominant_hand(@row[:right_left]),
       manager: MANAGER_JEAN,
-      joann_helped: nil,
+      company_helped: nil,
       urgent: nil,
       influencer: nil,
       group_project: nil,
@@ -427,6 +427,11 @@ namespace :full_import do
       next unless tmpfile.present? && tmpfile.size > 0
       attach(project, tmpfile, key, @image_ids[key])
     end
+  end
 
+  desc "Remove duplicate attachments"
+  task remove_dups: [:environment] do |_t|
+    Project.where(heard_about_us: "IMPORT").each do |project|
+    end
   end
 end

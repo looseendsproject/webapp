@@ -12,7 +12,7 @@
   .col-md-4
     = form.label 'Would you like to share a photo of the original crafter?', class: 'form-label'
   .col-md-4
-    = form.file_field :append_crafter_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp", :multiple => true
+    = form.file_field :append_crafter_images, class: 'form-control', accept: "image/png,image/gif,image/jpeg,image/webp,image/heic", :multiple => true
     - form.object.crafter_images.each do |image|
       - if image.representable?
         = image_tag image.representation( resize_to_limit: [100, 100])
