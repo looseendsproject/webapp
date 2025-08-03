@@ -441,7 +441,7 @@ namespace :full_import do
       log "\nSTARTING Project #{project.id} \"#{project.name}\""
 
       blob_ids = ActiveStorage::Attachment.where(
-        record_type: Project, record_id: project.id).pluck(:blob_id)
+        record_type: 'Project', record_id: project.id).pluck(:blob_id)
       blobs = ActiveStorage::Blob.where(id: blob_ids)
       blobs.each do |blob|
         matches = ActiveStorage::Blob.where(checksum: blob.checksum, byte_size: blob.byte_size).order(:id)
