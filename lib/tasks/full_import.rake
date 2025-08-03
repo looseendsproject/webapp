@@ -431,7 +431,28 @@ namespace :full_import do
 
   desc "Remove duplicate attachments"
   task remove_dups: [:environment] do |_t|
-    Project.where(heard_about_us: "IMPORT").each do |project|
-    end
-  end
+    set_up_logger("rake full_import:remove_dups")
+
+    user_ids = User.where(heard_about_us: "IMPORT").pluck(:id)
+    project_ids = Project.where(user_id: user_ids).order(:id).pluck(:id)
+
+    project_ids.each do |project_id|
+      project = Project.find(project_id)
+      log "\nSTARTING Project #{project.id} \"#{project.name}\""
+
+      blob_ids = ActiveStorage::Attachment.where(
+        record_type: Project, record_id: project.id).pluck(:blob_id)
+      blobs = ActiveStorage::Blob.where(id: blob_ids)
+      blobs.each do |blob|
+        matches = ActiveStorage::Blob.where(checksum: blob.checksum, byte_size: blob.byte_size).order(:id)
+        next unless matches.count > 1
+        matches.each.with_index(1) do |blob, index|
+          next if index == 1
+          ActiveStorage::Attachment.find_by(blob_id: blob.id).purge
+          log "Removed attachment with blob_id #{blob.id}"
+        end # matches
+      end # blobs
+    end # project_ids
+  end # remove_dups
+
 end
