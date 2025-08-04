@@ -255,7 +255,7 @@ namespace :full_import do
       no_dogs: !!parse_boolean(@row[:pets_ok]),
       crafter_dominant_hand: parse_dominant_hand(@row[:right_left]),
       manager: MANAGER_JEAN,
-      joann_helped: nil,
+      company_helped: nil,
       urgent: nil,
       influencer: nil,
       group_project: nil,
@@ -427,6 +427,32 @@ namespace :full_import do
       next unless tmpfile.present? && tmpfile.size > 0
       attach(project, tmpfile, key, @image_ids[key])
     end
-
   end
+
+  desc "Remove duplicate attachments"
+  task remove_dups: [:environment] do |_t|
+    set_up_logger("rake full_import:remove_dups")
+
+    user_ids = User.where(heard_about_us: "IMPORT").pluck(:id)
+    project_ids = Project.where(user_id: user_ids).order(:id).pluck(:id)
+
+    project_ids.each do |project_id|
+      project = Project.find(project_id)
+      log "\nSTARTING Project #{project.id} \"#{project.name}\""
+
+      blob_ids = ActiveStorage::Attachment.where(
+        record_type: 'Project', record_id: project.id).pluck(:blob_id)
+      blobs = ActiveStorage::Blob.where(id: blob_ids)
+      blobs.each do |blob|
+        matches = ActiveStorage::Blob.where(checksum: blob.checksum, byte_size: blob.byte_size).order(:id)
+        next unless matches.count > 1
+        matches.each.with_index(1) do |blob, index|
+          next if index == 1
+          ActiveStorage::Attachment.find_by(blob_id: blob.id).purge
+          log "Removed attachment with blob_id #{blob.id}"
+        end # matches
+      end # blobs
+    end # project_ids
+  end # remove_dups
+
 end

@@ -136,12 +136,12 @@ class Project < ApplicationRecord
   validates :craft_type, presence: true
   validates :terms_of_use, acceptance: true
 
-  validates :project_images, attached: true, content_type: %i[png jpg jpeg webp gif],
+  validates :project_images, attached: true, content_type: %i[png jpg jpeg webp gif heic],
                              size: { greater_than_or_equal_to: 5.kilobytes }
-  validates :crafter_images, attached: false, content_type: %i[png jpg jpeg webp gif],
+  validates :crafter_images, attached: false, content_type: %i[png jpg jpeg webp gif heic],
                              size: { greater_than_or_equal_to: 5.kilobytes }
   validates :material_images, presence: true, if: :has_materials?
-  validates :material_images, attached: false, content_type: %i[png jpg jpeg webp gif],
+  validates :material_images, attached: false, content_type: %i[png jpg jpeg webp gif heic],
                               size: { greater_than_or_equal_to: 5.kilobytes }
   validates :pattern_files, presence: true, if: :has_pattern?
 
