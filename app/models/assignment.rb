@@ -33,7 +33,7 @@ class Assignment < ApplicationRecord
     completed: "completed"
   }.freeze
 
-  CHECK_IN_INTERVAL = 2.weeks
+  CHECK_IN_INTERVAL = 3.weeks
   UNRESPONSIVE_INTERVAL = 8.weeks
   MISSED_CHECK_INS = 4
 
