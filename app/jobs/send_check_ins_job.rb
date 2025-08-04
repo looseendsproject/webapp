@@ -24,7 +24,7 @@ class SendCheckInsJob < ApplicationJob
         else
 
           FinisherMailer.with(resource: assignment,
-            expires_in: Assignment::CHECK_IN_INTERVAL).project_check_in.deliver_later
+            expires_in: 2.weeks).project_check_in.deliver_later
           assignment.update_attribute("check_in_sent_at", Time.zone.now)
 
           output += <<~LINE

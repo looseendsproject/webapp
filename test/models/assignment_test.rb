@@ -77,7 +77,7 @@ class AssignmentTest < ActiveSupport::TestCase
     travel_to 1.day.from_now
     assert_equal 0, Assignment.needs_check_in.count
 
-    travel_to 15.days.from_now
+    travel_to (Assignment::DEFAULT_CHECK_IN_INTERVAL + 1.day).from_now
     assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 

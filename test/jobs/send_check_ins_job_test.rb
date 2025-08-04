@@ -34,7 +34,7 @@ class SendCheckInsJobTest < ActiveJob::TestCase
     assert_enqueued_jobs 0
     assert_equal time, Assignment.find(1).check_in_sent_at
 
-    travel_to Assignment::CHECK_IN_INTERVAL.from_now
+    travel_to Assignment::DEFAULT_CHECK_IN_INTERVAL.from_now
     SendCheckInsJob.perform_now
     assert_enqueued_jobs 1
     assert_not_equal time, Assignment.find(1).check_in_sent_at

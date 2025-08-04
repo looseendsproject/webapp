@@ -33,7 +33,7 @@ class Assignment < ApplicationRecord
     completed: "completed"
   }.freeze
 
-  CHECK_IN_INTERVAL = 3.weeks
+  DEFAULT_CHECK_IN_INTERVAL = 3.weeks
   UNRESPONSIVE_INTERVAL = 8.weeks
   MISSED_CHECK_INS = 4
 
@@ -63,7 +63,12 @@ class Assignment < ApplicationRecord
       AND projects.name NOT LIKE '%[IMPORT]%'
       ",
       STATUSES[:accepted], Project::STATUSES[:in_process_underway],
-        CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
+        check_in_interval.ago, check_in_interval.ago)
+  end
+
+  def self.check_in_interval
+    # check to see if Finisher has custom interval
+    DEFAULT_CHECK_IN_INTERVAL
   end
 
   def missed_check_ins?

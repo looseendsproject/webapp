@@ -8,6 +8,7 @@
 #  admin_notes                    :text
 #  approved_at                    :datetime
 #  can_publicize                  :boolean
+#  check_in_interval              :integer
 #  chosen_name                    :string
 #  city                           :string
 #  country                        :string
