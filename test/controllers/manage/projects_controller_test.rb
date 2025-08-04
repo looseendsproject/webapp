@@ -346,7 +346,7 @@ module Manage
         postal_code: "12345",
         country: "US",
         phone_number: "555-555-5555",
-        project_images: [fixture_file_upload("test.jpg")],
+        project_images: [fixture_file_upload("test.jpg"), fixture_file_upload("test.heic")],
         user: @user
       )
     end
@@ -375,7 +375,7 @@ module Manage
         project_params.delete(key)
       end
       project_params["name"] = "New Project Name"
-      project_params["append_project_images"] = [fixture_file_upload("test.jpg")]
+      project_params["append_project_images"] = [fixture_file_upload("test.jpg"), fixture_file_upload("test.heic")]
       project_params
     end
   end

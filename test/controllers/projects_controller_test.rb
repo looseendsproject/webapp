@@ -45,7 +45,7 @@ class ProjectsControllerTest < ActionController::TestCase
           phone_number: "1234567890",
           description: "Description here",
           craft_type: "Knitting",
-          append_project_images: [fixture_file_upload("test.jpg")]
+          append_project_images: [fixture_file_upload("test.jpg"), fixture_file_upload("test.heic")]
         }
       }
     end
