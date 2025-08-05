@@ -101,6 +101,10 @@ class AssignmentTest < ActiveSupport::TestCase
     # set custom interval
     assignment.finisher.update_attribute("check_in_interval", 4)
     assert_equal 0, Assignment.needs_check_in.count
+
+    travel_to assignment.last_contacted_at + 4.weeks + 1.day
+    assert_equal 1, Assignment.needs_check_in.count
+    assert_equal 1, Assignment.needs_check_in.first.id
   end
 
   test "missed_check_ins?" do
