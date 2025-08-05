@@ -90,6 +90,19 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal 0, Assignment.needs_check_in.count
   end
 
+  test "needs_check_in respects custom check_in_intervals" do
+    Project.find(1).update_column("status", "IN PROCESS: UNDERWAY")
+    assignments = Assignment.needs_check_in
+    assert_equal 1, assignments.count
+    assignment = assignments.first
+    assert_nil assignment.finisher.check_in_interval
+    assert_equal 1, assignment.project.id
+
+    # set custom interval
+    assignment.finisher.update_attribute("check_in_interval", 4)
+    assert_equal 0, Assignment.needs_check_in.count
+  end
+
   test "missed_check_ins?" do
     user = @assignment.finisher.user
 
