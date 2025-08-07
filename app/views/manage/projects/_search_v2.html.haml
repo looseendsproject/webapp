@@ -5,7 +5,7 @@
     %strong Saved Views:
     - current_user.project_views.each do |project_view|
       .saved-view.btn-group
-        = link_to project_view.name, %Q[load_view=#{project_view.id}], class: 'btn btn-sm btn-outline-secondary saved-view-name'
+        = link_to project_view.name, %Q[?load_view=#{project_view.id}], class: 'btn btn-sm btn-outline-secondary saved-view-name'
         .remove.btn.btn-sm.btn-outline-secondary
           = button_to(' ', saved_view_remove_manage_projects_path(remove_view: project_view.id), class: 'btn btn-sm btn-close')
 = form_tag [:manage, :projects], method: :get, data: { turbo: false } do
