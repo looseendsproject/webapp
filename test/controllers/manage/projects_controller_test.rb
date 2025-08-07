@@ -331,6 +331,14 @@ module Manage
       assert_select "table.project-table"
     end
 
+    test "load_view=id redirects to show" do
+      saved_view = @user.project_views.create!(name: "test", query: [{ field: "foo", value: "bar" }])
+      sign_in @user
+      get "/manage/projects", params: { load_view: saved_view.id }
+
+      assert_redirected_to manage_projects_path(foo: "bar")
+    end
+
     private
 
     def create_search_project # rubocop:disable Metrics/MethodLength
