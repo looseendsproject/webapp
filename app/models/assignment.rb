@@ -33,9 +33,9 @@ class Assignment < ApplicationRecord
     completed: "completed"
   }.freeze
 
-  DEFAULT_CHECK_IN_INTERVAL = 3.weeks
-  UNRESPONSIVE_INTERVAL = 8.weeks
-  MISSED_CHECK_INS = 4
+  # Policy decided values
+  DEFAULT_CHECK_IN_INTERVAL = 3 # weeks
+  UNRESPONSIVE_AFTER = 9 # weeks
 
   belongs_to :project, touch: true
   belongs_to :finisher
@@ -54,8 +54,10 @@ class Assignment < ApplicationRecord
     where(ended_at: nil)
   end
 
+  # Determines which assignments COULD get check-ins right now.  There
+  # is another check in SendCheckInsJob that determines whether the
+  # Finisher is unresponsive.
   def self.needs_check_in
-
     # Get superset of stale assignments based on default interval
     stale_assignment_ids = active.joins(:project).where("
       assignments.status = ?
@@ -65,7 +67,7 @@ class Assignment < ApplicationRecord
       AND projects.name NOT LIKE '%[IMPORT]%'
       ",
       STATUSES[:accepted], Project::STATUSES[:in_process_underway],
-        DEFAULT_CHECK_IN_INTERVAL.ago, DEFAULT_CHECK_IN_INTERVAL.ago).pluck(:id)
+        DEFAULT_CHECK_IN_INTERVAL.weeks.ago, DEFAULT_CHECK_IN_INTERVAL.weeks.ago).pluck(:id)
 
     # Finishers with custom intervals
     custom_finisher_ids = Finisher.where.not(check_in_interval: nil).pluck(:id)
@@ -101,7 +103,7 @@ class Assignment < ApplicationRecord
   def missed_check_ins?
     (status == STATUSES[:accepted] &&
       project.status == Project::STATUSES[:in_process_underway] &&
-      (last_contacted_at.present? && last_contacted_at < UNRESPONSIVE_INTERVAL.ago)) ? true : false
+      (last_contacted_at.present? && last_contacted_at < UNRESPONSIVE_AFTER.weeks.ago)) ? true : false
   end
 
   def name

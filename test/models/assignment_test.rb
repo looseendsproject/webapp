@@ -77,7 +77,7 @@ class AssignmentTest < ActiveSupport::TestCase
     travel_to 1.day.from_now
     assert_equal 0, Assignment.needs_check_in.count
 
-    travel_to (Assignment::DEFAULT_CHECK_IN_INTERVAL + 1.day).from_now
+    travel_to (Assignment::DEFAULT_CHECK_IN_INTERVAL.weeks + 1.day).from_now
     assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 
@@ -113,7 +113,7 @@ class AssignmentTest < ActiveSupport::TestCase
     # With proper Project status and last_contacted_at prior to UNRESPONSIVE_INTERVAL.ago
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
     @assignment.update_attribute(:last_contacted_at,
-      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_AFTER.weeks)
     assert @assignment.missed_check_ins?
 
     # Not prior to UNRESPONSIVE_INTERVAL.ago
@@ -128,7 +128,7 @@ class AssignmentTest < ActiveSupport::TestCase
     # With irrelevant Project status
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_connected])
     @assignment.update_attribute(:last_contacted_at,
-      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_AFTER.weeks)
     refute @assignment.missed_check_ins?
   end
 
