@@ -34,7 +34,7 @@ class SendCheckInsJobTest < ActiveJob::TestCase
     assert_enqueued_jobs 0
     assert_equal time, Assignment.find(1).check_in_sent_at
 
-    travel_to Assignment::CHECK_IN_INTERVAL.from_now
+    travel_to Assignment::DEFAULT_CHECK_IN_INTERVAL.weeks.from_now
     SendCheckInsJob.perform_now
     assert_enqueued_jobs 1
     assert_not_equal time, Assignment.find(1).check_in_sent_at
@@ -45,7 +45,7 @@ class SendCheckInsJobTest < ActiveJob::TestCase
     user = @assignment.finisher.user
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
     @assignment.update_attribute(:last_contacted_at,
-      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_AFTER.weeks)
 
     assert @assignment.missed_check_ins?
 

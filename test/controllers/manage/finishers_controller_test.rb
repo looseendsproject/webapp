@@ -171,6 +171,23 @@ module Manage
       assert_predicate(finisher.user, :confirmed?)
     end
 
+    test "can update check_in_interval" do
+      sign_in @user
+
+      finisher = finishers(:crocheter)
+      params = {
+        id: finisher.id,
+        finisher: finisher.attributes.merge(
+          "check_in_interval" => 6
+        )
+      }
+      patch :update, params: params
+
+      finisher.reload
+
+      assert_equal 6, finisher.check_in_interval
+    end
+
     test "can view a finisher with too many finished_projects" do
       sign_in @user
 

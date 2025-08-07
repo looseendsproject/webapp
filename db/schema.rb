@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_175412) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_04_223053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -139,6 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_175412) do
     t.string "emergency_contact_relation"
     t.boolean "has_volunteer_time_off"
     t.string "inbound_email_address"
+    t.integer "check_in_interval"
     t.index ["inbound_email_address"], name: "index_finishers_on_inbound_email_address", unique: true
     t.index ["joined_on"], name: "index_finishers_on_joined_on"
     t.index ["latitude"], name: "index_finishers_on_latitude"

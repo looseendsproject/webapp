@@ -71,6 +71,9 @@
         .col-12
           = @finisher.emergency_contact_email
 
+    .page-section.mb-4
+      %b Check-in interval (weeks):
+      = @finisher.check_in_interval || "#{Assignment::DEFAULT_CHECK_IN_INTERVAL} (default)"
 
   .col-6
     .page-section

@@ -33,9 +33,9 @@ class Assignment < ApplicationRecord
     completed: "completed"
   }.freeze
 
-  CHECK_IN_INTERVAL = 2.weeks
-  UNRESPONSIVE_INTERVAL = 8.weeks
-  MISSED_CHECK_INS = 4
+  # Policy decided values
+  DEFAULT_CHECK_IN_INTERVAL = 3 # weeks
+  UNRESPONSIVE_AFTER = 9 # weeks
 
   belongs_to :project, touch: true
   belongs_to :finisher
@@ -54,8 +54,12 @@ class Assignment < ApplicationRecord
     where(ended_at: nil)
   end
 
+  # Determines which assignments COULD get check-ins right now.  There
+  # is another check in SendCheckInsJob that determines whether the
+  # Finisher is unresponsive.
   def self.needs_check_in
-    active.joins(:project).where("
+    # Get superset of stale assignments based on default interval
+    stale_assignment_ids = active.joins(:project).where("
       assignments.status = ?
       AND projects.status = ?
       AND (last_contacted_at < ? OR last_contacted_at IS NULL)
@@ -63,13 +67,51 @@ class Assignment < ApplicationRecord
       AND projects.name NOT LIKE '%[IMPORT]%'
       ",
       STATUSES[:accepted], Project::STATUSES[:in_process_underway],
-        CHECK_IN_INTERVAL.ago, CHECK_IN_INTERVAL.ago)
+        DEFAULT_CHECK_IN_INTERVAL.weeks.ago, DEFAULT_CHECK_IN_INTERVAL.weeks.ago).pluck(:id)
+
+    # Finishers with custom intervals
+    custom_finisher_ids = Finisher.where.not(check_in_interval: nil).pluck(:id)
+
+    # Assignments with custom intervals through Finisher
+    custom_assignment_ids = Assignment.where(finisher_id: custom_finisher_ids).pluck(:id)
+
+    # Remove custom assignments from superset
+    initial_ids = stale_assignment_ids - custom_assignment_ids
+
+    # Check each custom assignment to see if it should be added into the final set
+    final_ids = initial_ids
+    custom_assignment_ids.each do |custom_id|
+      next unless stale_assignment_ids.include?(custom_id) # only consider matches from superset
+      custom_assignment = Assignment.find(custom_id)
+
+      # Include if they've never gotten a check-in or if last_contacted_at is older then
+      # that Finisher's custom interval
+      final_ids << custom_id if should_include_assignment?(custom_assignment)
+    end
+
+    # The collection of Assignments that need check in now
+    return Assignment.where(id: final_ids)
+  end
+
+  # Used in self.needs_check_in.  For readability
+  def self.should_include_assignment?(custom_assignment)
+    return true if custom_assignment.last_contacted_at.blank?
+
+    check_in_after = custom_assignment.last_contacted_at +
+      custom_assignment.finisher.check_in_interval.weeks
+    return true if Time.zone.now > check_in_after
+
+    false
+  end
+
+  def check_in_interval
+    finisher.check_in_interval || DEFAULT_CHECK_IN_INTERVAL
   end
 
   def missed_check_ins?
     (status == STATUSES[:accepted] &&
       project.status == Project::STATUSES[:in_process_underway] &&
-      (last_contacted_at.present? && last_contacted_at < UNRESPONSIVE_INTERVAL.ago)) ? true : false
+      (last_contacted_at.present? && last_contacted_at < UNRESPONSIVE_AFTER.weeks.ago)) ? true : false
   end
 
   def name

@@ -77,7 +77,7 @@ class AssignmentTest < ActiveSupport::TestCase
     travel_to 1.day.from_now
     assert_equal 0, Assignment.needs_check_in.count
 
-    travel_to 15.days.from_now
+    travel_to (Assignment::DEFAULT_CHECK_IN_INTERVAL.weeks + 1.day).from_now
     assert_equal assignment.id, Assignment.needs_check_in.first.id
   end
 
@@ -90,13 +90,30 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal 0, Assignment.needs_check_in.count
   end
 
+  test "needs_check_in respects custom check_in_intervals" do
+    Project.find(1).update_column("status", "IN PROCESS: UNDERWAY")
+    assignments = Assignment.needs_check_in
+    assert_equal 1, assignments.count
+    assignment = assignments.first
+    assert_nil assignment.finisher.check_in_interval
+    assert_equal 1, assignment.project.id
+
+    # set custom interval
+    assignment.finisher.update_attribute("check_in_interval", 4)
+    assert_equal 0, Assignment.needs_check_in.count
+
+    travel_to assignment.last_contacted_at + 4.weeks + 1.day
+    assert_equal 1, Assignment.needs_check_in.count
+    assert_equal 1, Assignment.needs_check_in.first.id
+  end
+
   test "missed_check_ins?" do
     user = @assignment.finisher.user
 
     # With proper Project status and last_contacted_at prior to UNRESPONSIVE_INTERVAL.ago
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_underway])
     @assignment.update_attribute(:last_contacted_at,
-      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_AFTER.weeks)
     assert @assignment.missed_check_ins?
 
     # Not prior to UNRESPONSIVE_INTERVAL.ago
@@ -111,7 +128,7 @@ class AssignmentTest < ActiveSupport::TestCase
     # With irrelevant Project status
     @assignment.project.update_attribute(:status, Project::STATUSES[:in_process_connected])
     @assignment.update_attribute(:last_contacted_at,
-      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_INTERVAL)
+      Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_AFTER.weeks)
     refute @assignment.missed_check_ins?
   end
 

@@ -14,4 +14,17 @@ module ApplicationHelper
   def display_env
     ENV['RAILS_ENV_DISPLAY'] == 'production' ? "" : "#{ENV['RAILS_ENV_DISPLAY'].upcase} "
   end
+
+  # manage/finisher/edit
+  def options_for_check_in_interval_select
+    superset = (Assignment::DEFAULT_CHECK_IN_INTERVAL..Assignment::UNRESPONSIVE_AFTER).to_a
+    superset.pop
+    superset.shift
+
+    struct = [["#{Assignment::DEFAULT_CHECK_IN_INTERVAL} weeks (default)", nil]]
+    superset.each do |value|
+      struct << ["#{value} weeks", value]
+    end
+    return struct
+  end
 end
