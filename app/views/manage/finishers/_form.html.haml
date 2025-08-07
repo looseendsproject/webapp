@@ -44,6 +44,11 @@
     = form.label 'Where do you work?', class: 'col-2 form-label'
     .col-4
       = form.text_field :workplace_name, class: 'form-control'
+  .row.mb-4
+    = form.label "Custom check-in interval (weeks)", class: "col-2 form-label"
+    .col-4
+      = form.select :check_in_interval,
+        options_for_check_in_interval_select, {}, {:class => 'form-select'}
   .row
     = form.label :notes, class: 'col-2 form-label'
     .col-4

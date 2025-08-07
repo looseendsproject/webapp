@@ -122,6 +122,7 @@ module Manage
                                        :joined_on,
                                        :chosen_name,
                                        :dominant_hand,
+                                       :check_in_interval,
                                        :street,
                                        :street_2,
                                        :city,
