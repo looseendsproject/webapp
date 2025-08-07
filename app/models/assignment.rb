@@ -86,14 +86,22 @@ class Assignment < ApplicationRecord
 
       # Include if they've never gotten a check-in or if last_contacted_at is older then
       # that Finisher's custom interval
-      final_ids << custom_id if
-        custom_assignment.last_contacted_at.blank? ||
-        Time.zone.now > (custom_assignment.last_contacted_at +
-          custom_assignment.finisher.check_in_interval.weeks)
+      final_ids << custom_id if should_include_assignment?(custom_assignment)
     end
 
     # The collection of Assignments that need check in now
     return Assignment.where(id: final_ids)
+  end
+
+  # Used in self.needs_check_in.  For readability
+  def self.should_include_assignment?(custom_assignment)
+    return true if custom_assignment.last_contacted_at.blank?
+
+    check_in_after = custom_assignment.last_contacted_at +
+      custom_assignment.finisher.check_in_interval.weeks
+    return true if Time.zone.now > check_in_after
+
+    false
   end
 
   def check_in_interval
