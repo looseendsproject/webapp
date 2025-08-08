@@ -122,6 +122,7 @@ class Project < ApplicationRecord
   has_many_attached :material_images
 
   before_validation :set_default_status
+  after_save :set_last_contacted_at
 
   validates :status, inclusion: { in: STATUSES.values }
   validates :dominant_hand, inclusion: { in: DOMINANT_HAND }
@@ -160,6 +161,13 @@ class Project < ApplicationRecord
 
   def set_default_status
     self.status ||= "PROPOSED"
+  end
+
+  def set_last_contacted_at
+    if status == STATUSES[:in_process_underway]
+      assignments.where(status: Assignment::STATUSES[:accepted],
+        last_contacted_at: nil).update_all(last_contacted_at: Time.zone.now)
+    end
   end
 
   def finisher
