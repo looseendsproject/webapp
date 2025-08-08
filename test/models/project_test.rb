@@ -224,6 +224,15 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not_equal(original_updated_at, @project.updated_at)
   end
 
+  test "setting status to IN PROCESS: UNDERWAY sets assignment last_contacted_at" do
+    assert_equal "PROPOSED", @project.status
+    @project.assignments.update_all(last_contacted_at: nil)
+    assert_equal 0, @project.assignments.where.not(last_contacted_at: nil).count
+
+    @project.update(status: Project::STATUSES[:in_process_underway])
+    assert_equal 0,@project.assignments.where(last_contacted_at: nil).count
+  end
+
   test "has messages" do
     assert_nothing_raised { @project.messages }
   end
