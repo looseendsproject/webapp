@@ -7,8 +7,6 @@ module Manage
     before_action :redirect_to_saved_view, only: :index
     before_action :save_view_by_name, only: :index
 
-    SAVED_QUERY_PARAMS = %i[manager_id status last_contacted_at search view sort].freeze
-
     def index
       @title = "Loose Ends - Manage - Projects"
       @projects = Project.search(params)
@@ -125,7 +123,8 @@ module Manage
 
       new_view_name = params[:save_view].strip
 
-      query_params = params.permit(SAVED_QUERY_PARAMS).to_h
+      query_params = params.permit(:manager_id, :last_contacted_at, :country,
+                                   :search, :view, :sort, status: []).to_h
       if query_params.empty?
         flash[:notice] = "Cannot save an empty query view"
         redirect_to manage_projects_path

@@ -331,6 +331,46 @@ module Manage
       assert_select "table.project-table"
     end
 
+    test "can save a view search by status" do
+      sign_in @user
+      get "/manage/projects", params: {
+        save_view: "test-view",
+        status: [Project::STATUSES[:ready_to_match_new]]
+      }
+
+      assert_response :redirect
+      @user.reload
+
+      assert_equal 1, @user.project_views.where(name: "test-view").count
+    end
+
+    test "can save a view search by multiple statuses" do
+      sign_in @user
+      get "/manage/projects", params: {
+        save_view: "test-view-multi",
+        status: [Project::STATUSES[:ready_to_match_new], Project::STATUSES[:ready_to_match_additional_attempt]]
+      }
+
+      assert_response :redirect
+      @user.reload
+
+      saved_view = @user.project_views.where(name: "test-view-multi").first.query
+      assert saved_view.any? { |q| q["value"] == [Project::STATUSES[:ready_to_match_new], Project::STATUSES[:ready_to_match_additional_attempt]] }
+    end
+
+    test "can save a view search by country" do
+      sign_in @user
+      get "/manage/projects", params: {
+        save_view: "test-view-us",
+        country: "US"
+      }
+
+      assert_response :redirect
+      @user.reload
+
+      assert_equal 1, @user.project_views.where(name: "test-view-us").count
+    end
+
     test "load_view=id redirects to show" do
       saved_view = @user.project_views.create!(name: "test", query: [{ field: "foo", value: "bar" }])
       sign_in @user
