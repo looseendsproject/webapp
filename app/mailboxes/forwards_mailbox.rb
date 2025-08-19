@@ -13,7 +13,7 @@ class ForwardsMailbox < ApplicationMailbox
   def resource
     all_addresses = [mail.to, mail.cc, mail.bcc].flatten.compact
     all_addresses.each do |addr|
-      matches = /^(\w+)-\w{#{EmailAddressable::LENGTH}}@/.match(addr)
+      matches = /^(project|finisher)-\w{#{EmailAddressable::LENGTH}}@/.match(addr)
       if matches.present?
         klass = matches[1].titleize.constantize
         record = klass.find_by(inbound_email_address: addr.downcase)
@@ -21,7 +21,7 @@ class ForwardsMailbox < ApplicationMailbox
       end
     end
 
-    # Put InboundEmail into "failed" (2) status if no record
+    # Put InboundEmail into "failed" (3) status if no record
     raise ActiveRecord::RecordNotFound
   end
 

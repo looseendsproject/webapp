@@ -3,6 +3,7 @@
 %table.table.table-sm
   %thead
     %tr
+      %th ID
       %th Created At
       %th Addresses
       %th Subject
@@ -10,6 +11,7 @@
   %tbody
     - @inbound_emails.failed.each do |inbound|
       %tr
+        %td= inbound.id
         %td= inbound.created_at.to_formatted_s(:human)
         %td
           .pt-0 From: #{inbound.mail.from}
@@ -17,4 +19,3 @@
           .pt-0 CC: #{inbound.mail.cc}
         %td= inbound.mail.subject
         %td= inbound.status
-
