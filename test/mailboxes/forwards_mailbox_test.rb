@@ -3,11 +3,10 @@ require "test_helper"
 class ForwardsMailboxTest < ActionMailbox::TestCase
 
   # Originally, addresses had upper/lower and were downcased
-  # in the database.  Preserve this for backwards testing
-  # of old addresses
+  # in the database.
   #
-  PROJECT_ADDRESS = 'Project-7A37voRf@localhost'
-  FINISHER_ADDRESS = 'Finisher-AskQeXbS@localhost'
+  PROJECT_ADDRESS = "project-7a37vorf@localhost"
+  FINISHER_ADDRESS = "finisher-askqexbs@localhost"
 
   def setup
     @inbound = create_inbound_email_from_fixture("sample.eml", status: :pending)
@@ -62,6 +61,18 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
     assert_equal "Fwd: Getting started with ActiveMailbox",
       Finisher.find(1).messages.last.email.subject
     refute Finisher.find(2).messages.any?
+  end
+
+  # Random email addresses like "notaclass-j5fc85we@nowhere.com" trigger a parse
+  # but will throw a NameError when it tries to constantize "notaclass"
+  #
+  test "only parse for project and finisher (not coincidental matching strings)" do
+    @inbound.mail.to = ["notaclass-#{SecureRandom.alphanumeric(EmailAddressable::LENGTH)}@nowhere.com"]
+    @inbound.mail.cc = [PROJECT_ADDRESS]
+    @inbound.route
+    assert_equal "Fwd: Getting started with ActiveMailbox",
+      Project.find(1).messages.last.email.subject
+    assert_equal 0, ActionMailbox::InboundEmail.where(status: 3).count
   end
 
   test 'finisher original case found' do
