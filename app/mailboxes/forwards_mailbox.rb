@@ -5,7 +5,12 @@ class ForwardsMailbox < ApplicationMailbox
     m.email_source.attach(io: StringIO.new(mail.raw_source),
       filename: "source.eml", content_type: "text/plain")
     m.stash_headers(mail)
-    m.save!
+
+    begin
+      m.save!
+    rescue ActiveRecord::RecordInvalid => e
+      bounce_now_with ApplicationMailer.error(to: mail.from)
+    end
   end
 
   private

@@ -17,6 +17,10 @@ class ApplicationMailer < ActionMailer::Base
     mail(to: @resource.user.email, subject: "Looseends ApplicationMailer.test")
   end
 
+  def error(to: to)
+    mail(to: to, subject: "[Bounce] Email to Loose Ends Project too big")
+  end
+
   private
 
     def add_logo!
