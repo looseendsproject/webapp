@@ -85,4 +85,13 @@ class ForwardsMailboxTest < ActionMailbox::TestCase
     assert_raises(ActiveRecord::RecordNotFound) { @inbound.route }
   end
 
+  test "bounce too-big emails" do
+    @inbound = create_inbound_email_from_fixture("too_big.eml", status: :pending)
+    @inbound.route
+    assert_equal "[Bounce] Email to Loose Ends Project too big", ActionMailer::Base.deliveries.last.subject
+    text_body = ActionMailer::Base.deliveries.last.text_part.to_s.gsub("\r\n", " ")
+    assert text_body.include?(
+      "Loose Ends Project limits email attachments to under 25MB")
+  end
+
 end
