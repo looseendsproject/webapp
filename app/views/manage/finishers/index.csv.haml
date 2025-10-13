@@ -1,4 +1,4 @@
-- headers = ['ID', 'First Name', 'Last Name', 'Email', 'Match', 'Country']
+- headers = ['ID', 'First Name', 'Last Name', 'Email', 'Match', 'Country', 'Street', 'Street 2', 'City', 'State/Province', 'Postal code']
 = (CSV.generate_line headers).chomp
 - @finishers.find_each do |finisher|
-  = raw (CSV.generate_line([finisher.attributes['id'], finisher.user.attributes['first_name'], finisher.user.attributes['last_name'], finisher.user.attributes['email'], finisher.attributes['has_workplace_match'], finisher.attributes['country']])).chomp
+  = raw (CSV.generate_line([finisher.attributes['id'], finisher.user.attributes['first_name'], finisher.user.attributes['last_name'], finisher.user.attributes['email'], finisher.attributes['has_workplace_match'], finisher.attributes['country'], finisher.attributes['street'], finisher.attributes['street_2'], finisher.attributes['city'], finisher.attributes['state'], finisher.attributes['postal_code']])).chomp
