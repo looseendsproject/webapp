@@ -1,80 +1,86 @@
 = form_with model: @finisher, url: [:manage, @finisher] do |form|
   = render "error_messages", resource: @finisher
   .row.mb-2
-    .col-2
-  .row.mb-2
-    = form.label :dominant_hand, class: 'col-2 col-form-label'
-    .col-2
-      = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
-    .col-2
-    .col-3
-      = form.label :approved do
-        = form.check_box :approved
-        Finisher Terms and Conditions Accepted
-  .row.mb-2
-    = form.label :chosen_name, class: 'col-2 col-form-label'
-    .col-4
-      = form.text_field :chosen_name, class: 'form-control'
-    .col-lg-3
-      = form.label :unavailable do
-        = form.check_box :unavailable
-        Unavailable
-  .row.mb-2
-    = form.label :joined_on, class: 'col-2 col-form-label'
-    .col-4
-      = form.date_field :joined_on, class: 'form-control'
-    - unless @finisher.user.confirmed?
-      .col-lg-3
-        = form.label :confirm_email do
-          = form.check_box :confirm_email
-          Confirm email address
-  .row.mb-2
-    = form.label :phone_number, class: 'col-2 col-form-label'
-    .col-4
-      = form.text_field :phone_number, class: 'form-control'
-  .row.mb-2
-    = form.label 'Workplace Match Donations?', class: 'col-2 form-label required'
-    .col-4
-      = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
-  .row.mb-2
-    = form.label 'Workplace Match Volunteer Hours?', class: 'col-2 form-label required'
-    .col-4
-      = form.select :has_volunteer_time_off, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
-  .row.mb-4
-    = form.label 'Where do you work?', class: 'col-2 form-label'
-    .col-4
-      = form.text_field :workplace_name, class: 'form-control'
-  .row.mb-4
-    = form.label "Custom check-in interval", class: "col-2 form-label"
-    .col-4
-      = form.select :check_in_interval,
-        options_for_check_in_interval_select, {}, {:class => 'form-select'}
-  .row
-    = form.label :notes, class: 'col-2 form-label'
-    .col-4
-      = form.text_area :admin_notes, rows: 3, class: 'form-control'
-
+    .col.col-lg-6
+      .row.mb-4
+        = form.label :dominant_hand, class: 'col-4 col-form-label'
+        .col
+          = form.select :dominant_hand, ['Lefty', 'Righty', 'Either Hand'], { include_blank: true}, { class: 'form-select' }
+      .row.mb-4
+        = form.label :chosen_name, class: 'col-4 col-form-label'
+        .col
+          = form.text_field :chosen_name, class: 'form-control'
+      .row.mb-4
+        = form.label :joined_on, class: 'col-4 col-form-label'
+        .col
+          = form.date_field :joined_on, class: 'form-control'
+      .row.mb-4
+        = form.label :phone_number, class: 'col-4 col-form-label'
+        .col
+          = form.text_field :phone_number, class: 'form-control'
+      .row.mb-4
+        = form.label 'Workplace Match Donations?', class: 'col-4 form-label required'
+        .col
+          = form.select :has_workplace_match, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
+      .row.mb-4
+        = form.label 'Workplace Match Volunteer Hours?', class: 'col-4 form-label required'
+        .col
+          = form.select :has_volunteer_time_off, [['Yes', true], ['No', false], ["I don't know", nil]], {}, {:class => 'form-select'}
+      .row.mb-4
+        = form.label 'Where do you work?', class: 'col-4 form-label'
+        .col
+          = form.text_field :workplace_name, class: 'form-control'
+      .row.mb-4
+        = form.label "Custom check-in interval", class: "col-4 form-label"
+        .col
+          = form.select :check_in_interval,
+            options_for_check_in_interval_select, {}, {:class => 'form-select'}
+      .row.mb-4
+        = form.label :notes, class: 'col-4 form-label'
+        .col
+          = form.text_area :admin_notes, rows: 3, class: 'form-control'
+    .col-lg-2
+    .col-lg-4
+      .row.mb-4
+        = form.label :approved do
+          = form.check_box :approved
+          Finisher Terms and Conditions Accepted
+      .row.mb-4
+        = form.label :unavailable do
+          = form.check_box :unavailable
+          Unavailable
+      .row.mb-4
+        = form.label :do_not_contact do
+          = form.check_box :do_not_contact
+          Do not contact
+      - unless @finisher.user.confirmed?
+        .row.mb-4
+          = form.label :confirm_email do
+            = form.check_box :confirm_email
+            Confirm email address
 
   = render partial: 'address_form', :locals => { form: form, finisher: @finisher }
 
   .my-4
     %h5 Emergency Contact Information
     .row.mb-2
-      = form.label 'Name', class: 'form-label'
-      .col-4
-        = form.text_field :emergency_contact_name, class: 'form-control'
-
-      = form.label 'Relation', class: 'form-label'
-      .col-4
-        = form.text_field :emergency_contact_relation, class: 'form-control'
-
-      = form.label 'Phone Number', class: 'form-label'
-      .col-4
-        = form.text_field :emergency_contact_phone_number, class: 'form-control'
-
-      = form.label 'Email', class: 'form-label'
-      .col-4
-        = form.text_field :emergency_contact_email, class: 'form-control'
+    .col.col-lg-6
+      .row.mb-4
+        = form.label 'Name', class: 'col-4 col-form-label'
+        .col
+          = form.text_field :emergency_contact_name, class: 'form-control'
+      .row.mb-4
+        = form.label 'Relation', class: 'col-4 form-label'
+        .col
+          = form.text_field :emergency_contact_relation, class: 'form-control'
+      .row.mb-4
+        = form.label 'Phone Number', class: 'col-4 form-label'
+        .col
+          = form.text_field :emergency_contact_phone_number, class: 'form-control'
+      .row.mb-4
+        = form.label 'Email', class: 'col-4 form-label'
+        .col
+          = form.text_field :emergency_contact_email, class: 'form-control'
 
 
   .form-actions
