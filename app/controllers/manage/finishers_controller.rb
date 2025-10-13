@@ -118,6 +118,7 @@ module Manage
                                        :phone_number,
                                        :approved,
                                        :unavailable,
+                                       :do_not_contact,
                                        :confirm_email,
                                        :joined_on,
                                        :chosen_name,

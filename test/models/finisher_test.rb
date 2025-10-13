@@ -14,6 +14,7 @@
 #  country                        :string
 #  description                    :text             not null
 #  dislikes                       :text
+#  do_not_contact                 :boolean          default(FALSE), not null
 #  dominant_hand                  :string
 #  emergency_contact_email        :string
 #  emergency_contact_name         :string
