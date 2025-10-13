@@ -24,6 +24,7 @@
       - if image.id.present? # Rails bug https://github.com/rails/rails/issues/50234
         = image_tag image.representation(resize_to_limit: [100, 100])
     .form-info Please upload photos of the unfinished project.
+    .form-info If this project is needlepoint or cross-stitch, please include a picture of the back of the work.
 .row.mb-4
   .col-md-4
     = form.label :material_type, 'What kind of yarn / material is used?', class: 'form-label required'
