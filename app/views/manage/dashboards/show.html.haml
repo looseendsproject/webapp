@@ -1,11 +1,15 @@
 = render 'title', title: 'Dashboard'
 .container
   .row
-    .d-grid.gap-2.d-md-block
-      = link_to 'Projects', manage_projects_path, class: "btn btn-primary"
-      = link_to 'Finishers Map', map_manage_finishers_path, class: "btn btn-primary"
-      = link_to 'Finishers Search', manage_finishers_path, class: "btn btn-primary"
-      = link_to "Reports", manage_reports_path, class: "btn btn-primary"
+    .col.col-lg-9
+      .d-grid.gap-2.d-md-block
+        = link_to 'Projects', manage_projects_path, class: "btn btn-primary"
+        = link_to 'Finishers Map', map_manage_finishers_path, class: "btn btn-primary"
+        = link_to 'Finishers Search', manage_finishers_path, class: "btn btn-primary"
+        = link_to "Reports", manage_reports_path, class: "btn btn-primary"
+    .col.col-lg-3
+      %h2 Total projects: #{Project.all.size}
+
 
   .row
     .col
