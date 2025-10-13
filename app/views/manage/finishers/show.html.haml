@@ -5,6 +5,8 @@
     (Approved)
   - if @finisher.unavailable
     (Unavailable)
+  - if @finisher.do_not_contact
+    (Do not contact)
 
   = link_to 'Edit Finisher', [:edit, :manage, @finisher], class: 'btn btn-outline-secondary float-end'
 

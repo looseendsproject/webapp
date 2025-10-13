@@ -1,10 +1,13 @@
 - classes ||= []
 %div{:class => [:card, finisher.active_assignments.any? && :assigned ].concat(classes)}
-  - if finisher.unavailable
-    .unavailable
+  - if finisher.do_not_contact
+    .px-2.text-white.font-weight-bold.mb-0.text-center.absolute-t-md.do-not-contact
+      Do not contact
+  - elsif finisher.unavailable
+    .px-2.text-white.font-weight-bold.mb-0.text-center.absolute-t-md.unavailable
       Unavailable
   - elsif finisher.has_volunteer_time_off?
-    .px-2.text-white.font-weight-bold.mb-0.text-center.has-vto
+    .px-2.text-white.font-weight-bold.mb-0.text-center.absolute-t-md.has-vto
       VTO
   .dominant-hand{ class: finisher.dominant_hand ? finisher.dominant_hand[0] : '' }
     = finisher.dominant_hand&.first
