@@ -178,6 +178,42 @@ class Project < ApplicationRecord
     finisher&.name
   end
 
+  def finisher_email
+    finisher&.user&.email
+  end
+
+  def finisher_phone
+    finisher&.phone_number
+  end
+
+  def finisher_street
+    finisher&.street
+  end
+
+  def finisher_street2
+    finisher&.street_2
+  end
+
+  def finisher_city
+    finisher&.city
+  end
+
+  def finisher_state
+    finisher&.state
+  end
+
+  def finisher_country
+    finisher&.country
+  end
+
+  def finisher_postal_code
+    finisher&.postal_code
+  end
+
+  def project_manager
+    "#{manager.first_name} #{manager.last_name}" if manager.present?
+  end
+
   def owner_email
     user&.email
   end

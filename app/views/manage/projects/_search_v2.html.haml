@@ -33,3 +33,6 @@
       = select_tag :view, options_for_select([['Show Cards', nil], ['Show List', 'list']], params[:view]), class: 'form-select me-1'
       = render partial: 'search_view_save_menu'
       = submit_tag "Search", name: nil, class: 'btn btn-primary btn-search ms-1'
+      = button_tag(formaction: manage_projects_path(format: 'csv'), class: 'btn btn-sm btn-light ms-2') do
+        %span export csv
+        = fa_icon('file-export')
