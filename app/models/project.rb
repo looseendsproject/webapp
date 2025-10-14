@@ -211,7 +211,6 @@ class Project < ApplicationRecord
   end
 
   def project_manager
-    manager = User.find_by(id: manager_id)
     "#{manager.first_name} #{manager.last_name}" if manager.present?
   end
 
