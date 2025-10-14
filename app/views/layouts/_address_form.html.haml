@@ -7,7 +7,7 @@
   .col-md-4
     = form.label :street, 'Street', class: 'form-label required'
   .col-md-4
-    = form.text_field :street, class: 'form-control'
+    = form.text_field :street, class: 'form-control', required: true
 .row.mb-4
   .col-md-4
     = form.label :street_2, 'Line 2', class: 'form-label optional'
@@ -54,12 +54,14 @@
     const state = document.querySelector('#' + stateCode + 'State')
     state.classList.add("hidden")
     state.querySelector('select, input').disabled = true;
+    state.querySelector('select, input').required = false;
   }
 
   const showState = (stateCode) => {
     const state = document.querySelector('#' + stateCode + 'State')
     state.classList.remove("hidden")
     state.querySelector('select, input').disabled = false;
+    state.querySelector('select, input').required = true;
   };
 
   const hideAll = (exceptThisOne) => {
