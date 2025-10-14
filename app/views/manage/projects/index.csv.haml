@@ -1,4 +1,4 @@
-- fields = %w[id name created_at status description finisher_name city state country owner_email owner_phone]
+- fields = %w[id name created_at status description craft_type material_brand crafter_name street street_2 city state country postal_code owner_email owner_phone finisher_name finisher_email finisher_phone finisher_street finisher_street2 finisher_city finisher_state finisher_country finisher_postal_code project_manager]
 = raw CSV.generate_line(fields.map(&:titleize), row_sep: nil)
 - @projects.includes(finishers: :user).find_each do |project|
   = raw CSV.generate_line(fields.map{|attr| project.send(attr.to_sym).presence }, row_sep: nil)
