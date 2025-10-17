@@ -40,11 +40,19 @@ class Manage::ReportsController < Manage::ManageController
   end
 
   def project_countries
-    render json: Project.group(:country).order('count_id DESC').count(:id)
+    counts = Project.group(:country).order('count_id DESC').count(:id)
+    respond_to do |format|
+      format.csv { render_csv(counts) }
+      format.json { render json: counts }
+    end
   end
 
   def finisher_countries
-    render json: Finisher.group(:country).order('count_id DESC').count(:id)
+    counts = Finisher.group(:country).order('count_id DESC').count(:id)
+    respond_to do |format|
+      format.csv { render_csv(counts) }
+      format.json { render json: counts }
+    end
   end
 
   def project_counts
@@ -58,5 +66,19 @@ class Manage::ReportsController < Manage::ManageController
     @results["TOTAL -- all statuses"] = Project.count
     @results["NOT DONE -- total less DONE"] = @results["TOTAL -- all statuses"] - Project.where(status: "DONE").count
     render 'show'
+  end
+
+  private
+
+  def render_csv(results)
+    csv_string = CSV.generate do |csv|
+      csv << ['Country', 'Count']
+      results.each do |label, value|
+        csv << [label, value]
+      end
+    end
+
+    response.headers["Content-Type"] = "text/csv"
+    render plain: csv_string
   end
 end

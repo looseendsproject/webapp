@@ -8,11 +8,15 @@
 
 .row
   .col-6
-    = pie_chart manage_reports_project_countries_path,
-      title: "Project Countries", download: true
+    = pie_chart manage_reports_project_countries_path(format: 'json'),
+      title: "Project Countries"
+    .div.text-center
+      = link_to("View as CSV", manage_reports_project_countries_path(format: 'csv'), class: 'small')
   .col-6
-    = pie_chart manage_reports_finisher_countries_path,
-      title: "Finisher Countries", download: true
+    = pie_chart manage_reports_finisher_countries_path(format: 'json'),
+      title: "Finisher Countries"
+    .div.text-center
+      = link_to("View as CSV", manage_reports_finisher_countries_path(format: 'csv'), class: 'small')
 
 .row.pt-3
   .col-6
