@@ -39,6 +39,14 @@ class Manage::ReportsController < Manage::ManageController
       Time.zone.now - 12.months).group_by_month(:created_at).count
   end
 
+  def project_countries
+    render json: Project.group(:country).order('count_id DESC').count(:id)
+  end
+
+  def finisher_countries
+    render json: Finisher.group(:country).order('count_id DESC').count(:id)
+  end
+
   def project_counts
     @description = "Counts of Projects by Status"
     @columns = %w(status count)

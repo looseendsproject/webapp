@@ -6,6 +6,14 @@
     = line_chart manage_reports_new_finishers_by_month_path,
       title: "New Finshers by Month (Last 12 Months)", download: true
 
+.row
+  .col-6
+    = pie_chart manage_reports_project_countries_path,
+      title: "Project Countries", download: true
+  .col-6
+    = pie_chart manage_reports_finisher_countries_path,
+      title: "Finisher Countries", download: true
+
 .row.pt-3
   .col-6
     %h3 Other Reports

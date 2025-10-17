@@ -15,7 +15,7 @@ class Manage::ReportsControllerTest < ActionController::TestCase
     [
       :heard_about_us, :active_projects_by_status,
       :new_projects_by_month, :new_finishers_by_month,
-      :project_counts
+      :project_counts, :project_countries, :finisher_countries
     ].each do |endpoint|
       get endpoint
       assert_response :success
