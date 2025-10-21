@@ -9,12 +9,12 @@
 .row
   .col-6
     = pie_chart manage_reports_project_countries_path(format: 'json'),
-      title: "Project Countries"
+      title: "Project Countries (all time)"
     .div.text-center
       = link_to("View as CSV", manage_reports_project_countries_path(format: 'csv'), class: 'small')
   .col-6
     = pie_chart manage_reports_finisher_countries_path(format: 'json'),
-      title: "Finisher Countries"
+      title: "Finisher Countries (all time)"
     .div.text-center
       = link_to("View as CSV", manage_reports_finisher_countries_path(format: 'csv'), class: 'small')
 
