@@ -6,6 +6,18 @@
     = line_chart manage_reports_new_finishers_by_month_path,
       title: "New Finshers by Month (Last 12 Months)", download: true
 
+.row
+  .col-6
+    = pie_chart manage_reports_project_countries_path(format: 'json'),
+      title: "Project Countries (all time)"
+    .div.text-center
+      = link_to("View as CSV", manage_reports_project_countries_path(format: 'csv'), class: 'small')
+  .col-6
+    = pie_chart manage_reports_finisher_countries_path(format: 'json'),
+      title: "Finisher Countries (all time)"
+    .div.text-center
+      = link_to("View as CSV", manage_reports_finisher_countries_path(format: 'csv'), class: 'small')
+
 .row.pt-3
   .col-6
     %h3 Other Reports
