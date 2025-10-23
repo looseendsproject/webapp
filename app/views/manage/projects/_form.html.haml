@@ -16,9 +16,10 @@
             = link_to 'Cancel', [:manage, @project], class: 'btn btn-danger float-end'
           -# This section will be toggled based on the selected status
 
-      .col-8.row
-        .col-8.d-flex.align-items-end
-          = link_to "Change Project Owner", manage_project_users_path(@project)
+      - if @project.persisted?
+        .col-8.row
+          .col-8.d-flex.align-items-end
+            = link_to "Change Project Owner", manage_project_users_path(@project)
 
   %hr
 
