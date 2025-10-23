@@ -124,4 +124,10 @@ class User < ApplicationRecord
   def finisher?
     !!finisher
   end
+
+  def password_required?
+    return false if new_record? && password.blank?
+
+    super
+  end
 end

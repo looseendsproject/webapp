@@ -1,0 +1,39 @@
+= render 'title', title: 'Users'
+
+= form_tag manage_users_path, method: :get do
+  .row.mb-0
+    .col-4
+      = label_tag :search, "Name/Email", class: 'label'
+    .col-2
+      = label_tag :sort, "Sort", class: 'label'
+  .row.mb-4
+    .col-4
+      = text_field_tag :search, params[:search], class: 'form-control', placeholder: "Search by name or email"
+    .col-2
+      = select_tag :sort,
+          options_for_select([['Date', 'date'], ['Name', 'name']], params[:sort]),
+          include_blank: true,
+          class: 'form-select'
+    .col
+      = submit_tag "Search", name: nil, class: 'btn btn-primary'
+      = link_to "New User", new_manage_user_path, class: "btn btn-primary"
+
+%strong Matches:
+%span= number_with_delimiter(@users.count)
+
+%table.table
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Email
+      %th.text-center Projects
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.id
+        %td= user.name
+        %td= user.email
+        %td.text-center= user.projects.count
+
+= will_paginate @users

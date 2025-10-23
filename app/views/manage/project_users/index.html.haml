@@ -1,0 +1,41 @@
+= render 'title', title: "Assign Project Owner - #{@project.name}"
+
+= form_tag manage_project_users_path(@project), method: :get, class: 'mb-4' do
+  .row.mb-0
+    .col-4
+      = label_tag :search, "Name/Email", class: 'form-label'
+    .col-2
+      = label_tag :sort, "Sort", class: 'form-label'
+  .row.mb-4
+    .col-4
+      = text_field_tag :search, params[:search], class: 'form-control'
+    .col-2
+      = select_tag :sort, options_for_select([['Date', 'date'], ['Name', 'name']], params[:sort]), include_blank: true, class: 'form-select'
+    .col
+      = submit_tag "Search", name: nil, class: 'btn btn-primary'
+
+%strong Matches
+%span= number_with_delimiter(@users.count)
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Email
+      %th.text-center Projects
+      %th.text-center Assign
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.id
+        %td= user.name
+        %td= user.email
+        %td.text-center= user.projects.count
+        %td.text-center
+          = button_to 'Assign', assign_owner_manage_project_user_path(@project, user),
+                      method: :post,
+                      data: { confirm: "Are you sure you want to assign #{user.name} as the project owner?" },
+                      class: 'btn btn-sm btn-primary'
+
+= will_paginate @users
