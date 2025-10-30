@@ -1,0 +1,35 @@
+%h1.page-title Create New User
+
+.row.mb-4
+  .col-sm-8.my-auto
+    = form_with model: [:manage, @user], data: { turbo: false } do |f|
+      .row.g-1.g-sm-4
+        .col-6.col-sm-5.col-md-4
+          = f.label :first_name, 'First Name', class: 'col-form-label required'
+          = f.text_field :first_name, autofocus: true, autocomplete: "given-name", class: 'form-control'
+
+        .col-6.col-sm-5.col-md-4
+          = f.label :last_name, 'Last Name', class: 'col-form-label required'
+          = f.text_field :last_name, autocomplete: "family-name", class: 'form-control'
+
+      .row.g-1.g-sm-4
+        .col-12.col-sm-10.col-md-8
+          = f.label :email, class: 'col-form-label required'
+          = f.email_field :email, autocomplete: "email", class: 'form-control'
+
+      .row.g-1.g-sm-4
+        .col-12.col-sm-10.col-md-8
+          = f.label :phone, class: 'col-form-label required'
+          = f.text_field :phone, autocomplete: "tel", class: 'form-control'
+
+      .row.g-1.g-sm-4
+        .col-12.col-sm-10.col-md-8
+          = f.label :heard_about_us, 'Where did you hear about us?', class: 'col-form-label required'
+          = f.select :heard_about_us,
+              User::HeardAboutUs.options_for_select,
+              { include_blank: "Select one" },
+              { class: 'form-select', id: 'heard-about-us-select' }
+
+      .mt-4
+        = f.submit "Create User", class: "btn btn-primary me-3"
+        = link_to "Cancel", manage_users_path, class: "btn btn-secondary"
