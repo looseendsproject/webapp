@@ -214,6 +214,10 @@ class Project < ApplicationRecord
     "#{manager.first_name} #{manager.last_name}" if manager.present?
   end
 
+  def owner_name
+    user&.name
+  end
+
   def owner_email
     user&.email
   end
