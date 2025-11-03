@@ -29,6 +29,7 @@ class ProjectsController < AuthenticatedController
     @project = Project.new(project_params)
     @project.user = current_user
     if @project.save
+      flash[:show_submission_success_modal] = true
       redirect_to @project
     else
       render "new"
