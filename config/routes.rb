@@ -68,7 +68,15 @@ Rails.application.routes.draw do
         get "finishers/search", to: "finishers#search"
         post "saved_view/remove", to: "projects#remove_saved_view"
       end
+      resources :users, only: [:index], controller: "project_users" do
+        member do
+          post :assign_owner
+        end
+      end
     end
+
+    resources :users, only: [:index, :new, :create]
+
     resources :finishers do
       collection do
         get "map"

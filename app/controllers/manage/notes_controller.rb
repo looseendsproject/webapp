@@ -43,12 +43,10 @@ module Manage
     end
 
     def update_last_contacted!
-      return if @project.active_finisher.blank?
+      recent_assignment = @project.assignments.order(id: :desc).first
+      return unless recent_assignment
 
-      assignment = @project.assignments.where(finisher: @project.active_finisher).first
-      return if assignment.blank?
-
-      assignment.update_attribute!(:last_contacted_at, Time.zone.now)
+      recent_assignment.update!(last_contacted_at: Time.zone.now)
     end
   end
 end
