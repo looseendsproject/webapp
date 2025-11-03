@@ -126,3 +126,19 @@
             %li No Dogs Please
 
     = @project.recipient_name
+
+#submissionSuccessModal.modal.fade{"aria-hidden" => "true", "tabindex" => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h5.modal-title Success
+        %button.btn-close{"data-bs-dismiss" => "modal", type: "button"}
+      .modal-body
+        Your project has been submitted. Thank you for reaching out and for your interest in Loose Ends. Due to staff shortages, funding cuts, and work towards scalability, it is taking longer than usual to process and match projects. We are still matching projects and finishers, but with a smaller team, things will happen at a slower pace. Thank you for your patience and trust. We'll be in touch.
+
+- if flash[:show_submission_success_modal]
+  :javascript
+    document.addEventListener("DOMContentLoaded", function() {
+      var modal = new bootstrap.Modal(document.getElementById('submissionSuccessModal'));
+      modal.show();
+    });
