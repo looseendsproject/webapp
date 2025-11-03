@@ -143,6 +143,7 @@ module Manage
     def project_params
       params.require(:project).permit(
         :manager_id,
+        :user_id,
         :name,
         :phone_number,
         :description,
