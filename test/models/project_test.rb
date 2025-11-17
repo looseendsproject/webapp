@@ -109,7 +109,7 @@ class ProjectTest < ActiveSupport::TestCase
   test "ignore_inactive scope" do
     Project::STATUSES.each do |key, value|
       @project.update(status: value)
-      if Project::INACTIVE_STATUSES.include?(key)
+      if Project::INACTIVE_STATUSES_EXCEPT_DONE.include?(key)
         assert_not_includes Project.ignore_inactive, @project.reload
       else
         assert_includes Project.ignore_inactive, @project.reload
