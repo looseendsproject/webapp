@@ -75,7 +75,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users, only: [:index, :new, :create]
+    resources :users, only: [:index, :new, :create, :edit, :update, :show]
 
     resources :finishers do
       collection do
