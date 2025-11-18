@@ -1,12 +1,13 @@
 %tr
   %th.text-nowrap.text-end.align-top.pe-2= title + ": "
+  - td_classes = local_assigns[:value_class] || ''
   - if value.present?
     - if local_assigns[:copy_paste]
-      %td{ data: { controller: 'clipboard' } }
-        = value.respond_to?(:name) ? link_to(value.name, [ :manage, value ]) : value
+      %td{ class: td_classes, data: { controller: 'clipboard' } }
+        = value.respond_to?(:name) ? link_to(value.name, [:manage, value]) : value
     - else
-      %td
-        = value.respond_to?(:name) ? link_to(value.name, [ :manage, value ]) : value
+      %td{ class: td_classes }
+        = value.respond_to?(:name) ? link_to(value.name, [:manage, value]) : value
         - if local_assigns[:link]
           = link
   - else

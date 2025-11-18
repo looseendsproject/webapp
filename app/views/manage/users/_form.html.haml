@@ -1,0 +1,33 @@
+= form_with model: @user, url: @user.persisted? ? manage_user_path(@user) : manage_users_path,
+  method: @user.persisted? ? :patch : :post,
+  data: { turbo: false } do |f|
+
+  .row.mb-3
+    .col-md-6
+      = f.label :first_name, 'First Name', class: 'col-form-label required'
+      = f.text_field :first_name, class: 'form-control'
+
+    .col-md-6
+      = f.label :last_name, 'Last Name', class: 'col-form-label required'
+      = f.text_field :last_name, class: 'form-control'
+
+  .row.mb-3
+    .col-md-6
+      = f.label :email, 'Email', class: 'col-form-label required'
+      = f.email_field :email, class: 'form-control'
+
+    .col-md-6
+      = f.label :phone, 'Phone', class: 'col-form-label'
+      = f.text_field :phone, class: 'form-control'
+
+  .row.mb-3
+    .col-md-6
+      = f.label :heard_about_us, 'Where did you hear about us?', class: 'col-form-label required'
+      = f.select :heard_about_us,
+          User::HeardAboutUs.options_for_select,
+          { include_blank: "Select one" },
+          { class: 'form-select', id: 'heard-about-us-select' }
+
+  .mt-4
+    = f.submit @user.persisted? ? "Update User" : "Create User", class: 'btn btn-primary'
+    = link_to "Cancel", manage_users_path, class: 'btn btn-secondary ms-2'
