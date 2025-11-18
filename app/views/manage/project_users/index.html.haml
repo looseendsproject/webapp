@@ -29,7 +29,11 @@
     - @users.each do |user|
       %tr
         %td= user.id
-        %td= user.name
+        %td
+          - if user.do_not_work_with?
+            %span.text-danger= user.name
+          - else
+            = user.name
         %td= user.email
         %td.text-center= user.projects.count
         %td.text-center

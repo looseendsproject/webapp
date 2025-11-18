@@ -1,0 +1,14 @@
+%h1.page-title{ class: (@user.do_not_work_with? ? 'text-danger' : '') }
+  = @user.name
+  - if @user.do_not_work_with?
+    %span.ms-2 (Do Not Work With)
+  .float-end
+    = link_to "Edit User", edit_manage_user_path(@user), class: "btn btn-outline-secondary"
+
+.row.mb-3
+  .col
+    Email: #{@user.email}
+
+.row.mb-3
+  .col
+    Phone: #{@user.phone}

@@ -32,7 +32,7 @@
     - @users.each do |user|
       %tr
         %td= user.id
-        %td= user.name
+        %td= link_to user.name, manage_user_path(user)
         %td= user.email
         %td.text-center= user.projects.count
 

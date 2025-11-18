@@ -3,7 +3,8 @@
   .card-body
     %table
       %tbody
-        = render partial: 'manage/projects/show/row', locals: { title: 'Name', value: @project.user.name }
+        - name_class = @project.user.do_not_work_with? ? 'text-danger' : ''
+        = render partial: 'manage/projects/show/row', locals: { title: 'Name', value: @project.user.name, value_class: name_class }
         = render partial: 'manage/projects/show/row', locals: { title: 'Email', value: @project.user.email, copy_paste: true }
         = render partial: 'manage/projects/show/row', locals: { title: 'Phone Number', value: @project.user.phone, copy_paste: true }
         = render partial: 'manage/projects/show/row', locals: { title: 'Heard About Us', value: @project.user.heard_about_us }

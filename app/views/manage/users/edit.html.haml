@@ -1,0 +1,22 @@
+%h1.page-title{ class: (@user.do_not_work_with? ? 'text-danger' : '') }
+  = @user.name
+  - if @user.do_not_work_with?
+    %span.ms-2 (Do Not Work With)
+
+= form_with model: @user, url: manage_user_path(@user), method: :patch, data: { turbo: false } do |f|
+  .row.mb-3
+    .col
+      Email: #{@user.email}
+
+  .row.mb-3
+    .col
+      Phone: #{@user.phone}
+
+  .row.mb-3
+    .col
+      = f.check_box :do_not_work_with, class: 'form-check-input', checked: @user.do_not_work_with?
+      = f.label :do_not_work_with, 'Do Not Work With', class: 'form-check-label ms-2'
+
+  .mt-4
+    = f.submit 'Update User', class: 'btn btn-primary me-2'
+    = link_to 'Cancel', manage_user_path(@user), class: 'btn btn-secondary'
