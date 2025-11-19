@@ -43,10 +43,17 @@ module Manage
     end
 
     def update_last_contacted!
-      recent_assignment = @project.assignments.order(id: :desc).first
-      return unless recent_assignment
+      target_statuses = [
+        Assignment::STATUSES[:accepted],
+        Assignment::STATUSES[:unresponsive]
+      ]
 
-      recent_assignment.update!(last_contacted_at: Time.zone.now)
+      assignments = @project.assignments.where(status: target_statuses)
+      return if assignments.empty?
+
+      assignments.each do |assignment|
+        assignment.update!(last_contacted_at: Time.zone.now)
+      end
     end
   end
 end
