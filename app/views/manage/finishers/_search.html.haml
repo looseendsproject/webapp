@@ -8,17 +8,19 @@
     .col-2
       = label_tag :search, "Since", class: 'label'
     .col-2
-      = label_tag :search, "Available", class: 'label'
+      = label_tag :search, "Until", class: 'label'
   .row.mb-4
     .col-6
       = text_field_tag :search, params[:search], class: 'form-control'
     .col-2
       = select_tag :sort, options_for_select([['Date (Oldest First)', 'date asc'], ['Date (Newest First)', 'date desc'], ['Name (A-Z)', 'name asc'], ['Name (Z-A)', 'name desc']], params[:sort]), include_blank: true, class: 'form-select'
     .col-2
-      = select_tag :since, options_for_select(@months, params[:since]), include_blank: true, class: 'form-select'
+      = date_field_tag :since, params[:since], class: 'form-control'
     .col-2
-      = select_tag :available, options_for_select(['no', 'yes'], params[:available]), include_blank: true, class: 'form-select'
+      = date_field_tag :until, params[:until], class: 'form-control'
   .row.mb-0
+    .col
+      = label_tag :search, "Available", class: 'label'
     .col
       = label_tag :search, "Skill", class: 'label'
     .col
@@ -31,6 +33,8 @@
       = label_tag :has_workplace_match, "Employer Match", class: 'label'
     .col
   .row.mb-4
+    .col
+      = select_tag :available, options_for_select(['no', 'yes'], params[:available]), include_blank: true, class: 'form-select'
     .col
       = select_tag :skill_id, options_from_collection_for_select(Skill.sorted_by_popularity, "id", "name", params[:skill_id]), include_blank: true, class: 'form-select'
     .col
