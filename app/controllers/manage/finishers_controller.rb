@@ -7,36 +7,58 @@ module Manage
     before_action :get_project, only: %i[index map card]
 
     def index
-      respond_to do |format|
+      since_date = parse_date(params[:since])
+      until_date = parse_date(params[:until])
+
+      @states = []
+      @countries = []
+
+      if since_date && until_date && since_date > until_date
+        flash.now[:alert] = "Since date must be before or equal to Until date"
+        @finishers = Finisher.none.paginate(page: params[:page])
+      else
         skill = Skill.find(params[:skill_id]) if params[:skill_id].present?
         product = Product.find(params[:product_id]) if params[:product_id].present?
-        @title = ["Loose Ends - Manage - Finishers", params[:search].present? ? "'#{params[:search]}'" : nil,
-                  params[:country], params[:state], skill&.name, product&.name, params[:sort].present? ? "sort by #{params[:sort]}" : nil].compact_blank.join(" ")
-        format.csv do
-          response.headers["Content-Type"] = "text/csv"
-          response.headers["Content-Disposition"] =
-            "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
-          @finishers = Finisher.search(params).includes(:user)
-        end
-        format.html do
-          first_finisher = Finisher.order(:joined_on).first
-          first = first_finisher.joined_on&.beginning_of_month || first_finisher.created_at.beginning_of_month
-          last = Time.zone.today.beginning_of_month
-          @months = (first.to_datetime..last.to_datetime).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
+
+        @title = [
+          "Loose Ends - Manage - Finishers",
+          params[:search].present? ? "'#{params[:search]}'" : nil,
+          params[:country],
+          params[:state],
+          skill&.name,
+          product&.name,
+          params[:sort].present? ? "sort by #{params[:sort]}" : nil
+        ].compact_blank.join(" ")
+
+        respond_to do |format|
+          format.csv do
+            response.headers["Content-Type"] = "text/csv"
+            response.headers["Content-Disposition"] =
+              "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
+            @finishers = Finisher.search(params).includes(:user)
+          end
+
+          format.html do
+            first_finisher = Finisher.order(:joined_on).first
+            first = first_finisher.joined_on&.beginning_of_month || first_finisher.created_at.beginning_of_month
+            last = Time.zone.today.beginning_of_month
+            @months = (first.to_datetime..last.to_datetime).map { |date| date.strftime("%Y-%m-01") }.uniq.reverse
 
           # Getting the list of finishers is VERY performance sensitive.  Don't try to
           # get all associated records here.  Let the partials do the queries.
-          @finishers = Finisher.search(params).paginate(page: params[:page])
+            @finishers = Finisher.search(params).paginate(page: params[:page])
 
-          @states = if params[:country].present?
-                      Finisher.where(country: params[:country]).distinct.pluck(:state).compact_blank.sort
-                    else
-                      Finisher.distinct.pluck(:state).compact_blank.sort
-                    end
-          @existing_countries = Finisher.distinct.pluck(:country).compact_blank.sort
-          @countries = ISO3166::Country.all.select do |c|
-            @existing_countries.include?(c.alpha2)
-          end.map { |c| [c.iso_short_name, c.alpha2] }.sort_by { |c| I18n.transliterate(c[0]) }
+            @states = if params[:country].present?
+                        Finisher.where(country: params[:country]).distinct.pluck(:state).compact_blank.sort
+                      else
+                        Finisher.distinct.pluck(:state).compact_blank.sort
+                      end
+
+            @existing_countries = Finisher.distinct.pluck(:country).compact_blank.sort
+            @countries = ISO3166::Country.all.select do |c|
+              @existing_countries.include?(c.alpha2)
+            end.map { |c| [c.iso_short_name, c.alpha2] }.sort_by { |c| I18n.transliterate(c[0]) }
+          end
         end
       end
     end
@@ -144,6 +166,10 @@ module Manage
       return unless params[:project_id]
 
       @project = Project.find(params[:project_id])
+    end
+
+    def parse_date(date_param)
+      Date.parse(date_param.to_s) rescue nil
     end
   end
 end
