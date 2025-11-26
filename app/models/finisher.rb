@@ -62,10 +62,8 @@ class Finisher < ApplicationRecord
   include EmailAddressable
 
   search_query_joins :user
-  search_text_fields :"finishers.description", :"finishers.chosen_name",
-                     :"finishers.city", :"finishers.state",
-                     :"users.first_name", :"users.last_name",
-                     :"users.email", :"finishers.other_skills"
+  search_text_fields :"finishers.description", :"finishers.chosen_name", :"finishers.city", :"finishers.state",
+                     :"users.first_name", :"users.last_name", :"users.email", :"finishers.other_skills"
   search_sort_name_field :chosen_name
   search_default_sort "name asc"
 
@@ -119,9 +117,6 @@ class Finisher < ApplicationRecord
 
   geocoded_by :full_address
 
-  # ---------------------------
-  # Scopes
-  # ---------------------------
   scope :date_range, ->(since_date, until_date) do
     if since_date && until_date
       where("(joined_on BETWEEN :since AND :until) OR (joined_on IS NULL AND created_at BETWEEN :since AND :until)",
@@ -135,11 +130,8 @@ class Finisher < ApplicationRecord
     end
   end
 
-  # ---------------------------
-  # Search with optional date range + safe sorting
-  # ---------------------------
   SORT_COLUMNS = {
-    "date"    => ["joined_on", "desc"],  # default newest first
+    "date"    => ["joined_on", "desc"],
     "name"    => ["chosen_name", "asc"],
     "created" => ["created_at", "desc"]
   }.freeze
@@ -147,15 +139,12 @@ class Finisher < ApplicationRecord
   def self.search(params)
     scope = all
 
-    # Parse dates safely
     since_date = Date.parse(params[:since]) rescue nil
     until_date = Date.parse(params[:until]) rescue nil
     scope = scope.date_range(since_date, until_date)
 
-    # Parse sort column and direction
-    requested_sort, requested_direction = params[:sort].to_s.downcase.split(/\s+/) # splits "date asc" -> ["date", "asc"]
+    requested_sort, requested_direction = params[:sort].to_s.downcase.split(/\s+/)
 
-    # Map aliases
     sort_aliases = {
       "date" => "joined_on",
       "name" => "chosen_name",
@@ -167,10 +156,6 @@ class Finisher < ApplicationRecord
     scope.order(Arel.sql("#{sort_column} #{sort_direction}"))
   end
 
-
-  # ---------------------------
-  # Profile completion helpers
-  # ---------------------------
   def see_if_finisher_has_completed_profile
     return if has_completed_profile
     return if missing_information?
