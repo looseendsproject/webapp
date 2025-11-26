@@ -16,8 +16,7 @@ module Manage
           response.headers["Content-Type"] = "text/csv"
           response.headers["Content-Disposition"] =
             "attachment; filename=#{@title.parameterize}-#{DateTime.now.strftime("%Y-%m-%d-%H%M")}.csv"
-          @finishers = Finisher.includes(:user).select(:id, :user_id, :first_name, :last_name, :email,
-                                                       :has_workplace_match).search(params)
+          @finishers = Finisher.search(params).includes(:user)
         end
         format.html do
           first_finisher = Finisher.order(:joined_on).first
