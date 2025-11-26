@@ -61,9 +61,6 @@ class Finisher < ApplicationRecord
   include LooseEndsSearchable
   include EmailAddressable
 
-  # ---------------------------
-  # LooseEndsSearchable configuration
-  # ---------------------------
   search_query_joins :user
   search_text_fields :"finishers.description", :"finishers.chosen_name",
                      :"finishers.city", :"finishers.state",
@@ -72,21 +69,24 @@ class Finisher < ApplicationRecord
   search_sort_name_field :chosen_name
   search_default_sort "name asc"
 
-  # ---------------------------
-  # Associations
-  # ---------------------------
   belongs_to :user
   validates :user, uniqueness: true
 
   has_one_attached :picture
+
   has_many_attached :finished_projects
 
-  has_many :active_assignments, -> { where(status: %w[invited accepted unresponsive]) }, class_name: "Assignment"
+  has_many :active_assignments, lambda {
+    where(status: %w[invited accepted unresponsive])
+  }, class_name: "Assignment"
+
   has_many :assignments, dependent: :destroy
   has_many :projects, through: :assignments
 
   has_many :assessments, dependent: :destroy
-  has_many :rated_assessments, -> { includes(:skill).where(rating: 1..).order("skills.position, skills.name") }, class_name: "Assessment"
+  has_many :rated_assessments, lambda {
+    includes(:skill).where(rating: 1..).order("skills.position, skills.name")
+  }, class_name: "Assessment"
   has_many :skills, -> { order("skills.position, skills.name") }, through: :assessments
 
   has_many :favorites, dependent: :destroy
@@ -95,28 +95,27 @@ class Finisher < ApplicationRecord
 
   accepts_nested_attributes_for :assessments
 
-  # ---------------------------
-  # Validations
-  # ---------------------------
   validates :chosen_name, presence: true
-  validates :phone_number, length: { minimum: 10, too_short: "is too short. It must be at least %<count>s digits." }, allow_blank: true
+  validates :phone_number, length:
+    { minimum: 10, too_short: "is too short.  It must be at least %<count>s digits." },
+                           allow_blank: true
+
   validates :terms_of_use, acceptance: true
   validates :finished_projects, content_type: %i[png jpg jpeg webp gif heic],
                                 size: { greater_than_or_equal_to: 5.kilobytes },
                                 limit: { max: 5 },
                                 if: ->(obj) { obj.attachment_changes['finished_projects'].present? }
-  validates :picture, content_type: %i[png jpg jpeg webp gif heic],
-                      size: { greater_than_or_equal_to: 5.kilobytes }
+  validates :picture, content_type: %i[png jpg jpeg webp gif heic], size: { greater_than_or_equal_to: 5.kilobytes }
 
   serialize :in_home_pets
 
-  # ---------------------------
-  # Callbacks
-  # ---------------------------
-  before_create { self.joined_on ||= Time.zone.today }
-  after_validation :geocode, if: ->(obj) { obj.full_address.present? && obj.full_address_has_changed? }
-  after_create :send_welcome_message, if: -> { has_taken_ownership_of_profile }
-  after_save :see_if_finisher_has_completed_profile, if: -> { has_taken_ownership_of_profile }
+  before_create do
+    self.joined_on = Time.zone.today if joined_on.blank?
+  end
+
+  after_validation :geocode, if: ->(obj) { obj.full_address.present? and obj.full_address_has_changed? }
+  after_create :send_welcome_message, if: proc { has_taken_ownership_of_profile }
+  after_save :see_if_finisher_has_completed_profile, if: proc { has_taken_ownership_of_profile }
 
   geocoded_by :full_address
 
@@ -173,7 +172,8 @@ class Finisher < ApplicationRecord
   # Profile completion helpers
   # ---------------------------
   def see_if_finisher_has_completed_profile
-    return if has_completed_profile || missing_information?
+    return if has_completed_profile
+    return if missing_information?
 
     update_column(:has_completed_profile, true)
     send_profile_complete_message
@@ -201,7 +201,11 @@ class Finisher < ApplicationRecord
   end
 
   def missing_address_information?
-    street.blank? || city.blank? || state.blank? || country.blank? || postal_code.blank?
+    street.blank? ||
+      city.blank? ||
+      state.blank? ||
+      country.blank? ||
+      postal_code.blank?
   end
 
   def missing_assessments?
