@@ -64,7 +64,6 @@ class Finisher < ApplicationRecord
   search_query_joins :user
   search_text_fields :"finishers.description", :"finishers.chosen_name", :"finishers.city", :"finishers.state",
                      :"users.first_name", :"users.last_name", :"users.email", :"finishers.other_skills"
-  search_since_field :joined_on
   search_sort_name_field :chosen_name
   search_default_sort "name asc"
 
@@ -117,6 +116,45 @@ class Finisher < ApplicationRecord
   after_save :see_if_finisher_has_completed_profile, if: proc { has_taken_ownership_of_profile }
 
   geocoded_by :full_address
+
+  scope :date_range, ->(since_date, until_date) do
+    if since_date && until_date
+      where("(joined_on BETWEEN :since AND :until) OR (joined_on IS NULL AND created_at BETWEEN :since AND :until)",
+            since: since_date, until: until_date)
+    elsif since_date
+      where("joined_on >= :since OR (joined_on IS NULL AND created_at >= :since)", since: since_date)
+    elsif until_date
+      where("joined_on <= :until OR (joined_on IS NULL AND created_at <= :until)", until: until_date)
+    else
+      all
+    end
+  end
+
+  SORT_COLUMNS = {
+    "date"    => ["joined_on", "desc"],
+    "name"    => ["chosen_name", "asc"],
+    "created" => ["created_at", "desc"]
+  }.freeze
+
+  def self.search(params)
+    scope = all
+
+    since_date = Date.parse(params[:since]) rescue nil
+    until_date = Date.parse(params[:until]) rescue nil
+    scope = scope.date_range(since_date, until_date)
+
+    requested_sort, requested_direction = params[:sort].to_s.downcase.split(/\s+/)
+
+    sort_aliases = {
+      "date" => "joined_on",
+      "name" => "chosen_name",
+      "created" => "created_at"
+    }
+    sort_column = sort_aliases[requested_sort] || "chosen_name"
+    sort_direction = %w[asc desc].include?(requested_direction) ? requested_direction : "asc"
+
+    scope.order(Arel.sql("#{sort_column} #{sort_direction}"))
+  end
 
   def see_if_finisher_has_completed_profile
     return if has_completed_profile
