@@ -168,16 +168,6 @@ class Finisher < ApplicationRecord
     scope.order(Arel.sql("#{sort_column} #{sort_direction}"))
   end
 
-  # ---------------------------
-  # Address helpers
-  # ---------------------------
-  def full_address
-    [street, street_2, city, state, postal_code, country].compact_blank.join(", ")
-  end
-
-  def full_address_has_changed?
-    street_changed? || street_2_changed? || city_changed? || state_changed? || postal_code_changed? || country_changed?
-  end
 
   # ---------------------------
   # Profile completion helpers
@@ -189,8 +179,25 @@ class Finisher < ApplicationRecord
     send_profile_complete_message
   end
 
+  def rated_skills_string
+    rated_assessments.map { |assessment| "#{assessment.skill.name} (#{assessment.rating})" }.join(", ")
+  end
+
+  def approved?
+    approved_at != nil
+  end
+
+  def approved
+    approved?
+  end
+
   def missing_information?
     description.blank? || dominant_hand.blank? || missing_address_information? || missing_assessments? || missing_favorites?
+  end
+
+  # For use in mailer previews
+  def self.fake
+    new({ user: User.fake })
   end
 
   def missing_address_information?
@@ -205,34 +212,16 @@ class Finisher < ApplicationRecord
     favorites.empty?
   end
 
-  # ---------------------------
-  # Mailers
-  # ---------------------------
-  def send_welcome_message
-    FinisherMailer.with(resource: self).welcome.deliver_now
-  end
-
-  def send_profile_complete_message
-    FinisherMailer.with(resource: self).profile_complete.deliver_now
-  end
-
-  # ---------------------------
-  # Other helpers
-  # ---------------------------
-  def rated_skills_string
-    rated_assessments.map { |a| "#{a.skill.name} (#{a.rating})" }.join(", ")
-  end
-
-  def approved?
-    approved_at.present?
-  end
-
   def approved=(val)
-    self.approved_at = DateTime.now if val.to_s == "1"
+    self.approved_at = (DateTime.now if val == "1")
+  end
+
+  def self.approved
+    where.not({ approved_at: nil })
   end
 
   def assigned?
-    active_assignments.exists?
+    active_assignments.size > 0
   end
 
   def name
@@ -248,6 +237,24 @@ class Finisher < ApplicationRecord
   end
 
   def confirm_email=(value)
-    user.update_attribute(:confirmed_at, Time.zone.now) if value.to_s == "1"
+    user.update_attribute(:confirmed_at, Time.zone.now) if value == "1"
+  end
+
+  def send_welcome_message
+    FinisherMailer.with(resource: self).welcome.deliver_now
+  end
+
+  def send_profile_complete_message
+    FinisherMailer.with(resource: self).profile_complete.deliver_now
+  end
+
+  # method for combining all available address attributes for geocoding
+  def full_address
+    [street, street_2, city, state, postal_code, country].compact_blank.join(", ")
+  end
+
+  # method for checking if any address attribute has changed
+  def full_address_has_changed?
+    street_changed? || street_2_changed? || city_changed? || state_changed? || postal_code_changed? || country_changed?
   end
 end
