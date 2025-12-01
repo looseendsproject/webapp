@@ -119,41 +119,37 @@ class Finisher < ApplicationRecord
 
   scope :date_range, ->(since_date, until_date) do
     if since_date && until_date
-      where("(joined_on BETWEEN :since AND :until) OR (joined_on IS NULL AND created_at BETWEEN :since AND :until)",
+      where("(joined_on BETWEEN :since AND :until) OR (joined_on IS NULL AND finishers.created_at BETWEEN :since AND :until)",
             since: since_date, until: until_date)
     elsif since_date
-      where("joined_on >= :since OR (joined_on IS NULL AND created_at >= :since)", since: since_date)
+      where("joined_on >= :since OR (joined_on IS NULL AND finishers.created_at >= :since)", since: since_date)
     elsif until_date
-      where("joined_on <= :until OR (joined_on IS NULL AND created_at <= :until)", until: until_date)
+      where("joined_on <= :until OR (joined_on IS NULL AND finishers.created_at <= :until)", until: until_date)
     else
       all
     end
   end
 
-  SORT_COLUMNS = {
-    "date"    => ["joined_on", "desc"],
-    "name"    => ["chosen_name", "asc"],
-    "created" => ["created_at", "desc"]
-  }.freeze
-
   def self.search(params)
-    scope = all
+    params = params.dup
 
-    since_date = Date.parse(params[:since]) rescue nil
+    since = Date.parse(params[:since]) rescue nil
     until_date = Date.parse(params[:until]) rescue nil
-    scope = scope.date_range(since_date, until_date)
+    scoped = date_range(since, until_date)
 
-    requested_sort, requested_direction = params[:sort].to_s.downcase.split(/\s+/)
+    if params[:sort].present?
+      sort_aliases = {
+        "date" => "date",
+        "name" => "name",
+        "created" => "created_at asc",
+        "created asc" => "created_at asc",
+        "created desc" => "created_at desc"
+      }
+      params[:sort] = sort_aliases[params[:sort]] || params[:sort]
+    end
 
-    sort_aliases = {
-      "date" => "joined_on",
-      "name" => "chosen_name",
-      "created" => "created_at"
-    }
-    sort_column = sort_aliases[requested_sort] || "chosen_name"
-    sort_direction = %w[asc desc].include?(requested_direction) ? requested_direction : "asc"
-
-    scope.order(Arel.sql("#{sort_column} #{sort_direction}"))
+    # Make LooseEndsSearchable operate on the filtered scope
+    scoped.merge(super)
   end
 
   def see_if_finisher_has_completed_profile
