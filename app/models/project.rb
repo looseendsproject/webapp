@@ -166,8 +166,7 @@ class Project < ApplicationRecord
 
   def set_last_contacted_at
     if status == STATUSES[:in_process_underway]
-      assignments.where(status: Assignment::STATUSES[:accepted],
-        last_contacted_at: nil).update_all(last_contacted_at: Time.zone.now)
+      assignments.where(status: Assignment::STATUSES[:accepted]).update_all(last_contacted_at: Time.zone.now)
     end
   end
 
