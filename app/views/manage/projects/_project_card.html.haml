@@ -1,6 +1,6 @@
 - classes ||= []
 %div{:class => classes.append('card')}
-  - if project.user.do_not_work_with?
+  - if project.user&.do_not_work_with?
     .px-2.text-white.font-weight-bold.mb-0.text-center.absolute-t-md.unavailable
       Do Not Work With
   - if project.project_images.first&.representable?
