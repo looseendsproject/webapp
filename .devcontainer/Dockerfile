@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/ruby:1-3.3-bookworm
+FROM mcr.microsoft.com/devcontainers/ruby:4.0-bookworm
 
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
