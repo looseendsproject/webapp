@@ -62,6 +62,14 @@ class FinisherMailerTest < ActionMailer::TestCase
     assert_match "How is it going?", ActionMailer::Base.deliveries.last.body.encoded
   end
 
+  test "check-in email magic link is single-use" do
+    assignment = Assignment.active.first
+    FinisherMailer.with(resource: assignment, expires_in: 2.weeks).project_check_in.deliver_now
+
+    m = assignment.messages.last
+    assert m.single_use, "check-in magic link should be single-use"
+  end
+
   test "check-in email should have manager's reply-to" do
     assignment = assignments(:knit_active)
     manager = assignment.project.manager

@@ -44,4 +44,18 @@ class Users::SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to '/users/sign_in'
     assert_equal "Bad link. Please contact support.", flash[:alert]
   end
+
+  test 'single-use link works once then is rejected' do
+    @message.update_columns(single_use: true, click_count: 0)
+    travel_to @message.expires_at - 1.day
+
+    get "/magic_link", params: { sgid: @message.sgid }
+    assert_redirected_to @message.redirect_to
+    assert_equal 1, @message.reload.click_count
+
+    get "/magic_link", params: { sgid: @message.sgid }
+    assert_redirected_to "/"
+    assert_match "already been used", flash[:alert]
+    assert_equal 1, @message.reload.click_count
+  end
 end

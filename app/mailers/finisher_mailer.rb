@@ -24,7 +24,8 @@ class FinisherMailer < ApplicationMailer
   # resource: @assignment
   def project_check_in
     @message.set_sgid!(redirect_to: "/assignment/#{@resource.id}/check_in",
-                       expires_in: @expires_in)
+                       expires_in: @expires_in,
+                       single_use: true)
     mail(
       to: @resource.finisher.user.email,
       subject: "Tell us how #{@resource.project.name} is going",
