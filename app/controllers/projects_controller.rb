@@ -69,6 +69,12 @@ class ProjectsController < AuthenticatedController
       redirect_to @project
     end
 
+    if params[:finished_project_photo_id]
+      image = @project.finished_project_photos.find(params[:finished_project_photo_id])
+      Rails.env.production? ? image.purge : image.delete
+      redirect_to @project
+    end
+
     return unless params[:pattern_file_id]
 
     image = @project.pattern_files.find(params[:pattern_file_id])
@@ -101,6 +107,7 @@ class ProjectsController < AuthenticatedController
       :recipient_name,
       :can_publicize,
       :can_use_first_name,
+      :ok_to_post,
       :terms_of_use,
       :no_smoke,
       :no_cats,
@@ -110,7 +117,8 @@ class ProjectsController < AuthenticatedController
       append_crafter_images: [],
       append_project_images: [],
       append_pattern_files: [],
-      append_material_images: []
+      append_material_images: [],
+      append_finished_project_photos: []
     )
   end
 

@@ -166,6 +166,7 @@ module Manage
         :recipient_name,
         :can_publicize,
         :can_use_first_name,
+        :ok_to_post,
         :terms_of_use,
         :no_smoke,
         :no_cats,
@@ -186,7 +187,8 @@ module Manage
         append_crafter_images: [],
         append_project_images: [],
         append_pattern_files: [],
-        append_material_images: []
+        append_material_images: [],
+        append_finished_project_photos: []
       )
     end
   end

@@ -1,0 +1,21 @@
+- finished_visible = @project.status == Project::STATUSES[:done]
+
+.card.flex-fill.mb-4#finished-project-show{ style: (finished_visible ? "" : "display: none;") }
+  %h5.card-header.mt-0 Finished Project
+  .card-body
+    .mb-3.d-flex.align-items-center
+      %label.form-label.mb-0.me-2
+        %strong OK to post?
+      .form-check.form-switch.mb-0
+        %input.form-check-input{ type: :checkbox, role: :switch, disabled: true, checked: @project.ok_to_post }
+
+    - if @project.finished_project_photos.attached?
+      .d-flex.flex-wrap.gap-2.mt-2
+        - @project.finished_project_photos.each do |image|
+          - if image.representable? && image.content_type.starts_with?("image")
+            = link_to image_tag(image.representation(resize_to_limit: [100, 100]), class: "thumbnail rounded"),
+              url_for(image.variant(format: :jpg)),
+              target: "_blank"
+    - else
+      %p.text-secondary.mt-2 No finished project photos yet.
+

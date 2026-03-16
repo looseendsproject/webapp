@@ -35,6 +35,7 @@
 #  no_cats                                           :boolean
 #  no_dogs                                           :boolean
 #  no_smoke                                          :boolean
+#  ok_to_post                                        :boolean          default(FALSE), not null
 #  phone_number                                      :string
 #  postal_code                                       :string
 #  press                                             :boolean          default(FALSE)
@@ -94,7 +95,7 @@ class Project < ApplicationRecord
   INACTIVE_STATUSES = STATUSES.slice(:done, :will_not_do, :test).freeze
   INACTIVE_STATUSES_EXCEPT_DONE = STATUSES.slice(:will_not_do, :test).freeze
 
-  BOOLEAN_ATTRIBUTES = %i[company_helped urgent influencer group_project press privacy_needed].freeze
+  BOOLEAN_ATTRIBUTES = %i[company_helped urgent influencer group_project press privacy_needed ok_to_post].freeze
 
   NEEDS_ATTENTION_REASONS = %w[negative_sentiment finisher_unresponsive manager_hold completed]
 
@@ -122,6 +123,7 @@ class Project < ApplicationRecord
   has_many_attached :project_images
   has_many_attached :pattern_files
   has_many_attached :material_images
+  has_many_attached :finished_project_photos
 
   before_validation :set_default_status
   after_save :set_last_contacted_at
@@ -143,6 +145,8 @@ class Project < ApplicationRecord
                              size: { greater_than_or_equal_to: 5.kilobytes }
   validates :crafter_images, attached: false, content_type: %i[png jpg jpeg webp gif heic],
                              size: { greater_than_or_equal_to: 5.kilobytes }
+  validates :finished_project_photos, attached: false, content_type: %i[png jpg jpeg webp gif heic],
+                                      size: { greater_than_or_equal_to: 5.kilobytes }
   validates :material_images, presence: true, if: :has_materials?
   validates :material_images, attached: false, content_type: %i[png jpg jpeg webp gif heic],
                               size: { greater_than_or_equal_to: 5.kilobytes }
@@ -279,6 +283,10 @@ class Project < ApplicationRecord
 
   def append_material_images=(attachables)
     material_images.attach(attachables)
+  end
+
+  def append_finished_project_photos=(attachables)
+    finished_project_photos.attach(attachables)
   end
 
   # method for combining all available address attributes for geocoding

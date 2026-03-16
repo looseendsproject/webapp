@@ -1,0 +1,24 @@
+- finished_visible = form.object.status == Project::STATUSES[:done]
+
+.page-section#finished-project-fields{ style: (finished_visible ? "" : "display: none;") }
+  .row.mb-4
+    .col-md-4
+      = form.label :append_finished_project_photos, 'Finished project photos', class: 'form-label'
+    .col-md-4
+      = form.file_field :append_finished_project_photos,
+        class: 'form-control',
+        accept: "image/png,image/gif,image/jpeg,image/webp,image/heic",
+        multiple: true
+      - form.object.finished_project_photos.each do |image|
+        - if image.id.present? && image.representable?
+          = image_tag image.representation(resize_to_limit: [100, 100])
+      .form-info Optional.
+
+  .row.mb-4
+    .col-md-4
+      = form.label :ok_to_post, 'OK to post', class: 'form-label'
+    .col-md-4
+      .form-check
+        = form.check_box :ok_to_post, class: 'form-check-input'
+        = form.label :ok_to_post, 'Yes', class: 'form-check-label'
+
