@@ -3,9 +3,6 @@
   - if current_user.admin?
     (#{@project.status.humanize})
 
-- if @project.status == Project::STATUSES[:done]
-  = render "finished_project_section", project: @project
-
 - if @project.missing_information?
   .alert.alert-danger
     Before we can match this project, we need a little more information.  See the messages below.
