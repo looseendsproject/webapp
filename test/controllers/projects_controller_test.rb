@@ -94,38 +94,6 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_no_match(/brandname/, response.body)
   end
 
-  test "should show finished project section when status is done" do
-    @project.update!(status: Project::STATUSES[:done])
-
-    sign_in @project.user
-    get :show, params: { id: @project }
-
-    assert_select "h4", { text: "Finished Project", count: 1 }
-    assert_select "input[type='checkbox'][name='project[ok_to_post]']", { count: 1 }
-  end
-
-  test "should not show finished project section when status is not done" do
-    @project.update!(status: Project::STATUSES[:proposed])
-
-    sign_in @project.user
-    get :show, params: { id: @project }
-
-    assert_select "h4", { text: "Finished Project", count: 0 }
-  end
-
-  test "should update ok_to_post" do
-    sign_in @project.user
-    patch :update, params: {
-      id: @project,
-      project: {
-        ok_to_post: "1"
-      }
-    }
-
-    assert_redirected_to project_path(@project)
-    assert_equal true, @project.reload.ok_to_post
-  end
-
   test "should show terms of service" do
     sign_in users(:project_owner)
     get :new

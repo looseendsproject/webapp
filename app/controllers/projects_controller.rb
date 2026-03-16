@@ -69,12 +69,6 @@ class ProjectsController < AuthenticatedController
       redirect_to @project
     end
 
-    if params[:finished_project_photo_id]
-      image = @project.finished_project_photos.find(params[:finished_project_photo_id])
-      Rails.env.production? ? image.purge : image.delete
-      redirect_to @project
-    end
-
     return unless params[:pattern_file_id]
 
     image = @project.pattern_files.find(params[:pattern_file_id])
