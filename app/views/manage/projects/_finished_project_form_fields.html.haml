@@ -19,6 +19,7 @@
       = form.label :ok_to_post, 'OK to post', class: 'form-label'
     .col-md-4
       .form-check
-        = form.check_box :ok_to_post, class: 'form-check-input'
-        = form.label :ok_to_post, 'Yes', class: 'form-check-label'
+        = form.label :ok_to_post, class: 'form-check-label' do
+          = form.check_box :ok_to_post, class: 'form-check-input'
+          Yes
 
