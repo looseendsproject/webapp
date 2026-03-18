@@ -29,6 +29,8 @@
         .form-actions
           = form.submit current_user.admin? ? 'Save' : 'Submit Project', class: "btn btn-primary"
 
+  = render "finished_project_form_fields", form: form
+
   = render "project_form_fields", form: form
 
   %h2 Submitter Details
@@ -107,6 +109,18 @@
     const companyHelpedCheckbox = document.getElementById('project_company_helped');
     const helpCompanyRow = document.getElementById('help-company-row');
     addRevealHandler(companyHelpedCheckbox, helpCompanyRow);
+
+    const statusDropdown = document.getElementById('status-dropdown');
+    const finishedProjectFields = document.getElementById('finished-project-fields');
+    if (statusDropdown && finishedProjectFields) {
+      const toggleFinishedFields = () => {
+        finishedProjectFields.style.display =
+          statusDropdown.value === "#{Project::STATUSES[:done]}" ? '' : 'none';
+      };
+
+      statusDropdown.addEventListener('change', toggleFinishedFields);
+      toggleFinishedFields();
+    }
   };
 
   window.addEventListener('load', setupCheckboxes);

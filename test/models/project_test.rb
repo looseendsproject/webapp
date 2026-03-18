@@ -35,6 +35,7 @@
 #  no_cats                                           :boolean
 #  no_dogs                                           :boolean
 #  no_smoke                                          :boolean
+#  ok_to_post                                        :boolean          default(FALSE), not null
 #  phone_number                                      :string
 #  postal_code                                       :string
 #  press                                             :boolean          default(FALSE)

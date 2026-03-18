@@ -5,3 +5,18 @@
     { id: "project-status-select", class: "form-select", autocomplete: 'off',
       onchange: 'this.form.requestSubmit()' }
   = render partial: 'manage/update_label', locals: { did_save: project.saved_change_to_status? }
+
+:javascript
+  (function() {
+    const select = document.getElementById('project-status-select');
+    const finishedCard = document.getElementById('finished-project-show');
+    if (!select || !finishedCard) { return; }
+
+    const toggleFinishedShow = () => {
+      finishedCard.style.display =
+        select.value === "#{Project::STATUSES[:done]}" ? '' : 'none';
+    };
+
+    select.addEventListener('change', toggleFinishedShow);
+    toggleFinishedShow();
+  })();
