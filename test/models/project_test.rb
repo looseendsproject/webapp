@@ -234,6 +234,28 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0,@project.assignments.where(last_contacted_at: nil).count
   end
 
+  test "non-status save on UNDERWAY project does not churn last_contacted_at" do
+    @project.update!(status: Project::STATUSES[:in_process_underway])
+    @project.assignments.where(status: Assignment::STATUSES[:accepted]).each do |a|
+      a.update_columns(last_contacted_at: 5.weeks.ago)
+    end
+    timestamps_before = @project.assignments
+                                .where(status: Assignment::STATUSES[:accepted])
+                                .pluck(:id, :last_contacted_at)
+                                .to_h
+
+    travel 1.day do
+      @project.update!(description: "an unrelated edit")
+    end
+
+    timestamps_after = @project.assignments
+                               .where(status: Assignment::STATUSES[:accepted])
+                               .pluck(:id, :last_contacted_at)
+                               .to_h
+    assert_equal timestamps_before, timestamps_after,
+      "last_contacted_at should not change on non-status saves"
+  end
+
   test "has messages" do
     assert_nothing_raised { @project.messages }
   end

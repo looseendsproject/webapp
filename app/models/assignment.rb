@@ -48,6 +48,7 @@ class Assignment < ApplicationRecord
   validates :status, inclusion: { in: STATUSES.values, allow_blank: true }
 
   before_save :sanitize_status
+  before_save :reset_check_in_clock_on_revival
   after_save :denormalize_created_by
 
   def self.active
@@ -128,6 +129,17 @@ class Assignment < ApplicationRecord
 
   def sanitize_status
     self.status = nil if status.blank?
+  end
+
+  # When an assignment is revived from "unresponsive" back to "accepted",
+  # reset the check-in clock so SendCheckInsJob doesn't immediately re-flag it.
+  def reset_check_in_clock_on_revival
+    return unless status_changed? &&
+                  status_was == STATUSES[:unresponsive] &&
+                  status == STATUSES[:accepted]
+
+    self.last_contacted_at = Time.zone.now
+    self.check_in_sent_at = nil
   end
 
   def denormalize_created_by
