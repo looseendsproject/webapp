@@ -170,9 +170,9 @@ class Project < ApplicationRecord
   end
 
   def set_last_contacted_at
-    if status == STATUSES[:in_process_underway]
-      assignments.where(status: Assignment::STATUSES[:accepted]).update_all(last_contacted_at: Time.zone.now)
-    end
+    return unless saved_change_to_status? && status == STATUSES[:in_process_underway]
+
+    assignments.where(status: Assignment::STATUSES[:accepted]).update_all(last_contacted_at: Time.zone.now)
   end
 
   def finisher

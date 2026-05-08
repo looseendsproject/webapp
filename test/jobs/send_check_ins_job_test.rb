@@ -48,11 +48,16 @@ class SendCheckInsJobTest < ActiveJob::TestCase
       Time.zone.now.beginning_of_day - Assignment::UNRESPONSIVE_AFTER.weeks)
 
     assert @assignment.missed_check_ins?
+    original_last_contacted_at = @assignment.last_contacted_at
 
     SendCheckInsJob.perform_now
     assert_enqueued_jobs 0
     assert_equal "finisher_unresponsive", @assignment.reload.project.needs_attention
     assert_equal "unresponsive", @assignment.status
     assert_match "UNRESPONSIVE", JobLog.last.output
+    assert_in_delta original_last_contacted_at,
+                    @assignment.last_contacted_at,
+                    1.second,
+                    "Escalation should not overwrite last_contacted_at"
   end
 end
